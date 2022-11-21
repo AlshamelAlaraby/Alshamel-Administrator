@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\ResponseController;
 use App\Repositories\User\UserRepositoryInterface;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Resources\User\UserResource;
