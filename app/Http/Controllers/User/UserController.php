@@ -13,7 +13,12 @@ class UserController extends ResponseController
 {
     public function index(Request $request)
     {
+        //// Example Success
         return $this->successResponse(UserResource::collection($this->user->getAllUsers()), 'Done', 200);
+
+
+        ///Example Error 
+        return $this->errorResponse('', 422);
     }
 
     public function store(StoreUserRequest  $request)
