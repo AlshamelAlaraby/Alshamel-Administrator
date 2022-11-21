@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\ResponseController;
+use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Resources\User\UserResource;
@@ -11,11 +12,12 @@ use App\Http\Request\UpdateUserRequest;
 
 class UserController extends ResponseController
 {
+    public function __construct(public UserRepositoryInterface $userRepository){}
+
     public function index(Request $request)
     {
         //// Example Success
-        return $this->successResponse(UserResource::collection($this->user->getAllUsers()), 'Done', 200);
-
+        return $this->successResponse(UserResource::collection($this->userRepository->getAllUsers()), 'Done', 200);
 
         ///Example Error 
         return $this->errorResponse('', 422);
