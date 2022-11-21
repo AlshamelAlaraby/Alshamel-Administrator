@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\ResponseController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Resources\User\UserResource;
@@ -11,6 +12,7 @@ use App\Http\Request\UpdateUserRequest;
 
 class UserController extends ResponseController
 {
+
     public function index(Request $request)
     {
         //// Example Success
