@@ -8,7 +8,7 @@ use App\Models\User;
 
 class UserRepository implements UserRepositoryInterface
 {
-    public function __construct(public User $model){}
+    public function __construct(User $model){}
 
     public function getAllUsers()
     {

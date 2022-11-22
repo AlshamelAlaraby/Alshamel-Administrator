@@ -13,7 +13,7 @@ use App\Http\Request\UpdateUserRequest;
 
 class UserController extends ResponseController
 {
-    public function __construct(public UserRepositoryInterface $userRepository){}
+    public function __construct(UserRepositoryInterface $userRepository){}
 
     public function index(Request $request)
     {
@@ -21,7 +21,7 @@ class UserController extends ResponseController
         return $this->successResponse(UserResource::collection($this->userRepository->getAllUsers()), 'Done', 200);
 
         ///Example Error 
-        return $this->errorResponse('', 422);
+        //return $this->errorResponse('', 422);
     }
 
     public function store(StoreUserRequest  $request)
