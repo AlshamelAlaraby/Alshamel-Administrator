@@ -23,10 +23,15 @@ use App\Http\Controllers\Store\StoreController;
 
 Route::middleware('auth:sanctum')->group(function () {
 
-    Route::apiResource('companies', CompanyController::class);
     
-    Route::apiResource('stores', StoreController::class);
-    
+    Route::group(['prefix'=>'companies'],function(){
+        Route::get('',[CompanyController::class,"index"]);
+        Route::get('/{id}',[CompanyController::class,"show"]);
+        Route::post('',[CompanyController::class,"store"]);
+        Route::post('/{id}',[CompanyController::class,"update"]);
+        Route::delete('/{id}',[CompanyController::class,"destroy"]);
+    });
+
 });
 
 /*
