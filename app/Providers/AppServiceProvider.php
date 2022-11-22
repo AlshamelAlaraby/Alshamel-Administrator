@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\Branch\BranchRepository;
+use App\Repositories\Branch\BranchRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\Facades\Schema;
@@ -17,6 +19,8 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+        $this->app->bind(BranchRepositoryInterface::class, BranchRepository::class);
+
     }
 
     /**

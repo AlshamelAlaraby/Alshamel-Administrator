@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+
+use App\Http\Controllers\Branch\BranchController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +30,9 @@ Route::get('/users',[UserController::class,"index"]);
 Route::group(['prefix'=>'auth'],function(){
     Route::post('/login',[LoginController::class,"login"]);
 });
+
+
+Route::resource ('branches',BranchController::class)->except ('create','edit');
 
 
 
