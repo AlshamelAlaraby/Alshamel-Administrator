@@ -35,6 +35,7 @@ class Module extends Model
         return $this->belongsToMany(Company::class, 'company_module', 'module_id', 'company_id');
     }
 
+    
     public function getHaveChildrenAttribute()
     {
         return static::where("parent_id", $this->id)->count() > 0;
