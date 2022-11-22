@@ -22,7 +22,6 @@ use App\Http\Controllers\Store\StoreController;
 
 
 Route::middleware('auth:sanctum')->group(function () {
-
     
     Route::group(['prefix'=>'companies'],function(){
         Route::get('',[CompanyController::class,"index"]);
@@ -31,13 +30,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/{id}',[CompanyController::class,"update"]);
         Route::delete('/{id}',[CompanyController::class,"destroy"]);
     });
-
+    
 });
 
 /*
  * Auth
  */
 Route::group(['prefix'=>'auth'],function(){
+    
     Route::post('/login',[LoginController::class,"login"]);
 });
 
