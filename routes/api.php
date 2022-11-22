@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\User\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Company\CompanyController;
@@ -26,4 +28,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('stores', StoreController::class);
     
 });
+
+/*
+ * Auth
+ */
+Route::group(['prefix'=>'auth'],function(){
+    Route::post('/login',[LoginController::class,"login"]);
+});
+
+
+
+
 
