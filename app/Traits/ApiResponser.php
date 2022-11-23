@@ -2,11 +2,7 @@
 
 namespace App\Traits;
 
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 trait ApiResponser
 {
@@ -16,7 +12,7 @@ trait ApiResponser
             'status' => $code,
             'success' => true,
             'message' => $message,
-            'data' => $data
+            'data' => $data,
         ], $code);
     }
 
@@ -26,7 +22,7 @@ trait ApiResponser
             'status' => $code,
             'success' => false,
             'message' => $message,
-            'data' => null
+            'data' => null,
         ], $code);
     }
 }
