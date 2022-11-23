@@ -6,6 +6,9 @@ use App\Http\Controllers\Branch\BranchController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Company\CompanyController;
+use App\Http\Controllers\Store\StoreController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -18,15 +21,31 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+
+
+
+Route::middleware('auth:sanctum')->group(function () {
+    
+    Route::group(['prefix'=>'companies'],function(){
+        Route::get('',[CompanyController::class,"index"]);
+        Route::get('/{id}',[CompanyController::class,"show"]);
+        Route::post('',[CompanyController::class,"store"]);
+        Route::post('/{id}',[CompanyController::class,"update"]);
+        Route::delete('/{id}',[CompanyController::class,"destroy"]);
+    });
+    
 });
 
+
 Route::get('/users', [UserController::class, "index"]);
+
 
 /*
  * Auth
  */
+Route::group(['prefix'=>'auth'],function(){
+    
+    Route::post('/login',[LoginController::class,"login"]);
 Route::group(['prefix' => 'auth'], function () {
     Route::post('/login', [LoginController::class, "login"]);
 });
