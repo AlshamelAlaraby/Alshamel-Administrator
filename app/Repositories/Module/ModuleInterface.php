@@ -15,8 +15,8 @@ interface ModuleInterface
 
     public function delete($id);
 
-    // public function addModuleToCompany($module_id, $company_id);
+    public function addModuleToCompany($request);
 
-    // public function removeModuleFromCompany($module_id, $company_id);
+    public function removeModuleFromCompany($module_id, $company_id);
 
 }

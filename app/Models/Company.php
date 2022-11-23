@@ -10,12 +10,18 @@ class Company extends Model
 {
     use HasFactory;
 
-    protected $guarded = [] ;
-
+    protected $guarded = [];
 
     public function PhotoUrl($photo)
     {
-        return Storage::disk("companies")->url($photo) ;
+        return Storage::disk("companies")->url($photo);
+    }
+
+    // relations
+
+    public function modules()
+    {
+        return $this->belongsToMany(Module::class, 'company_module', 'company_id', 'module_id');
     }
 
 }

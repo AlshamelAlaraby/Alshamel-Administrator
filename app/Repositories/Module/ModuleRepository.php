@@ -69,17 +69,20 @@ class ModuleRepository implements ModuleInterface
         $model->delete();
     }
 
-    // public function addModuleToCompany($module_id, $company_id)
-    // {
-    //     $this->model->find($module_id);
-    //     $this->model->companies()->attach($company_id);
-    // }
+    public function addModuleToCompany($request)
+    {
+        $this->model->find($request->module_id)->companies()->attach($request->company_id, [
+            "start_date" => $request->start_date,
+            "end_date" => $request->end_date,
+            "allowed_users_no" => $request->allowed_users_no,
+        ]);
+    }
 
-    // public function removeModuleFromCompany($module_id, $company_id)
-    // {
-    //     $this->model->find($module_id);
-    //     $this->model->companies()->detach($company_id);
-    // }
+    public function removeModuleFromCompany($module_id, $company_id)
+    {
+        $this->model->find($module_id)->companies()->detach($company_id);
+
+    }
     private function forget($id)
     {
         $keys = [
