@@ -15,7 +15,7 @@ class CompanyResource extends JsonResource
     public function toArray($request)
     {
         return [
-            "client_id"  => $this->client_id,
+            "client_id"  => $this->client->name_e,
             "name"       => $this->name,
             "name_e"     => $this->name_e,
             "url"        => $this->url,
@@ -27,7 +27,7 @@ class CompanyResource extends JsonResource
             "vat_no"     => $this->vat_no,
             "email"      => $this->email,
             "website"    => $this->website,
-            "is_active"  => $this->is_active == 1 ? "Active" : "not Active" ,
+            "is_active"  => $this->is_active,
         ];
     }
 }

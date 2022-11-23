@@ -4,9 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 
-class Company extends Model
+class Store extends Model
 {
     use HasFactory;
 
@@ -16,14 +15,14 @@ class Company extends Model
         'is_active' => 'App\Enums\IsActive',
     ];
 
-    public function client()
+    public function company()
     {
-        return $this->belongsTo(Client::class);
+        return $this->belongsTo(Company::class);
     }
 
-    public function PhotoUrl($photo)
+    public function branch()
     {
-        return Storage::disk("companies")->url($photo) ;
+        return $this->belongsTo(Branch::class);
     }
 
 }

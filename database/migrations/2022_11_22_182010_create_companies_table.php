@@ -15,7 +15,7 @@ class CreateCompaniesTable extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
-            // $table->foreignId('client_id')->constrained('clients')->references("id")->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('client_id')->constrained('clients')->references("id")->cascadeOnDelete()->cascadeOnUpdate();
             $table->integer("client_id");
             $table->string("name" , 100)->comment("Name Arabic");
             $table->string("name_e" , 100)->comment("Name English");
@@ -28,7 +28,7 @@ class CreateCompaniesTable extends Migration
             $table->string("vat_no")->comment("رقم تسجيل القيمة المضافة");
             $table->string("email");
             $table->string("website");
-            $table->enum('is_active',[ 0 , 1 ])->default(0)->comment("1=Active, 0=Not Active");
+            $table->string('is_active')->default('active');
             $table->timestamps();
         });
     }
