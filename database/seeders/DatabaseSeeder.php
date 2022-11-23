@@ -18,8 +18,6 @@ class DatabaseSeeder extends Seeder
     {
         \App\Models\User::create([
             'name' => 'admin',
-            "photo"=> "image.png",
-            "mobile"=> "15165315315",
             "email"=> "mrehab9797@gmail.com",
             'password' => Hash::make(124578963),
         ]);
