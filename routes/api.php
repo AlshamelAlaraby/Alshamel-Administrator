@@ -7,7 +7,7 @@ use App\Http\Controllers\User\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Company\CompanyController;
-use App\Http\Controllers\Store\StoreController;
+//use App\Http\Controllers\Store\StoreController;
 
 
 /*
@@ -43,9 +43,6 @@ Route::get('/users', [UserController::class, "index"]);
 /*
  * Auth
  */
-Route::group(['prefix'=>'auth'],function(){
-    
-    Route::post('/login',[LoginController::class,"login"]);
 Route::group(['prefix' => 'auth'], function () {
     Route::post('/login', [LoginController::class, "login"]);
 });
@@ -64,8 +61,9 @@ Route::group(['prefix' => 'modules'], function () {
     });
 });
 
-
 Route::resource ('branches',BranchController::class)->except ('create','edit');
+
+
 
 
 

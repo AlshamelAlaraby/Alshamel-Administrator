@@ -18,7 +18,7 @@ class BranchResource extends JsonResource
             'company'=>$this->company_id,
             'name'=>$this->name,
             'name_e'=>$this->name_e,
-            'isActive'=>$this->is_active ? 'active' : 'inActive'
+            'isActive'=>$this->is_active
         ];
     }
 }

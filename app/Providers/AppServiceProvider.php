@@ -11,10 +11,10 @@ use App\Repositories\Company\CompanyRepository;
 use App\Repositories\Company\CompanyRepositoryInterface;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use App\Repositories\User\UserRepository;
+
 use App\Repositories\Module\ModuleInterface;
 use App\Repositories\Module\ModuleRepository;
-use App\Repositories\User\UserRepositoryInterface;
+
 
 class AppServiceProvider extends ServiceProvider
 {
