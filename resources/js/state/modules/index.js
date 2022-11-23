@@ -74,7 +74,7 @@ function getNamespace(subtree, path) {
     namespaced: true,
     ...subtree.modules[namespace],
   }
-  return getNamespace(subtree.modules[namespace], path)
+  return getNamespace(subtree.modules[namespace], path);
 }
 
-export default storeData.modules
+export default storeData.modules;

@@ -95,6 +95,7 @@ export default {
       this.current_language = locale;
       this.text = country;
       this.flag = flag;
+      localStorage.setItem("lang",locale);
     },
     /**
      * Horizontal-toggle menu

@@ -75,7 +75,7 @@ export default {
           <div class="card-body p-4">
             <div class="text-center w-75 m-auto">
               <div class="auth-logo">
-                <router-link to="/" class="logo logo-dark text-center">
+                <router-link :to="{name:'home'}" class="logo logo-dark text-center">
                   <span class="logo-lg">
                     <img
                       src="../../../assets/images/logo-dark.png"
@@ -85,7 +85,7 @@ export default {
                   </span>
                 </router-link>
 
-                <router-link to="/" class="logo logo-light text-center">
+                <router-link :to="{name:'home'}" class="logo logo-light text-center">
                   <span class="logo-lg">
                     <img
                       src="../../../assets/images/logo-light.png"
@@ -144,7 +144,7 @@ export default {
             <p class="text-muted">
               Back to
               <router-link
-                to="/login"
+                :to="{name:'login'}"
                 class="text-primary font-weight-medium ml-1"
                 >Log in</router-link
               >

@@ -1,34 +1,45 @@
+import guest from "../middleware/guest";
+import auth from "../middleware/auth";
+import checkAuth from "../middleware/auth-check";
 
 export default [
     {
         path: '/login',
         name: 'login',
         component: () => import('../views/pages/account/login'),
+        meta: {
+            middleware: [guest]
+        },
     },
     {
         path: '/register',
         name: 'register',
         component: () => import('../views/pages/account/register'),
+        meta: {
+            middleware: [guest]
+        },
     },
     {
         path: '/forgot-password',
         name: 'Forgot-password',
         component: () => import('../views/pages/account/forgot-password'),
-    },
-    {
-        path: '/logout',
-        name: 'logout',
+        meta: {
+            middleware: [guest]
+        },
     },
     {
         path: '/',
         name: 'home',
+        meta: {
+            middleware: [auth,checkAuth]
+        },
         component: () => import('../views/pages/dashboard/sales/index')
     },
     {
         path: '/dashboard/crm',
         name: 'crm-dashboard',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/dashboard/crm/index')
     },
@@ -36,7 +47,7 @@ export default [
         path: '/dashboard/analytics',
         name: 'analytics-dashboard',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/dashboard/analytics/index')
     },
@@ -44,7 +55,7 @@ export default [
         path: '/apps/calendar',
         name: 'calendar',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/apps/calendar/index')
     },
@@ -52,7 +63,7 @@ export default [
         path: '/apps/chat',
         name: 'chat',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/apps/chat')
     },
@@ -60,7 +71,7 @@ export default [
         path: '/apps/companies',
         name: 'companies',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/apps/companies')
     },
@@ -68,7 +79,7 @@ export default [
         path: '/apps/tickets',
         name: 'tickets',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/apps/tickets')
     },
@@ -76,7 +87,7 @@ export default [
         path: '/apps/file-manager',
         name: 'file-manager',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/apps/file-manager')
     },
@@ -84,7 +95,7 @@ export default [
         path: '/ecommerce/customers',
         name: 'customers',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/ecommerce/customers/index')
     },
@@ -92,7 +103,7 @@ export default [
         path: '/ecommerce/orders',
         name: 'orders',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/ecommerce/orders/index')
     },
@@ -100,7 +111,7 @@ export default [
         path: '/ecommerce/product-detail/:id',
         name: 'product-detail',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/ecommerce/product-detail')
     },
@@ -108,7 +119,7 @@ export default [
         path: '/ecommerce/products',
         name: 'products',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/ecommerce/products/index')
     },
@@ -116,7 +127,7 @@ export default [
         path: '/ecommerce/cart',
         name: 'cart',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/ecommerce/cart')
     },
@@ -124,7 +135,7 @@ export default [
         path: '/ecommerce/checkout',
         name: 'checkout',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/ecommerce/checkout')
     },
@@ -132,7 +143,7 @@ export default [
         path: '/ecommerce/order-detail',
         name: 'order-detail',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/ecommerce/order-detail')
     },
@@ -140,7 +151,7 @@ export default [
         path: '/ecommerce/product-create',
         name: 'product-create',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/ecommerce/product-create')
     },
@@ -148,7 +159,7 @@ export default [
         path: '/ecommerce/products-grid',
         name: 'products-grid',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/ecommerce/products-grid')
     },
@@ -156,7 +167,7 @@ export default [
         path: '/ecommerce/sellers',
         name: 'sellers',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/ecommerce/sellers')
     },
@@ -164,7 +175,7 @@ export default [
         path: '/email/inbox',
         name: 'email-inbox',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/email/inbox')
     },
@@ -172,7 +183,7 @@ export default [
         path: '/email/reademail/:id',
         name: 'reademail',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/email/reademail')
     },
@@ -180,7 +191,7 @@ export default [
         path: '/email/templates',
         name: 'email-templates',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/email/templates')
     },
@@ -188,7 +199,7 @@ export default [
         path: '/task/list',
         name: 'task-list',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/task/list')
     },
@@ -196,7 +207,7 @@ export default [
         path: '/task/detail',
         name: 'task-detail',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/task/detail')
     },
@@ -204,7 +215,7 @@ export default [
         path: '/task/kanban',
         name: 'kanban-board',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/task/kanban/index')
     },
@@ -212,7 +223,7 @@ export default [
         path: '/contacts/list',
         name: 'contacts-list',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/contacts/list')
     },
@@ -220,7 +231,7 @@ export default [
         path: '/contacts/profile',
         name: 'contacts-profile',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/contacts/profile')
     },
@@ -228,7 +239,7 @@ export default [
         path: '/auth/login-1',
         name: 'auth-login-1',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/auth/login-1')
     },
@@ -236,7 +247,7 @@ export default [
         path: '/auth/register-1',
         name: 'auth-register-1',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/auth/register-1')
     },
@@ -244,7 +255,7 @@ export default [
         path: '/auth/recoverpwd',
         name: 'auth-recoverpwd',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/auth/recoverpwd')
     },
@@ -252,7 +263,7 @@ export default [
         path: '/auth/lock-screen',
         name: 'auth-lock-screen',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/auth/lock-screen')
     },
@@ -260,7 +271,7 @@ export default [
         path: '/auth/signin-signup',
         name: 'auth-signin-signup',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/auth/signin-signup')
     },
@@ -268,7 +279,7 @@ export default [
         path: '/auth/logout-1',
         name: 'auth-logout-1',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/auth/logout-1')
     },
@@ -276,7 +287,7 @@ export default [
         path: '/auth/login-2',
         name: 'auth-login-2',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/auth/login-2')
     },
@@ -284,7 +295,7 @@ export default [
         path: '/auth/register-2',
         name: 'auth-register-2',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/auth/register-2')
     },
@@ -292,7 +303,7 @@ export default [
         path: '/auth/recoverpwd-2',
         name: 'auth-recoverpwd-2',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/auth/recoverpwd-2')
     },
@@ -300,7 +311,7 @@ export default [
         path: '/auth/lock-screen-2',
         name: 'auth-lock-screen-2',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/auth/lock-screen-2')
     },
@@ -308,7 +319,7 @@ export default [
         path: '/auth/signin-signup-2',
         name: 'auth-signin-signup-2',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/auth/signin-signup-2')
     },
@@ -316,7 +327,7 @@ export default [
         path: '/auth/logout-2',
         name: 'auth-logout-2',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/auth/logout-2')
     },
@@ -324,7 +335,7 @@ export default [
         path: '/extras/starter',
         name: 'extras-starter',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/extras/starter')
     },
@@ -332,7 +343,7 @@ export default [
         path: '/extras/timeline',
         name: 'extras-timeline',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/extras/timeline')
     },
@@ -340,7 +351,7 @@ export default [
         path: '/extras/sitemap',
         name: 'extras-sitemap',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/extras/sitemap')
     },
@@ -348,7 +359,7 @@ export default [
         path: '/extras/invoice',
         name: 'extras-invoice',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/extras/invoice')
     },
@@ -356,7 +367,7 @@ export default [
         path: '/extras/faqs',
         name: 'extras-faqs',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/extras/faqs')
     },
@@ -364,7 +375,7 @@ export default [
         path: '/extras/search-results',
         name: 'extras-search-results',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/extras/search-results')
     },
@@ -372,7 +383,7 @@ export default [
         path: '/extras/pricing',
         name: 'extras-pricing',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/extras/pricing')
     },
@@ -380,7 +391,7 @@ export default [
         path: '/extras/maintenance',
         name: 'extras-maintenance',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/extras/maintenance')
     },
@@ -388,7 +399,7 @@ export default [
         path: '/extras/coming-soon',
         name: 'extras-coming-soon',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/extras/coming-soon')
     },
@@ -396,7 +407,7 @@ export default [
         path: '/extras/lightbox',
         name: 'extras-lightbox',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/extras/lightbox')
     },
@@ -404,7 +415,7 @@ export default [
         path: '/error/404',
         name: 'error-404',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/error/404')
     },
@@ -412,7 +423,7 @@ export default [
         path: '/error/500',
         name: 'error-500',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/error/500')
     },
@@ -420,7 +431,7 @@ export default [
         path: '/error/404-alt',
         name: 'error-404-alt',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/error/404-alt')
     },
@@ -428,7 +439,7 @@ export default [
         path: '/ui/avatars',
         name: 'ui-avatars',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/ui/avatars')
     },
@@ -436,7 +447,7 @@ export default [
         path: '/ui/buttons',
         name: 'ui-buttons',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/ui/buttons')
     },
@@ -444,7 +455,7 @@ export default [
         path: '/ui/cards',
         name: 'ui-cards',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/ui/cards')
     },
@@ -452,7 +463,7 @@ export default [
         path: '/ui/carousel',
         name: 'ui-carousel',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/ui/carousel')
     },
@@ -460,7 +471,7 @@ export default [
         path: '/ui/dropdowns',
         name: 'ui-dropdowns',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/ui/dropdowns')
     },
@@ -468,7 +479,7 @@ export default [
         path: '/ui/general',
         name: 'ui-general',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/ui/general')
     },
@@ -476,7 +487,7 @@ export default [
         path: '/ui/grid',
         name: 'ui-grid',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/ui/grid')
     },
@@ -484,7 +495,7 @@ export default [
         path: '/ui/images',
         name: 'ui-images',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/ui/images')
     },
@@ -492,7 +503,7 @@ export default [
         path: '/ui/list-group',
         name: 'ui-list-group',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/ui/list-group')
     },
@@ -500,7 +511,7 @@ export default [
         path: '/ui/modals',
         name: 'ui-modals',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/ui/modals')
     },
@@ -508,7 +519,7 @@ export default [
         path: '/ui/notifications',
         name: 'ui-notifications',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/ui/notifications')
     },
@@ -516,7 +527,7 @@ export default [
         path: '/ui/portlets',
         name: 'ui-portlets',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/ui/portlets')
     },
@@ -524,7 +535,7 @@ export default [
         path: '/ui/progress',
         name: 'ui-progress',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/ui/progress')
     },
@@ -532,7 +543,7 @@ export default [
         path: '/ui/ribbons',
         name: 'ui-ribbons',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/ui/ribbons')
     },
@@ -540,7 +551,7 @@ export default [
         path: '/ui/spinners',
         name: 'ui-spinners',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/ui/spinners')
     },
@@ -548,7 +559,7 @@ export default [
         path: '/ui/tabs-accordions',
         name: 'ui-tabs-accordions',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/ui/tabs-accordions')
     },
@@ -556,7 +567,7 @@ export default [
         path: '/ui/tooltips-popovers',
         name: 'ui-tooltips-popovers',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/ui/tooltips-popovers')
     },
@@ -564,7 +575,7 @@ export default [
         path: '/ui/typography',
         name: 'ui-typography',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/ui/typography')
     },
@@ -572,7 +583,7 @@ export default [
         path: '/ui/video',
         name: 'ui-video',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/ui/video')
     },
@@ -580,7 +591,7 @@ export default [
         path: '/extended/rangeslider',
         name: 'rangeslider',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/extended/rangeslider')
     },
@@ -588,7 +599,7 @@ export default [
         path: '/extended/sweet-alert',
         name: 'sweet-alert',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/extended/sweet-alert')
     },
@@ -596,7 +607,7 @@ export default [
         path: '/extended/tour',
         name: 'tour',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/extended/tour')
     },
@@ -604,7 +615,7 @@ export default [
         path: '/extended/scrollspy',
         name: 'scrollspy',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/extended/scrollspy')
     },
@@ -612,7 +623,7 @@ export default [
         path: '/widgets',
         name: 'widgets',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/widgets')
     },
@@ -620,7 +631,7 @@ export default [
         path: '/icons/feather',
         name: 'feather',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/icons/feather')
     },
@@ -628,14 +639,14 @@ export default [
         path: '/icons/remix',
         name: 'remix',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/icons/remix')
     }, {
         path: '/icons/boxicons',
         name: 'boxicons',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/icons/boxicons')
     },
@@ -643,7 +654,7 @@ export default [
         path: '/icons/mdi',
         name: 'mdi',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/icons/mdi')
     },
@@ -651,7 +662,7 @@ export default [
         path: '/icons/font-awesome',
         name: 'font-awesome',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/icons/font-awesome')
     },
@@ -659,7 +670,7 @@ export default [
         path: '/icons/weather',
         name: 'weather',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/icons/weather')
     },
@@ -667,7 +678,7 @@ export default [
         path: '/forms/elements',
         name: 'elements',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/forms/elements')
     },
@@ -675,7 +686,7 @@ export default [
         path: '/forms/advanced',
         name: 'advanced-form',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/forms/advanced')
     },
@@ -683,7 +694,7 @@ export default [
         path: '/forms/validation',
         name: 'validation',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/forms/validation')
     },
@@ -691,7 +702,7 @@ export default [
         path: '/forms/wizard',
         name: 'wizard',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/forms/wizard')
     },
@@ -699,7 +710,7 @@ export default [
         path: '/forms/mask',
         name: 'mask',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/forms/mask')
     },
@@ -707,7 +718,7 @@ export default [
         path: '/forms/quill',
         name: 'quill',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/forms/quill')
     },
@@ -715,7 +726,7 @@ export default [
         path: '/forms/file-uploads',
         name: 'file-uploads',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/forms/file-uploads')
     },
@@ -723,7 +734,7 @@ export default [
         path: '/tables/basic',
         name: 'basic',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/tables/basic')
     },
@@ -731,7 +742,7 @@ export default [
         path: '/tables/advanced',
         name: 'advanced',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/tables/advanced')
     },
@@ -739,7 +750,7 @@ export default [
         path: '/charts/apex',
         name: 'charts-apex',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/charts/apex')
     },
@@ -747,7 +758,7 @@ export default [
         path: '/charts/chartjs',
         name: 'charts-chartjs',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/charts/chartjs')
     },
@@ -755,7 +766,7 @@ export default [
         path: '/charts/c3',
         name: 'charts-c3',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/charts/c3')
     },
@@ -763,7 +774,7 @@ export default [
         path: '/charts/chartist',
         name: 'charts-chartist',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/charts/chartist')
     },
@@ -771,7 +782,7 @@ export default [
         path: '/charts/knob',
         name: 'charts-knob',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/charts/knob')
     },
@@ -779,8 +790,13 @@ export default [
         path: '/maps/google',
         name: 'maps-google',
         meta: {
-            authRequired: true,
+            middleware: [auth,checkAuth]
         },
         component: () => import('../views/pages/maps/google')
+    },
+    {
+        path:'*',
+        name:'page404',
+        component: () => import('../views/pages/error/404.vue')
     }
 ]
