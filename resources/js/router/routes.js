@@ -6,27 +6,14 @@ export default [
     {
         path: '/login',
         name: 'login',
-        component: () => import('../views/pages/account/login'),
+        component: () => import('../views/pages/auth/login'),
         meta: {
             middleware: [guest]
         },
     },
-    {
-        path: '/register',
-        name: 'register',
-        component: () => import('../views/pages/account/register'),
-        meta: {
-            middleware: [guest]
-        },
-    },
-    {
-        path: '/forgot-password',
-        name: 'Forgot-password',
-        component: () => import('../views/pages/account/forgot-password'),
-        meta: {
-            middleware: [guest]
-        },
-    },
+
+
+    //**********************************************
     {
         path: '/',
         name: 'home',
@@ -241,7 +228,7 @@ export default [
         meta: {
             middleware: [auth,checkAuth]
         },
-        component: () => import('../views/pages/auth/login-1')
+        component: () => import('../views/pages/authi/login-1')
     },
     {
         path: '/auth/register-1',
@@ -249,7 +236,7 @@ export default [
         meta: {
             middleware: [auth,checkAuth]
         },
-        component: () => import('../views/pages/auth/register-1')
+        component: () => import('../views/pages/authi/register-1')
     },
     {
         path: '/auth/recoverpwd',
@@ -257,7 +244,7 @@ export default [
         meta: {
             middleware: [auth,checkAuth]
         },
-        component: () => import('../views/pages/auth/recoverpwd')
+        component: () => import('../views/pages/authi/recoverpwd')
     },
     {
         path: '/auth/lock-screen',
@@ -265,7 +252,7 @@ export default [
         meta: {
             middleware: [auth,checkAuth]
         },
-        component: () => import('../views/pages/auth/lock-screen')
+        component: () => import('../views/pages/authi/lock-screen')
     },
     {
         path: '/auth/signin-signup',
@@ -273,7 +260,7 @@ export default [
         meta: {
             middleware: [auth,checkAuth]
         },
-        component: () => import('../views/pages/auth/signin-signup')
+        component: () => import('../views/pages/authi/signin-signup')
     },
     {
         path: '/auth/logout-1',
@@ -281,7 +268,7 @@ export default [
         meta: {
             middleware: [auth,checkAuth]
         },
-        component: () => import('../views/pages/auth/logout-1')
+        component: () => import('../views/pages/authi/logout-1')
     },
     {
         path: '/auth/login-2',
@@ -289,7 +276,7 @@ export default [
         meta: {
             middleware: [auth,checkAuth]
         },
-        component: () => import('../views/pages/auth/login-2')
+        component: () => import('../views/pages/authi/login-2')
     },
     {
         path: '/auth/register-2',
@@ -297,7 +284,7 @@ export default [
         meta: {
             middleware: [auth,checkAuth]
         },
-        component: () => import('../views/pages/auth/register-2')
+        component: () => import('../views/pages/authi/register-2')
     },
     {
         path: '/auth/recoverpwd-2',
@@ -305,7 +292,7 @@ export default [
         meta: {
             middleware: [auth,checkAuth]
         },
-        component: () => import('../views/pages/auth/recoverpwd-2')
+        component: () => import('../views/pages/authi/recoverpwd-2')
     },
     {
         path: '/auth/lock-screen-2',
@@ -313,7 +300,7 @@ export default [
         meta: {
             middleware: [auth,checkAuth]
         },
-        component: () => import('../views/pages/auth/lock-screen-2')
+        component: () => import('../views/pages/authi/lock-screen-2')
     },
     {
         path: '/auth/signin-signup-2',
@@ -321,7 +308,7 @@ export default [
         meta: {
             middleware: [auth,checkAuth]
         },
-        component: () => import('../views/pages/auth/signin-signup-2')
+        component: () => import('../views/pages/authi/signin-signup-2')
     },
     {
         path: '/auth/logout-2',
@@ -329,7 +316,7 @@ export default [
         meta: {
             middleware: [auth,checkAuth]
         },
-        component: () => import('../views/pages/auth/logout-2')
+        component: () => import('../views/pages/authi/logout-2')
     },
     {
         path: '/extras/starter',
@@ -550,9 +537,7 @@ export default [
     {
         path: '/ui/spinners',
         name: 'ui-spinners',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
+
         component: () => import('../views/pages/ui/spinners')
     },
     {
@@ -733,17 +718,13 @@ export default [
     {
         path: '/tables/basic',
         name: 'basic',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
+
         component: () => import('../views/pages/tables/basic')
     },
     {
         path: '/tables/advanced',
         name: 'advanced',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
+
         component: () => import('../views/pages/tables/advanced')
     },
     {

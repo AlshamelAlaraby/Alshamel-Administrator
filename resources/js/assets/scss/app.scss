@@ -15,7 +15,7 @@ File: Main Css File (Default Demo)
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
 @import "config/default/variables";
- @import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/mixins";
 @import '~bootstrap/scss/bootstrap';
 @import "./bootstrap.scss";
 @import '~bootstrap-vue/src/index.scss';
@@ -100,13 +100,16 @@ File: Main Css File (Default Demo)
 // icons
 @import "custom/plugins/icons";
 
+
 // RTL
-// @import "custom/rtl/general-rtl";
-// @import "custom/rtl/bootstrap-rtl";
-// @import "custom/rtl/spacing-rtl";
-// @import "custom/rtl/float-rtl";
-// @import "custom/rtl/text-rtl";
-// @import "custom/rtl/structure-rtl";
-// @import "custom/rtl/plugins-rtl";
-// @import "custom/rtl/components-rtl";
-// @import "custom/rtl/pages-rtl";
+.rtl {
+    @import "custom/rtl/general-rtl";
+    @import "custom/rtl/bootstrap-rtl";
+    @import "custom/rtl/spacing-rtl";
+    @import "custom/rtl/float-rtl";
+    @import "custom/rtl/text-rtl";
+    @import "custom/rtl/structure-rtl";
+    @import "custom/rtl/plugins-rtl";
+    @import "custom/rtl/components-rtl";
+    @import "custom/rtl/pages-rtl";
+}

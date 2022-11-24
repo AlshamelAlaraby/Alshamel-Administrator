@@ -1,4 +1,13 @@
 {
+   "login":{
+      "loginIn": "تسجيل الدخول",
+      "Rememberme": "تذكرني",
+      "Password": "كلمه المرور",
+      "Emailaddress": "البريد الالكتروني",
+      "Enteryouremailaddressandpasswordtoaccessadminpanel": "أدخل عنوان بريدك الإلكتروني وكلمة المرور للوصول إلى لوحة الإدارة.",
+      "Enteryouremail": "ادخل الاميل",
+      "Enteryourpassword": "ادخل كلمه المرور"
+   },
   "navbar": {
     "search": {
       "text": "بحث..."
