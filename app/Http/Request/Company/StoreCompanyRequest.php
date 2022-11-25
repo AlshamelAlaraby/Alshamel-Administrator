@@ -2,15 +2,12 @@
 
 namespace App\Http\Request\Company;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class storeCompanyRequest extends FormRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
 
     public function rules()
     {
@@ -27,7 +24,29 @@ class storeCompanyRequest extends FormRequest
             "vat_no"     => "required|numeric|digits_between:1,10",
             "email"      => "required|email|unique:companies,email",
             "website"    => "required|string|max:200",
-            "is_active"  => "in:0,1",
+            "is_active"  => "in:active,inactive",
         ];
     }
+
+    public function authorize()
+    {
+        return true;
+    }
+
+
+    public function failedValidation ( Validator $validator )
+    {
+        throw new HttpResponseException(response()->json(
+            [
+                'status'    => 422,
+
+                'success'   => false,
+
+                'message'   => __ ('validation errors'),
+
+                'data'      => $validator->errors()
+            ]
+        ));
+    }
+
 }

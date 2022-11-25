@@ -21,9 +21,16 @@ class Company extends Model
         return $this->belongsTo(Client::class);
     }
 
-    public function PhotoUrl($photo)
+
+    public function stores()
     {
-        return Storage::disk("companies")->url($photo) ;
+        return $this->hasMany(Store::class);
+    }
+
+    
+    public function getPhotoUrlAttribute()
+    {
+        return Storage::disk("companies")->url($this->photo) ;
     }
 
 }

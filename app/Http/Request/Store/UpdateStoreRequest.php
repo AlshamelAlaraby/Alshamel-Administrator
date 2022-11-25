@@ -2,26 +2,14 @@
 
 namespace App\Http\Request\Store;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 
 class UpdateStoreRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return false;
-    }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules(Request $request)
     {
         return [
@@ -31,5 +19,28 @@ class UpdateStoreRequest extends FormRequest
             "name_e"     => "string|max:100",
             "is_active"  => "in:active,inactive",
         ];
+    }
+
+
+    
+    public function authorize()
+    {
+        return true;
+    }
+
+
+    public function failedValidation ( Validator $validator )
+    {
+        throw new HttpResponseException(response()->json(
+            [
+                'status'    => 422,
+
+                'success'   => false,
+
+                'message'   => __ ('validation errors'),
+
+                'data'      => $validator->errors()
+            ]
+        ));
     }
 }
