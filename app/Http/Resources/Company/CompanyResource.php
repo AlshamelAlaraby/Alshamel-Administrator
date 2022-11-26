@@ -19,7 +19,7 @@ class CompanyResource extends JsonResource
             "name"       => $this->name,
             "name_e"     => $this->name_e,
             "url"        => $this->url,
-            "logo"       => $this->photoUrl(),
+            "logo"       => $this->photoUrl,
             "address"    => $this->address,
             "phone"      => $this->phone,
             "cr"         => $this->cr,
