@@ -9,7 +9,7 @@ import { required, email } from "vuelidate/lib/validators";
 export default {
   page: {
     title: "Login",
-      meta: [{ name: "description", content: 'kdjsd' }],
+    meta: [{ name: "description", content: 'kdjsd' }],
   },
   data() {
     return {

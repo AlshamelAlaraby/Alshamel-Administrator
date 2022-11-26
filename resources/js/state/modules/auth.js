@@ -53,7 +53,7 @@ export const mutations = {
         state.permission = null;
         localStorage.removeItem('permission');
         localStorage.removeItem('user');
-        Cookies.remove('token')
+        Cookies.remove('token');
     },
     editErrors(state,errors){
         state.errors = errors;

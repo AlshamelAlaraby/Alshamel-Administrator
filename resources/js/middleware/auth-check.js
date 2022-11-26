@@ -13,5 +13,5 @@ export default async function checkAuth({ next, store }) {
         .catch((err) => {
             store.commit('auth/logoutToken');
             return next({name: 'login'});
-        })
+        });
 }

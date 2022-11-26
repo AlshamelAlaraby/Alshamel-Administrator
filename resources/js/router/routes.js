@@ -1,41 +1,31 @@
-import guest from "../middleware/guest";
 import auth from "../middleware/auth";
 import checkAuth from "../middleware/auth-check";
+import login from "./routeChild/login";
+import company from "./routeChild/company";
+import module from "./routeChild/module";
+import customer from "./routeChild/customer";
+import branch from "./routeChild/branch";
 
 export default [
-    {
-        path: '/login',
-        name: 'login',
-        component: () => import('../views/pages/auth/login'),
-        meta: {
-            middleware: [guest]
-        },
-    },
-
-
+    ...login,
+    ...company,
+    ...module,
+    ...customer,
+    ...branch,
     //**********************************************
     {
         path: '/',
         name: 'home',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/dashboard/sales/index')
     },
     {
         path: '/dashboard/crm',
         name: 'crm-dashboard',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/dashboard/crm/index')
     },
     {
         path: '/dashboard/analytics',
         name: 'analytics-dashboard',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/dashboard/analytics/index')
     },
     {
@@ -425,105 +415,66 @@ export default [
     {
         path: '/ui/avatars',
         name: 'ui-avatars',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/ui/avatars')
     },
     {
         path: '/ui/buttons',
         name: 'ui-buttons',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/ui/buttons')
     },
     {
         path: '/ui/cards',
         name: 'ui-cards',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/ui/cards')
     },
     {
         path: '/ui/carousel',
         name: 'ui-carousel',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/ui/carousel')
     },
     {
         path: '/ui/dropdowns',
         name: 'ui-dropdowns',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/ui/dropdowns')
     },
     {
         path: '/ui/general',
         name: 'ui-general',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/ui/general')
     },
     {
         path: '/ui/grid',
         name: 'ui-grid',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/ui/grid')
     },
     {
         path: '/ui/images',
         name: 'ui-images',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/ui/images')
     },
     {
         path: '/ui/list-group',
         name: 'ui-list-group',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/ui/list-group')
     },
     {
         path: '/ui/modals',
         name: 'ui-modals',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/ui/modals')
     },
     {
         path: '/ui/notifications',
         name: 'ui-notifications',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/ui/notifications')
     },
     {
         path: '/ui/portlets',
         name: 'ui-portlets',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/ui/portlets')
     },
     {
         path: '/ui/progress',
         name: 'ui-progress',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/ui/progress')
     },
     {
@@ -543,25 +494,16 @@ export default [
     {
         path: '/ui/tabs-accordions',
         name: 'ui-tabs-accordions',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/ui/tabs-accordions')
     },
     {
         path: '/ui/tooltips-popovers',
         name: 'ui-tooltips-popovers',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/ui/tooltips-popovers')
     },
     {
         path: '/ui/typography',
         name: 'ui-typography',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/ui/typography')
     },
     {
@@ -575,33 +517,21 @@ export default [
     {
         path: '/extended/rangeslider',
         name: 'rangeslider',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/extended/rangeslider')
     },
     {
         path: '/extended/sweet-alert',
         name: 'sweet-alert',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/extended/sweet-alert')
     },
     {
         path: '/extended/tour',
         name: 'tour',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/extended/tour')
     },
     {
         path: '/extended/scrollspy',
         name: 'scrollspy',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/extended/scrollspy')
     },
     {
@@ -615,116 +545,75 @@ export default [
     {
         path: '/icons/feather',
         name: 'feather',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/icons/feather')
     },
     {
         path: '/icons/remix',
         name: 'remix',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/icons/remix')
     }, {
         path: '/icons/boxicons',
         name: 'boxicons',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/icons/boxicons')
     },
     {
         path: '/icons/mdi',
         name: 'mdi',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/icons/mdi')
     },
     {
         path: '/icons/font-awesome',
         name: 'font-awesome',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/icons/font-awesome')
     },
     {
         path: '/icons/weather',
         name: 'weather',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/icons/weather')
     },
     {
         path: '/forms/elements',
         name: 'elements',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/forms/elements')
     },
     {
         path: '/forms/advanced',
         name: 'advanced-form',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/forms/advanced')
     },
     {
         path: '/forms/validation',
         name: 'validation',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/forms/validation')
     },
     {
         path: '/forms/wizard',
         name: 'wizard',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/forms/wizard')
     },
     {
         path: '/forms/mask',
         name: 'mask',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/forms/mask')
     },
     {
         path: '/forms/quill',
         name: 'quill',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/forms/quill')
     },
     {
         path: '/forms/file-uploads',
         name: 'file-uploads',
-        meta: {
-            middleware: [auth,checkAuth]
-        },
         component: () => import('../views/pages/forms/file-uploads')
     },
     {
         path: '/tables/basic',
         name: 'basic',
-
         component: () => import('../views/pages/tables/basic')
     },
     {
         path: '/tables/advanced',
         name: 'advanced',
-
         component: () => import('../views/pages/tables/advanced')
     },
     {
