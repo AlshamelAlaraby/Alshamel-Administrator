@@ -333,7 +333,7 @@ var render = function () {
                     "router-link",
                     {
                       staticClass: "logo logo-dark text-center",
-                      attrs: { to: "/" },
+                      attrs: { to: { name: "home" } },
                     },
                     [
                       _c("span", { staticClass: "logo-lg" }, [
@@ -352,7 +352,7 @@ var render = function () {
                     "router-link",
                     {
                       staticClass: "logo logo-light text-center",
-                      attrs: { to: "/" },
+                      attrs: { to: { name: "home" } },
                     },
                     [
                       _c("span", { staticClass: "logo-lg" }, [
@@ -479,7 +479,7 @@ var render = function () {
                   "router-link",
                   {
                     staticClass: "text-primary font-weight-medium ml-1",
-                    attrs: { to: "/login" },
+                    attrs: { to: { name: "login" } },
                   },
                   [_vm._v("Log in")]
                 ),

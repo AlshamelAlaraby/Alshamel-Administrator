@@ -13,12 +13,13 @@ export default {
   },
   data() {
     return {
-      email: "minton@themesbrand.com",
+      email: "",
       password: "123456",
       submitted: false,
       authError: null,
       tryingToLogIn: false,
       isAuthError: false,
+      type: 'password'
     };
   },
   components: {
@@ -43,56 +44,20 @@ export default {
     },
   },
   methods: {
-    // Try to log the user in with the username
-    // and password they provided.
-    tryToLogIn() {
-      this.submitted = true;
-      // stop here if form is invalid
-      this.$v.$touch();
+      // Try to log the user in with the username
+      // and password they provided.
+      tryToLogIn() {
+          this.submitted = true;
+          // stop here if form is invalid
+          this.$v.$touch();
 
-      if (this.$v.$invalid) {
-        return;
-      } else {
-        if (process.env.VUE_APP_DEFAULT_AUTH === "firebase") {
-          this.tryingToLogIn = true;
-          // Reset the authError if it existed.
-          this.authError = null;
-          return (
-            this.$store
-              .dispatch("auth/logIn", {
-                email: this.email,
-                password: this.password,
-              })
-              // eslint-disable-next-line no-unused-vars
-              .then((token) => {
-                this.tryingToLogIn = false;
-                this.isAuthError = false;
-                // Redirect to the originally requested page, or to the home page
-                this.$router.push(
-                  this.$route.query.redirectFrom || {
-                    path: "/",
-                  }
-                );
-              })
-              .catch((error) => {
-                this.tryingToLogIn = false;
-                this.authError = error ? error : "";
-                this.isAuthError = true;
-              })
-          );
-        } else if (process.env.VUE_APP_DEFAULT_AUTH === "fakebackend") {
-          const { email, password } = this;
-          if (email && password) {
-            this.$store.dispatch("authfack/login", {
-              email,
-              password,
-            });
-            this.$store.dispatch("notification/clear");
+          if (this.$v.$invalid) {
+              return;
+          } else {
+
           }
-        }
       }
-    },
-  },
+    }
 };
 </script>
 
@@ -125,7 +90,7 @@ export default {
                 </router-link>
               </div>
               <p class="text-muted mb-4 mt-3">
-                Enter your email address and password to access admin panel.
+                  {{ $t('login.Enteryouremailaddressandpasswordtoaccessadminpanel') }}
               </p>
             </div>
 
@@ -148,13 +113,13 @@ export default {
                 >{{ authError }}</b-alert
               >
               <div class="form-group mb-3">
-                <label for="emailaddress">Email address</label>
+                <label for="emailaddress">{{ $t('login.Emailaddress') }}</label>
                 <input
                   class="form-control"
                   v-model="email"
                   type="email"
                   id="emailaddress"
-                  placeholder="Enter your email"
+                  :placeholder="$t('login.Enteryouremail')"
                   :class="{ 'is-invalid': submitted && $v.email.$error }"
                 />
                 <div
@@ -167,22 +132,29 @@ export default {
               </div>
 
               <div class="form-group mb-3">
-                <label for="password">Password</label>
+                <label for="password">{{ $t('login.Password') }}</label>
                 <div class="input-group input-group-merge">
                   <input
                     v-model="password"
-                    type="password"
+                    :type="type"
                     id="password"
                     class="form-control"
-                    placeholder="Enter your password"
+                    :placeholder="$t('login.Enteryourpassword')"
                     :class="{ 'is-invalid': submitted && $v.password.$error }"
                   />
 
-                  <div class="input-group-append" data-password="false">
-                    <div class="input-group-text">
-                      <span class="password-eye"></span>
+                  <div
+                      class="input-group-append"
+                      data-password="false"
+                      @click="type == 'password' && password? type = 'text': type = 'password'"
+                  >
+                    <div :class="['input-group-text',type == 'text' ? 'show':'']" >
+                      <span
+                          :class="['password-eye',type == 'text' ? 'show':'']"
+                      ></span>
                     </div>
                   </div>
+
                   <div
                     v-if="submitted && !$v.password.required"
                     class="invalid-feedback"
@@ -201,74 +173,23 @@ export default {
                     checked
                   />
                   <label class="custom-control-label" for="checkbox-signin"
-                    >Remember me</label
+                    >{{ $t('login.Rememberme') }}</label
                   >
                 </div>
               </div>
 
               <div class="form-group mb-0 text-center">
                 <button class="btn btn-primary btn-block" type="submit">
-                  Log In
+                    {{ $t('login.loginIn') }}
                 </button>
               </div>
             </form>
 
-            <div class="text-center">
-              <h5 class="mt-3 text-muted">Sign in with</h5>
-              <ul class="social-list list-inline mt-3 mb-0">
-                <li class="list-inline-item">
-                  <a
-                    href="javascript: void(0);"
-                    class="social-list-item border-purple text-purple"
-                    ><i class="mdi mdi-facebook"></i
-                  ></a>
-                </li>
-                <li class="list-inline-item">
-                  <a
-                    href="javascript: void(0);"
-                    class="social-list-item border-danger text-danger"
-                    ><i class="mdi mdi-google"></i
-                  ></a>
-                </li>
-                <li class="list-inline-item">
-                  <a
-                    href="javascript: void(0);"
-                    class="social-list-item border-info text-info"
-                    ><i class="mdi mdi-twitter"></i
-                  ></a>
-                </li>
-                <li class="list-inline-item">
-                  <a
-                    href="javascript: void(0);"
-                    class="social-list-item border-secondary text-secondary"
-                    ><i class="mdi mdi-github"></i
-                  ></a>
-                </li>
-              </ul>
-            </div>
           </div>
           <!-- end card-body -->
         </div>
         <!-- end card -->
 
-        <div class="row mt-3">
-          <div class="col-12 text-center">
-            <p>
-              <router-link to="/forgot-password" class="text-muted ml-1"
-                >Forgot your password?</router-link
-              >
-            </p>
-            <p class="text-muted">
-              Don't have an account?
-              <router-link
-                to="/register"
-                class="text-primary font-weight-medium ml-1"
-                >Sign Up</router-link
-              >
-            </p>
-          </div>
-          <!-- end col -->
-        </div>
         <!-- end row -->
       </div>
       <!-- end col -->
@@ -276,3 +197,18 @@ export default {
     <!-- end row -->
   </Auth>
 </template>
+
+<style>
+    .input-group-text{
+        cursor: pointer;
+    }
+    .input-group-text.show {
+        background-color: #3bafda;
+    }
+    .input-group-text .password-eye.show {
+        color: #fff;
+    }
+    .custom-checkbox .custom-control-input:checked ~ .custom-control-label::after{
+        background-color: #3bafda;
+    }
+</style>

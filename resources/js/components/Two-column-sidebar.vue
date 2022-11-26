@@ -254,13 +254,30 @@ export default {
                             <h5 class="menu-title">Dashboards</h5>
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/">Sales</router-link>
+                                    <router-link
+                                        class="nav-link side-nav-link-ref"
+                                        :to="{name: 'home'}"
+                                    >
+                                        Sales
+                                    </router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/dashboard/crm">CRM</router-link>
+                                    <router-link
+                                        class="nav-link side-nav-link-ref"
+                                        :to="{name: 'crm-dashboard'}"
+                                        to="/dashboard/crm"
+                                    >
+                                        CRM
+                                    </router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/dashboard/analytics">Analytics</router-link>
+                                    <router-link
+                                        class="nav-link side-nav-link-ref"
+                                        to="/dashboard/analytics"
+                                        :to="{name: 'analytics-dashboard'}"
+                                    >
+                                        Analytics
+                                    </router-link>
                                 </li>
                             </ul>
                         </div>
@@ -270,10 +287,21 @@ export default {
                         <h5 class="menu-title">Apps</h5>
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <router-link class="nav-link side-nav-link-ref" to="/apps/calendar">Calendar</router-link>
+                                <router-link
+                                    class="nav-link side-nav-link-ref"
+                                    to="/apps/calendar"
+                                    :to="{name:'calendar'}"
+                                >
+                                    Calendar
+                                </router-link>
                             </li>
                             <li class="nav-item">
-                                <router-link class="nav-link side-nav-link-ref" to="/apps/chat">Chat</router-link>
+                                <router-link
+                                    class="nav-link side-nav-link-ref"
+                                    :to="{name:'chat'}"
+                                >
+                                    Chat
+                                </router-link>
                             </li>
                             <li class="nav-item">
                                 <a href="javascript: void(0);" v-b-toggle.sidebarEcommerce data-toggle="collapse" class="nav-link">
@@ -283,34 +311,85 @@ export default {
                                 <b-collapse id="sidebarEcommerce">
                                     <ul class="nav-second-level">
                                         <li>
-                                            <router-link to="/ecommerce/products" class="side-nav-link-ref">Products List</router-link>
+                                            <router-link
+                                                :to="{name:'products'}"
+                                                class="side-nav-link-ref"
+                                            >
+                                                Products List
+                                            </router-link>
                                         </li>
                                         <li>
-                                            <router-link to="/ecommerce/products-grid" class="side-nav-link-ref">Products Grid</router-link>
+                                            <router-link
+                                                :to="{name:'products-grid'}"
+                                                class="side-nav-link-ref"
+                                            >
+                                                Products Grid
+                                            </router-link>
                                         </li>
                                         <li>
-                                            <router-link to="/ecommerce/product-detail/1" class="side-nav-link-ref">Product Detail</router-link>
+                                            <router-link
+                                                to="/ecommerce/product-detail/1"
+                                                :to="{name:'product-detail'}"
+                                                class="side-nav-link-ref"
+                                            >
+                                                Product Detail
+                                            </router-link>
                                         </li>
                                         <li>
-                                            <router-link to="/ecommerce/product-create" class="side-nav-link-ref">Create Product</router-link>
+                                            <router-link
+                                                class="side-nav-link-ref"
+                                                :to="{name:'product-create'}"
+                                            >
+                                                Create Product
+                                            </router-link>
                                         </li>
                                         <li>
-                                            <router-link to="/ecommerce/customers" class="side-nav-link-ref">Customers</router-link>
+                                            <router-link
+                                                :to="{name:'customers'}"
+                                                class="side-nav-link-ref"
+                                            >
+                                                Customers
+                                            </router-link>
                                         </li>
                                         <li>
-                                            <router-link to="/ecommerce/orders" class="side-nav-link-ref">Orders</router-link>
+                                            <router-link
+                                                class="side-nav-link-ref"
+                                                :to="{name:'orders'}"
+                                            >
+                                                Orders
+                                            </router-link>
                                         </li>
                                         <li>
-                                            <router-link to="/ecommerce/order-detail" class="side-nav-link-ref">Order Detail</router-link>
+                                            <router-link
+                                                :to="{name:'order-detail'}"
+                                                class="side-nav-link-ref"
+                                            >
+                                                Order Detail
+                                            </router-link>
                                         </li>
                                         <li>
-                                            <router-link to="/ecommerce/sellers" class="side-nav-link-ref">Sellers</router-link>
+                                            <router-link
+                                                :to="{name:'sellers'}"
+                                                class="side-nav-link-ref"
+                                            >
+                                                Sellers
+                                            </router-link>
                                         </li>
                                         <li>
-                                            <router-link to="/ecommerce/cart" class="side-nav-link-ref">Shopping Cart</router-link>
+                                            <router-link
+                                                :to="{name:'cart'}"
+                                                class="side-nav-link-ref"
+                                            >
+                                                Shopping Cart
+                                            </router-link>
                                         </li>
                                         <li>
-                                            <router-link to="/ecommerce/checkout" class="side-nav-link-ref">Checkout</router-link>
+                                            <router-link
+                                                class="side-nav-link-ref"
+                                                :to="{name:'checkout'}"
+                                            >
+                                                Checkout
+                                            </router-link>
                                         </li>
                                     </ul>
                                 </b-collapse>
@@ -324,19 +403,41 @@ export default {
                                 <b-collapse id="sidebarEmail">
                                     <ul class="nav-second-level">
                                         <li>
-                                            <router-link to="/email/inbox" class="side-nav-link-ref">Inbox</router-link>
+                                            <router-link
+                                                :to="{name:'email-inbox'}"
+                                                class="side-nav-link-ref"
+                                            >
+                                                Inbox
+                                            </router-link>
                                         </li>
                                         <li>
-                                            <router-link to="/email/reademail/1" class="side-nav-link-ref">Read Email</router-link>
+                                            <router-link
+                                                :to="{name:'reademail'}"
+                                                class="side-nav-link-ref"
+                                            >
+                                                Read Email
+                                            </router-link>
                                         </li>
                                         <li>
-                                            <router-link to="/email/templates" class="side-nav-link-ref">Email Templates</router-link>
+                                            <router-link
+                                                to="/email/templates"
+                                                :to="{name:'email-templates'}"
+                                                class="side-nav-link-ref"
+                                            >
+                                                Email Templates
+                                            </router-link>
                                         </li>
                                     </ul>
                                 </b-collapse>
                             </li>
                             <li class="nav-item">
-                                <router-link class="nav-link side-nav-link-ref" to="/apps/companies">Companies</router-link>
+                                <router-link
+                                    class="nav-link side-nav-link-ref"
+                                    to="companies"
+                                    :to="{name: ''}"
+                                >
+                                    Companies
+                                </router-link>
                             </li>
                             <li class="nav-item">
                                 <a href="#sidebarTasks" v-b-toggle.sidebarTasks data-toggle="collapse" class="nav-link">
@@ -346,13 +447,29 @@ export default {
                                 <b-collapse id="sidebarTasks">
                                     <ul class="nav-second-level">
                                         <li>
-                                            <router-link to="/task/list" class="side-nav-link-ref">List</router-link>
+                                            <router-link
+                                                :to="{name:'task-list'}"
+                                                class="side-nav-link-ref"
+                                            >
+                                                List
+                                            </router-link>
                                         </li>
                                         <li>
-                                            <router-link to="/task/detail" class="side-nav-link-ref">Details</router-link>
+                                            <router-link
+                                                to="/task/detail"
+                                                class="side-nav-link-ref"
+                                                :to="{name:'task-detail'}"
+                                            >
+                                                Details
+                                            </router-link>
                                         </li>
                                         <li>
-                                            <router-link to="/task/kanban" class="side-nav-link-ref">Kanban Board</router-link>
+                                            <router-link
+                                                :to="{name:'kanban-board'}"
+                                                class="side-nav-link-ref"
+                                            >
+                                                Kanban Board
+                                            </router-link>
                                         </li>
                                     </ul>
                                 </b-collapse>
@@ -365,21 +482,43 @@ export default {
                                 <b-collapse id="sidebarContacts">
                                     <ul class="nav-second-level">
                                         <li>
-                                            <router-link to="/contacts/list" class="side-nav-link-ref">Members List</router-link>
+                                            <router-link
+                                                to="/contacts/list"
+                                                :to="{name:'contacts-list'}"
+                                                class="side-nav-link-ref"
+                                            >
+                                                Members List
+                                            </router-link>
                                         </li>
                                         <li>
-                                            <router-link to="/contacts/profile" class="side-nav-link-ref">Profile</router-link>
+                                            <router-link
+                                                to="/contacts/profile"
+                                                :to="{name:'contacts-profile'}"
+                                                class="side-nav-link-ref"
+                                            >
+                                                Profile
+                                            </router-link>
                                         </li>
                                     </ul>
                                 </b-collapse>
                             </li>
 
                             <li class="nav-item">
-                                <router-link class="nav-link side-nav-link-ref" to="/apps/file-manager">File Manager</router-link>
+                                <router-link
+                                    class="nav-link side-nav-link-ref"
+                                    :to="{name:'file-manager'}"
+                                >
+                                    File Manager
+                                </router-link>
                             </li>
 
                             <li class="nav-item">
-                                <router-link class="nav-link side-nav-link-ref" to="/apps/tickets">Tickets</router-link>
+                                <router-link
+                                    class="nav-link side-nav-link-ref"
+                                    :to="{name:'tickets'}"
+                                >
+                                    Tickets
+                                </router-link>
                             </li>
                         </ul>
                     </div>
@@ -389,34 +528,34 @@ export default {
                             <h5 class="menu-title">Pages</h5>
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/extras/starter">Starter</router-link>
+                                    <router-link class="nav-link side-nav-link-ref" :to="{name:'extras-starter'}">Starter</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/extras/timeline">Timeline</router-link>
+                                    <router-link class="nav-link side-nav-link-ref" :to="{name:'extras-timeline'}">Timeline</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/extras/sitemap">Sitemap</router-link>
+                                    <router-link class="nav-link side-nav-link-ref" :to="{name:'extras-sitemap'}">Sitemap</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/extras/invoice">Invoice</router-link>
+                                    <router-link class="nav-link side-nav-link-ref" :to="{name:'extras-invoice'}">Invoice</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/extras/faqs">FAQs</router-link>
+                                    <router-link class="nav-link side-nav-link-ref" :to="{name:'extras-faqs'}">FAQs</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/extras/search-results">Search Results</router-link>
+                                    <router-link class="nav-link side-nav-link-ref" :to="{name:'extras-search-results'}">Search Results</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/extras/pricing">Pricing</router-link>
+                                    <router-link class="nav-link side-nav-link-ref" :to="{name:'extras-pricing'}">Pricing</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/extras/maintenance">Maintenance</router-link>
+                                    <router-link class="nav-link side-nav-link-ref" :to="{name:'extras-maintenance'}">Maintenance</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/extras/coming-soon">Coming Soon</router-link>
+                                    <router-link class="nav-link side-nav-link-ref" :to="{name:'extras-coming-soon'}">Coming Soon</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/extras/lightbox">Lightbox</router-link>
+                                    <router-link class="nav-link side-nav-link-ref" :to="{name:'extras-lightbox'}">Lightbox</router-link>
                                 </li>
                                 <li class="nav-item">
                                     <a href="javascript: void(0);" v-b-toggle.sidebarAuth data-toggle="collapse" class="nav-link">
@@ -426,47 +565,47 @@ export default {
                                     <b-collapse class="collapse" id="sidebarAuth">
                                         <ul class="nav-second-level">
                                             <li>
-                                                <router-link to="/auth/login-1">Log In</router-link>
+                                                <router-link :to="{name:'auth-login-1'}">Log In</router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/auth/login-2">Log In 2</router-link>
+                                                <router-link :to="{name:'auth-login-2'}">Log In 2</router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/auth/register-1">Register</router-link>
+                                                <router-link :to="{name:'auth-register-1'}">Register</router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/auth/register-2">Register 2</router-link>
+                                                <router-link :to="{name:'auth-register-2'}">Register 2</router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/auth/signin-signup">Signin - Signup</router-link>
+                                                <router-link :to="{name:'auth-signin-signup'}">Signin - Signup</router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/auth/signin-signup-2">Signin - Signup 2</router-link>
+                                                <router-link :to="{name:'auth-signin-signup-2'}">Signin - Signup 2</router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/auth/recoverpwd">Recover Password</router-link>
+                                                <router-link :to="{name:'auth-recoverpwd'}">Recover Password</router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/auth/recoverpwd-2">Recover Password 2</router-link>
+                                                <router-link :to="{name:'auth-recoverpwd-2'}">Recover Password 2</router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/auth/lock-screen">Lock Screen</router-link>
+                                                <router-link :to="{name:'auth-lock-screen'}">Lock Screen</router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/auth/lock-screen-2">Lock Screen 2</router-link>
+                                                <router-link :to="{name:'auth-lock-screen-2'}">Lock Screen 2</router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/auth/logout-1">Logout</router-link>
+                                                <router-link :to="{name:'auth-logout-1'}">Logout</router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/auth/logout-2">Logout 2</router-link>
+                                                <router-link :to="{name:'auth-logout-2'}">Logout 2</router-link>
                                             </li>
-                                            <li>
-                                                <router-link to="/auth/confirm-mail">Confirm Mail</router-link>
-                                            </li>
-                                            <li>
-                                                <router-link to="/auth/confirm-mail-2">Confirm Mail 2</router-link>
-                                            </li>
+<!--                                            <li>-->
+<!--                                                <router-link to="/auth/confirm-mail">Confirm Mail</router-link>-->
+<!--                                            </li>-->
+<!--                                            <li>-->
+<!--                                                <router-link to="/auth/confirm-mail-2">Confirm Mail 2</router-link>-->
+<!--                                            </li>-->
                                         </ul>
                                     </b-collapse>
                                 </li>
@@ -478,13 +617,13 @@ export default {
                                     <b-collapse id="sidebarErrors">
                                         <ul class="nav-second-level">
                                             <li>
-                                                <router-link to="/error/404">Error 404</router-link>
+                                                <router-link :to="{name:'error-404'}">Error 404</router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/error/404-alt">Error 404-alt</router-link>
+                                                <router-link :to="{name:'error-404-alt'}">Error 404-alt</router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/error/500">Error 500</router-link>
+                                                <router-link :to="{name:'error-500'}">Error 500</router-link>
                                             </li>
                                         </ul>
                                     </b-collapse>
@@ -498,61 +637,61 @@ export default {
                             <h5 class="menu-title">UI Elements</h5>
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/ui/avatars">Avatars</router-link>
+                                    <router-link class="nav-link side-nav-link-ref" :to="{name:'ui-avatars'}">Avatars</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/ui/buttons">Buttons</router-link>
+                                    <router-link class="nav-link side-nav-link-ref" :to="{name:'ui-buttons'}">Buttons</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/ui/cards">Cards</router-link>
+                                    <router-link class="nav-link side-nav-link-ref" :to="{name:'ui-cards'}">Cards</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/ui/carousel">Carousel</router-link>
+                                    <router-link class="nav-link side-nav-link-ref" :to="{name:'ui-carousel'}">Carousel</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/ui/dropdowns">Dropdowns</router-link>
+                                    <router-link class="nav-link side-nav-link-ref" :to="{name:'ui-dropdowns'}">Dropdowns</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/ui/video">Embed Video</router-link>
+                                    <router-link class="nav-link side-nav-link-ref" :to="{name:'ui-video'}">Embed Video</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/ui/general">General UI</router-link>
+                                    <router-link class="nav-link side-nav-link-ref" :to="{name:'ui-general'}">General UI</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/ui/grid">Grid</router-link>
+                                    <router-link class="nav-link side-nav-link-ref" :to="{name:'ui-grid'}">Grid</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/ui/images">Images</router-link>
+                                    <router-link class="nav-link side-nav-link-ref" :to="{name:'ui-images'}">Images</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/ui/list-group">List Group</router-link>
+                                    <router-link class="nav-link side-nav-link-ref" :to="{name:'ui-list-group'}">List Group</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/ui/modals">Modals</router-link>
+                                    <router-link class="nav-link side-nav-link-ref" :to="{name:'ui-modals'}">Modals</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/ui/notifications">Notifications</router-link>
+                                    <router-link class="nav-link side-nav-link-ref" :to="{name:'ui-notifications'}">Notifications</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/ui/portlets">Portlets</router-link>
+                                    <router-link class="nav-link side-nav-link-ref" :to="{name:'ui-portlets'}">Portlets</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/ui/progress">Progress</router-link>
+                                    <router-link class="nav-link side-nav-link-ref" :to="{name:'ui-progress'}">Progress</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/ui/ribbons">Ribbons</router-link>
+                                    <router-link class="nav-link side-nav-link-ref" :to="{name:'ui-ribbons'}">Ribbons</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/ui/spinners">Spinners</router-link>
+                                    <router-link class="nav-link side-nav-link-ref" :to="{name:'ui-spinners'}">Spinners</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/ui/tabs-accordions">Tabs & Accordions</router-link>
+                                    <router-link class="nav-link side-nav-link-ref" :to="{name:'ui-tabs-accordions'}">Tabs & Accordions</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/ui/tooltips-popovers">Tooltips & Popovers</router-link>
+                                    <router-link class="nav-link side-nav-link-ref" :to="{name:'ui-tooltips-popovers'}">Tooltips & Popovers</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link side-nav-link-ref" to="/ui/typography">Typography</router-link>
+                                    <router-link class="nav-link side-nav-link-ref" :to="{name:'ui-typography'}">Typography</router-link>
                                 </li>
                             </ul>
                         </div>
@@ -570,16 +709,16 @@ export default {
                                     <b-collapse id="sidebarExtendedui">
                                         <ul class="nav-second-level">
                                             <li>
-                                                <router-link to="/extended/rangeslider" class="side-nav-link-ref">Range Slider</router-link>
+                                                <router-link :to="{name:'rangeslider'}" class="side-nav-link-ref">Range Slider</router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/extended/sweet-alert" class="side-nav-link-ref">Sweet Alert</router-link>
+                                                <router-link :to="{name:'sweet-alert'}" class="side-nav-link-ref">Sweet Alert</router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/extended/tour" class="side-nav-link-ref">Tour Page</router-link>
+                                                <router-link :to="{name:'tour'}" class="side-nav-link-ref">Tour Page</router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/extended/scrollspy" class="side-nav-link-ref">Scrollspy</router-link>
+                                                <router-link :to="{name:'scrollspy'}" class="side-nav-link-ref">Scrollspy</router-link>
                                             </li>
                                         </ul>
                                     </b-collapse>
@@ -592,22 +731,22 @@ export default {
                                     <b-collapse id="sidebarIcons">
                                         <ul class="nav-second-level">
                                             <li>
-                                                <router-link to="/icons/feather" class="side-nav-link-ref">Feather</router-link>
+                                                <router-link :to="{name:'feather'}" class="side-nav-link-ref">Feather</router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/icons/remix" class="side-nav-link-ref">Remix</router-link>
+                                                <router-link :to="{name:'remix'}" class="side-nav-link-ref">Remix</router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/icons/boxicons" class="side-nav-link-ref">Boxicons</router-link>
+                                                <router-link :to="{name:'boxicons'}" class="side-nav-link-ref">Boxicons</router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/icons/mdi" class="side-nav-link-ref">Material Design</router-link>
+                                                <router-link :to="{name:'mdi'}" class="side-nav-link-ref">Material Design</router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/icons/font-awesome" class="side-nav-link-ref">Font Awesome 5</router-link>
+                                                <router-link :to="{name:'font-awesome'}" class="side-nav-link-ref">Font Awesome 5</router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/icons/weather" class="side-nav-link-ref">Weather</router-link>
+                                                <router-link :to="{name:'weather'}" class="side-nav-link-ref">Weather</router-link>
                                             </li>
                                         </ul>
                                     </b-collapse>
@@ -620,25 +759,61 @@ export default {
                                     <b-collapse id="sidebarForms">
                                         <ul class="nav-second-level">
                                             <li>
-                                                <router-link to="/forms/elements" class="side-nav-link-ref">General Elements</router-link>
+                                                <router-link
+                                                    :to="{name: 'elements'}"
+                                                    class="side-nav-link-ref"
+                                                >
+                                                    General Elements
+                                                </router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/forms/advanced" class="side-nav-link-ref">Advanced</router-link>
+                                                <router-link
+                                                    :to="{name: 'advanced-form'}"
+                                                    class="side-nav-link-ref"
+                                                >
+                                                    Advanced
+                                                </router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/forms/validation" class="side-nav-link-ref">Validation</router-link>
+                                                <router-link
+                                                    :to="{name: 'validation'}"
+                                                    class="side-nav-link-ref"
+                                                >
+                                                    Validation
+                                                </router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/forms/wizard" class="side-nav-link-ref">Wizard</router-link>
+                                                <router-link
+                                                    :to="{name: 'wizard'}"
+                                                    class="side-nav-link-ref"
+                                                >
+                                                    Wizard
+                                                </router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/forms/mask" class="side-nav-link-ref">Masks</router-link>
+                                                <router-link
+                                                    class="side-nav-link-ref"
+                                                    :to="{name: 'mask'}"
+                                                >
+                                                    Masks
+                                                </router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/forms/quill" class="side-nav-link-ref">Quill Editor</router-link>
+                                                <router-link
+                                                    :to="{name: 'quill'}"
+                                                    class="side-nav-link-ref"
+                                                >
+                                                    Quill Editor
+                                                </router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/forms/file-uploads" class="side-nav-link-ref">File Uploads</router-link>
+                                                <router-link
+                                                    to="/forms/file-uploads"
+                                                    :to="{name: 'file-uploads'}"
+                                                    class="side-nav-link-ref"
+                                                >
+                                                    File Uploads
+                                                </router-link>
                                             </li>
                                         </ul>
                                     </b-collapse>
@@ -651,10 +826,20 @@ export default {
                                     <b-collapse id="sidebarTables">
                                         <ul class="nav-second-level">
                                             <li>
-                                                <router-link to="/tables/basic" class="side-nav-link-ref">Basic Tables</router-link>
+                                                <router-link
+                                                    :to="{name: 'basic'}"
+                                                    class="side-nav-link-ref"
+                                                >
+                                                    Basic Tables
+                                                </router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/tables/advanced" class="side-nav-link-ref">Advanced Tables</router-link>
+                                                <router-link
+                                                    :to="{name: 'advanced'}"
+                                                    class="side-nav-link-ref"
+                                                >
+                                                    Advanced Tables
+                                                </router-link>
                                             </li>
                                         </ul>
                                     </b-collapse>
@@ -667,19 +852,44 @@ export default {
                                     <b-collapse id="sidebarCharts">
                                         <ul class="nav-second-level">
                                             <li>
-                                                <router-link to="/charts/apex" class="side-nav-link-ref">Apex Charts</router-link>
+                                                <router-link
+                                                    :to="{name: 'charts-apex'}"
+                                                    class="side-nav-link-ref"
+                                                >
+                                                    Apex Charts
+                                                </router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/charts/chartjs" class="side-nav-link-ref">Chartjs Charts</router-link>
+                                                <router-link
+                                                    :to="{name: 'charts-chartjs'}"
+                                                    class="side-nav-link-ref"
+                                                >
+                                                    Chartjs Charts
+                                                </router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/charts/c3" class="side-nav-link-ref">C3 Charts</router-link>
+                                                <router-link
+                                                    :to="{name: 'charts-c3'}"
+                                                    class="side-nav-link-ref"
+                                                >
+                                                    C3 Charts
+                                                </router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/charts/chartist" class="side-nav-link-ref">Chartist Charts</router-link>
+                                                <router-link
+                                                    :to="{name:'charts-chartist'}"
+                                                    class="side-nav-link-ref"
+                                                >
+                                                    Chartist Charts
+                                                </router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/charts/knob" class="side-nav-link-ref">Knob Charts</router-link>
+                                                <router-link
+                                                    :to="{name:'charts-knob'}"
+                                                    class="side-nav-link-ref"
+                                                >
+                                                    Knob Charts
+                                                </router-link>
                                             </li>
                                         </ul>
                                     </b-collapse>
@@ -692,7 +902,12 @@ export default {
                                     <b-collapse id="sidebarMaps">
                                         <ul class="nav-second-level">
                                             <li>
-                                                <router-link to="/maps/google" class="side-nav-link-ref">Google Maps</router-link>
+                                                <router-link
+                                                    :to="{name:'maps-google'}"
+                                                     class="side-nav-link-ref"
+                                                >
+                                                    Google Maps
+                                                </router-link>
                                             </li>
                                         </ul>
                                     </b-collapse>

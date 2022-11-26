@@ -1,4 +1,15 @@
 {
+    "login":{
+        "loginIn": "Login In",
+        "Rememberme": "Remember me",
+        "Password": "Password",
+        "Emailaddress": "Email address",
+        "Enteryouremailaddressandpasswordtoaccessadminpanel": "Enter your email address and password to access admin panel.",
+        "Enteryouremail": "Enter your email",
+        "Enteryourpassword": "Enter your password"
+    },
+
+
   "navbar": {
     "search": {
       "text": "Search..."

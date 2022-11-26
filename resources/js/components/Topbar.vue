@@ -7,27 +7,12 @@ export default {
     return {
       languages: [
         {
-          flag: "../../../assets/images/flags/arabic.png",
+          flag: "/assets/images/us.jpg",
           language: "en",
           title: "English",
         },
         {
-          flag: "../../../assets/images/flags/french.jpg",
-          language: "fr",
-          title: "French",
-        },
-        {
-          flag: "../../../assets/images/flags/spain.jpg",
-          language: "es",
-          title: "Spanish",
-        },
-        {
-          flag: "../../../assets/images/flags/china.png",
-          language: "zh",
-          title: "Chinese",
-        },
-        {
-          flag: "../../../assets/images/flags/arabic.png",
+          flag: "/assets/images/arabic.png",
           language: "ar",
           title: "Arabic",
         },
@@ -95,6 +80,24 @@ export default {
       this.current_language = locale;
       this.text = country;
       this.flag = flag;
+      localStorage.setItem("lang",locale);
+      if(locale == 'ar'){
+            document.body.style.textAlign = 'right';
+            document.body.classList.add('rtl');
+            document.querySelector('html').style.direction = 'rtl';
+            document.querySelector('html').setAttribute('lang',locale || 'ar');
+            let style_dashboard = document.getElementById('style_dashboard');
+            style_dashboard.setAttribute('href',window.location.origin +`/css/custom.css`);
+      }
+        else{
+            document.body.style.textAlign = 'left';
+            document.body.classList.remove('rtl');
+            document.querySelector('html').style.direction = 'ltr';
+            document.querySelector('html').setAttribute('lang',locale || 'ar');
+            let style_dashboard = document.getElementById('style_dashboard');
+            style_dashboard.setAttribute('href','');
+      }
+
     },
     /**
      * Horizontal-toggle menu
