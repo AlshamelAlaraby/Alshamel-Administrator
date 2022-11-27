@@ -2,26 +2,26 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Resources\User\UserResource;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\Admin\AdminResource;
 use Auth;
 
 
-use App\Http\Controllers\ResponseController;
 use App\Http\Request\Auth\LoginRequest;
 
-class LoginController extends ResponseController
+class LoginController extends Controller
 {
 
     public function login(LoginRequest $request)
     {
         if (!Auth::guard('admin')->attempt($request->only("email", "password")))
         {
-            return $this->errorResponse('Email Or Password is wrong!', 422);
+            return responseJson(422,'Email Or Password is wrong!');
         }
-        $authUser = UserResource::collection(Auth::guard('admin')->user());
+        $authUser = new AdminResource(Auth::guard('admin')->user());
         $success['token'] = $authUser->createToken('sanctumAuth')->plainTextToken;
-        $success['user'] = $authUser;
-        return $this->successResponse($success, 'success login', 200);
+        $success['admin'] = $authUser;
+        return responseJson(200,'Login Successfully',$success);
     }
-   
+
 }

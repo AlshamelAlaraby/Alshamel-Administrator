@@ -122,7 +122,7 @@ export default {
       widgetData: [
         {
           number: "268",
-          text: "New Customers",
+          text: "New Partners",
           chartColor: "#1abc9c",
         },
         {

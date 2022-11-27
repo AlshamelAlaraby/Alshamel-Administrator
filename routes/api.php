@@ -1,13 +1,14 @@
 <?php
 
+use App\Http\Controllers\Auth\CheckIfValidTokenController;
 use App\Http\Controllers\Auth\LoginController;
-
+use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Branch\BranchController;
 use App\Http\Controllers\User\UserController;
-use App\Http\Controllers\Customer\CustomerController;
+use App\Http\Controllers\Partner\PartnerController;
 use App\Http\Controllers\Serial\SerialController;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Company\CompanyController;
 //use App\Http\Controllers\Store\StoreController;
 
 use Illuminate\Support\Facades\Route;
@@ -45,6 +46,14 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('/login', [LoginController::class, "login"]);
 });
 
+Route::group(['prefix' => 'auth','middleware'=>'auth:sanctum'], function () {
+    Route::post('/logout', [LogoutController::class, "logout"]);
+});
+
+Route::group(['prefix'=>'auth','middleware'=>'auth:sanctum'], function () {
+    Route::post('/check-token', [CheckIfValidTokenController::class, "checkIsValidToken"]);
+});
+
 Route::group(['prefix' => 'modules'], function () {
     Route::controller(\App\Http\Controllers\Module\ModuleController::class)->group(function () {
         Route::get('/', 'all')->name('modules.index');
@@ -66,14 +75,14 @@ Route::resource ('branches',BranchController::class)->except ('create','edit');
 
 
 
-// api op customers
-Route::group(['prefix' => 'customers'], function () {
-    Route::controller(CustomerController::class)->group(function () {
-        Route::get('/', 'all')->name('customers.index');
+// api op Partners
+Route::group(['prefix' => 'partners'], function () {
+    Route::controller(PartnerController::class)->group(function () {
+        Route::get('/', 'all')->name('partners.index');
         Route::get('/show/{id}', 'find');
-        Route::post('/store', 'store')->name('customers.store');
-        Route::put('/update/{id}', 'update')->name('customers.update');
-        Route::delete('/delete/{id}', 'delete')->name('customers.destroy');
+        Route::post('/store', 'store')->name('partners.store');
+        Route::put('/update/{id}', 'update')->name('partners.update');
+        Route::delete('/delete/{id}', 'delete')->name('partners.destroy');
     });
 });
 

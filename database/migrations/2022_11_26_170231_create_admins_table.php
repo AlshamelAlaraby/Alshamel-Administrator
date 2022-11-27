@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CompanyModule extends Migration
+class CreateAdminsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CompanyModule extends Migration
      */
     public function up()
     {
-        Schema::create('company_module', function (Blueprint $table) {
+        Schema::create('admins', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('company_id');
-            $table->unsignedBigInteger('module_id');
-            $table->bigInteger('allowed_users_no');
-            $table->date("start_date");
-            $table->date("end_date");
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('password');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ class CompanyModule extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('admins');
     }
 }
