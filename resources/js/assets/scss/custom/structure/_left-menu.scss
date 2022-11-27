@@ -1,4 +1,4 @@
-// 
+//
 // menu.scss
 //
 
@@ -346,18 +346,18 @@ body[data-sidebar-size="condensed"] {
                                 position: absolute;
                                 width: 190px;
                                 box-shadow: $box-shadow-condensed;
-    
+
                                 ul {
                                     box-shadow: $box-shadow-condensed;
                                 }
-    
+
                                 a {
                                     box-shadow: none;
                                     padding: 8px 20px;
                                     position: relative;
                                     width: 190px;
                                     z-index: 6;
-    
+
                                     &:hover {
                                         color: $menu-item-hover;
                                     }
@@ -467,8 +467,8 @@ body[data-sidebar-size="condensed"] {
     }
 
     .content-page,
-    body[data-sidebar-size="condensed"] .content-page {
-        margin-left: 0 !important;
+    body[data-sidebar-size=condensed] .content-page {
+        margin-left: 70px !important;
     }
 
     //Footer
@@ -549,11 +549,11 @@ body[data-sidebar-color="dark"] {
     &:not([data-layout-mode="detached"]) {
         .logo-box {
             background-color: $bg-leftbar-dark;
-    
+
             .logo-dark {
                 display: none;
             }
-    
+
             .logo-light {
                 display: block;
             }
@@ -587,9 +587,9 @@ body[data-sidebar-color="dark"] {
                         > .collapse {
 
                             > ul {
-    
+
                                 a {
-    
+
                                     &:hover {
                                         color: $menu-item-hover-color-dark;
                                     }
@@ -603,12 +603,12 @@ body[data-sidebar-color="dark"] {
             .menu-title {
                 color: $gray-500;
             }
-            
+
             .menuitem-active {
                 > a {
                     color: $white !important;
                 }
-        
+
                 .active {
                     color: $white !important;
                 }
@@ -657,7 +657,7 @@ body[data-sidebar-color="dark"] {
                             background-color: $bg-leftbar-dark;
 
                             >a {
-        
+
                                 &:hover,
                                 &:active,
                                 &:focus {
@@ -669,13 +669,13 @@ body[data-sidebar-color="dark"] {
                                 >a {
                                     color: $white !important;
                                 }
-        
+
                                 > .collapse {
-        
+
                                     > ul {
-            
+
                                         a {
-            
+
                                             &:hover {
                                                 color: $menu-item-hover-color-dark;
                                             }
@@ -718,15 +718,15 @@ body[data-sidebar-color="dark"] {
 // Sidebar with brand color
 body[data-sidebar-color="brand"],
 body[data-sidebar-color="gradient"] {
-    
+
     &:not([data-layout-mode="detached"]) {
         .logo-box {
             background-color: $bg-leftbar-brand;
-    
+
             .logo-dark {
                 display: none;
             }
-    
+
             .logo-light {
                 display: block;
             }

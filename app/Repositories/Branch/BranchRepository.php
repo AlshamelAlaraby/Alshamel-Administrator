@@ -10,6 +10,7 @@ namespace App\Repositories\Branch;
 
 
 use App\Models\Branch;
+use Illuminate\Support\Facades\DB;
 
 class BranchRepository implements BranchRepositoryInterface
 {
@@ -17,13 +18,37 @@ class BranchRepository implements BranchRepositoryInterface
     public function __construct(Branch $model){
         $this->model = $model;
     }
-    public function getAllBranches ()
+    public function getAllBranches ($request)
     {
-        return $this->model->get();
+        $models = $this->model->where(function ($q) use ($request) {
+
+            if ($request->search) {
+                $q->where('name', 'like', '%' . $request->search . '%');
+                $q->orWhere('name_e', 'like', '%' . $request->search . '%');
+            }
+
+            if ($request->is_active) {
+                $q->where('is_active', $request->is_active);
+            }
+
+            if ($request->parent_id) {
+                $q->where('parent_id', $request->parent_id);
+            }
+
+        })->orderBy($request->order ? $request->order : 'updated_at', $request->sort ? $request->sort : 'DESC');
+
+        if ($request->per_page) {
+            return ['data' => $models->paginate($request->per_page), 'paginate' => true];
+        } else {
+            return ['data' => $models->get(), 'paginate' => false];
+        }
     }
 
     public function create(array $data){
-        return $this->model->create($data);
+        DB::transaction(function () use ($data) {
+            $this->model->create($data);
+            cacheForget("branches");
+        });
     }
 
     public function find($id){
@@ -31,12 +56,27 @@ class BranchRepository implements BranchRepositoryInterface
     }
 
     public function update($data,$id){
-        $branch = $this->model->find($id);
-        $branch->update ($data);
-        return $branch;
+        DB::transaction(function () use ($id, $data) {
+            $this->model->where("id", $id)->update($data);
+            $this->forget($id);
+        });
     }
 
     public function delete($id){
-        return $this->model->find($id)->delete ();
+        $model = $this->find($id);
+        $this->forget($id);
+        $model->delete();
+    }
+
+    private function forget($id)
+    {
+        $keys = [
+            "branches",
+            "branches_" . $id,
+        ];
+        foreach ($keys as $key) {
+            cacheForget($key);
+        }
+
     }
 }

@@ -50,11 +50,28 @@ Vue.use(VueGoogleMaps, {
     installComponents: true
 });
 
-// import "./assets/scss/app.scss";
+
+// change lang
+
+let style_dashboard = document.getElementById('style_dashboard');
+if(localStorage.getItem('lang') == 'ar'){
+    document.body.style.textAlign = 'right';
+    document.body.classList.add('rtl');
+    document.querySelector('html').style.direction = 'rtl';
+    document.querySelector('html').setAttribute('lang','ar');
+    style_dashboard.setAttribute('href',window.location.origin +`/css/custom.css`);
+}
+else{
+    document.body.style.textAlign = 'left';
+    document.body.classList.remove('rtl');
+    document.querySelector('html').style.direction = 'ltr';
+    document.querySelector('html').setAttribute('lang',localStorage.getItem('lang') || 'ar');
+    style_dashboard.setAttribute('href','');
+}
 
 new Vue({
     router,
     store,
     i18n,
     render: h => h(App)
-}).$mount('#app')
+}).$mount('#app');

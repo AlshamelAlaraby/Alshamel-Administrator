@@ -598,23 +598,11 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       languages: [{
-        flag: "../../../assets/images/flags/arabic.png",
+        flag: "/assets/images/us.jpg",
         language: "en",
         title: "English"
       }, {
-        flag: "../../../assets/images/flags/french.jpg",
-        language: "fr",
-        title: "French"
-      }, {
-        flag: "../../../assets/images/flags/spain.jpg",
-        language: "es",
-        title: "Spanish"
-      }, {
-        flag: "../../../assets/images/flags/china.png",
-        language: "zh",
-        title: "Chinese"
-      }, {
-        flag: "../../../assets/images/flags/arabic.png",
+        flag: "/assets/images/arabic.png",
         language: "ar",
         title: "Arabic"
       }],
@@ -678,6 +666,22 @@ __webpack_require__.r(__webpack_exports__);
       this.current_language = locale;
       this.text = country;
       this.flag = flag;
+      localStorage.setItem("lang", locale);
+      if (locale == 'ar') {
+        document.body.style.textAlign = 'right';
+        document.body.classList.add('rtl');
+        document.querySelector('html').style.direction = 'rtl';
+        document.querySelector('html').setAttribute('lang', locale || 'ar');
+        var style_dashboard = document.getElementById('style_dashboard');
+        style_dashboard.setAttribute('href', window.location.origin + "/css/custom.css");
+      } else {
+        document.body.style.textAlign = 'left';
+        document.body.classList.remove('rtl');
+        document.querySelector('html').style.direction = 'ltr';
+        document.querySelector('html').setAttribute('lang', locale || 'ar');
+        var _style_dashboard = document.getElementById('style_dashboard');
+        _style_dashboard.setAttribute('href', '');
+      }
     },
     /**
      * Horizontal-toggle menu
@@ -7322,9 +7326,13 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/" },
+                                      attrs: { to: { name: "home" } },
                                     },
-                                    [_vm._v("Sales")]
+                                    [
+                                      _vm._v(
+                                        "\r\n                                        Sales\r\n                                    "
+                                      ),
+                                    ]
                                   ),
                                 ],
                                 1
@@ -7338,9 +7346,16 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/dashboard/crm" },
+                                      attrs: {
+                                        to: { name: "crm-dashboard" },
+                                        to: "/dashboard/crm",
+                                      },
                                     },
-                                    [_vm._v("CRM")]
+                                    [
+                                      _vm._v(
+                                        "\r\n                                        CRM\r\n                                    "
+                                      ),
+                                    ]
                                   ),
                                 ],
                                 1
@@ -7354,9 +7369,16 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/dashboard/analytics" },
+                                      attrs: {
+                                        to: "/dashboard/analytics",
+                                        to: { name: "analytics-dashboard" },
+                                      },
                                     },
-                                    [_vm._v("Analytics")]
+                                    [
+                                      _vm._v(
+                                        "\r\n                                        Analytics\r\n                                    "
+                                      ),
+                                    ]
                                   ),
                                 ],
                                 1
@@ -7388,9 +7410,16 @@ var render = function () {
                                   "router-link",
                                   {
                                     staticClass: "nav-link side-nav-link-ref",
-                                    attrs: { to: "/apps/calendar" },
+                                    attrs: {
+                                      to: "/apps/calendar",
+                                      to: { name: "calendar" },
+                                    },
                                   },
-                                  [_vm._v("Calendar")]
+                                  [
+                                    _vm._v(
+                                      "\r\n                                    Calendar\r\n                                "
+                                    ),
+                                  ]
                                 ),
                               ],
                               1
@@ -7404,9 +7433,13 @@ var render = function () {
                                   "router-link",
                                   {
                                     staticClass: "nav-link side-nav-link-ref",
-                                    attrs: { to: "/apps/chat" },
+                                    attrs: { to: { name: "chat" } },
                                   },
-                                  [_vm._v("Chat")]
+                                  [
+                                    _vm._v(
+                                      "\r\n                                    Chat\r\n                                "
+                                    ),
+                                  ]
                                 ),
                               ],
                               1
@@ -7456,10 +7489,14 @@ var render = function () {
                                                 staticClass:
                                                   "side-nav-link-ref",
                                                 attrs: {
-                                                  to: "/ecommerce/products",
+                                                  to: { name: "products" },
                                                 },
                                               },
-                                              [_vm._v("Products List")]
+                                              [
+                                                _vm._v(
+                                                  "\r\n                                                Products List\r\n                                            "
+                                                ),
+                                              ]
                                             ),
                                           ],
                                           1
@@ -7474,10 +7511,14 @@ var render = function () {
                                                 staticClass:
                                                   "side-nav-link-ref",
                                                 attrs: {
-                                                  to: "/ecommerce/products-grid",
+                                                  to: { name: "products-grid" },
                                                 },
                                               },
-                                              [_vm._v("Products Grid")]
+                                              [
+                                                _vm._v(
+                                                  "\r\n                                                Products Grid\r\n                                            "
+                                                ),
+                                              ]
                                             ),
                                           ],
                                           1
@@ -7493,9 +7534,16 @@ var render = function () {
                                                   "side-nav-link-ref",
                                                 attrs: {
                                                   to: "/ecommerce/product-detail/1",
+                                                  to: {
+                                                    name: "product-detail",
+                                                  },
                                                 },
                                               },
-                                              [_vm._v("Product Detail")]
+                                              [
+                                                _vm._v(
+                                                  "\r\n                                                Product Detail\r\n                                            "
+                                                ),
+                                              ]
                                             ),
                                           ],
                                           1
@@ -7510,10 +7558,16 @@ var render = function () {
                                                 staticClass:
                                                   "side-nav-link-ref",
                                                 attrs: {
-                                                  to: "/ecommerce/product-create",
+                                                  to: {
+                                                    name: "product-create",
+                                                  },
                                                 },
                                               },
-                                              [_vm._v("Create Product")]
+                                              [
+                                                _vm._v(
+                                                  "\r\n                                                Create Product\r\n                                            "
+                                                ),
+                                              ]
                                             ),
                                           ],
                                           1
@@ -7528,10 +7582,14 @@ var render = function () {
                                                 staticClass:
                                                   "side-nav-link-ref",
                                                 attrs: {
-                                                  to: "/ecommerce/customers",
+                                                  to: { name: "customers" },
                                                 },
                                               },
-                                              [_vm._v("Customers")]
+                                              [
+                                                _vm._v(
+                                                  "\r\n                                                Customers\r\n                                            "
+                                                ),
+                                              ]
                                             ),
                                           ],
                                           1
@@ -7546,10 +7604,14 @@ var render = function () {
                                                 staticClass:
                                                   "side-nav-link-ref",
                                                 attrs: {
-                                                  to: "/ecommerce/orders",
+                                                  to: { name: "orders" },
                                                 },
                                               },
-                                              [_vm._v("Orders")]
+                                              [
+                                                _vm._v(
+                                                  "\r\n                                                Orders\r\n                                            "
+                                                ),
+                                              ]
                                             ),
                                           ],
                                           1
@@ -7564,10 +7626,14 @@ var render = function () {
                                                 staticClass:
                                                   "side-nav-link-ref",
                                                 attrs: {
-                                                  to: "/ecommerce/order-detail",
+                                                  to: { name: "order-detail" },
                                                 },
                                               },
-                                              [_vm._v("Order Detail")]
+                                              [
+                                                _vm._v(
+                                                  "\r\n                                                Order Detail\r\n                                            "
+                                                ),
+                                              ]
                                             ),
                                           ],
                                           1
@@ -7582,10 +7648,34 @@ var render = function () {
                                                 staticClass:
                                                   "side-nav-link-ref",
                                                 attrs: {
-                                                  to: "/ecommerce/sellers",
+                                                  to: { name: "sellers" },
                                                 },
                                               },
-                                              [_vm._v("Sellers")]
+                                              [
+                                                _vm._v(
+                                                  "\r\n                                                Sellers\r\n                                            "
+                                                ),
+                                              ]
+                                            ),
+                                          ],
+                                          1
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "li",
+                                          [
+                                            _c(
+                                              "router-link",
+                                              {
+                                                staticClass:
+                                                  "side-nav-link-ref",
+                                                attrs: { to: { name: "cart" } },
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\r\n                                                Shopping Cart\r\n                                            "
+                                                ),
+                                              ]
                                             ),
                                           ],
                                           1
@@ -7600,28 +7690,14 @@ var render = function () {
                                                 staticClass:
                                                   "side-nav-link-ref",
                                                 attrs: {
-                                                  to: "/ecommerce/cart",
+                                                  to: { name: "checkout" },
                                                 },
                                               },
-                                              [_vm._v("Shopping Cart")]
-                                            ),
-                                          ],
-                                          1
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "li",
-                                          [
-                                            _c(
-                                              "router-link",
-                                              {
-                                                staticClass:
-                                                  "side-nav-link-ref",
-                                                attrs: {
-                                                  to: "/ecommerce/checkout",
-                                                },
-                                              },
-                                              [_vm._v("Checkout")]
+                                              [
+                                                _vm._v(
+                                                  "\r\n                                                Checkout\r\n                                            "
+                                                ),
+                                              ]
                                             ),
                                           ],
                                           1
@@ -7677,9 +7753,15 @@ var render = function () {
                                               {
                                                 staticClass:
                                                   "side-nav-link-ref",
-                                                attrs: { to: "/email/inbox" },
+                                                attrs: {
+                                                  to: { name: "email-inbox" },
+                                                },
                                               },
-                                              [_vm._v("Inbox")]
+                                              [
+                                                _vm._v(
+                                                  "\r\n                                                Inbox\r\n                                            "
+                                                ),
+                                              ]
                                             ),
                                           ],
                                           1
@@ -7694,10 +7776,14 @@ var render = function () {
                                                 staticClass:
                                                   "side-nav-link-ref",
                                                 attrs: {
-                                                  to: "/email/reademail/1",
+                                                  to: { name: "reademail" },
                                                 },
                                               },
-                                              [_vm._v("Read Email")]
+                                              [
+                                                _vm._v(
+                                                  "\r\n                                                Read Email\r\n                                            "
+                                                ),
+                                              ]
                                             ),
                                           ],
                                           1
@@ -7713,9 +7799,16 @@ var render = function () {
                                                   "side-nav-link-ref",
                                                 attrs: {
                                                   to: "/email/templates",
+                                                  to: {
+                                                    name: "email-templates",
+                                                  },
                                                 },
                                               },
-                                              [_vm._v("Email Templates")]
+                                              [
+                                                _vm._v(
+                                                  "\r\n                                                Email Templates\r\n                                            "
+                                                ),
+                                              ]
                                             ),
                                           ],
                                           1
@@ -7736,9 +7829,16 @@ var render = function () {
                                   "router-link",
                                   {
                                     staticClass: "nav-link side-nav-link-ref",
-                                    attrs: { to: "/apps/companies" },
+                                    attrs: {
+                                      to: "companies",
+                                      to: { name: "" },
+                                    },
                                   },
-                                  [_vm._v("Companies")]
+                                  [
+                                    _vm._v(
+                                      "\r\n                                    Companies\r\n                                "
+                                    ),
+                                  ]
                                 ),
                               ],
                               1
@@ -7787,9 +7887,15 @@ var render = function () {
                                               {
                                                 staticClass:
                                                   "side-nav-link-ref",
-                                                attrs: { to: "/task/list" },
+                                                attrs: {
+                                                  to: { name: "task-list" },
+                                                },
                                               },
-                                              [_vm._v("List")]
+                                              [
+                                                _vm._v(
+                                                  "\r\n                                                List\r\n                                            "
+                                                ),
+                                              ]
                                             ),
                                           ],
                                           1
@@ -7803,9 +7909,16 @@ var render = function () {
                                               {
                                                 staticClass:
                                                   "side-nav-link-ref",
-                                                attrs: { to: "/task/detail" },
+                                                attrs: {
+                                                  to: "/task/detail",
+                                                  to: { name: "task-detail" },
+                                                },
                                               },
-                                              [_vm._v("Details")]
+                                              [
+                                                _vm._v(
+                                                  "\r\n                                                Details\r\n                                            "
+                                                ),
+                                              ]
                                             ),
                                           ],
                                           1
@@ -7819,9 +7932,15 @@ var render = function () {
                                               {
                                                 staticClass:
                                                   "side-nav-link-ref",
-                                                attrs: { to: "/task/kanban" },
+                                                attrs: {
+                                                  to: { name: "kanban-board" },
+                                                },
                                               },
-                                              [_vm._v("Kanban Board")]
+                                              [
+                                                _vm._v(
+                                                  "\r\n                                                Kanban Board\r\n                                            "
+                                                ),
+                                              ]
                                             ),
                                           ],
                                           1
@@ -7877,9 +7996,16 @@ var render = function () {
                                               {
                                                 staticClass:
                                                   "side-nav-link-ref",
-                                                attrs: { to: "/contacts/list" },
+                                                attrs: {
+                                                  to: "/contacts/list",
+                                                  to: { name: "contacts-list" },
+                                                },
                                               },
-                                              [_vm._v("Members List")]
+                                              [
+                                                _vm._v(
+                                                  "\r\n                                                Members List\r\n                                            "
+                                                ),
+                                              ]
                                             ),
                                           ],
                                           1
@@ -7895,9 +8021,16 @@ var render = function () {
                                                   "side-nav-link-ref",
                                                 attrs: {
                                                   to: "/contacts/profile",
+                                                  to: {
+                                                    name: "contacts-profile",
+                                                  },
                                                 },
                                               },
-                                              [_vm._v("Profile")]
+                                              [
+                                                _vm._v(
+                                                  "\r\n                                                Profile\r\n                                            "
+                                                ),
+                                              ]
                                             ),
                                           ],
                                           1
@@ -7918,9 +8051,13 @@ var render = function () {
                                   "router-link",
                                   {
                                     staticClass: "nav-link side-nav-link-ref",
-                                    attrs: { to: "/apps/file-manager" },
+                                    attrs: { to: { name: "file-manager" } },
                                   },
-                                  [_vm._v("File Manager")]
+                                  [
+                                    _vm._v(
+                                      "\r\n                                    File Manager\r\n                                "
+                                    ),
+                                  ]
                                 ),
                               ],
                               1
@@ -7934,9 +8071,13 @@ var render = function () {
                                   "router-link",
                                   {
                                     staticClass: "nav-link side-nav-link-ref",
-                                    attrs: { to: "/apps/tickets" },
+                                    attrs: { to: { name: "tickets" } },
                                   },
-                                  [_vm._v("Tickets")]
+                                  [
+                                    _vm._v(
+                                      "\r\n                                    Tickets\r\n                                "
+                                    ),
+                                  ]
                                 ),
                               ],
                               1
@@ -7968,7 +8109,7 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/extras/starter" },
+                                      attrs: { to: { name: "extras-starter" } },
                                     },
                                     [_vm._v("Starter")]
                                   ),
@@ -7984,7 +8125,9 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/extras/timeline" },
+                                      attrs: {
+                                        to: { name: "extras-timeline" },
+                                      },
                                     },
                                     [_vm._v("Timeline")]
                                   ),
@@ -8000,7 +8143,7 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/extras/sitemap" },
+                                      attrs: { to: { name: "extras-sitemap" } },
                                     },
                                     [_vm._v("Sitemap")]
                                   ),
@@ -8016,7 +8159,7 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/extras/invoice" },
+                                      attrs: { to: { name: "extras-invoice" } },
                                     },
                                     [_vm._v("Invoice")]
                                   ),
@@ -8032,7 +8175,7 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/extras/faqs" },
+                                      attrs: { to: { name: "extras-faqs" } },
                                     },
                                     [_vm._v("FAQs")]
                                   ),
@@ -8048,7 +8191,9 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/extras/search-results" },
+                                      attrs: {
+                                        to: { name: "extras-search-results" },
+                                      },
                                     },
                                     [_vm._v("Search Results")]
                                   ),
@@ -8064,7 +8209,7 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/extras/pricing" },
+                                      attrs: { to: { name: "extras-pricing" } },
                                     },
                                     [_vm._v("Pricing")]
                                   ),
@@ -8080,7 +8225,9 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/extras/maintenance" },
+                                      attrs: {
+                                        to: { name: "extras-maintenance" },
+                                      },
                                     },
                                     [_vm._v("Maintenance")]
                                   ),
@@ -8096,7 +8243,9 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/extras/coming-soon" },
+                                      attrs: {
+                                        to: { name: "extras-coming-soon" },
+                                      },
                                     },
                                     [_vm._v("Coming Soon")]
                                   ),
@@ -8112,7 +8261,9 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/extras/lightbox" },
+                                      attrs: {
+                                        to: { name: "extras-lightbox" },
+                                      },
                                     },
                                     [_vm._v("Lightbox")]
                                   ),
@@ -8165,7 +8316,9 @@ var render = function () {
                                                 "router-link",
                                                 {
                                                   attrs: {
-                                                    to: "/auth/login-1",
+                                                    to: {
+                                                      name: "auth-login-1",
+                                                    },
                                                   },
                                                 },
                                                 [_vm._v("Log In")]
@@ -8181,7 +8334,9 @@ var render = function () {
                                                 "router-link",
                                                 {
                                                   attrs: {
-                                                    to: "/auth/login-2",
+                                                    to: {
+                                                      name: "auth-login-2",
+                                                    },
                                                   },
                                                 },
                                                 [_vm._v("Log In 2")]
@@ -8197,7 +8352,9 @@ var render = function () {
                                                 "router-link",
                                                 {
                                                   attrs: {
-                                                    to: "/auth/register-1",
+                                                    to: {
+                                                      name: "auth-register-1",
+                                                    },
                                                   },
                                                 },
                                                 [_vm._v("Register")]
@@ -8213,7 +8370,9 @@ var render = function () {
                                                 "router-link",
                                                 {
                                                   attrs: {
-                                                    to: "/auth/register-2",
+                                                    to: {
+                                                      name: "auth-register-2",
+                                                    },
                                                   },
                                                 },
                                                 [_vm._v("Register 2")]
@@ -8229,7 +8388,9 @@ var render = function () {
                                                 "router-link",
                                                 {
                                                   attrs: {
-                                                    to: "/auth/signin-signup",
+                                                    to: {
+                                                      name: "auth-signin-signup",
+                                                    },
                                                   },
                                                 },
                                                 [_vm._v("Signin - Signup")]
@@ -8245,7 +8406,9 @@ var render = function () {
                                                 "router-link",
                                                 {
                                                   attrs: {
-                                                    to: "/auth/signin-signup-2",
+                                                    to: {
+                                                      name: "auth-signin-signup-2",
+                                                    },
                                                   },
                                                 },
                                                 [_vm._v("Signin - Signup 2")]
@@ -8261,7 +8424,9 @@ var render = function () {
                                                 "router-link",
                                                 {
                                                   attrs: {
-                                                    to: "/auth/recoverpwd",
+                                                    to: {
+                                                      name: "auth-recoverpwd",
+                                                    },
                                                   },
                                                 },
                                                 [_vm._v("Recover Password")]
@@ -8277,7 +8442,9 @@ var render = function () {
                                                 "router-link",
                                                 {
                                                   attrs: {
-                                                    to: "/auth/recoverpwd-2",
+                                                    to: {
+                                                      name: "auth-recoverpwd-2",
+                                                    },
                                                   },
                                                 },
                                                 [_vm._v("Recover Password 2")]
@@ -8293,7 +8460,9 @@ var render = function () {
                                                 "router-link",
                                                 {
                                                   attrs: {
-                                                    to: "/auth/lock-screen",
+                                                    to: {
+                                                      name: "auth-lock-screen",
+                                                    },
                                                   },
                                                 },
                                                 [_vm._v("Lock Screen")]
@@ -8309,7 +8478,9 @@ var render = function () {
                                                 "router-link",
                                                 {
                                                   attrs: {
-                                                    to: "/auth/lock-screen-2",
+                                                    to: {
+                                                      name: "auth-lock-screen-2",
+                                                    },
                                                   },
                                                 },
                                                 [_vm._v("Lock Screen 2")]
@@ -8325,7 +8496,9 @@ var render = function () {
                                                 "router-link",
                                                 {
                                                   attrs: {
-                                                    to: "/auth/logout-1",
+                                                    to: {
+                                                      name: "auth-logout-1",
+                                                    },
                                                   },
                                                 },
                                                 [_vm._v("Logout")]
@@ -8341,42 +8514,12 @@ var render = function () {
                                                 "router-link",
                                                 {
                                                   attrs: {
-                                                    to: "/auth/logout-2",
+                                                    to: {
+                                                      name: "auth-logout-2",
+                                                    },
                                                   },
                                                 },
                                                 [_vm._v("Logout 2")]
-                                              ),
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "li",
-                                            [
-                                              _c(
-                                                "router-link",
-                                                {
-                                                  attrs: {
-                                                    to: "/auth/confirm-mail",
-                                                  },
-                                                },
-                                                [_vm._v("Confirm Mail")]
-                                              ),
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "li",
-                                            [
-                                              _c(
-                                                "router-link",
-                                                {
-                                                  attrs: {
-                                                    to: "/auth/confirm-mail-2",
-                                                  },
-                                                },
-                                                [_vm._v("Confirm Mail 2")]
                                               ),
                                             ],
                                             1
@@ -8430,7 +8573,11 @@ var render = function () {
                                             [
                                               _c(
                                                 "router-link",
-                                                { attrs: { to: "/error/404" } },
+                                                {
+                                                  attrs: {
+                                                    to: { name: "error-404" },
+                                                  },
+                                                },
                                                 [_vm._v("Error 404")]
                                               ),
                                             ],
@@ -8444,7 +8591,9 @@ var render = function () {
                                                 "router-link",
                                                 {
                                                   attrs: {
-                                                    to: "/error/404-alt",
+                                                    to: {
+                                                      name: "error-404-alt",
+                                                    },
                                                   },
                                                 },
                                                 [_vm._v("Error 404-alt")]
@@ -8458,7 +8607,11 @@ var render = function () {
                                             [
                                               _c(
                                                 "router-link",
-                                                { attrs: { to: "/error/500" } },
+                                                {
+                                                  attrs: {
+                                                    to: { name: "error-500" },
+                                                  },
+                                                },
                                                 [_vm._v("Error 500")]
                                               ),
                                             ],
@@ -8499,7 +8652,7 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/ui/avatars" },
+                                      attrs: { to: { name: "ui-avatars" } },
                                     },
                                     [_vm._v("Avatars")]
                                   ),
@@ -8515,7 +8668,7 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/ui/buttons" },
+                                      attrs: { to: { name: "ui-buttons" } },
                                     },
                                     [_vm._v("Buttons")]
                                   ),
@@ -8531,7 +8684,7 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/ui/cards" },
+                                      attrs: { to: { name: "ui-cards" } },
                                     },
                                     [_vm._v("Cards")]
                                   ),
@@ -8547,7 +8700,7 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/ui/carousel" },
+                                      attrs: { to: { name: "ui-carousel" } },
                                     },
                                     [_vm._v("Carousel")]
                                   ),
@@ -8563,7 +8716,7 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/ui/dropdowns" },
+                                      attrs: { to: { name: "ui-dropdowns" } },
                                     },
                                     [_vm._v("Dropdowns")]
                                   ),
@@ -8579,7 +8732,7 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/ui/video" },
+                                      attrs: { to: { name: "ui-video" } },
                                     },
                                     [_vm._v("Embed Video")]
                                   ),
@@ -8595,7 +8748,7 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/ui/general" },
+                                      attrs: { to: { name: "ui-general" } },
                                     },
                                     [_vm._v("General UI")]
                                   ),
@@ -8611,7 +8764,7 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/ui/grid" },
+                                      attrs: { to: { name: "ui-grid" } },
                                     },
                                     [_vm._v("Grid")]
                                   ),
@@ -8627,7 +8780,7 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/ui/images" },
+                                      attrs: { to: { name: "ui-images" } },
                                     },
                                     [_vm._v("Images")]
                                   ),
@@ -8643,7 +8796,7 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/ui/list-group" },
+                                      attrs: { to: { name: "ui-list-group" } },
                                     },
                                     [_vm._v("List Group")]
                                   ),
@@ -8659,7 +8812,7 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/ui/modals" },
+                                      attrs: { to: { name: "ui-modals" } },
                                     },
                                     [_vm._v("Modals")]
                                   ),
@@ -8675,7 +8828,9 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/ui/notifications" },
+                                      attrs: {
+                                        to: { name: "ui-notifications" },
+                                      },
                                     },
                                     [_vm._v("Notifications")]
                                   ),
@@ -8691,7 +8846,7 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/ui/portlets" },
+                                      attrs: { to: { name: "ui-portlets" } },
                                     },
                                     [_vm._v("Portlets")]
                                   ),
@@ -8707,7 +8862,7 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/ui/progress" },
+                                      attrs: { to: { name: "ui-progress" } },
                                     },
                                     [_vm._v("Progress")]
                                   ),
@@ -8723,7 +8878,7 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/ui/ribbons" },
+                                      attrs: { to: { name: "ui-ribbons" } },
                                     },
                                     [_vm._v("Ribbons")]
                                   ),
@@ -8739,7 +8894,7 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/ui/spinners" },
+                                      attrs: { to: { name: "ui-spinners" } },
                                     },
                                     [_vm._v("Spinners")]
                                   ),
@@ -8755,7 +8910,9 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/ui/tabs-accordions" },
+                                      attrs: {
+                                        to: { name: "ui-tabs-accordions" },
+                                      },
                                     },
                                     [_vm._v("Tabs & Accordions")]
                                   ),
@@ -8771,7 +8928,9 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/ui/tooltips-popovers" },
+                                      attrs: {
+                                        to: { name: "ui-tooltips-popovers" },
+                                      },
                                     },
                                     [_vm._v("Tooltips & Popovers")]
                                   ),
@@ -8787,7 +8946,7 @@ var render = function () {
                                     "router-link",
                                     {
                                       staticClass: "nav-link side-nav-link-ref",
-                                      attrs: { to: "/ui/typography" },
+                                      attrs: { to: { name: "ui-typography" } },
                                     },
                                     [_vm._v("Typography")]
                                   ),
@@ -8868,7 +9027,7 @@ var render = function () {
                                                   staticClass:
                                                     "side-nav-link-ref",
                                                   attrs: {
-                                                    to: "/extended/rangeslider",
+                                                    to: { name: "rangeslider" },
                                                   },
                                                 },
                                                 [_vm._v("Range Slider")]
@@ -8886,7 +9045,7 @@ var render = function () {
                                                   staticClass:
                                                     "side-nav-link-ref",
                                                   attrs: {
-                                                    to: "/extended/sweet-alert",
+                                                    to: { name: "sweet-alert" },
                                                   },
                                                 },
                                                 [_vm._v("Sweet Alert")]
@@ -8904,7 +9063,7 @@ var render = function () {
                                                   staticClass:
                                                     "side-nav-link-ref",
                                                   attrs: {
-                                                    to: "/extended/tour",
+                                                    to: { name: "tour" },
                                                   },
                                                 },
                                                 [_vm._v("Tour Page")]
@@ -8922,7 +9081,7 @@ var render = function () {
                                                   staticClass:
                                                     "side-nav-link-ref",
                                                   attrs: {
-                                                    to: "/extended/scrollspy",
+                                                    to: { name: "scrollspy" },
                                                   },
                                                 },
                                                 [_vm._v("Scrollspy")]
@@ -8982,7 +9141,7 @@ var render = function () {
                                                   staticClass:
                                                     "side-nav-link-ref",
                                                   attrs: {
-                                                    to: "/icons/feather",
+                                                    to: { name: "feather" },
                                                   },
                                                 },
                                                 [_vm._v("Feather")]
@@ -8999,7 +9158,9 @@ var render = function () {
                                                 {
                                                   staticClass:
                                                     "side-nav-link-ref",
-                                                  attrs: { to: "/icons/remix" },
+                                                  attrs: {
+                                                    to: { name: "remix" },
+                                                  },
                                                 },
                                                 [_vm._v("Remix")]
                                               ),
@@ -9016,7 +9177,7 @@ var render = function () {
                                                   staticClass:
                                                     "side-nav-link-ref",
                                                   attrs: {
-                                                    to: "/icons/boxicons",
+                                                    to: { name: "boxicons" },
                                                   },
                                                 },
                                                 [_vm._v("Boxicons")]
@@ -9033,7 +9194,9 @@ var render = function () {
                                                 {
                                                   staticClass:
                                                     "side-nav-link-ref",
-                                                  attrs: { to: "/icons/mdi" },
+                                                  attrs: {
+                                                    to: { name: "mdi" },
+                                                  },
                                                 },
                                                 [_vm._v("Material Design")]
                                               ),
@@ -9050,7 +9213,9 @@ var render = function () {
                                                   staticClass:
                                                     "side-nav-link-ref",
                                                   attrs: {
-                                                    to: "/icons/font-awesome",
+                                                    to: {
+                                                      name: "font-awesome",
+                                                    },
                                                   },
                                                 },
                                                 [_vm._v("Font Awesome 5")]
@@ -9068,7 +9233,7 @@ var render = function () {
                                                   staticClass:
                                                     "side-nav-link-ref",
                                                   attrs: {
-                                                    to: "/icons/weather",
+                                                    to: { name: "weather" },
                                                   },
                                                 },
                                                 [_vm._v("Weather")]
@@ -9128,10 +9293,14 @@ var render = function () {
                                                   staticClass:
                                                     "side-nav-link-ref",
                                                   attrs: {
-                                                    to: "/forms/elements",
+                                                    to: { name: "elements" },
                                                   },
                                                 },
-                                                [_vm._v("General Elements")]
+                                                [
+                                                  _vm._v(
+                                                    "\r\n                                                    General Elements\r\n                                                "
+                                                  ),
+                                                ]
                                               ),
                                             ],
                                             1
@@ -9146,10 +9315,16 @@ var render = function () {
                                                   staticClass:
                                                     "side-nav-link-ref",
                                                   attrs: {
-                                                    to: "/forms/advanced",
+                                                    to: {
+                                                      name: "advanced-form",
+                                                    },
                                                   },
                                                 },
-                                                [_vm._v("Advanced")]
+                                                [
+                                                  _vm._v(
+                                                    "\r\n                                                    Advanced\r\n                                                "
+                                                  ),
+                                                ]
                                               ),
                                             ],
                                             1
@@ -9164,10 +9339,14 @@ var render = function () {
                                                   staticClass:
                                                     "side-nav-link-ref",
                                                   attrs: {
-                                                    to: "/forms/validation",
+                                                    to: { name: "validation" },
                                                   },
                                                 },
-                                                [_vm._v("Validation")]
+                                                [
+                                                  _vm._v(
+                                                    "\r\n                                                    Validation\r\n                                                "
+                                                  ),
+                                                ]
                                               ),
                                             ],
                                             1
@@ -9182,10 +9361,14 @@ var render = function () {
                                                   staticClass:
                                                     "side-nav-link-ref",
                                                   attrs: {
-                                                    to: "/forms/wizard",
+                                                    to: { name: "wizard" },
                                                   },
                                                 },
-                                                [_vm._v("Wizard")]
+                                                [
+                                                  _vm._v(
+                                                    "\r\n                                                    Wizard\r\n                                                "
+                                                  ),
+                                                ]
                                               ),
                                             ],
                                             1
@@ -9199,9 +9382,15 @@ var render = function () {
                                                 {
                                                   staticClass:
                                                     "side-nav-link-ref",
-                                                  attrs: { to: "/forms/mask" },
+                                                  attrs: {
+                                                    to: { name: "mask" },
+                                                  },
                                                 },
-                                                [_vm._v("Masks")]
+                                                [
+                                                  _vm._v(
+                                                    "\r\n                                                    Masks\r\n                                                "
+                                                  ),
+                                                ]
                                               ),
                                             ],
                                             1
@@ -9215,9 +9404,15 @@ var render = function () {
                                                 {
                                                   staticClass:
                                                     "side-nav-link-ref",
-                                                  attrs: { to: "/forms/quill" },
+                                                  attrs: {
+                                                    to: { name: "quill" },
+                                                  },
                                                 },
-                                                [_vm._v("Quill Editor")]
+                                                [
+                                                  _vm._v(
+                                                    "\r\n                                                    Quill Editor\r\n                                                "
+                                                  ),
+                                                ]
                                               ),
                                             ],
                                             1
@@ -9233,9 +9428,16 @@ var render = function () {
                                                     "side-nav-link-ref",
                                                   attrs: {
                                                     to: "/forms/file-uploads",
+                                                    to: {
+                                                      name: "file-uploads",
+                                                    },
                                                   },
                                                 },
-                                                [_vm._v("File Uploads")]
+                                                [
+                                                  _vm._v(
+                                                    "\r\n                                                    File Uploads\r\n                                                "
+                                                  ),
+                                                ]
                                               ),
                                             ],
                                             1
@@ -9292,10 +9494,14 @@ var render = function () {
                                                   staticClass:
                                                     "side-nav-link-ref",
                                                   attrs: {
-                                                    to: "/tables/basic",
+                                                    to: { name: "basic" },
                                                   },
                                                 },
-                                                [_vm._v("Basic Tables")]
+                                                [
+                                                  _vm._v(
+                                                    "\r\n                                                    Basic Tables\r\n                                                "
+                                                  ),
+                                                ]
                                               ),
                                             ],
                                             1
@@ -9310,10 +9516,14 @@ var render = function () {
                                                   staticClass:
                                                     "side-nav-link-ref",
                                                   attrs: {
-                                                    to: "/tables/advanced",
+                                                    to: { name: "advanced" },
                                                   },
                                                 },
-                                                [_vm._v("Advanced Tables")]
+                                                [
+                                                  _vm._v(
+                                                    "\r\n                                                    Advanced Tables\r\n                                                "
+                                                  ),
+                                                ]
                                               ),
                                             ],
                                             1
@@ -9369,9 +9579,15 @@ var render = function () {
                                                 {
                                                   staticClass:
                                                     "side-nav-link-ref",
-                                                  attrs: { to: "/charts/apex" },
+                                                  attrs: {
+                                                    to: { name: "charts-apex" },
+                                                  },
                                                 },
-                                                [_vm._v("Apex Charts")]
+                                                [
+                                                  _vm._v(
+                                                    "\r\n                                                    Apex Charts\r\n                                                "
+                                                  ),
+                                                ]
                                               ),
                                             ],
                                             1
@@ -9386,26 +9602,16 @@ var render = function () {
                                                   staticClass:
                                                     "side-nav-link-ref",
                                                   attrs: {
-                                                    to: "/charts/chartjs",
+                                                    to: {
+                                                      name: "charts-chartjs",
+                                                    },
                                                   },
                                                 },
-                                                [_vm._v("Chartjs Charts")]
-                                              ),
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "li",
-                                            [
-                                              _c(
-                                                "router-link",
-                                                {
-                                                  staticClass:
-                                                    "side-nav-link-ref",
-                                                  attrs: { to: "/charts/c3" },
-                                                },
-                                                [_vm._v("C3 Charts")]
+                                                [
+                                                  _vm._v(
+                                                    "\r\n                                                    Chartjs Charts\r\n                                                "
+                                                  ),
+                                                ]
                                               ),
                                             ],
                                             1
@@ -9420,10 +9626,14 @@ var render = function () {
                                                   staticClass:
                                                     "side-nav-link-ref",
                                                   attrs: {
-                                                    to: "/charts/chartist",
+                                                    to: { name: "charts-c3" },
                                                   },
                                                 },
-                                                [_vm._v("Chartist Charts")]
+                                                [
+                                                  _vm._v(
+                                                    "\r\n                                                    C3 Charts\r\n                                                "
+                                                  ),
+                                                ]
                                               ),
                                             ],
                                             1
@@ -9437,9 +9647,39 @@ var render = function () {
                                                 {
                                                   staticClass:
                                                     "side-nav-link-ref",
-                                                  attrs: { to: "/charts/knob" },
+                                                  attrs: {
+                                                    to: {
+                                                      name: "charts-chartist",
+                                                    },
+                                                  },
                                                 },
-                                                [_vm._v("Knob Charts")]
+                                                [
+                                                  _vm._v(
+                                                    "\r\n                                                    Chartist Charts\r\n                                                "
+                                                  ),
+                                                ]
+                                              ),
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "li",
+                                            [
+                                              _c(
+                                                "router-link",
+                                                {
+                                                  staticClass:
+                                                    "side-nav-link-ref",
+                                                  attrs: {
+                                                    to: { name: "charts-knob" },
+                                                  },
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\r\n                                                    Knob Charts\r\n                                                "
+                                                  ),
+                                                ]
                                               ),
                                             ],
                                             1
@@ -9495,9 +9735,15 @@ var render = function () {
                                                 {
                                                   staticClass:
                                                     "side-nav-link-ref",
-                                                  attrs: { to: "/maps/google" },
+                                                  attrs: {
+                                                    to: { name: "maps-google" },
+                                                  },
                                                 },
-                                                [_vm._v("Google Maps")]
+                                                [
+                                                  _vm._v(
+                                                    "\r\n                                                    Google Maps\r\n                                                "
+                                                  ),
+                                                ]
                                               ),
                                             ],
                                             1

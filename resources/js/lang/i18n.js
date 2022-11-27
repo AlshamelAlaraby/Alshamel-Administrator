@@ -13,11 +13,11 @@ function loadLocaleMessages () {
       messages[locale] = locales(key)
     }
   })
-  return messages
+  return messages;
 }
 
 export default new VueI18n({
-  locale: process.env.VUE_APP_I18N_LOCALE || 'en',
-  fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
+  locale: localStorage.getItem('lang') || 'ar',
+  fallbackLocale: localStorage.getItem('lang') || 'ar',
   messages: loadLocaleMessages()
 })

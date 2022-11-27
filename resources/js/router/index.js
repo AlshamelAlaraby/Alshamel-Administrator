@@ -1,16 +1,16 @@
 import Vue from 'vue';
 import VueMeta from 'vue-meta';
-
 import store from '../state/store';
-
+import middlewarePipeline from "./middlewarePipeline";
 import VueRouter from 'vue-router';
 import routes from './routes';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 Vue.use(VueMeta, {
     // The component option name that vue-meta looks for meta info on.
     keyName: 'page',
-})
+});
+
 
 const router = new VueRouter({
     routes,
@@ -28,6 +28,22 @@ const router = new VueRouter({
             return { x: 0, y: 0 }
         }
     },
+});
+
+router.beforeEach((to, from, next) => {
+    console.log('xzjxz oz')
+    if (!to.meta.middleware) return next();
+    const middleware = to.meta.middleware;
+    const context = {
+        to,
+        from,
+        next,
+        store
+    };
+    return middleware[0]({
+        ...context,
+        next: middlewarePipeline(context, middleware, 1)
+    });
 });
 
 export default router;
