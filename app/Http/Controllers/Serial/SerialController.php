@@ -25,8 +25,15 @@ class SerialController extends ResponseController
 
     public function all(Request $request)
     {
-
-        $models = $this->repository->getAllSerials($request);
+        if (count($_GET) == 0) {
+            $models = cacheGet('serials');
+            if (!$models) {
+                $models = $this->repository->getAllSerials($request);
+                cachePut('serials', $models);
+            }
+        } else {
+            $models = $this->repository->getAllSerials($request);
+        }
         return $this->successResponse (($this->resource)::collection ($models['data']) ,__ ('Done'),200);
     }
 
@@ -34,7 +41,15 @@ class SerialController extends ResponseController
     public function find($id)
     {
         try{
-            $model = $this->repository->find($id);
+            $model = cacheGet('serials_' . $id);
+            if (!$model) {
+                $model = $this->repository->find($id);
+                if (!$model) {
+                    return errorResponse( __('message.data not found'),404);
+                } else {
+                    cachePut('serials_' . $id, $model);
+                }
+            }
             return $this->successResponse( new SerialResource($model),__ ('Done'),200);
         } catch (Exception $exception) {
             return $this->errorResponse($exception->getMessage(), $exception->getCode());
@@ -60,15 +75,15 @@ class SerialController extends ResponseController
                 return  $this->errorResponse( __('message.data not found'),404);
             }
             $model = $this->repository->update($request, $id);
-    
+
             return  $this->successResponse(__('Done'),200);
         } catch (Exception $exception) {
             return $this->errorResponse($exception->getMessage(), $exception->getCode());
         }
-       
+
     }
 
-    
+
     public function delete($id)
     {
         try{

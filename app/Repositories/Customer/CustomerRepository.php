@@ -46,7 +46,7 @@ class CustomerRepository implements CustomerRepositoryInterface
     {
         DB::transaction(function () use ($request) {
             $this->model->create($request->all());
-            // cacheForget("customers");
+            cacheForget("customers");
         });
     }
 
@@ -54,7 +54,7 @@ class CustomerRepository implements CustomerRepositoryInterface
     {
         DB::transaction(function () use ($id, $request) {
             $this->model->where("id", $id)->update($request->all());
-            // $this->forget($id);
+            $this->forget($id);
 
         });
 
@@ -63,10 +63,20 @@ class CustomerRepository implements CustomerRepositoryInterface
     public function delete($id)
     {
         $model = $this->find($id);
-        // $this->forget($id);
+        $this->forget($id);
         $model->delete();
     }
 
-    
 
+    private function forget($id)
+    {
+        $keys = [
+            "customers",
+            "customers_" . $id,
+        ];
+        foreach ($keys as $key) {
+            cacheForget($key);
+        }
+
+    }
 }

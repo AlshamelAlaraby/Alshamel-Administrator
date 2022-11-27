@@ -75,27 +75,17 @@ class ModuleController extends Controller
         return responseJson(200, 'success');
     }
 
-    // public function addModuleToCompany($module_id, $company_id)
-    // {
-    //     $model = $this->modelInterface->find($module_id);
+    public function addModuleToCompany(\App\Http\Requests\Module\AddCompanyToModuleRequest$request)
+    {
+        $this->modelInterface->addModuleToCompany($request);
+        return responseJson(200, 'success');
+    }
 
-    //     if (!$model) {
-    //         return responseJson(404, __('message.data not found'));
-    //     }
+    public function removeModuleFromCompany($module_id, $company_id)
+    {
 
-    //     $this->modelInterface->addModuleToCompany($module_id, $company_id);
-    //     return responseJson(200, 'success');
-    // }
-
-    // public function removeModuleFromCompany($module_id, $company_id)
-    // {
-    //     $model = $this->modelInterface->find($module_id);
-    //     if (!$model) {
-    //         return responseJson(404, __('message.data not found'));
-    //     }
-
-    //     $this->modelInterface->removeModuleFromCompany($module_id, $company_id);
-    //     return responseJson(200, 'success');
-    // }
+        $this->modelInterface->removeModuleFromCompany($module_id, $company_id);
+        return responseJson(200, 'success');
+    }
 
 }

@@ -25,16 +25,32 @@ class CustomerController extends ResponseController
 
     public function all(Request $request)
     {
-
-        $models = $this->repository->getAllCustomers($request);
+        if (count($_GET) == 0) {
+            $models = cacheGet('customers');
+            if (!$models) {
+                $models = $this->repository->getAllCustomers($request);
+                cachePut('customers', $models);
+            }
+        } else {
+            $models = $this->repository->getAllCustomers($request);
+        }
         return $this->successResponse (($this->resource)::collection ($models['data']) ,__ ('Done'),200);
     }
 
 
     public function find($id)
     {
+
         try{
-            $model = $this->repository->find($id);
+            $model = cacheGet('customers_' . $id);
+            if (!$model) {
+                $model = $this->repository->find($id);
+                if (!$model) {
+                    return errorResponse( __('message.data not found'),404);
+                } else {
+                    cachePut('customers_' . $id, $model);
+                }
+            }
             return $this->successResponse( new CustomerResource($model),__ ('Done'),200);
         } catch (Exception $exception) {
             return $this->errorResponse($exception->getMessage(), $exception->getCode());
@@ -60,15 +76,15 @@ class CustomerController extends ResponseController
                 return  $this->errorResponse( __('message.data not found'),404);
             }
             $model = $this->repository->update($request, $id);
-    
+
             return  $this->successResponse(__('Done'),200);
         } catch (Exception $exception) {
             return $this->errorResponse($exception->getMessage(), $exception->getCode());
         }
-       
+
     }
 
-    
+
     public function delete($id)
     {
         try{

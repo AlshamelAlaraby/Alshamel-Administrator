@@ -13,4 +13,8 @@ class Customer extends Model
         'name_e',
         'is_active',
     ];
+
+    protected $casts = [
+        'is_active' => 'App\Enums\IsActive',
+    ];
 }

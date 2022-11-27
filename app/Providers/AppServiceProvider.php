@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-
 use App\Repositories\Branch\BranchRepository;
 use App\Repositories\Branch\BranchRepositoryInterface;
 use App\Repositories\User\UserRepository;
@@ -36,13 +35,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(SerialRepositoryInterface::class, SerialRepository::class);
         $this->app->bind(CompanyRepositoryInterface::class, CompanyRepository::class);
 
-
-
         $this->app->bind(ModuleInterface::class, ModuleRepository::class);
 
         $this->app->bind(BranchRepositoryInterface::class, BranchRepository::class);
-
-
 
     }
 
