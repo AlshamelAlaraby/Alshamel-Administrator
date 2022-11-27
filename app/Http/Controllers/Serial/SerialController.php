@@ -45,7 +45,7 @@ class SerialController extends ResponseController
             if (!$model) {
                 $model = $this->repository->find($id);
                 if (!$model) {
-                    return errorResponse( __('message.data not found'),404);
+                    return $this->errorResponse( __('message.data not found'), 404);
                 } else {
                     cachePut('serials_' . $id, $model);
                 }
