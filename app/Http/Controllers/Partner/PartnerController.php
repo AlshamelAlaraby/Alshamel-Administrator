@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Customer;
+namespace App\Http\Controllers\Partner;
 
 use App\Http\Controllers\ResponseController;
-use App\Repositories\Customer\CustomerRepositoryInterface;
-use App\Http\Resources\Customer\CustomerResource;
+use App\Repositories\Partner\PartnerRepositoryInterface;
+use App\Http\Resources\Partner\PartnerResource;
 use Illuminate\Http\Request;
-use App\Http\Requests\Customer\StoreCustomerRequest;
-use App\Http\Requests\Customer\UpdateCustomerRequest;
+use App\Http\Requests\Partner\StorePartnerRequest;
+use App\Http\Requests\Partner\UpdatePartnerRequest;
 use Mockery\Exception;
 
-class CustomerController extends ResponseController
+class PartnerController extends ResponseController
 {
 
     protected $repository;
-    protected $resource = CustomerResource::class;
+    protected $resource = PartnerResource::class;
 
 
-    public function __construct(CustomerRepositoryInterface $repository)
+    public function __construct(PartnerRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
@@ -26,13 +26,13 @@ class CustomerController extends ResponseController
     public function all(Request $request)
     {
         if (count($_GET) == 0) {
-            $models = cacheGet('customers');
+            $models = cacheGet('Partners');
             if (!$models) {
-                $models = $this->repository->getAllCustomers($request);
-                cachePut('customers', $models);
+                $models = $this->repository->getAllPartners($request);
+                cachePut('Partners', $models);
             }
         } else {
-            $models = $this->repository->getAllCustomers($request);
+            $models = $this->repository->getAllPartners($request);
         }
         return $this->successResponse (($this->resource)::collection ($models['data']) ,__ ('Done'),200);
     }
@@ -42,23 +42,23 @@ class CustomerController extends ResponseController
     {
 
         try{
-            $model = cacheGet('customers_' . $id);
+            $model = cacheGet('Partners_' . $id);
             if (!$model) {
                 $model = $this->repository->find($id);
                 if (!$model) {
                     return errorResponse( __('message.data not found'),404);
                 } else {
-                    cachePut('customers_' . $id, $model);
+                    cachePut('Partners_' . $id, $model);
                 }
             }
-            return $this->successResponse( new CustomerResource($model),__ ('Done'),200);
+            return $this->successResponse( new PartnerResource($model),__ ('Done'),200);
         } catch (Exception $exception) {
             return $this->errorResponse($exception->getMessage(), $exception->getCode());
         }
     }
 
 
-    public function store(StoreCustomerRequest $request)
+    public function store(StorePartnerRequest $request)
     {
         try {
             return $this->successResponse(new $this->resource($this->repository->create($request->validated())), __('created'), 200);
@@ -68,7 +68,7 @@ class CustomerController extends ResponseController
     }
 
 
-    public function update(UpdateCustomerRequest $request, $id)
+    public function update(UpdatePartnerRequest $request, $id)
     {
         try {
             $model = $this->repository->find($id);

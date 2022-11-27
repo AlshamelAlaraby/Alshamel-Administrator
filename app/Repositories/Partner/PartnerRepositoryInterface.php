@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Repositories\Customer;
+namespace App\Repositories\Partner;
 
-interface CustomerRepositoryInterface
+interface PartnerRepositoryInterface
 {
 
-    public function getAllCustomers($request);
+    public function getAllPartners($request);
 
     public function find($id);
 
