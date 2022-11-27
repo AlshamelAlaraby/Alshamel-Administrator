@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\CheckIfValidTokenController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
@@ -35,6 +38,14 @@ Route::get('/users', [UserController::class, "index"]);
 
 Route::group(['prefix' => 'auth'], function () {
     Route::post('/login', [LoginController::class, "login"]);
+});
+
+Route::group(['prefix' => 'auth','middleware'=>'auth:sanctum'], function () {
+    Route::post('/logout', [LogoutController::class, "logout"]);
+});
+
+Route::group(['prefix'=>'auth','middleware'=>'auth:sanctum'], function () {
+    Route::post('/check-token', [CheckIfValidTokenController::class, "checkIsValidToken"]);
 });
 
 Route::group(['prefix' => 'modules'], function () {
