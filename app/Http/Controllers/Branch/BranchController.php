@@ -13,8 +13,11 @@ use App\Http\Controllers\ResponseController;
 use App\Http\Request\Branch\CreateBranchRequest;
 use App\Http\Request\Branch\EditBranchRequest;
 use App\Http\Resources\Branch\BranchResource;
+use App\Http\Resources\Module\ModuleResource;
 use App\Repositories\Branch\BranchRepositoryInterface;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
 
 class BranchController extends ResponseController
 {
@@ -27,11 +30,18 @@ class BranchController extends ResponseController
 
     /**
      * Display a listing of the resource.
-     * @return \Illuminate\Http\JsonResponse
+     * @return \response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->successResponse (($this->resource)::collection ($this->repository->getAllBranches ()),__ ('Done'),200);
+
+        $branches = cacheGet ('branches');
+        if (!$branches){
+            $branches = $this->repository->getAllBranches($request);
+            cachePut('branches', $branches);
+        }
+        return responseJson(200, 'success', ($this->resource)::collection ($branches['data']), $branches['paginate'] ? getPaginates($branches['data']) : null);
+//        return $this->successResponse (($this->resource)::collection ($this->repository->getAllBranches ()),__ ('Done'),200);
     }
 
 
@@ -47,23 +57,24 @@ class BranchController extends ResponseController
             if (!DB::table('companies')->find($request->company_id)){
                 return $this->errorResponse (__ ('company does\'t exist'),422);
             }
-            return $this->successResponse (new $this->resource($this->repository->create($request->validated ())),__('created'),200);
+            $this->repository->create($request->validated ());
+            return responseJson (200,__ ('done'));
         }catch (Exception $exception){
-            return $this->errorResponse ($exception->getMessage (),$exception->getCode ());
+            return responseJson ($exception->getCode (),$exception->getMessage ());
         }
     }
 
     /**
      * Show the specified resource.
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return \response
      */
     public function show($id)
     {
         if ($branch = $this->repository->find($id)){
-            return $this->successResponse (new $this->resource($branch),__ ('Done'),200);
+            return responseJson(200,__ ('Done'),new $this->resource($branch),200);
         }
-        return $this->errorResponse ('not found',404);
+        return responseJson (404,__ ('not found'));
     }
 
     /**
@@ -80,14 +91,14 @@ class BranchController extends ResponseController
      * Update the specified resource in storage.
      * @param Request $request
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return \response
      */
     public function update(EditBranchRequest $request, $id)
     {
         $data = [];
         if ($request->company_id){
             if (!DB::table('companies')->find($request->company_id)){
-                return $this->errorResponse (__ ('company does\'t exist'),422);
+                return responseJson(422,__ ('company does\'t exist'));
             }
             $data['company_id']=$request->company_id;
         }
@@ -101,20 +112,20 @@ class BranchController extends ResponseController
             $data['is_active']=$request->is_active;
         }
         try {
-            return $this->successResponse (new $this->resource($this->repository->update($data,$id)),__('updated'),200);
+            return responseJson(200,__('updated'));
         }catch (Exception $exception){
-            return $this->errorResponse ($exception->getMessage (),$exception->getCode ());
+            return responseJson($exception->getCode (),$exception->getMessage ());
         }
     }
 
     /**
      * Remove the specified resource from storage.
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return \response
      */
     public function destroy($id)
     {
         $this->repository->delete($id);
-        return $this->successResponse (null,__('deleted'),200);
+        return responseJson(200,__('deleted'));
     }
 }

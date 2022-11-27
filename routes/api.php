@@ -1,7 +1,15 @@
 <?php
 
-use App\Http\Controllers\Company\CompanyController;
+use App\Http\Controllers\Auth\LoginController;
+
+use App\Http\Controllers\Branch\BranchController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Customer\CustomerController;
+use App\Http\Controllers\Serial\SerialController;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Company\CompanyController;
+//use App\Http\Controllers\Store\StoreController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,6 +55,36 @@ Route::group(['prefix' => 'modules'], function () {
         Route::post('/company', 'addModuleToCompany')->name('modules.company.add');
         Route::delete('/{module_id}/company/{company_id}', 'removeModuleFromCompany')->name('modules.company.remove');
 
+    });
+});
+
+Route::resource ('branches',BranchController::class)->except ('create','edit');
+
+
+
+
+
+
+
+// api op customers
+Route::group(['prefix' => 'customers'], function () {
+    Route::controller(CustomerController::class)->group(function () {
+        Route::get('/', 'all')->name('customers.index');
+        Route::get('/show/{id}', 'find');
+        Route::post('/store', 'store')->name('customers.store');
+        Route::put('/update/{id}', 'update')->name('customers.update');
+        Route::delete('/delete/{id}', 'delete')->name('customers.destroy');
+    });
+});
+
+// api op serials
+Route::group(['prefix' => 'serials'], function () {
+    Route::controller(SerialController::class)->group(function () {
+        Route::get('/', 'all')->name('serials.index');
+        Route::get('/show/{id}', 'find');
+        Route::post('/store', 'store')->name('serials.store');
+        Route::put('/update/{id}', 'update')->name('serials.update');
+        Route::delete('/delete/{id}', 'delete')->name('serials.destroy');
     });
 });
 

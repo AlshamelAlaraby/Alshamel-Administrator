@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Branch extends Model
+class Customer extends Model
 {
     use HasFactory;
-
-    protected $guarded = ['id'];
+    protected $fillable = [
+        'name',
+        'name_e',
+        'is_active',
+    ];
 
     protected $casts = [
         'is_active' => 'App\Enums\IsActive',
     ];
-
-
-
 }

@@ -1,24 +1,21 @@
 <?php
 
+namespace App\Repositories\Customer;
 
-namespace App\Repositories\Branch;
-
-
-
-
-
-
-
-use App\Models\Branch;
+use App\Models\Customer;
 use Illuminate\Support\Facades\DB;
 
-class BranchRepository implements BranchRepositoryInterface
+class CustomerRepository implements CustomerRepositoryInterface
 {
-    public $model;
-    public function __construct(Branch $model){
+
+    private $model;
+    public function __construct(Customer $model)
+    {
         $this->model = $model;
+
     }
-    public function getAllBranches ($request)
+
+    public function getAllCustomers($request)
     {
         $models = $this->model->where(function ($q) use ($request) {
 
@@ -31,11 +28,7 @@ class BranchRepository implements BranchRepositoryInterface
                 $q->where('is_active', $request->is_active);
             }
 
-            if ($request->parent_id) {
-                $q->where('parent_id', $request->parent_id);
-            }
-
-        })->orderBy($request->order ? $request->order : 'updated_at', $request->sort ? $request->sort : 'DESC');
+        })->latest();
 
         if ($request->per_page) {
             return ['data' => $models->paginate($request->per_page), 'paginate' => true];
@@ -44,35 +37,42 @@ class BranchRepository implements BranchRepositoryInterface
         }
     }
 
-    public function create(array $data){
-        DB::transaction(function () use ($data) {
-            $this->model->create($data);
-            cacheForget("branches");
-        });
-    }
-
-    public function find($id){
+    public function find($id)
+    {
         return $this->model->find($id);
     }
 
-    public function update($data,$id){
-        DB::transaction(function () use ($id, $data) {
-            $this->model->where("id", $id)->update($data);
-            $this->forget($id);
+    public function create($request)
+    {
+        DB::transaction(function () use ($request) {
+            $this->model->create($request->all());
+            cacheForget("customers");
         });
     }
 
-    public function delete($id){
+    public function update($request, $id)
+    {
+        DB::transaction(function () use ($id, $request) {
+            $this->model->where("id", $id)->update($request->all());
+            $this->forget($id);
+
+        });
+
+    }
+
+    public function delete($id)
+    {
         $model = $this->find($id);
         $this->forget($id);
         $model->delete();
     }
 
+
     private function forget($id)
     {
         $keys = [
-            "branches",
-            "branches_" . $id,
+            "customers",
+            "customers_" . $id,
         ];
         foreach ($keys as $key) {
             cacheForget($key);

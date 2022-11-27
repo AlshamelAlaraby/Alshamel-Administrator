@@ -6,5 +6,5 @@ namespace App\Repositories\Branch;
 
 interface BranchRepositoryInterface
 {
-    public function getAllBranches();
+    public function getAllBranches($request);
 }
