@@ -6,7 +6,10 @@
         "Emailaddress": "Email address",
         "Enteryouremailaddressandpasswordtoaccessadminpanel": "Enter your email address and password to access admin panel.",
         "Enteryouremail": "Enter your email",
-        "Enteryourpassword": "Enter your password"
+        "Enteryourpassword": "Enter your password",
+        "success": "Logged in successfully.",
+        "danger": "Email Or Password is wrong!",
+        "Loading": "Loading"
     },
 
 
@@ -344,5 +347,9 @@
         }
       }
     }
+  },
+  "general": {
+     "fieldIsRequired": "This field is required",
+     "PleaseEnterValidEmail": "Please enter valid email."
   }
 }

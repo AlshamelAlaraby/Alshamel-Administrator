@@ -6,7 +6,10 @@
       "Emailaddress": "البريد الالكتروني",
       "Enteryouremailaddressandpasswordtoaccessadminpanel": "أدخل عنوان بريدك الإلكتروني وكلمة المرور للوصول إلى لوحة الإدارة.",
       "Enteryouremail": "ادخل الاميل",
-      "Enteryourpassword": "ادخل كلمه المرور"
+      "Enteryourpassword": "ادخل كلمه المرور",
+       "success": "تم تسجيل الدخول بنجاح .",
+       "danger": "يوجد خطا في الاميل او الباسورد",
+       "Loading": "تحميل"
    },
   "navbar": {
     "search": {
@@ -343,5 +346,9 @@
         }
       }
     }
+  },
+  "general": {
+      "fieldIsRequired": "هذا الحقل مطلوب .",
+      "PleaseEnterValidEmail": "الرجاء إدخال بريد إلكتروني صحيح ."
   }
 }

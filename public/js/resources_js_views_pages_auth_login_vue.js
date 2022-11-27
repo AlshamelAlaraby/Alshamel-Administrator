@@ -34,7 +34,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _layouts_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../layouts/auth */ "./resources/js/views/layouts/auth.vue");
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var _api_adminAxios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../api/adminAxios */ "./resources/js/api/adminAxios.js");
+
 
 
 
@@ -46,7 +48,7 @@ __webpack_require__.r(__webpack_exports__);
     title: "Login",
     meta: [{
       name: "description",
-      content: 'kdjsd'
+      content: 'auth login'
     }]
   },
   data: function data() {
@@ -54,43 +56,57 @@ __webpack_require__.r(__webpack_exports__);
       email: "",
       password: "123456",
       submitted: false,
-      authError: null,
-      tryingToLogIn: false,
-      isAuthError: false,
-      type: 'password'
+      type: 'password',
+      isSuccess: false,
+      isErorr: false
     };
   },
   components: {
     Auth: _layouts_auth__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  computed: {
-    notification: function notification() {
-      return this.$store ? this.$store.state.notification : null;
-    },
-    notificationAutoCloseDuration: function notificationAutoCloseDuration() {
-      return this.$store && this.$store.state.notification ? 5 : 0;
-    }
-  },
   created: function created() {},
   validations: {
     email: {
-      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required,
-      email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.email
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.required,
+      email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.email
     },
     password: {
-      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__.required
     }
   },
   methods: {
     // Try to log the user in with the username
     // and password they provided.
     tryToLogIn: function tryToLogIn() {
-      this.submitted = true;
+      var _this = this;
       // stop here if form is invalid
       this.$v.$touch();
       if (this.$v.$invalid) {
         return;
-      } else {}
+      } else {
+        this.submitted = true;
+        this.isErorr = false;
+        var _email = this.email,
+          password = this.password;
+        _api_adminAxios__WEBPACK_IMPORTED_MODULE_1__["default"].post("/auth/login", {
+          email: _email,
+          password: password
+        }).then(function (res) {
+          var l = res.data.data;
+          _this.$store.commit('auth/editToken', l.token);
+          _this.$store.commit('auth/editAdmin', l.admin);
+          _this.isSuccess = true;
+          setTimeout(function () {
+            return _this.$router.push({
+              name: 'home'
+            });
+          }, 500);
+        })["catch"](function (err) {
+          _this.isErorr = true;
+        })["finally"](function () {
+          _this.submitted = false;
+        });
+      }
     }
   }
 });
@@ -458,40 +474,27 @@ var render = function () {
                 },
               },
               [
-                _vm.notification.message
+                _vm.isSuccess
                   ? _c(
                       "b-alert",
                       {
-                        staticClass: "mt-3",
-                        attrs: {
-                          variant: _vm.notification.type,
-                          show: _vm.notificationAutoCloseDuration,
-                          dismissible: "",
-                        },
+                        staticClass: "mt-3 text-center",
+                        attrs: { variant: "success", show: 5, dismissible: "" },
                       },
-                      [_vm._v(_vm._s(_vm.notification.message))]
+                      [_vm._v(_vm._s(_vm.$t("login.success")))]
                     )
                   : _vm._e(),
                 _vm._v(" "),
-                _c(
-                  "b-alert",
-                  {
-                    staticClass: "mt-3",
-                    attrs: {
-                      variant: "danger",
-                      show: _vm.notificationAutoCloseDuration,
-                      dismissible: "",
-                    },
-                    model: {
-                      value: _vm.isAuthError,
-                      callback: function ($$v) {
-                        _vm.isAuthError = $$v
+                _vm.isErorr
+                  ? _c(
+                      "b-alert",
+                      {
+                        staticClass: "mt-3 text-center",
+                        attrs: { variant: "danger", show: 5, dismissible: "" },
                       },
-                      expression: "isAuthError",
-                    },
-                  },
-                  [_vm._v(_vm._s(_vm.authError))]
-                ),
+                      [_vm._v(_vm._s(_vm.$t("login.danger")))]
+                    )
+                  : _vm._e(),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group mb-3" }, [
                   _c("label", { attrs: { for: "emailaddress" } }, [
@@ -508,9 +511,7 @@ var render = function () {
                       },
                     ],
                     staticClass: "form-control",
-                    class: {
-                      "is-invalid": _vm.submitted && _vm.$v.email.$error,
-                    },
+                    class: { "is-invalid": _vm.$v.email.$error },
                     attrs: {
                       type: "email",
                       id: "emailaddress",
@@ -527,14 +528,20 @@ var render = function () {
                     },
                   }),
                   _vm._v(" "),
-                  _vm.submitted && _vm.$v.email.$error
+                  _vm.$v.email.$error
                     ? _c("div", { staticClass: "invalid-feedback" }, [
                         !_vm.$v.email.required
-                          ? _c("span", [_vm._v("Email is required.")])
+                          ? _c("span", [
+                              _vm._v(_vm._s(_vm.$t("general.fieldIsRequired"))),
+                            ])
                           : _vm._e(),
                         _vm._v(" "),
                         !_vm.$v.email.email
-                          ? _c("span", [_vm._v("Please enter valid email.")])
+                          ? _c("span", [
+                              _vm._v(
+                                _vm._s(_vm.$t("general.PleaseEnterValidEmail"))
+                              ),
+                            ])
                           : _vm._e(),
                       ])
                     : _vm._e(),
@@ -557,10 +564,7 @@ var render = function () {
                             },
                           ],
                           staticClass: "form-control",
-                          class: {
-                            "is-invalid":
-                              _vm.submitted && _vm.$v.password.$error,
-                          },
+                          class: { "is-invalid": _vm.$v.password.$error },
                           attrs: {
                             id: "password",
                             placeholder: _vm.$t("login.Enteryourpassword"),
@@ -604,10 +608,7 @@ var render = function () {
                             },
                           ],
                           staticClass: "form-control",
-                          class: {
-                            "is-invalid":
-                              _vm.submitted && _vm.$v.password.$error,
-                          },
+                          class: { "is-invalid": _vm.$v.password.$error },
                           attrs: {
                             id: "password",
                             placeholder: _vm.$t("login.Enteryourpassword"),
@@ -630,10 +631,7 @@ var render = function () {
                             },
                           ],
                           staticClass: "form-control",
-                          class: {
-                            "is-invalid":
-                              _vm.submitted && _vm.$v.password.$error,
-                          },
+                          class: { "is-invalid": _vm.$v.password.$error },
                           attrs: {
                             id: "password",
                             placeholder: _vm.$t("login.Enteryourpassword"),
@@ -684,10 +682,12 @@ var render = function () {
                       ]
                     ),
                     _vm._v(" "),
-                    _vm.submitted && !_vm.$v.password.required
+                    !_vm.$v.password.required
                       ? _c("div", { staticClass: "invalid-feedback" }, [
                           _vm._v(
-                            "\n                  Password is required.\n                "
+                            "\n                    " +
+                              _vm._s(_vm.$t("general.fieldIsRequired")) +
+                              "\n                "
                           ),
                         ])
                       : _vm._e(),
@@ -716,22 +716,43 @@ var render = function () {
                   ]),
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "form-group mb-0 text-center" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-primary btn-block",
-                      attrs: { type: "submit" },
-                    },
-                    [
-                      _vm._v(
-                        "\n                  " +
-                          _vm._s(_vm.$t("login.loginIn")) +
-                          "\n              "
-                      ),
-                    ]
-                  ),
-                ]),
+                _c(
+                  "div",
+                  { staticClass: "form-group mb-0 text-center" },
+                  [
+                    !_vm.submitted
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-primary btn-block",
+                            attrs: { type: "submit" },
+                          },
+                          [
+                            _vm._v(
+                              "\n                  " +
+                                _vm._s(_vm.$t("login.loginIn")) +
+                                "\n              "
+                            ),
+                          ]
+                        )
+                      : _c(
+                          "b-button",
+                          {
+                            staticClass: "btn btn-primary btn-block",
+                            attrs: { disabled: "" },
+                          },
+                          [
+                            _c("b-spinner", { attrs: { small: "" } }),
+                            _vm._v(" "),
+                            _c("span", { staticClass: "sr-only" }, [
+                              _vm._v(_vm._s(_vm.$t("login.Loading")) + "..."),
+                            ]),
+                          ],
+                          1
+                        ),
+                  ],
+                  1
+                ),
               ],
               1
             ),

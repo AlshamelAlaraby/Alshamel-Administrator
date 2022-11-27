@@ -9,7 +9,6 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Customer\CustomerController;
 use App\Http\Controllers\Serial\SerialController;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Company\CompanyController;
 //use App\Http\Controllers\Store\StoreController;
 
 use Illuminate\Support\Facades\Route;

@@ -3,10 +3,11 @@ import adminApi from "../api/adminAxios";
 
 export default async function checkAuth({ next, store }) {
     console.log("check-auth middleware run ...");
-    await adminApi.get('/v1/auth/checkToken')
+    await adminApi.get('/auth/check-token')
         .then((res) => {
             let l =res.data.data;
-            store.commit('auth/editPermission',l.permission);
+            console.log(res);
+            // store.commit('auth/ad',l.permission);
 
             return next();
         })
