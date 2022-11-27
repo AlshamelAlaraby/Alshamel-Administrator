@@ -6,8 +6,8 @@ use App\Repositories\Branch\BranchRepository;
 use App\Repositories\Branch\BranchRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
-use App\Repositories\Customer\CustomerRepository;
-use App\Repositories\Customer\CustomerRepositoryInterface;
+use App\Repositories\Partner\PartnerRepository;
+use App\Repositories\Partner\PartnerRepositoryInterface;
 use App\Repositories\Serial\SerialRepository;
 use App\Repositories\Serial\SerialRepositoryInterface;
 use App\Repositories\Company\CompanyRepository;
@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
 
-        $this->app->bind(CustomerRepositoryInterface::class, CustomerRepository::class);
+        $this->app->bind(PartnerRepositoryInterface::class, PartnerRepository::class);
 
         $this->app->bind(SerialRepositoryInterface::class, SerialRepository::class);
         $this->app->bind(CompanyRepositoryInterface::class, CompanyRepository::class);

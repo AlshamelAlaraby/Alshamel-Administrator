@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Repositories\Customer;
+namespace App\Repositories\Partner;
 
-use App\Models\Customer;
+use App\Models\Partner;
 use Illuminate\Support\Facades\DB;
 
-class CustomerRepository implements CustomerRepositoryInterface
+class PartnerRepository implements PartnerRepositoryInterface
 {
 
     private $model;
-    public function __construct(Customer $model)
+    public function __construct(Partner $model)
     {
         $this->model = $model;
 
     }
 
-    public function getAllCustomers($request)
+    public function getAllPartners($request)
     {
         $models = $this->model->where(function ($q) use ($request) {
 
@@ -46,7 +46,7 @@ class CustomerRepository implements CustomerRepositoryInterface
     {
         DB::transaction(function () use ($request) {
             $this->model->create($request->all());
-            cacheForget("customers");
+            cacheForget("Partners");
         });
     }
 
@@ -71,8 +71,8 @@ class CustomerRepository implements CustomerRepositoryInterface
     private function forget($id)
     {
         $keys = [
-            "customers",
-            "customers_" . $id,
+            "Partners",
+            "Partners_" . $id,
         ];
         foreach ($keys as $key) {
             cacheForget($key);
