@@ -13,7 +13,8 @@ class UpdateCompanyRequest extends FormRequest
     public function rules(Request $request)
     {
         return [
-            "client_id"  => "exists:clients,id",
+            // "client_id"  => "exists:clients,id",
+            "client_id"  => "numeric",
             "name"       => "string|max:100",
             "name_e"     => "string|max:100",
             "url"        => "string|max:200",

@@ -31,9 +31,17 @@ Route::group(['prefix'=>'companies'],function(){
     Route::post('/{id}',[CompanyController::class,"update"]);
     Route::delete('/{id}',[CompanyController::class,"destroy"]);
 });
+Route::group(['prefix'=>'stores'],function(){
+    Route::get('',[StoreController::class,"index"]);
+    Route::get('/{id}',[StoreController::class,"show"]);
+    Route::post('',[StoreController::class,"store"]);
+    Route::post('/{id}',[StoreController::class,"update"]);
+    Route::delete('/{id}',[StoreController::class,"destroy"]);
+});
+
+
+
 Route::middleware('auth:sanctum')->group(function () {
-    
-    
 });
 
 

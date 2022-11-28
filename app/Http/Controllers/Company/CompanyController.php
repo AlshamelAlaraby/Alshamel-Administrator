@@ -75,7 +75,7 @@ class CompanyController extends ResponseController
     public function update(UpdateCompanyRequest $request, $id)
     {
         try {
-            return $this->successResponse (new $this->resource($this->repository->update($request->validated(),$id)),__('updated'),200);
+            return $this->successResponse($this->repository->update($request->validated(),$id),__('updated'),200);
         }catch (Exception $exception){
             return $this->errorResponse ($exception->getMessage(),$exception->getCode());
         }
@@ -88,6 +88,7 @@ class CompanyController extends ResponseController
      */
     public function destroy($id)
     {
+        $this->repository->destroy($id);
         return $this->successResponse(null,__('deleted'),200);
     }
 }

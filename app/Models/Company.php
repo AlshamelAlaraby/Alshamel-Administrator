@@ -30,7 +30,7 @@ class Company extends Model
     
     public function getPhotoUrlAttribute()
     {
-        return Storage::disk("companies")->url($this->photo) ;
+        return Storage::disk("companies")->url($this->logo) ;
     }
 
 }

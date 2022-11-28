@@ -12,7 +12,8 @@ class storeCompanyRequest extends FormRequest
     public function rules()
     {
         return [
-            "client_id"  => "required|exists:clients,id",
+            // "client_id"  => "required|exists:clients,id",
+            "client_id"  => "required|numeric",
             "name"       => "required|string|max:100",
             "name_e"     => "required|string|max:100",
             "url"        => "required|string|max:200",
