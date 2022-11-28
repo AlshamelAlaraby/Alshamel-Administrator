@@ -88,6 +88,16 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::resource('branches', BranchController::class)->except('create', 'edit');
 
+// api op customers
+Route::group(['prefix' => 'partners'], function () {
+    Route::controller(PartnerController::class)->group(function () {
+        Route::get('/', 'all')->name('partners.index');
+        Route::get('/show/{id}', 'find');
+        Route::post('/store', 'store')->name('partners.store');
+        Route::put('/update/{id}', 'update')->name('partners.update');
+        Route::delete('/delete/{id}', 'delete')->name('partners.destroy');
+    });
+
 });
 
 Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
