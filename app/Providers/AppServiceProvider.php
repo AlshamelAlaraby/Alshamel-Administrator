@@ -12,9 +12,10 @@ use App\Repositories\Serial\SerialRepository;
 use App\Repositories\Serial\SerialRepositoryInterface;
 use App\Repositories\Company\CompanyRepository;
 use App\Repositories\Company\CompanyRepositoryInterface;
+use App\Repositories\Store\StoreRepository;
+use App\Repositories\Store\StoreRepositoryInterface;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-
 use App\Repositories\Module\ModuleInterface;
 use App\Repositories\Module\ModuleRepository;
 
@@ -34,6 +35,8 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(SerialRepositoryInterface::class, SerialRepository::class);
         $this->app->bind(CompanyRepositoryInterface::class, CompanyRepository::class);
+
+        $this->app->bind(StoreRepositoryInterface::class, StoreRepository::class);
 
         $this->app->bind(ModuleInterface::class, ModuleRepository::class);
 
