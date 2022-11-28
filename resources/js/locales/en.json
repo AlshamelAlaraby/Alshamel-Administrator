@@ -11,9 +11,13 @@
         "danger": "Email Or Password is wrong!",
         "Loading": "Loading"
     },
-
-
-  "navbar": {
+    "module": {
+        "addmodule": "New Add Module",
+        "editmodule": "Edit Module",
+        "module": "module",
+        "ModulesTable": "Modules Table"
+    },
+    "navbar": {
     "search": {
       "text": "Search..."
     },
@@ -349,7 +353,38 @@
     }
   },
   "general": {
-     "fieldIsRequired": "This field is required",
-     "PleaseEnterValidEmail": "Please enter valid email."
+      "fieldIsRequired": "This field is required",
+      "PleaseEnterValidEmail": "Please enter valid email.",
+      "notDataFound": "Not Data Found",
+      "Create": "Create",
+      "Action": "Action",
+      "Status": "Status",
+      "Date": "Date",
+      "Active": "Active",
+      "Inactive": "Inactive",
+      "Name": "Name (arabic)",
+      "Name_en": "Name (english)",
+      "Areyousure": "Are you sure ?",
+      "Youwontbeabletoreverthis": "You won't be able to revert this!",
+      "Yesdeleteit": "Yes, delete it!",
+      "Nocancel": "No, cancel!",
+      "Error": "Error",
+      "Deleted": "Deleted!",
+      "Thereisanerrorinthesystem": "There is an error in the system !",
+      "Yourrowhasbeendeleted": "Your row has been deleted.",
+      "Previous": "Previous",
+      "Next": "Next",
+      "Looksgood": "Looks good !",
+      "Itmustbeatleast": "It must be at least",
+      "letters": "characters long",
+      "Itmustbeatmost": "It must be at most",
+      "Choose": "Choose",
+      "Add": "Add",
+      "Edit": "Edit",
+      "Cancel": "Cancel",
+      "IdParent": "Parent",
+      "Addedsuccessfully": "Added successfully",
+      "Editsuccessfully": "Edit successfully",
+      "ModulesTable": "Modules Table"
   }
 }

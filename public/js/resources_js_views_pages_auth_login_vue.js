@@ -48,7 +48,7 @@ __webpack_require__.r(__webpack_exports__);
     title: "Login",
     meta: [{
       name: "description",
-      content: 'auth login'
+      content: 'login'
     }]
   },
   data: function data() {
@@ -56,14 +56,15 @@ __webpack_require__.r(__webpack_exports__);
       email: "",
       password: "123456",
       submitted: false,
-      type: 'password',
       isSuccess: false,
-      isErorr: false
+      isError: false,
+      type: 'password'
     };
   },
   components: {
     Auth: _layouts_auth__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
+  computed: {},
   created: function created() {},
   validations: {
     email: {
@@ -85,7 +86,7 @@ __webpack_require__.r(__webpack_exports__);
         return;
       } else {
         this.submitted = true;
-        this.isErorr = false;
+        this.isError = false;
         var _email = this.email,
           password = this.password;
         _api_adminAxios__WEBPACK_IMPORTED_MODULE_1__["default"].post("/auth/login", {
@@ -97,12 +98,12 @@ __webpack_require__.r(__webpack_exports__);
           _this.$store.commit('auth/editAdmin', l.admin);
           _this.isSuccess = true;
           setTimeout(function () {
-            return _this.$router.push({
+            _this.$router.push({
               name: 'home'
             });
-          }, 500);
+          });
         })["catch"](function (err) {
-          _this.isErorr = true;
+          _this.isError = true;
         })["finally"](function () {
           _this.submitted = false;
         });
@@ -485,7 +486,7 @@ var render = function () {
                     )
                   : _vm._e(),
                 _vm._v(" "),
-                _vm.isErorr
+                _vm.isError
                   ? _c(
                       "b-alert",
                       {

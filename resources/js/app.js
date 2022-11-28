@@ -32,7 +32,7 @@ Vue.use(VueMask);
 import VueSlideBar from 'vue-slide-bar';
 
 Vue.component('VueSlideBar', VueSlideBar);
-
+Vue.component('pagination-laravel', require('laravel-vue-pagination'));
 Vue.component('apexchart', VueApexCharts);
 Vue.use(BootstrapVue);
 Vue.use(Vuelidate);

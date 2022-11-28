@@ -10,21 +10,22 @@ import adminApi from "../../../api/adminAxios";
 export default {
   page: {
     title: "Login",
-      meta: [{ name: "description", content: 'auth login' }],
+    meta: [{ name: "description", content: 'login' }],
   },
   data() {
     return {
       email: "",
       password: "123456",
       submitted: false,
-      type: 'password',
       isSuccess: false,
-      isErorr: false
+      isError: false,
+      type: 'password'
     };
   },
   components: {
     Auth,
   },
+  computed: {},
   created() {},
   validations: {
     email: {
@@ -46,23 +47,21 @@ export default {
               return;
           } else {
               this.submitted = true;
-              this.isErorr = false;
-              const { email, password } = this;
-              adminApi.post(`/auth/login`,{ email, password })
+              this.isError = false;
+              const {email,password} = this;
+              adminApi.post(`/auth/login`,{email,password})
                   .then((res) => {
                       let l =res.data.data;
-
                       this.$store.commit('auth/editToken',l.token);
                       this.$store.commit('auth/editAdmin',l.admin);
                       this.isSuccess = true;
 
                       setTimeout(() => {
-                          return this.$router.push({name:'home'});
-                      },500);
-
+                          this.$router.push({name:'home'});
+                      });
                   })
                   .catch((err) => {
-                      this.isErorr = true;
+                      this.isError = true;
                   }).finally(() => {
                       this.submitted = false;
                   });
@@ -107,7 +106,7 @@ export default {
 
             <form action="#" @submit.prevent="tryToLogIn">
               <b-alert
-                :variant="'success'"
+                variant="success"
                 class="mt-3 text-center"
                 v-if="isSuccess"
                 :show="5"
@@ -118,7 +117,7 @@ export default {
               <b-alert
                 variant="danger"
                 class="mt-3 text-center"
-                v-if="isErorr"
+                v-if="isError"
                 :show="5"
                 dismissible
                 >{{ $t('login.danger') }}</b-alert
@@ -191,11 +190,11 @@ export default {
 
               <div class="form-group mb-0 text-center">
                 <button class="btn btn-primary btn-block" type="submit" v-if="!submitted">
-                    {{  $t('login.loginIn') }}
+                    {{ $t('login.loginIn') }}
                 </button>
                 <b-button class="btn btn-primary btn-block" disabled v-else>
-                  <b-spinner small></b-spinner>
-                  <span class="sr-only">{{ $t('login.Loading') }}...</span>
+                      <b-spinner small></b-spinner>
+                      <span class="sr-only">{{ $t('login.Loading') }}...</span>
                 </b-button>
               </div>
             </form>

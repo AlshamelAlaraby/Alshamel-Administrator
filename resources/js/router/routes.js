@@ -1,17 +1,15 @@
-import guest from "../middleware/guest";
 import auth from "../middleware/auth";
 import checkAuth from "../middleware/auth-check";
+import login from "./routeChild/login";
+import company from "./routeChild/company";
+import module from "./routeChild/module";
+import partner from "./routeChild/partner";
 
 export default [
-    {
-        path: '/login',
-        name: 'login',
-        component: () => import('../views/pages/auth/login'),
-        meta: {
-            middleware: [guest]
-        },
-    },
-
+    ...login,
+    ...company,
+    ...module,
+    ...partner,
 
     //**********************************************
     {

@@ -11,6 +11,12 @@
        "danger": "يوجد خطا في الاميل او الباسورد",
        "Loading": "تحميل"
    },
+   "module": {
+       "addmodule": "اضافه موديل جديد",
+       "editmodule": "تعديل موديل ",
+       "ModulesTable": "جدول الموديول",
+       "module": "موديول"
+   },
   "navbar": {
     "search": {
       "text": "بحث..."
@@ -349,6 +355,36 @@
   },
   "general": {
       "fieldIsRequired": "هذا الحقل مطلوب .",
-      "PleaseEnterValidEmail": "الرجاء إدخال بريد إلكتروني صحيح ."
+      "PleaseEnterValidEmail": "الرجاء إدخال بريد إلكتروني صحيح .",
+      "notDataFound": "لا يوجد بيانات .",
+      "Create": "اضافه",
+      "Action": "الاجراءات",
+      "Status": "الحاله",
+      "Date": "التاريخ",
+      "Active": "نشط",
+      "Inactive": "غير نشط",
+      "Name": "الاسم(عربي)",
+      "Name_en": "الاسم(انجليزي)",
+      "Areyousure": "هل انت متاكد ؟",
+      "Youwontbeabletoreverthis": "لن تتمكن من التراجع عن هذا!",
+      "Yesdeleteit": "نعم ، احذفها!",
+      "Nocancel": "لا ، إلغاء!",
+      "Error": "خطأ",
+      "Deleted": "تم الحذف",
+      "Thereisanerrorinthesystem": "يوجد خطا في النظام!",
+      "Yourrowhasbeendeleted": "تم حذف صفك .",
+      "Previous": "السابق",
+      "Next": "التالي",
+      "Looksgood": "تبدو جيده !",
+      "Itmustbeatleast": "يجب ان يكون علي الاقل",
+      "letters": "احرف",
+      "Itmustbeatmost": "يجب ان يكون علي الاكثر",
+      "Choose": "اختار",
+      "Add": "اضافه",
+      "Edit": "تعديل",
+      "Cancel": "إلغاء",
+      "IdParent": "الاب",
+      "Addedsuccessfully": "تم الاضافه بنجاح !",
+      "Editsuccessfully": "تم التعديل بنجاح !"
   }
 }
