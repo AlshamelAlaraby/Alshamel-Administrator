@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+
+use App\Http\Controllers\Branch\BranchController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +31,7 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('/login', [LoginController::class, "login"]);
 });
 
+
 Route::group(['prefix' => 'modules'], function () {
     Route::controller(\App\Http\Controllers\Module\ModuleController::class)->group(function () {
         Route::get('/', 'all')->name('modules.index');
@@ -41,3 +44,12 @@ Route::group(['prefix' => 'modules'], function () {
 
     });
 });
+
+
+Route::resource ('branches',BranchController::class)->except ('create','edit');
+
+
+
+
+
+
