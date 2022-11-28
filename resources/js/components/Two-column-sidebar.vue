@@ -345,10 +345,10 @@ export default {
                                         </li>
                                         <li>
                                             <router-link
-                                                :to="{name:'customers'}"
+                                                :to="{name:'partners'}"
                                                 class="side-nav-link-ref"
                                             >
-                                                Customers
+                                                Partners
                                             </router-link>
                                         </li>
                                         <li>
