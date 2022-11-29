@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Partner;
 
-use App\Enums\IsActive;
 use App\Models\Partner;
 use Illuminate\Support\Facades\DB;
 use Hash;
@@ -48,7 +47,6 @@ class PartnerRepository implements PartnerRepositoryInterface
         DB::transaction(function () use ($request) {
             $data = $request;
             $data['password'] = Hash::make($data['password']);
-            $data['is_active'] = $data['is_active'] == 1 ? Partner::ACTIVE : Partner::INACTIVE ;
             $this->model->create($data);
             cacheForget("Partners");
         });
@@ -61,7 +59,6 @@ class PartnerRepository implements PartnerRepositoryInterface
             if (isset($data['password'])) {
                 $data['password'] = Hash::make($data['password']);
             }
-            $data['is_active'] = $data['is_active'] == 1 ? Partner::ACTIVE : Partner::INACTIVE ;
             $this->model->where("id", $id)->update($data);
             $this->forget($id);
 
