@@ -5,6 +5,9 @@
 /public/companies
 /storage/*.key
 /storage
+/public/hot
+/public/storage
+/storage/*.key
 /vendor
 .env
 .env.backup
@@ -12,6 +15,9 @@
 Homestead.json
 Homestead.yaml
 auth.json
+docker-compose.override.yml
+Homestead.json
+Homestead.yaml
 npm-debug.log
 yarn-error.log
 /.idea

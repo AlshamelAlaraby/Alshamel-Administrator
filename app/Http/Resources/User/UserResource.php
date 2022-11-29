@@ -10,13 +10,8 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'image' => $this->image,
             'name' => $this->name,
             'email' => $this->email,
-            'mobile' => $this->mobile,
-            'active' => $this->active ? false : true,
-            'token' => $this->token,
         ];
     }
 }
-        
