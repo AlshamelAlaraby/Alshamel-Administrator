@@ -8,7 +8,7 @@ use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Partner\PartnerController;
 use App\Http\Controllers\Serial\SerialController;
 use App\Http\Controllers\User\UserController;
-//use App\Http\Controllers\Store\StoreController;
+use App\Http\Controllers\Store\StoreController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -27,13 +27,19 @@ Route::get('/users', [UserController::class, "index"]);
 
 /*
  * Auth
- */
+*/
 
 Route::group(['prefix' => 'auth'], function () {
     Route::post('/login', [LoginController::class, "login"]);
 });
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
+    Route::post('/logout', [LogoutController::class, "logout"]);
+});
+
+Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
+    Route::post('/check-token', [CheckIfValidTokenController::class, "checkIsValidToken"]);
+});
 
     Route::group(['prefix' => 'companies'], function () {
         Route::get('', [CompanyController::class, "index"]);
@@ -87,23 +93,3 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::resource('branches', BranchController::class)->except('create', 'edit');
-
-// api op customers
-Route::group(['prefix' => 'partners'], function () {
-    Route::controller(PartnerController::class)->group(function () {
-        Route::get('/', 'all')->name('partners.index');
-        Route::get('/show/{id}', 'find');
-        Route::post('/store', 'store')->name('partners.store');
-        Route::put('/update/{id}', 'update')->name('partners.update');
-        Route::delete('/delete/{id}', 'delete')->name('partners.destroy');
-    });
-
-});
-
-Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
-    Route::post('/logout', [LogoutController::class, "logout"]);
-});
-
-Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
-    Route::post('/check-token', [CheckIfValidTokenController::class, "checkIsValidToken"]);
-});

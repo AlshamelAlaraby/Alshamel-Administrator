@@ -17,4 +17,7 @@ class Partner extends Model
     protected $casts = [
         'is_active' => 'App\Enums\IsActive',
     ];
+
+
+
 }

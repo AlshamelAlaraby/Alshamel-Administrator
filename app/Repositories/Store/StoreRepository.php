@@ -34,5 +34,5 @@ class StoreRepository implements StoreRepositoryInterface
     public function destroy($id){
         return $this->model->find($id)->delete();
     }
-    
+
 }
