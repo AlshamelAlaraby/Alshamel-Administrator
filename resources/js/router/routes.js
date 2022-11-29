@@ -4,6 +4,7 @@ import login from "./routeChild/login";
 import company from "./routeChild/company";
 import module from "./routeChild/module";
 import partner from "./routeChild/partner";
+import store from "./routeChild/store";
 import customer from "./routeChild/customer";
 import branch from "./routeChild/branch";
 
@@ -12,6 +13,7 @@ export default [
     ...company,
     ...module,
     ...partner,
+    ...store,
     ...customer,
     ...branch,
     //**********************************************
