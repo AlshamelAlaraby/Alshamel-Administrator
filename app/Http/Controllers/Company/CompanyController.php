@@ -88,6 +88,7 @@ class CompanyController extends ResponseController
      */
     public function destroy($id)
     {
+        $this->repository->destroy($id);
         return $this->successResponse(null, __('deleted'), 200);
     }
 }

@@ -27,7 +27,7 @@ Route::get('/users', [UserController::class, "index"]);
 
 /*
  * Auth
- */
+*/
 
 Route::group(['prefix' => 'auth'], function () {
     Route::post('/login', [LoginController::class, "login"]);
