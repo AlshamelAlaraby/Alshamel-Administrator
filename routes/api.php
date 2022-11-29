@@ -33,7 +33,13 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('/login', [LoginController::class, "login"]);
 });
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
+    Route::post('/logout', [LogoutController::class, "logout"]);
+});
+
+Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
+    Route::post('/check-token', [CheckIfValidTokenController::class, "checkIsValidToken"]);
+});
 
     Route::group(['prefix' => 'companies'], function () {
         Route::get('', [CompanyController::class, "index"]);
@@ -98,12 +104,4 @@ Route::group(['prefix' => 'partners'], function () {
         Route::delete('/delete/{id}', 'delete')->name('partners.destroy');
     });
 
-});
-
-Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
-    Route::post('/logout', [LogoutController::class, "logout"]);
-});
-
-Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
-    Route::post('/check-token', [CheckIfValidTokenController::class, "checkIsValidToken"]);
 });
