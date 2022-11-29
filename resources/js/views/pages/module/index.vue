@@ -72,17 +72,21 @@ export default {
     },
     watch: {
         /**
-         * Total no. of records
+         * watch per_page
          */
         per_page(after,befour){
             this.getData();
         },
+        /**
+         * watch search
+         */
         search(after,befour){
             clearTimeout(this.debounce);
             this.debounce = setTimeout(() => {
                 this.getData();
             }, 400);
         },
+
     },
     mounted() {
         this.getData();
