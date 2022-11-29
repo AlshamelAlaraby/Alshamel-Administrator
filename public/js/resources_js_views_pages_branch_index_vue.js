@@ -591,6 +591,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+<<<<<<< HEAD
 /* harmony import */ var _api_adminAxios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/adminAxios */ "./resources/js/api/adminAxios.js");
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../router */ "./resources/js/router/index.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
@@ -600,6 +601,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+=======
+>>>>>>> dashboard-vue-update
 /**
  * Topbar component
  */
@@ -698,6 +701,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     horizonalmenu: function horizonalmenu() {
       var element = document.getElementById("topnav-menu-content");
       element.classList.toggle("show");
+<<<<<<< HEAD
     },
     /**
      *  Logout Dashboard
@@ -725,6 +729,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+=======
+>>>>>>> dashboard-vue-update
     }
   }
 });
@@ -6548,6 +6554,7 @@ var render = function () {
               _vm._v(" "),
               _c(
                 "a",
+<<<<<<< HEAD
                 {
                   staticClass: "dropdown-item",
                   attrs: { href: "javascript:void(0)" },
@@ -6558,6 +6565,9 @@ var render = function () {
                     },
                   },
                 },
+=======
+                { staticClass: "dropdown-item", attrs: { href: "/logout" } },
+>>>>>>> dashboard-vue-update
                 [
                   _c("i", { staticClass: "fe-log-out mr-1" }),
                   _vm._v(" "),
