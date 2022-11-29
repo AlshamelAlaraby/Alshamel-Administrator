@@ -2,6 +2,7 @@
 import Auth from "../../layouts/auth";
 
 import { required, email } from "vuelidate/lib/validators";
+import adminApi from "../../../api/adminAxios";
 
 /**
  * Login component
@@ -9,30 +10,22 @@ import { required, email } from "vuelidate/lib/validators";
 export default {
   page: {
     title: "Login",
-      meta: [{ name: "description", content: 'kdjsd' }],
+    meta: [{ name: "description", content: 'login' }],
   },
   data() {
     return {
       email: "",
       password: "123456",
       submitted: false,
-      authError: null,
-      tryingToLogIn: false,
-      isAuthError: false,
+      isSuccess: false,
+      isError: false,
       type: 'password'
     };
   },
   components: {
     Auth,
   },
-  computed: {
-    notification() {
-      return this.$store ? this.$store.state.notification : null;
-    },
-    notificationAutoCloseDuration() {
-      return this.$store && this.$store.state.notification ? 5 : 0;
-    },
-  },
+  computed: {},
   created() {},
   validations: {
     email: {
@@ -47,14 +40,31 @@ export default {
       // Try to log the user in with the username
       // and password they provided.
       tryToLogIn() {
-          this.submitted = true;
           // stop here if form is invalid
           this.$v.$touch();
 
           if (this.$v.$invalid) {
               return;
           } else {
+              this.submitted = true;
+              this.isError = false;
+              const {email,password} = this;
+              adminApi.post(`/auth/login`,{email,password})
+                  .then((res) => {
+                      let l =res.data.data;
+                      this.$store.commit('auth/editToken',l.token);
+                      this.$store.commit('auth/editAdmin',l.admin);
+                      this.isSuccess = true;
 
+                      setTimeout(() => {
+                          this.$router.push({name:'home'});
+                      });
+                  })
+                  .catch((err) => {
+                      this.isError = true;
+                  }).finally(() => {
+                      this.submitted = false;
+                  });
           }
       }
     }
@@ -96,21 +106,21 @@ export default {
 
             <form action="#" @submit.prevent="tryToLogIn">
               <b-alert
-                :variant="notification.type"
-                class="mt-3"
-                v-if="notification.message"
-                :show="notificationAutoCloseDuration"
+                variant="success"
+                class="mt-3 text-center"
+                v-if="isSuccess"
+                :show="5"
                 dismissible
-                >{{ notification.message }}</b-alert
+                >{{ $t('login.success') }}</b-alert
               >
 
               <b-alert
                 variant="danger"
-                class="mt-3"
-                v-model="isAuthError"
-                :show="notificationAutoCloseDuration"
+                class="mt-3 text-center"
+                v-if="isError"
+                :show="5"
                 dismissible
-                >{{ authError }}</b-alert
+                >{{ $t('login.danger') }}</b-alert
               >
               <div class="form-group mb-3">
                 <label for="emailaddress">{{ $t('login.Emailaddress') }}</label>
@@ -120,14 +130,14 @@ export default {
                   type="email"
                   id="emailaddress"
                   :placeholder="$t('login.Enteryouremail')"
-                  :class="{ 'is-invalid': submitted && $v.email.$error }"
+                  :class="{ 'is-invalid': $v.email.$error }"
                 />
                 <div
-                  v-if="submitted && $v.email.$error"
+                  v-if="$v.email.$error"
                   class="invalid-feedback"
                 >
-                  <span v-if="!$v.email.required">Email is required.</span>
-                  <span v-if="!$v.email.email">Please enter valid email.</span>
+                  <span v-if="!$v.email.required">{{ $t('general.fieldIsRequired') }}</span>
+                  <span v-if="!$v.email.email">{{ $t('general.PleaseEnterValidEmail') }}</span>
                 </div>
               </div>
 
@@ -140,7 +150,7 @@ export default {
                     id="password"
                     class="form-control"
                     :placeholder="$t('login.Enteryourpassword')"
-                    :class="{ 'is-invalid': submitted && $v.password.$error }"
+                    :class="{ 'is-invalid': $v.password.$error }"
                   />
 
                   <div
@@ -156,10 +166,10 @@ export default {
                   </div>
 
                   <div
-                    v-if="submitted && !$v.password.required"
+                    v-if="!$v.password.required"
                     class="invalid-feedback"
                   >
-                    Password is required.
+                      {{ $t('general.fieldIsRequired') }}
                   </div>
                 </div>
               </div>
@@ -179,9 +189,13 @@ export default {
               </div>
 
               <div class="form-group mb-0 text-center">
-                <button class="btn btn-primary btn-block" type="submit">
+                <button class="btn btn-primary btn-block" type="submit" v-if="!submitted">
                     {{ $t('login.loginIn') }}
                 </button>
+                <b-button class="btn btn-primary btn-block" disabled v-else>
+                      <b-spinner small></b-spinner>
+                      <span class="sr-only">{{ $t('login.Loading') }}...</span>
+                </b-button>
               </div>
             </form>
 

@@ -31,7 +31,6 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    console.log('xzjxz oz')
     if (!to.meta.middleware) return next();
     const middleware = to.meta.middleware;
     const context = {

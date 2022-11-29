@@ -1,6 +1,8 @@
+import router from "../router/index";
+
 export default function auth({ next, store }){
     if (!store.getters["auth/token"]) {
-        return next({name: 'login'});
+        return router.push({name: 'login'});
     } else {
         return next();
     }

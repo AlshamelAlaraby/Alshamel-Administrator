@@ -24,7 +24,11 @@ class AllModuleRequest extends FormRequest
     public function rules()
     {
         return [
+<<<<<<< HEAD
             // "parent_id" => "nullable|exists:modules,parent_id",
+=======
+            //"parent_id" => "nullable|exists:modules,id",
+>>>>>>> front-login-company
             "is_active" => "nullable|in:active,inactive",
             "page" => "nullable|integer",
             "per_page" => "nullable|integer",
