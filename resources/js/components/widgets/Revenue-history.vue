@@ -5,7 +5,8 @@
 export default {
     data() {
         return {
-            revenueData: [{
+            revenueData: [
+                {
                     marketplaces: "Themes Market",
                     date: "Oct 15, 2018",
                     tax: "$125.23",

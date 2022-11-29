@@ -16,12 +16,10 @@ class Company extends Model
         'is_active' => 'App\Enums\IsActive',
     ];
 
-    public function client()
+    public function partner()
     {
-        return $this->belongsTo(Client::class);
+        return $this->belongsTo(Partner::class);
     }
-
-
 
     public function modules()
     {
