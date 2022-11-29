@@ -4,7 +4,7 @@ namespace App\Enums;
 
 enum IsActive: string
 {
-    case ACTIVE = 'active';
-    case INACTIVE = 'inactive';
+    Const ACTIVE = 'active';
+    Const INACTIVE = 'inactive';
 }
 
