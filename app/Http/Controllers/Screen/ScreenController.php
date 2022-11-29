@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Partner;
+namespace App\Http\Controllers\Screen;
 
 use App\Http\Controllers\ResponseController;
-use App\Repositories\Partner\PartnerRepositoryInterface;
-use App\Http\Resources\Partner\PartnerResource;
+use App\Repositories\Screen\ScreenRepositoryInterface;
+use App\Http\Resources\Screen\ScreenResource;
 use Illuminate\Http\Request;
-use App\Http\Requests\Partner\StorePartnerRequest;
-use App\Http\Requests\Partner\UpdatePartnerRequest;
+use App\Http\Requests\Screen\StoreScreenRequest;
+use App\Http\Requests\Screen\UpdateScreenRequest;
 use Mockery\Exception;
-use App\Models\Partner;
-class PartnerController extends ResponseController
+use App\Models\Screen;
+class ScreenController extends ResponseController
 {
 
     protected $repository;
-    protected $resource = PartnerResource::class;
+    protected $resource = ScreenResource::class;
 
 
-    public function __construct(PartnerRepositoryInterface $repository)
+    public function __construct(ScreenRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
@@ -26,16 +26,16 @@ class PartnerController extends ResponseController
     public function all(Request $request)
     {
         if (count($_GET) == 0) {
-            $models = cacheGet('Partners');
+            $models = cacheGet('Screens');
 
             if (!$models) {
-                $models = $this->repository->getAllPartners($request);
+                $models = $this->repository->getAllScreens($request);
 
-                cachePut('Partners', $models);
+                cachePut('Screens', $models);
             }
         } else {
 
-            $models = $this->repository->getAllPartners($request);
+            $models = $this->repository->getAllScreens($request);
         }
 
         return $this->successResponse (($this->resource)::collection ($models['data']) ,__ ('Done'),200);
@@ -46,24 +46,24 @@ class PartnerController extends ResponseController
     {
 
         try{
-            $model = cacheGet('Partners_' . $id);
+            $model = cacheGet('Screens_' . $id);
 
             if (!$model) {
                 $model = $this->repository->find($id);
                 if (!$model) {
                     return $this->errorResponse( __('message.data not found'),404);
                 } else {
-                    cachePut('Partners_' . $id, $model);
+                    cachePut('Screens_' . $id, $model);
                 }
             }
-            return $this->successResponse( new PartnerResource($model),__ ('Done'),200);
+            return $this->successResponse( new ScreenResource($model),__ ('Done'),200);
         } catch (Exception $exception) {
             return $this->errorResponse($exception->getMessage(), $exception->getCode());
         }
     }
 
 
-    public function store(StorePartnerRequest $request)
+    public function store(StoreScreenRequest $request)
     {
         try {
             return $this->successResponse($this->repository->create($request->validated()), __('Done'), 200);
@@ -73,7 +73,7 @@ class PartnerController extends ResponseController
     }
 
 
-    public function update(UpdatePartnerRequest $request , $id)
+    public function update(UpdateScreenRequest $request , $id)
     {
         try {
             $model = $this->repository->find($id);

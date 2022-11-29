@@ -18,7 +18,8 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\Module\ModuleInterface;
 use App\Repositories\Module\ModuleRepository;
-
+use App\Repositories\Screen\ScreenRepository;
+use App\Repositories\Screen\ScreenRepositoryInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -32,6 +33,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
 
         $this->app->bind(PartnerRepositoryInterface::class, PartnerRepository::class);
+
+        $this->app->bind(ScreenRepositoryInterface::class, ScreenRepository::class);
 
         $this->app->bind(SerialRepositoryInterface::class, SerialRepository::class);
         $this->app->bind(CompanyRepositoryInterface::class, CompanyRepository::class);
