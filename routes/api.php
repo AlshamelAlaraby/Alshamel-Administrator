@@ -68,7 +68,8 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
             Route::delete('/{module_id}/company/{company_id}', 'removeModuleFromCompany')->name('modules.company.remove');
 
 
-
+        });
+    });
 
 
 
@@ -82,7 +83,7 @@ Route::group(['prefix' => 'partners'], function () {
         Route::put('/{id}', 'update')->name('partners.update');
         Route::delete('/{id}', 'delete')->name('partners.destroy');
     });
-
+});
 // api op serials
     Route::group(['prefix' => 'serials'], function () {
         Route::controller(SerialController::class)->group(function () {
