@@ -358,7 +358,6 @@
         }
     }
   },
-<<<<<<< HEAD
   "general": {
       "fieldIsRequired": "هذا الحقل مطلوب .",
       "PleaseEnterValidEmail": "الرجاء إدخال بريد إلكتروني صحيح .",
@@ -393,7 +392,6 @@
       "Addedsuccessfully": "تم الاضافه بنجاح !",
       "Editsuccessfully": "تم التعديل بنجاح !"
   }
-=======
   "menuitems": {
     "navigation": {
       "text": "التنقل"
@@ -621,6 +619,5 @@
     }
   },
   "general": {}
->>>>>>> dashboard-vue-update
 }
 
