@@ -4,7 +4,7 @@ namespace App\Http\Requests\Partner;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatePartnerRequest extends FormRequest
+class StorePartnerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class UpdatePartnerRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,14 +26,18 @@ class UpdatePartnerRequest extends FormRequest
         return [
             'name'      => 'required|string|max:255',
             'name_e'    => 'required|string|max:255',
-            "is_active" => "nullable|in:active,inactive",
+            'email'     => 'required|email|unique:partners,email',
+            'password'  => 'required|min:8',
+            'mobile_no' => 'nullable',
+            'is_active' => 'nullable|in:active,inactive',
         ];
     }
 
     public function messages()
     {
         return [
-            'required'      => __('message.name is required'),
+            'required'      => __('message.field is required'),
+            'unique'        => __('message.field is unique'),
             'is_active.in'  => __('message.status must be active or inactive'),
         ];
     }

@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Partner\StorePartnerRequest;
 use App\Http\Requests\Partner\UpdatePartnerRequest;
 use Mockery\Exception;
-
+use App\Models\Partner;
 class PartnerController extends ResponseController
 {
 
@@ -27,13 +27,20 @@ class PartnerController extends ResponseController
     {
         if (count($_GET) == 0) {
             $models = cacheGet('Partners');
+
             if (!$models) {
                 $models = $this->repository->getAllPartners($request);
+
                 cachePut('Partners', $models);
             }
         } else {
+
             $models = $this->repository->getAllPartners($request);
         }
+        // $models = Partner::get();
+        // dd($models);
+
+        // return responseJson(200, 'success', ($this->resource)::collection ($models['data']), $models['paginate'] ? getPaginates($models['data']) : null);
         return $this->successResponse (($this->resource)::collection ($models['data']) ,__ ('Done'),200);
     }
 
@@ -43,10 +50,11 @@ class PartnerController extends ResponseController
 
         try{
             $model = cacheGet('Partners_' . $id);
+
             if (!$model) {
                 $model = $this->repository->find($id);
                 if (!$model) {
-                    return errorResponse( __('message.data not found'),404);
+                    return $this->errorResponse( __('message.data not found'),404);
                 } else {
                     cachePut('Partners_' . $id, $model);
                 }
@@ -61,21 +69,21 @@ class PartnerController extends ResponseController
     public function store(StorePartnerRequest $request)
     {
         try {
-            return $this->successResponse(new $this->resource($this->repository->create($request->validated())), __('created'), 200);
+            return $this->successResponse($this->repository->create($request->validated()), __('Done'), 200);
         } catch (Exception $exception) {
             return $this->errorResponse($exception->getMessage(), $exception->getCode());
         }
     }
 
 
-    public function update(UpdatePartnerRequest $request, $id)
+    public function update(UpdatePartnerRequest $request , $id)
     {
         try {
             $model = $this->repository->find($id);
             if (!$model) {
                 return  $this->errorResponse( __('message.data not found'),404);
             }
-            $model = $this->repository->update($request, $id);
+            $model = $this->repository->update($request->validated(), $id);
 
             return  $this->successResponse(__('Done'),200);
         } catch (Exception $exception) {
