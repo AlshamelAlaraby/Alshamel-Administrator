@@ -44,5 +44,5 @@ class CompanyRepository implements CompanyRepositoryInterface
     public function destroy($id){
         return $this->model->find($id)->delete();
     }
-    
+
 }

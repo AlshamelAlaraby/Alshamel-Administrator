@@ -14,7 +14,7 @@ class StoreRepository implements StoreRepositoryInterface
         $this->model = $model;
     }
 
-    public function getAllCompanies ()
+    public function getAllStores ()
     {
         return $this->model->get();
     }
@@ -28,6 +28,7 @@ class StoreRepository implements StoreRepositoryInterface
     }
 
     public function update($data,$id){
+
         return $this->model->find($id)->update($data);
     }
 

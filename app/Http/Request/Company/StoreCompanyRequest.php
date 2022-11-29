@@ -12,7 +12,7 @@ class storeCompanyRequest extends FormRequest
     public function rules()
     {
         return [
-            "client_id"  => "required|exists:clients,id",
+            "partner_id"  => "required|exists:partners,id",
             "name"       => "required|string|max:100",
             "name_e"     => "required|string|max:100",
             "url"        => "required|string|max:200",

@@ -9,11 +9,11 @@ use Illuminate\Http\Request;
 
 class UpdateCompanyRequest extends FormRequest
 {
-    
+
     public function rules(Request $request)
     {
         return [
-            "client_id"  => "exists:clients,id",
+            "partner_id"  => "exists:partners,id",
             "name"       => "string|max:100",
             "name_e"     => "string|max:100",
             "url"        => "string|max:200",

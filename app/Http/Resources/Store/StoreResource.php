@@ -15,8 +15,10 @@ class StoreResource extends JsonResource
     public function toArray($request)
     {
         return [
-            "company_id" => $this->company->name_e,
-            "branch_id"  => $this->branch->name_e,
+            "company_id" => $this->company_id,
+            "branch_id"  => $this->branch_id,
+            // "company_id" => $this->company->name_e,
+            // "branch_id"  => $this->branch->name_e,
             "name"       => $this->name,
             "name_e"     => $this->name_e,
             "is_active"  => $this->is_active ,

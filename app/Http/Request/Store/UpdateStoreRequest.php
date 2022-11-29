@@ -13,8 +13,10 @@ class UpdateStoreRequest extends FormRequest
     public function rules(Request $request)
     {
         return [
-            "company_id" => "exists:companies,id",
-            "branch_id"  => "exists:branches,id",
+            "company_id" => "",
+            "branch_id"  => "",
+            // "company_id" => "exists:companies,id",
+            // "branch_id"  => "exists:branches,id",
             "name"       => "string|max:100",
             "name_e"     => "string|max:100",
             "is_active"  => "in:active,inactive",
@@ -22,7 +24,7 @@ class UpdateStoreRequest extends FormRequest
     }
 
 
-    
+
     public function authorize()
     {
         return true;
