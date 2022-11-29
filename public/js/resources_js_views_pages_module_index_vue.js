@@ -1433,11 +1433,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   watch: {
     /**
-     * Total no. of records
+     * watch per_page
      */
     per_page: function per_page(after, befour) {
       this.getData();
     },
+    /**
+     * watch search
+     */
     search: function search(after, befour) {
       var _this = this;
       clearTimeout(this.debounce);
