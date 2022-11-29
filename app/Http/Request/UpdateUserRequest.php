@@ -2,16 +2,14 @@
 
 namespace App\Http\Request;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 
 class UpdateUserRequest extends FormRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
+
     public function rules(Request $request)
     {
         return [
@@ -22,5 +20,27 @@ class UpdateUserRequest extends FormRequest
             'active' => 'required',
             'phone' => 'required|numeric|min:8',
         ];
+    }
+
+    
+    public function authorize()
+    {
+        return true;
+    }
+
+
+    public function failedValidation ( Validator $validator )
+    {
+        throw new HttpResponseException(response()->json(
+            [
+                'status'    => 422,
+
+                'success'   => false,
+
+                'message'   => __ ('validation errors'),
+
+                'data'      => $validator->errors()
+            ]
+        ));
     }
 }

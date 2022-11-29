@@ -15,7 +15,7 @@ class CreateCompaniesTable extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('partners_id')->constrained('partners')->references("id")->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('partner_id')->constrained('partners')->references("id")->cascadeOnDelete()->cascadeOnUpdate();
             $table->string("name" , 100)->comment("Name Arabic");
             $table->string("name_e" , 100)->comment("Name English");
             $table->string("url" , 200)->comment("مسار نظام الشركة");

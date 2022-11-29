@@ -32,6 +32,7 @@ class CompanyRepository implements CompanyRepositoryInterface
     }
 
     public function update($data,$id){
+        return $data ;
         if (isset($data["logo"])) {
             Storage::disk('companies')->delete($this->model->find($id)->logo);
             $data["logo"]->store('companies');
@@ -43,5 +44,5 @@ class CompanyRepository implements CompanyRepositoryInterface
     public function destroy($id){
         return $this->model->find($id)->delete();
     }
-    
+
 }

@@ -1,0 +1,24 @@
+.custom-table-theme thead{
+    border-top: 1px solid #cccccc40;
+    border-bottom: 2px solid #cccccc29;
+    cursor: pointer;
+}
+
+.custom-table-theme tbody tr:not(:last-child){
+    border-bottom: 1px solid #cccccc40;
+}
+
+.custom-btn-1 {
+    border-radius: 50%;
+    background-color: transparent;
+    border: none;
+    padding: unset;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+}
+
+.custom-btn-1 i.mdi-pencil {color: #888;}
+.custom-btn-1 i.fa-trash{color: #f1556c;}
+.custom-btn-1 i{font-size: 15px}
+.custom-btn-1:hover i {color: #fff !important;}

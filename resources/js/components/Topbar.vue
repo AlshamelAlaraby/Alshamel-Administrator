@@ -1,4 +1,7 @@
 <script>
+import adminApi from "../api/adminAxios";
+import router from "../router";
+
 /**
  * Topbar component
  */
@@ -106,6 +109,21 @@ export default {
       let element = document.getElementById("topnav-menu-content");
       element.classList.toggle("show");
     },
+      /**
+       *  Logout Dashboard
+       */
+     async logout(){
+        await adminApi.post(`/auth/logout`)
+              .then((res) => {
+                  this.$store.commit('auth/logoutToken');
+                  return this.$router.push({name: 'login'});
+              })
+              .catch((err) => {
+                  console.log(err.response.data);
+              }).finally(() => {
+
+              });
+      }
   },
 };
 </script>
@@ -430,7 +448,7 @@ export default {
           </b-dropdown-item>
 
           <b-dropdown-divider></b-dropdown-divider>
-          <a class="dropdown-item" href="/logout">
+          <a class="dropdown-item" href="javascript:void(0)" @click.prevent="logout">
             <i class="fe-log-out mr-1"></i>
             <span>{{ $t("navbar.dropdown.name.list.logout") }}</span>
           </a>
