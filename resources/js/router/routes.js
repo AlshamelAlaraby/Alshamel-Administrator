@@ -4,12 +4,15 @@ import login from "./routeChild/login";
 import company from "./routeChild/company";
 import module from "./routeChild/module";
 import partner from "./routeChild/partner";
+import store from "./routeChild/store";
+
 
 export default [
     ...login,
     ...company,
     ...module,
     ...partner,
+    ...store,
     //**********************************************
     {
         path: '/',
