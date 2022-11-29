@@ -67,20 +67,23 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
             Route::post('/company', 'addModuleToCompany')->name('modules.company.add');
             Route::delete('/{module_id}/company/{company_id}', 'removeModuleFromCompany')->name('modules.company.remove');
 
+
         });
     });
 
-    // api op Partners
-    Route::group(['prefix' => 'partners'], function () {
-        Route::controller(PartnerController::class)->group(function () {
-            Route::get('/', 'all')->name('partners.index');
-            Route::get('/show/{id}', 'find');
-            Route::post('/store', 'store')->name('partners.store');
-            Route::put('/update/{id}', 'update')->name('partners.update');
-            Route::delete('/delete/{id}', 'delete')->name('partners.destroy');
-        });
-    });
 
+
+
+// api of Partners
+Route::group(['prefix' => 'partners'], function () {
+    Route::controller(PartnerController::class)->group(function () {
+        Route::get('/', 'all')->name('partners.index');
+        Route::get('/{id}', 'find');
+        Route::post('/', 'store')->name('partners.store');
+        Route::put('/{id}', 'update')->name('partners.update');
+        Route::delete('/{id}', 'delete')->name('partners.destroy');
+    });
+});
 // api op serials
     Route::group(['prefix' => 'serials'], function () {
         Route::controller(SerialController::class)->group(function () {

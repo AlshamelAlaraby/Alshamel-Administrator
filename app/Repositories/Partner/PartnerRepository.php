@@ -4,7 +4,7 @@ namespace App\Repositories\Partner;
 
 use App\Models\Partner;
 use Illuminate\Support\Facades\DB;
-
+use Hash;
 class PartnerRepository implements PartnerRepositoryInterface
 {
 
@@ -45,7 +45,9 @@ class PartnerRepository implements PartnerRepositoryInterface
     public function create($request)
     {
         DB::transaction(function () use ($request) {
-            $this->model->create($request->all());
+            $data = $request;
+            $data['password'] = Hash::make($data['password']);
+            $this->model->create($data);
             cacheForget("Partners");
         });
     }
@@ -53,7 +55,11 @@ class PartnerRepository implements PartnerRepositoryInterface
     public function update($request, $id)
     {
         DB::transaction(function () use ($id, $request) {
-            $this->model->where("id", $id)->update($request->all());
+            $data = $request;
+            if (isset($data['password'])) {
+                $data['password'] = Hash::make($data['password']);
+            }
+            $this->model->where("id", $id)->update($data);
             $this->forget($id);
 
         });
