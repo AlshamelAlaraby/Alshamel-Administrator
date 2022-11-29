@@ -15,7 +15,7 @@ import loader from "../../../components/loader";
 export default {
     page: {
         title: "Store",
-        meta: [{ name: "description", content: 'Module' }],
+        meta: [{ name: "description", content: 'Store' }],
     },
     components: {
         Layout,
