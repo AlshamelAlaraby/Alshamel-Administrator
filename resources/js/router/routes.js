@@ -4,12 +4,18 @@ import login from "./routeChild/login";
 import company from "./routeChild/company";
 import module from "./routeChild/module";
 import partner from "./routeChild/partner";
+import store from "./routeChild/store";
+import customer from "./routeChild/customer";
+import branch from "./routeChild/branch";
 
 export default [
     ...login,
     ...company,
     ...module,
     ...partner,
+    ...store,
+    ...customer,
+    ...branch,
     //**********************************************
     {
         path: '/',
@@ -17,6 +23,8 @@ export default [
         meta: {
             middleware: [auth, checkAuth]
         },
+        component: () =>
+            import ('../views/pages/dashboard/sales/index')
         component: () =>
             import ('../views/pages/dashboard/sales/index')
     },
@@ -28,6 +36,8 @@ export default [
         },
         component: () =>
             import ('../views/pages/dashboard/crm/index')
+        component: () =>
+            import ('../views/pages/dashboard/crm/index')
     },
     {
         path: '/dashboard/analytics',
@@ -35,6 +45,8 @@ export default [
         meta: {
             middleware: [auth, checkAuth]
         },
+        component: () =>
+            import ('../views/pages/dashboard/analytics/index')
         component: () =>
             import ('../views/pages/dashboard/analytics/index')
     },
@@ -478,6 +490,8 @@ export default [
         },
         component: () =>
             import ('../views/pages/ui/avatars')
+        component: () =>
+            import ('../views/pages/ui/avatars')
     },
     {
         path: '/ui/buttons',
@@ -485,6 +499,8 @@ export default [
         meta: {
             middleware: [auth, checkAuth]
         },
+        component: () =>
+            import ('../views/pages/ui/buttons')
         component: () =>
             import ('../views/pages/ui/buttons')
     },
@@ -496,6 +512,8 @@ export default [
         },
         component: () =>
             import ('../views/pages/ui/cards')
+        component: () =>
+            import ('../views/pages/ui/cards')
     },
     {
         path: '/ui/carousel',
@@ -503,6 +521,8 @@ export default [
         meta: {
             middleware: [auth, checkAuth]
         },
+        component: () =>
+            import ('../views/pages/ui/carousel')
         component: () =>
             import ('../views/pages/ui/carousel')
     },
@@ -514,6 +534,8 @@ export default [
         },
         component: () =>
             import ('../views/pages/ui/dropdowns')
+        component: () =>
+            import ('../views/pages/ui/dropdowns')
     },
     {
         path: '/ui/general',
@@ -521,6 +543,8 @@ export default [
         meta: {
             middleware: [auth, checkAuth]
         },
+        component: () =>
+            import ('../views/pages/ui/general')
         component: () =>
             import ('../views/pages/ui/general')
     },
@@ -532,6 +556,8 @@ export default [
         },
         component: () =>
             import ('../views/pages/ui/grid')
+        component: () =>
+            import ('../views/pages/ui/grid')
     },
     {
         path: '/ui/images',
@@ -539,6 +565,8 @@ export default [
         meta: {
             middleware: [auth, checkAuth]
         },
+        component: () =>
+            import ('../views/pages/ui/images')
         component: () =>
             import ('../views/pages/ui/images')
     },
@@ -550,6 +578,8 @@ export default [
         },
         component: () =>
             import ('../views/pages/ui/list-group')
+        component: () =>
+            import ('../views/pages/ui/list-group')
     },
     {
         path: '/ui/modals',
@@ -557,6 +587,8 @@ export default [
         meta: {
             middleware: [auth, checkAuth]
         },
+        component: () =>
+            import ('../views/pages/ui/modals')
         component: () =>
             import ('../views/pages/ui/modals')
     },
@@ -568,6 +600,8 @@ export default [
         },
         component: () =>
             import ('../views/pages/ui/notifications')
+        component: () =>
+            import ('../views/pages/ui/notifications')
     },
     {
         path: '/ui/portlets',
@@ -577,6 +611,8 @@ export default [
         },
         component: () =>
             import ('../views/pages/ui/portlets')
+        component: () =>
+            import ('../views/pages/ui/portlets')
     },
     {
         path: '/ui/progress',
@@ -584,6 +620,8 @@ export default [
         meta: {
             middleware: [auth, checkAuth]
         },
+        component: () =>
+            import ('../views/pages/ui/progress')
         component: () =>
             import ('../views/pages/ui/progress')
     },
@@ -611,6 +649,8 @@ export default [
         },
         component: () =>
             import ('../views/pages/ui/tabs-accordions')
+        component: () =>
+            import ('../views/pages/ui/tabs-accordions')
     },
     {
         path: '/ui/tooltips-popovers',
@@ -620,6 +660,8 @@ export default [
         },
         component: () =>
             import ('../views/pages/ui/tooltips-popovers')
+        component: () =>
+            import ('../views/pages/ui/tooltips-popovers')
     },
     {
         path: '/ui/typography',
@@ -627,6 +669,8 @@ export default [
         meta: {
             middleware: [auth, checkAuth]
         },
+        component: () =>
+            import ('../views/pages/ui/typography')
         component: () =>
             import ('../views/pages/ui/typography')
     },
@@ -647,6 +691,8 @@ export default [
         },
         component: () =>
             import ('../views/pages/extended/rangeslider')
+        component: () =>
+            import ('../views/pages/extended/rangeslider')
     },
     {
         path: '/extended/sweet-alert',
@@ -654,6 +700,8 @@ export default [
         meta: {
             middleware: [auth, checkAuth]
         },
+        component: () =>
+            import ('../views/pages/extended/sweet-alert')
         component: () =>
             import ('../views/pages/extended/sweet-alert')
     },
@@ -665,6 +713,8 @@ export default [
         },
         component: () =>
             import ('../views/pages/extended/tour')
+        component: () =>
+            import ('../views/pages/extended/tour')
     },
     {
         path: '/extended/scrollspy',
@@ -672,6 +722,8 @@ export default [
         meta: {
             middleware: [auth, checkAuth]
         },
+        component: () =>
+            import ('../views/pages/extended/scrollspy')
         component: () =>
             import ('../views/pages/extended/scrollspy')
     },
@@ -692,6 +744,8 @@ export default [
         },
         component: () =>
             import ('../views/pages/icons/feather')
+        component: () =>
+            import ('../views/pages/icons/feather')
     },
     {
         path: '/icons/remix',
@@ -709,6 +763,13 @@ export default [
         },
         component: () =>
             import ('../views/pages/icons/boxicons')
+        component: () =>
+            import ('../views/pages/icons/remix')
+    }, {
+        path: '/icons/boxicons',
+        name: 'boxicons',
+        component: () =>
+            import ('../views/pages/icons/boxicons')
     },
     {
         path: '/icons/mdi',
@@ -716,6 +777,8 @@ export default [
         meta: {
             middleware: [auth, checkAuth]
         },
+        component: () =>
+            import ('../views/pages/icons/mdi')
         component: () =>
             import ('../views/pages/icons/mdi')
     },
@@ -727,6 +790,8 @@ export default [
         },
         component: () =>
             import ('../views/pages/icons/font-awesome')
+        component: () =>
+            import ('../views/pages/icons/font-awesome')
     },
     {
         path: '/icons/weather',
@@ -734,6 +799,8 @@ export default [
         meta: {
             middleware: [auth, checkAuth]
         },
+        component: () =>
+            import ('../views/pages/icons/weather')
         component: () =>
             import ('../views/pages/icons/weather')
     },
@@ -745,6 +812,8 @@ export default [
         },
         component: () =>
             import ('../views/pages/forms/elements')
+        component: () =>
+            import ('../views/pages/forms/elements')
     },
     {
         path: '/forms/advanced',
@@ -752,6 +821,8 @@ export default [
         meta: {
             middleware: [auth, checkAuth]
         },
+        component: () =>
+            import ('../views/pages/forms/advanced')
         component: () =>
             import ('../views/pages/forms/advanced')
     },
@@ -763,6 +834,8 @@ export default [
         },
         component: () =>
             import ('../views/pages/forms/validation')
+        component: () =>
+            import ('../views/pages/forms/validation')
     },
     {
         path: '/forms/wizard',
@@ -770,6 +843,8 @@ export default [
         meta: {
             middleware: [auth, checkAuth]
         },
+        component: () =>
+            import ('../views/pages/forms/wizard')
         component: () =>
             import ('../views/pages/forms/wizard')
     },
@@ -781,6 +856,8 @@ export default [
         },
         component: () =>
             import ('../views/pages/forms/mask')
+        component: () =>
+            import ('../views/pages/forms/mask')
     },
     {
         path: '/forms/quill',
@@ -788,6 +865,8 @@ export default [
         meta: {
             middleware: [auth, checkAuth]
         },
+        component: () =>
+            import ('../views/pages/forms/quill')
         component: () =>
             import ('../views/pages/forms/quill')
     },
@@ -799,6 +878,8 @@ export default [
         },
         component: () =>
             import ('../views/pages/forms/file-uploads')
+        component: () =>
+            import ('../views/pages/forms/file-uploads')
     },
     {
         path: '/tables/basic',
@@ -806,11 +887,15 @@ export default [
 
         component: () =>
             import ('../views/pages/tables/basic')
+        component: () =>
+            import ('../views/pages/tables/basic')
     },
     {
         path: '/tables/advanced',
         name: 'advanced',
 
+        component: () =>
+            import ('../views/pages/tables/advanced')
         component: () =>
             import ('../views/pages/tables/advanced')
     },
