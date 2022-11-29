@@ -14,8 +14,8 @@ import loader from "../../../components/loader";
  */
 export default {
     page: {
-        title: "Module",
-        meta: [{ name: "description", content: 'Module' }],
+        title: "Store",
+        meta: [{ name: "description", content: 'Store' }],
     },
     components: {
         Layout,
@@ -25,14 +25,14 @@ export default {
     },
     data() {
         return {
-            title: `${this.$t('module.module')}`,
+            title: `${this.$t('store.store')}`,
             items: [
                 {
                     text: "Minton",
                     href: "/",
                 },
                 {
-                    text: `${this.$t('module.module')}`,
+                    text: `${this.$t('store.store')}`,
                     active: true,
                 },
             ],
