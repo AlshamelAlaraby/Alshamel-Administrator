@@ -20,9 +20,9 @@ export const getters = {
 
 // mutations
 export const mutations = {
-    editToken(state, token) {
+    editToken(state,token){
         state.token = token;
-        Cookies.set('token', token, { expires: 7 });
+        Cookies.set('token',token,{ expires: 7 });
     },
     // editPermission(state,permission){
     //
@@ -37,11 +37,11 @@ export const mutations = {
     //     state.permission = name;
     //     localStorage.setItem('permission',JSON.stringify(name));
     // },
-    editAdmin(state, admin) {
+    editAdmin(state,admin){
         state.admin = admin;
-        localStorage.setItem('admin', JSON.stringify(admin));
+        localStorage.setItem('admin',JSON.stringify(admin));
     },
-    logoutToken(state) {
+    logoutToken(state){
         // state.roles = null;
         state.token = null;
         state.admin = null;
@@ -49,13 +49,8 @@ export const mutations = {
         // localStorage.removeItem('permission');
         localStorage.removeItem('admin');
         Cookies.remove('token')
-        state.user = null;
-        state.permission = null;
-        localStorage.removeItem('permission');
-        localStorage.removeItem('user');
-        Cookies.remove('token');
     },
-    editErrors(state, errors) {
+    editErrors(state,errors){
         state.errors = errors;
     }
 };
