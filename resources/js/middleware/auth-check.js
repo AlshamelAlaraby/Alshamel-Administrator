@@ -9,8 +9,6 @@ export default async function checkAuth({ next, store }) {
         })
         .catch((err) => {
             store.commit('auth/logoutToken');
-            return router.push({ name: 'login' });
+            return router.push({name: 'login'});
         })
-    return next({ name: 'login' });
-});
 }

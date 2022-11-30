@@ -31,7 +31,6 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-
     if (!to.meta.middleware) return next();
     const middleware = to.meta.middleware;
     const context = {
@@ -47,3 +46,4 @@ router.beforeEach((to, from, next) => {
 });
 
 export default router;
+
