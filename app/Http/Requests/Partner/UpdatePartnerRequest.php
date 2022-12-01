@@ -27,7 +27,7 @@ class UpdatePartnerRequest extends FormRequest
         return [
             'name'      => 'required|string|max:255',
             'name_e'    => 'required|string|max:255',
-            'is_active' => 'nullable|in:active,inactive',
+            'is_active' => 'nullable|in:0,1',
             'email' => [
                 'required',
                 'email',
@@ -41,10 +41,9 @@ class UpdatePartnerRequest extends FormRequest
     public function messages()
     {
         return [
-            'required'      => __('message.name is required'),
+            'required'      => __('message.field is required'),
+            'unique'        => __('message.field already exists'),
             'is_active.in'  => __('message.status must be active or inactive'),
-            'unique'        => __('message.field is unique'),
-
         ];
     }
 }
