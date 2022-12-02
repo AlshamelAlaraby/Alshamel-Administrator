@@ -112,14 +112,14 @@ Route::group(['prefix' => 'helpfiles'], function () {
 
 
 // api op serials
-    // Route::group(['prefix' => 'serials'], function () {
-    //     Route::controller(SerialController::class)->group(function () {
-    //         Route::get('/', 'all')->name('serials.index');
-    //         Route::get('/show/{id}', 'find');
-    //         Route::post('/store', 'store')->name('serials.store');
-    //         Route::put('/update/{id}', 'update')->name('serials.update');
-    //         Route::delete('/delete/{id}', 'delete')->name('serials.destroy');
-    //     });
-    // });
+    Route::group(['prefix' => 'serials'], function () {
+        Route::controller(SerialController::class)->group(function () {
+            Route::get('/', 'all')->name('serials.index');
+            Route::get('/show/{id}', 'find');
+            Route::post('/store', 'store')->name('serials.store');
+            Route::put('/update/{id}', 'update')->name('serials.update');
+            Route::delete('/delete/{id}', 'delete')->name('serials.destroy');
+        });
+    });
 
     Route::resource('branches', BranchController::class)->except('create', 'edit');
