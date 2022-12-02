@@ -6,7 +6,12 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Branch\BranchController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Partner\PartnerController;
+<<<<<<< HEAD
 // use App\Http\Controllers\Serial\SerialController;
+=======
+use App\Http\Controllers\Screen\ScreenController;
+use App\Http\Controllers\Serial\SerialController;
+>>>>>>> dev
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Store\StoreController;
 
@@ -82,6 +87,17 @@ Route::group(['prefix' => 'partners'], function () {
         Route::post('/', 'store')->name('partners.store');
         Route::put('/{id}', 'update')->name('partners.update');
         Route::delete('/{id}', 'delete')->name('partners.destroy');
+    });
+});
+
+// api of screens
+Route::group(['prefix' => 'screens'], function () {
+    Route::controller(ScreenController::class)->group(function () {
+        Route::get('/', 'all')->name('screens.index');
+        Route::get('/{id}', 'find');
+        Route::post('/', 'store')->name('screens.store');
+        Route::put('/{id}', 'update')->name('screens.update');
+        Route::delete('/{id}', 'delete')->name('screens.destroy');
     });
 });
 // api op serials
