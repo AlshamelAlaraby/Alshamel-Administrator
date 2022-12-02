@@ -6,12 +6,8 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Branch\BranchController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Partner\PartnerController;
-<<<<<<< HEAD
-// use App\Http\Controllers\Serial\SerialController;
-=======
 use App\Http\Controllers\Screen\ScreenController;
 use App\Http\Controllers\Serial\SerialController;
->>>>>>> dev
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Store\StoreController;
 
@@ -101,14 +97,14 @@ Route::group(['prefix' => 'screens'], function () {
     });
 });
 // api op serials
-    // Route::group(['prefix' => 'serials'], function () {
-    //     Route::controller(SerialController::class)->group(function () {
-    //         Route::get('/', 'all')->name('serials.index');
-    //         Route::get('/show/{id}', 'find');
-    //         Route::post('/store', 'store')->name('serials.store');
-    //         Route::put('/update/{id}', 'update')->name('serials.update');
-    //         Route::delete('/delete/{id}', 'delete')->name('serials.destroy');
-    //     });
-    // });
+    Route::group(['prefix' => 'serials'], function () {
+        Route::controller(SerialController::class)->group(function () {
+            Route::get('/', 'all')->name('serials.index');
+            Route::get('/show/{id}', 'find');
+            Route::post('/store', 'store')->name('serials.store');
+            Route::put('/update/{id}', 'update')->name('serials.update');
+            Route::delete('/delete/{id}', 'delete')->name('serials.destroy');
+        });
+    });
 
     Route::resource('branches', BranchController::class)->except('create', 'edit');
