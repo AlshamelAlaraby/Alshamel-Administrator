@@ -20,6 +20,8 @@ use App\Repositories\Module\ModuleInterface;
 use App\Repositories\Module\ModuleRepository;
 use App\Repositories\Screen\ScreenRepository;
 use App\Repositories\Screen\ScreenRepositoryInterface;
+use App\Repositories\WorkflowTree\WorkflowTreeRepository;
+use App\Repositories\WorkflowTree\WorkflowTreeRepositoryInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -35,6 +37,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(PartnerRepositoryInterface::class, PartnerRepository::class);
 
         $this->app->bind(ScreenRepositoryInterface::class, ScreenRepository::class);
+
+        $this->app->bind(WorkflowTreeRepositoryInterface::class, WorkflowTreeRepository::class);
 
         $this->app->bind(SerialRepositoryInterface::class, SerialRepository::class);
         $this->app->bind(CompanyRepositoryInterface::class, CompanyRepository::class);
