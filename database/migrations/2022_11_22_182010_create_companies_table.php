@@ -27,7 +27,7 @@ class CreateCompaniesTable extends Migration
             $table->string("vat_no")->comment("رقم تسجيل القيمة المضافة");
             $table->string("email");
             $table->string("website");
-            $table->enum('is_active',[ 0 , 1 ])->default(0)->comment("1=Active, 0=Not Active");
+            $table->string('is_active')->default('inactive');
             $table->timestamps();
         });
     }
