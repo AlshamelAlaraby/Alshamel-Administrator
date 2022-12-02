@@ -10,6 +10,7 @@ use App\Http\Controllers\Screen\ScreenController;
 use App\Http\Controllers\Serial\SerialController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Store\StoreController;
+use App\Http\Controllers\Helpfile\HelpfileController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -96,15 +97,29 @@ Route::group(['prefix' => 'screens'], function () {
         Route::delete('/{id}', 'delete')->name('screens.destroy');
     });
 });
-// api op serials
-    Route::group(['prefix' => 'serials'], function () {
-        Route::controller(SerialController::class)->group(function () {
-            Route::get('/', 'all')->name('serials.index');
-            Route::get('/show/{id}', 'find');
-            Route::post('/store', 'store')->name('serials.store');
-            Route::put('/update/{id}', 'update')->name('serials.update');
-            Route::delete('/delete/{id}', 'delete')->name('serials.destroy');
-        });
+
+
+// api of helpfiles
+Route::group(['prefix' => 'helpfiles'], function () {
+    Route::controller(HelpfileController::class)->group(function () {
+        Route::get('/', 'all')->name('helpfiles.index');
+        Route::get('/{id}', 'find');
+        Route::post('/', 'store')->name('helpfiles.store');
+        Route::put('/{id}', 'update')->name('helpfiles.update');
+        Route::delete('/{id}', 'delete')->name('helpfiles.destroy');
     });
+});
+
+
+// api op serials
+    // Route::group(['prefix' => 'serials'], function () {
+    //     Route::controller(SerialController::class)->group(function () {
+    //         Route::get('/', 'all')->name('serials.index');
+    //         Route::get('/show/{id}', 'find');
+    //         Route::post('/store', 'store')->name('serials.store');
+    //         Route::put('/update/{id}', 'update')->name('serials.update');
+    //         Route::delete('/delete/{id}', 'delete')->name('serials.destroy');
+    //     });
+    // });
 
     Route::resource('branches', BranchController::class)->except('create', 'edit');

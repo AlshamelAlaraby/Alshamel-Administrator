@@ -20,6 +20,8 @@ use App\Repositories\Module\ModuleInterface;
 use App\Repositories\Module\ModuleRepository;
 use App\Repositories\Screen\ScreenRepository;
 use App\Repositories\Screen\ScreenRepositoryInterface;
+use App\Repositories\Helpfile\HelpfileRepositoryInterface;
+use App\Repositories\Helpfile\HelpfileRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -36,7 +38,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(ScreenRepositoryInterface::class, ScreenRepository::class);
 
+        $this->app->bind(HelpfileRepositoryInterface::class, HelpfileRepository::class);
+
         $this->app->bind(SerialRepositoryInterface::class, SerialRepository::class);
+
         $this->app->bind(CompanyRepositoryInterface::class, CompanyRepository::class);
 
         $this->app->bind(StoreRepositoryInterface::class, StoreRepository::class);
