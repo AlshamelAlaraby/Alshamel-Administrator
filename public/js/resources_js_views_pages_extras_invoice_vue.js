@@ -7435,7 +7435,7 @@ var render = function () {
                                     },
                                     [
                                       _vm._v(
-                                        "\n                                        Sales\n                                    "
+                                        "\r\n                                        Sales\r\n                                    "
                                       ),
                                     ]
                                   ),
@@ -7458,7 +7458,7 @@ var render = function () {
                                     },
                                     [
                                       _vm._v(
-                                        "\n                                        CRM\n                                    "
+                                        "\r\n                                        CRM\r\n                                    "
                                       ),
                                     ]
                                   ),
@@ -7481,7 +7481,7 @@ var render = function () {
                                     },
                                     [
                                       _vm._v(
-                                        "\n                                        Analytics\n                                    "
+                                        "\r\n                                        Analytics\r\n                                    "
                                       ),
                                     ]
                                   ),
@@ -7519,7 +7519,7 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                    Calendar\n                                "
+                                      "\r\n                                    Calendar\r\n                                "
                                     ),
                                   ]
                                 ),
@@ -7539,7 +7539,7 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                    Chat\n                                "
+                                      "\r\n                                    Chat\r\n                                "
                                     ),
                                   ]
                                 ),
@@ -7596,7 +7596,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Products List\n                                            "
+                                                  "\r\n                                                Products List\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -7618,7 +7618,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Products Grid\n                                            "
+                                                  "\r\n                                                Products Grid\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -7642,7 +7642,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Product Detail\n                                            "
+                                                  "\r\n                                                Product Detail\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -7666,7 +7666,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Create Product\n                                            "
+                                                  "\r\n                                                Create Product\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -7688,7 +7688,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Customers\n                                            "
+                                                  "\r\n                                                Customers\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -7710,7 +7710,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Orders\n                                            "
+                                                  "\r\n                                                Orders\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -7732,7 +7732,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Order Detail\n                                            "
+                                                  "\r\n                                                Order Detail\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -7754,7 +7754,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Sellers\n                                            "
+                                                  "\r\n                                                Sellers\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -7774,7 +7774,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Shopping Cart\n                                            "
+                                                  "\r\n                                                Shopping Cart\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -7796,7 +7796,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Checkout\n                                            "
+                                                  "\r\n                                                Checkout\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -7860,7 +7860,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Inbox\n                                            "
+                                                  "\r\n                                                Inbox\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -7882,7 +7882,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Read Email\n                                            "
+                                                  "\r\n                                                Read Email\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -7907,7 +7907,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Email Templates\n                                            "
+                                                  "\r\n                                                Email Templates\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -7937,7 +7937,7 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                    Companies\n                                "
+                                      "\r\n                                    Companies\r\n                                "
                                     ),
                                   ]
                                 ),
@@ -7994,7 +7994,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                List\n                                            "
+                                                  "\r\n                                                List\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -8016,7 +8016,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Details\n                                            "
+                                                  "\r\n                                                Details\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -8038,7 +8038,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Kanban Board\n                                            "
+                                                  "\r\n                                                Kanban Board\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -8102,7 +8102,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Members List\n                                            "
+                                                  "\r\n                                                Members List\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -8126,7 +8126,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Profile\n                                            "
+                                                  "\r\n                                                Profile\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -8153,7 +8153,7 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                    File Manager\n                                "
+                                      "\r\n                                    File Manager\r\n                                "
                                     ),
                                   ]
                                 ),
@@ -8173,7 +8173,7 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                    Tickets\n                                "
+                                      "\r\n                                    Tickets\r\n                                "
                                     ),
                                   ]
                                 ),
@@ -8652,7 +8652,7 @@ var render = function () {
                                     },
                                     [
                                       _vm._v(
-                                        "\n                                        Error Pages\n                                        "
+                                        "\r\n                                        Error Pages\r\n                                        "
                                       ),
                                       _c("span", { staticClass: "menu-arrow" }),
                                     ]
@@ -9396,7 +9396,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    General Elements\n                                                "
+                                                    "\r\n                                                    General Elements\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -9420,7 +9420,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    Advanced\n                                                "
+                                                    "\r\n                                                    Advanced\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -9442,7 +9442,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    Validation\n                                                "
+                                                    "\r\n                                                    Validation\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -9464,7 +9464,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    Wizard\n                                                "
+                                                    "\r\n                                                    Wizard\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -9486,7 +9486,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    Masks\n                                                "
+                                                    "\r\n                                                    Masks\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -9508,7 +9508,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    Quill Editor\n                                                "
+                                                    "\r\n                                                    Quill Editor\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -9533,7 +9533,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    File Uploads\n                                                "
+                                                    "\r\n                                                    File Uploads\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -9597,7 +9597,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    Basic Tables\n                                                "
+                                                    "\r\n                                                    Basic Tables\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -9619,7 +9619,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    Advanced Tables\n                                                "
+                                                    "\r\n                                                    Advanced Tables\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -9683,7 +9683,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    Apex Charts\n                                                "
+                                                    "\r\n                                                    Apex Charts\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -9707,7 +9707,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    Chartjs Charts\n                                                "
+                                                    "\r\n                                                    Chartjs Charts\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -9729,7 +9729,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    C3 Charts\n                                                "
+                                                    "\r\n                                                    C3 Charts\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -9753,7 +9753,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    Chartist Charts\n                                                "
+                                                    "\r\n                                                    Chartist Charts\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -9775,7 +9775,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    Knob Charts\n                                                "
+                                                    "\r\n                                                    Knob Charts\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -9839,7 +9839,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    Google Maps\n                                                "
+                                                    "\r\n                                                    Google Maps\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -9918,7 +9918,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    Second Level\n                                                    "
+                                                    "\r\n                                                    Second Level\r\n                                                    "
                                                   ),
                                                   _c("span", {
                                                     staticClass: "menu-arrow",

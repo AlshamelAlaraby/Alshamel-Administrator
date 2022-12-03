@@ -1388,9 +1388,8 @@ var imgValid = function imgValid(value) {
       per_page: 10,
       search: '',
       debounce: {},
-      companysPagination: {},
-      companys: [],
-      parents: [],
+      companiesPagination: {},
+      companies: [],
       enabled3: false,
       isLoader: false,
       create: {
@@ -1425,7 +1424,9 @@ var imgValid = function imgValid(value) {
         website: '',
         is_active: null,
         type: '',
-        search: ""
+        search: "",
+        file: '',
+        isImage: true
       },
       errors: {},
       isDrop: false,
@@ -1595,7 +1596,6 @@ var imgValid = function imgValid(value) {
   mounted: function mounted() {
     this.getData();
     this.keyDropdown();
-    this.ClickDropdown();
   },
   methods: {
     /**
@@ -1607,8 +1607,8 @@ var imgValid = function imgValid(value) {
       this.isLoader = true;
       _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].get("/companies?page=".concat(page, "&per_page=").concat(this.per_page, "&search=").concat(this.search)).then(function (res) {
         var l = res.data;
-        _this2.companys = l.data;
-        _this2.companysPagination = l.pagination;
+        _this2.companies = l.data;
+        _this2.companiesPagination = l.pagination;
       })["catch"](function (err) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
           icon: 'error',
@@ -1638,7 +1638,7 @@ var imgValid = function imgValid(value) {
         if (result.value) {
           _this3.isLoader = true;
           _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"]["delete"]("/companies/".concat(id)).then(function (res) {
-            _this3.companys.splice(index, 1);
+            _this3.companies.splice(index, 1);
             sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
               icon: 'success',
               title: "".concat(_this3.$t('general.Deleted')),
@@ -1729,6 +1729,7 @@ var imgValid = function imgValid(value) {
         return;
       } else {
         this.isLoader = true;
+        this.errors = {};
         var formDate = new FormData();
         formDate.append('name', this.create.name);
         formDate.append('name_e', this.create.name_e);
@@ -1741,11 +1742,11 @@ var imgValid = function imgValid(value) {
         formDate.append('cr', this.create.cr);
         formDate.append('url', this.create.url);
         formDate.append('address', this.create.address);
-        // formDate.append('is_active',this.create.is_active);
+        formDate.append('is_active', this.create.is_active);
         formDate.append('vat_no', this.create.vat_no);
         _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/companies", formDate).then(function (res) {
           _this6.$bvModal.hide("create");
-          console.log(res);
+          _this6.companies.unshift(res.data.data);
           setTimeout(function () {
             sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
               icon: 'success',
@@ -1755,8 +1756,7 @@ var imgValid = function imgValid(value) {
             });
           }, 500);
         })["catch"](function (err) {
-          console.log(err.response);
-          // this.errors = err.response.data.errors;
+          _this6.errors = err.response.data.errors;
         })["finally"](function () {
           _this6.isLoader = false;
         });
@@ -1765,15 +1765,33 @@ var imgValid = function imgValid(value) {
     /**
      *  edit company
      */
-    editSubmit: function editSubmit(id) {
+    editSubmit: function editSubmit(id, index) {
       var _this7 = this;
       this.$v.edit.$touch();
+      console.log(id);
       if (this.$v.edit.$invalid) {
         return;
       } else {
         this.isLoader = true;
-        _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].put("/companies/".concat(id), this.edit).then(function (res) {
-          var l = res.data.data;
+        this.errors = {};
+        var formDate = new FormData();
+        formDate.append('name', this.edit.name);
+        formDate.append('name_e', this.edit.name_e);
+        formDate.append('email', this.edit.email);
+        formDate.append('phone', this.edit.phone);
+        formDate.append('tax_id', this.edit.tax_id);
+        formDate.append('partner_id', this.edit.partner_id);
+        formDate.append('logo', this.edit.logo);
+        formDate.append('website', this.edit.website);
+        formDate.append('cr', this.edit.cr);
+        formDate.append('url', this.edit.url);
+        formDate.append('address', this.edit.address);
+        formDate.append('is_active', this.edit.is_active);
+        formDate.append('vat_no', this.edit.vat_no);
+        formDate.append('_method', 'PUT');
+        _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/companies/".concat(id), formDate).then(function (res) {
+          console.log(res);
+          _this7.companies[index] = res.data.data;
           _this7.$bvModal.hide("modal-edit-".concat(id));
           setTimeout(function () {
             sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
@@ -1784,6 +1802,7 @@ var imgValid = function imgValid(value) {
             });
           }, 500);
         })["catch"](function (err) {
+          console.log(err.response);
           _this7.errors = err.response.data.errors;
         })["finally"](function () {
           _this7.isLoader = false;
@@ -1795,7 +1814,7 @@ var imgValid = function imgValid(value) {
      */
     getPartner: function getPartner() {
       var _this8 = this;
-      _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].get("/partners?per_page=".concat(this.per_page, "&search=").concat(this.search)).then(function (res) {
+      _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].get("/partners?per_page=".concat(this.per_page, "&search=").concat(this.search, "&is_active=active")).then(function (res) {
         var l = res.data;
         _this8.dropDownSenders = l.data;
       })["catch"](function (err) {
@@ -1810,7 +1829,7 @@ var imgValid = function imgValid(value) {
      *   show Modal (edit)
      */
     resetModalEdit: function resetModalEdit(id) {
-      var company = this.companys.find(function (e) {
+      var company = this.companies.find(function (e) {
         return id == e.id;
       });
       this.edit.name = company.name;
@@ -1819,40 +1838,45 @@ var imgValid = function imgValid(value) {
       this.edit.email = company.email;
       this.edit.address = company.address;
       this.edit.cr = company.cr;
-      this.edit.partner_id = company.partner_id;
+      this.edit.partner_id = company.partner.id;
+      this.edit.search = this.$i18n.locale == 'ar' ? company.partner.name : company.partner.name_e;
       this.edit.tax_id = company.tax_id;
       this.edit.url = company.url;
       this.edit.website = company.website;
       this.edit.vat_no = company.vat_no;
       this.edit.phone = company.phone;
-      // this.edit.logo = company.logo;
+      this.dropDownSenders = [];
+      this.errors = {};
+      this.edit.file = company.logo;
     },
     /**
      *  hidden Modal (edit)
      */
     resetModalHiddenEdit: function resetModalHiddenEdit(id) {
-      var company = this.companys.find(function (e) {
-        return id == e.id;
-      });
-      company.name = this.edit.name;
-      company.name_e = this.edit.name_e;
-      company.is_active = this.edit.is_active;
-      company.email = this.edit.email;
-      company.password = this.edit.password;
-      company.mobile_no = this.edit.mobile_no;
       this.edit = {
         name: '',
         name_e: '',
         email: '',
-        password: '',
-        repeatPassword: '',
-        mobile_no: '',
-        is_active: null
+        partner_id: null,
+        url: '',
+        phone: '',
+        tax_id: null,
+        vat_no: null,
+        cr: '',
+        logo: {},
+        address: '',
+        website: '',
+        is_active: null,
+        type: '',
+        search: "",
+        file: '',
+        isImage: true
       };
       this.errors = {};
+      this.dropDownSenders = [];
     },
     /**
-     *  start Image
+     *  start Image ceate
      */
     onDragEnter: function onDragEnter() {
       this.isDrop = true;
@@ -1871,6 +1895,7 @@ var imgValid = function imgValid(value) {
     },
     onImageChanged: function onImageChanged(e) {
       this.create.logo = {};
+      this.edit.isImage = false;
       this.image = '';
       var file = e.target.files[0];
       this.addImage(file);
@@ -1892,22 +1917,74 @@ var imgValid = function imgValid(value) {
       this.create.type = '';
       this.image = '';
       this.create.logo = {};
-      document.getElementById('uploadImageCreate').value = '';
-      document.getElementById('uploadImageEdit').value = '';
     },
     /**
-     *  end Image
+     *  end Image ceate
+     */
+    /**
+     *  start Image ceate
+     */
+    onDragEnterEdit: function onDragEnterEdit() {
+      this.isDrop = true;
+      this.counter++;
+    },
+    onDragLeaveEdit: function onDragLeaveEdit() {
+      this.counter--;
+      this.isDrop = false;
+    },
+    onDropEdit: function onDropEdit(e) {
+      this.edit.logo = {};
+      this.image = '';
+      this.edit.isImage = false;
+      this.isDrop = false;
+      var file = e.dataTransfer.files;
+      this.addImageEdit(file[0]);
+    },
+    onImageChangedEdit: function onImageChangedEdit(e) {
+      this.edit.logo = {};
+      this.edit.isImage = false;
+      this.image = '';
+      var file = e.target.files[0];
+      this.addImageEdit(file);
+    },
+    addImageEdit: function addImageEdit(file) {
+      var _this10 = this;
+      if (file) {
+        this.isDrop = true;
+        this.edit.type = file.type;
+        this.edit.logo = file; //upload
+        //preview of image
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          return _this10.image = e.target.result;
+        };
+        reader.readAsDataURL(this.edit.logo);
+      } else {
+        this.edit.isImage = true;
+      }
+    },
+    deleteImageEdit: function deleteImageEdit() {
+      this.isDrop = false;
+      this.edit.isImage = true;
+      this.edit.type = '';
+      this.image = '';
+      this.edit.logo = {};
+    },
+    /**
+     *  end Image ceate
      */
     /**
      *  start  dropdown Google
      */
     searchSender: function searchSender() {
-      var _this10 = this;
+      var _this11 = this;
       this.dropDownSenders = [];
-      if (this.create.search) {
+      this.create.partner_id = null;
+      this.edit.partner_id = null;
+      if (this.create.search || this.edit.search) {
         clearTimeout(this.debounce);
         this.debounce = setTimeout(function () {
-          _this10.getPartner();
+          _this11.getPartner();
         }, 400);
       } else {
         this.dropDownSenders = [];
@@ -1917,7 +1994,9 @@ var imgValid = function imgValid(value) {
     showSenderName: function showSenderName(index) {
       var item = this.dropDownSenders[index];
       this.create.partner_id = item.id;
-      this.create.search = item.name;
+      this.create.search = this.$i18n.locale == 'ar' ? item.name : item.name_e;
+      this.edit.partner_id = item.id;
+      this.edit.search = this.$i18n.locale == 'ar' ? item.name : item.name_e;
       this.isButton = true;
       this.dropDownSenders = [];
     },
@@ -1929,11 +2008,11 @@ var imgValid = function imgValid(value) {
       e.target.classList.add('active');
     },
     keyDropdown: function keyDropdown() {
-      var _this11 = this;
+      var _this12 = this;
       document.addEventListener('keyup', function (e) {
         if (e.keyCode == 38) {
           //top arrow
-          if (_this11.dropDownSenders.length > 0) {
+          if (_this12.dropDownSenders.length > 0) {
             var items = document.querySelectorAll('.sender-search .Sender');
             var isTrue = false;
             var index = null;
@@ -1952,13 +2031,13 @@ var imgValid = function imgValid(value) {
             }
             if (!isTrue) items[0].classList.add('active');
           } else {
-            _this11.dropDownSenders = [];
+            _this12.dropDownSenders = [];
           }
         }
         ;
         if (e.keyCode == 40) {
           //down arrow
-          if (_this11.dropDownSenders.length > 0) {
+          if (_this12.dropDownSenders.length > 0) {
             var _items = document.querySelectorAll('.sender-search .Sender');
             var _isTrue = false;
             var _index = null;
@@ -1977,36 +2056,42 @@ var imgValid = function imgValid(value) {
             }
             if (!_isTrue) _items[_items.length - 1].classList.add('active');
           } else {
-            _this11.dropDownSenders = [];
+            _this12.dropDownSenders = [];
           }
         }
         ;
         if (e.keyCode == 13) {
           //enter
-          if (_this11.dropDownSenders.length > 0) {
+          if (_this12.dropDownSenders.length > 0) {
             var _items2 = document.querySelectorAll('.sender-search .Sender');
             _items2.forEach(function (e, i) {
-              if (e.classList.contains('active')) _this11.showSenderName(i);
+              if (e.classList.contains('active')) _this12.showSenderName(i);
             });
           } else {
-            _this11.dropDownSenders = [];
+            _this12.dropDownSenders = [];
           }
           e.target.blur();
         }
         ;
       });
       document.addEventListener('click', function (e) {
-        if (_this11.dropDownSenders.length > 0) {
-          if ((!e.target.classList.contains('Sender') || !e.target.classList.contains('input-Sender')) && e.pointerType) {
-            _this11.isButton = false;
+        if (_this12.dropDownSenders.length > 0) {
+          if (e.target.classList.contains('Sender') || e.target.classList.contains('input-Sender')) {
+            _this12.isButton = false;
+          } else {
+            _this12.isButton = false;
+            _this12.dropDownSenders = [];
           }
         }
       });
     },
     ClickDropdown: function ClickDropdown(e) {
       if (this.dropDownSenders.length > 0) {
-        if ((!e.target.classList.contains('Sender') || !e.target.classList.contains('input-Sender')) && e.pointerType) {
+        if (e.target.classList.contains('Sender') || e.target.classList.contains('input-Sender')) {
           this.isButton = false;
+        } else {
+          this.isButton = true;
+          this.dropDownSenders = [];
         }
       }
     }
@@ -12065,7 +12150,7 @@ var render = function () {
                                     },
                                     [
                                       _vm._v(
-                                        "\n                                        Sales\n                                    "
+                                        "\r\n                                        Sales\r\n                                    "
                                       ),
                                     ]
                                   ),
@@ -12088,7 +12173,7 @@ var render = function () {
                                     },
                                     [
                                       _vm._v(
-                                        "\n                                        CRM\n                                    "
+                                        "\r\n                                        CRM\r\n                                    "
                                       ),
                                     ]
                                   ),
@@ -12111,7 +12196,7 @@ var render = function () {
                                     },
                                     [
                                       _vm._v(
-                                        "\n                                        Analytics\n                                    "
+                                        "\r\n                                        Analytics\r\n                                    "
                                       ),
                                     ]
                                   ),
@@ -12149,7 +12234,7 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                    Calendar\n                                "
+                                      "\r\n                                    Calendar\r\n                                "
                                     ),
                                   ]
                                 ),
@@ -12169,7 +12254,7 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                    Chat\n                                "
+                                      "\r\n                                    Chat\r\n                                "
                                     ),
                                   ]
                                 ),
@@ -12226,7 +12311,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Products List\n                                            "
+                                                  "\r\n                                                Products List\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -12248,7 +12333,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Products Grid\n                                            "
+                                                  "\r\n                                                Products Grid\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -12272,7 +12357,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Product Detail\n                                            "
+                                                  "\r\n                                                Product Detail\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -12296,7 +12381,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Create Product\n                                            "
+                                                  "\r\n                                                Create Product\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -12318,7 +12403,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Customers\n                                            "
+                                                  "\r\n                                                Customers\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -12340,7 +12425,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Orders\n                                            "
+                                                  "\r\n                                                Orders\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -12362,7 +12447,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Order Detail\n                                            "
+                                                  "\r\n                                                Order Detail\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -12384,7 +12469,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Sellers\n                                            "
+                                                  "\r\n                                                Sellers\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -12404,7 +12489,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Shopping Cart\n                                            "
+                                                  "\r\n                                                Shopping Cart\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -12426,7 +12511,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Checkout\n                                            "
+                                                  "\r\n                                                Checkout\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -12490,7 +12575,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Inbox\n                                            "
+                                                  "\r\n                                                Inbox\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -12512,7 +12597,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Read Email\n                                            "
+                                                  "\r\n                                                Read Email\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -12537,7 +12622,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Email Templates\n                                            "
+                                                  "\r\n                                                Email Templates\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -12567,7 +12652,7 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                    Companies\n                                "
+                                      "\r\n                                    Companies\r\n                                "
                                     ),
                                   ]
                                 ),
@@ -12624,7 +12709,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                List\n                                            "
+                                                  "\r\n                                                List\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -12646,7 +12731,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Details\n                                            "
+                                                  "\r\n                                                Details\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -12668,7 +12753,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Kanban Board\n                                            "
+                                                  "\r\n                                                Kanban Board\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -12732,7 +12817,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Members List\n                                            "
+                                                  "\r\n                                                Members List\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -12756,7 +12841,7 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                Profile\n                                            "
+                                                  "\r\n                                                Profile\r\n                                            "
                                                 ),
                                               ]
                                             ),
@@ -12783,7 +12868,7 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                    File Manager\n                                "
+                                      "\r\n                                    File Manager\r\n                                "
                                     ),
                                   ]
                                 ),
@@ -12803,7 +12888,7 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                    Tickets\n                                "
+                                      "\r\n                                    Tickets\r\n                                "
                                     ),
                                   ]
                                 ),
@@ -13282,7 +13367,7 @@ var render = function () {
                                     },
                                     [
                                       _vm._v(
-                                        "\n                                        Error Pages\n                                        "
+                                        "\r\n                                        Error Pages\r\n                                        "
                                       ),
                                       _c("span", { staticClass: "menu-arrow" }),
                                     ]
@@ -14026,7 +14111,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    General Elements\n                                                "
+                                                    "\r\n                                                    General Elements\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -14050,7 +14135,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    Advanced\n                                                "
+                                                    "\r\n                                                    Advanced\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -14072,7 +14157,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    Validation\n                                                "
+                                                    "\r\n                                                    Validation\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -14094,7 +14179,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    Wizard\n                                                "
+                                                    "\r\n                                                    Wizard\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -14116,7 +14201,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    Masks\n                                                "
+                                                    "\r\n                                                    Masks\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -14138,7 +14223,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    Quill Editor\n                                                "
+                                                    "\r\n                                                    Quill Editor\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -14163,7 +14248,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    File Uploads\n                                                "
+                                                    "\r\n                                                    File Uploads\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -14227,7 +14312,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    Basic Tables\n                                                "
+                                                    "\r\n                                                    Basic Tables\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -14249,7 +14334,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    Advanced Tables\n                                                "
+                                                    "\r\n                                                    Advanced Tables\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -14313,7 +14398,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    Apex Charts\n                                                "
+                                                    "\r\n                                                    Apex Charts\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -14337,7 +14422,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    Chartjs Charts\n                                                "
+                                                    "\r\n                                                    Chartjs Charts\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -14359,7 +14444,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    C3 Charts\n                                                "
+                                                    "\r\n                                                    C3 Charts\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -14383,7 +14468,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    Chartist Charts\n                                                "
+                                                    "\r\n                                                    Chartist Charts\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -14405,7 +14490,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    Knob Charts\n                                                "
+                                                    "\r\n                                                    Knob Charts\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -14469,7 +14554,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    Google Maps\n                                                "
+                                                    "\r\n                                                    Google Maps\r\n                                                "
                                                   ),
                                                 ]
                                               ),
@@ -14548,7 +14633,7 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    Second Level\n                                                    "
+                                                    "\r\n                                                    Second Level\r\n                                                    "
                                                   ),
                                                   _c("span", {
                                                     staticClass: "menu-arrow",
@@ -16468,7 +16553,13 @@ var render = function () {
                                       _vm.searchSender,
                                     ],
                                     blur: [
-                                      _vm.ClickDropdown,
+                                      function ($event) {
+                                        $event.preventDefault()
+                                        return _vm.ClickDropdown.apply(
+                                          null,
+                                          arguments
+                                        )
+                                      },
                                       function ($event) {
                                         return _vm.$forceUpdate()
                                       },
@@ -16479,7 +16570,7 @@ var render = function () {
                                   },
                                 }),
                                 _vm._v(" "),
-                                _vm.dropDownSenders.length && !_vm.isButton
+                                _vm.dropDownSenders.length > 0
                                   ? _c(
                                       "ul",
                                       {
@@ -17453,6 +17544,14 @@ var render = function () {
                             ]),
                             _vm._v(" "),
                             _c("th", [
+                              _vm._v(_vm._s(_vm.$t("partner.partner"))),
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(_vm._s(_vm.$t("general.mobile_no"))),
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
                               _vm._v(_vm._s(_vm.$t("general.Status"))),
                             ]),
                             _vm._v(" "),
@@ -17462,11 +17561,11 @@ var render = function () {
                           ]),
                         ]),
                         _vm._v(" "),
-                        _vm.companys.length > 0
+                        _vm.companies.length > 0
                           ? _c(
                               "tbody",
-                              _vm._l(_vm.companys, function (data, index) {
-                                return _c("tr", { key: data.date }, [
+                              _vm._l(_vm.companies, function (data, index) {
+                                return _c("tr", { key: data.id }, [
                                   _c("td", [_vm._v(_vm._s(1 + index))]),
                                   _vm._v(" "),
                                   _c("td", [
@@ -17482,11 +17581,23 @@ var render = function () {
                                   _c("td", [_vm._v(_vm._s(data.email))]),
                                   _vm._v(" "),
                                   _c("td", [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm.$i18n.locale == "ar"
+                                          ? data.partner.name
+                                          : data.partner.name_e
+                                      )
+                                    ),
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", [_vm._v(_vm._s(data.phone))]),
+                                  _vm._v(" "),
+                                  _c("td", [
                                     _c(
                                       "span",
                                       {
                                         class: [
-                                          data.is_active
+                                          data.is_active == "active"
                                             ? "bg-soft-success text-success"
                                             : "bg-soft-danger  text-danger",
                                           "badge",
@@ -17496,7 +17607,7 @@ var render = function () {
                                         _vm._v(
                                           "\n                                        " +
                                             _vm._s(
-                                              data.is_active
+                                              data.is_active == "active"
                                                 ? "" + _vm.$t("general.Active")
                                                 : "" +
                                                     _vm.$t("general.Inactive")
@@ -17592,7 +17703,10 @@ var render = function () {
                                                 submit: function ($event) {
                                                   $event.stopPropagation()
                                                   $event.preventDefault()
-                                                  return _vm.editSubmit(data.id)
+                                                  return _vm.editSubmit(
+                                                    data.id,
+                                                    index
+                                                  )
                                                 },
                                               },
                                             },
@@ -19707,7 +19821,15 @@ var render = function () {
                                                                 _vm.searchSender,
                                                               ],
                                                               blur: [
-                                                                _vm.ClickDropdown,
+                                                                function (
+                                                                  $event
+                                                                ) {
+                                                                  $event.preventDefault()
+                                                                  return _vm.ClickDropdown.apply(
+                                                                    null,
+                                                                    arguments
+                                                                  )
+                                                                },
                                                                 function (
                                                                   $event
                                                                 ) {
@@ -20671,7 +20793,7 @@ var render = function () {
                                                                 $event
                                                               ) {
                                                                 $event.preventDefault()
-                                                                return _vm.onDragEnter.apply(
+                                                                return _vm.onDragEnterEdit.apply(
                                                                   null,
                                                                   arguments
                                                                 )
@@ -20681,7 +20803,7 @@ var render = function () {
                                                                 $event
                                                               ) {
                                                                 $event.preventDefault()
-                                                                return _vm.onDragLeave.apply(
+                                                                return _vm.onDragLeaveEdit.apply(
                                                                   null,
                                                                   arguments
                                                                 )
@@ -20696,7 +20818,7 @@ var render = function () {
                                                             ) {
                                                               $event.preventDefault()
                                                               $event.stopPropagation()
-                                                              return _vm.onDrop.apply(
+                                                              return _vm.onDropEdit.apply(
                                                                 null,
                                                                 arguments
                                                               )
@@ -20704,7 +20826,8 @@ var render = function () {
                                                           },
                                                         },
                                                         [
-                                                          !_vm.isDrop
+                                                          _vm.isDrop &&
+                                                          !_vm.edit.isImage
                                                             ? _c(
                                                                 "div",
                                                                 {
@@ -20774,13 +20897,101 @@ var render = function () {
                                                                 $event
                                                               ) {
                                                                 $event.preventDefault()
-                                                                return _vm.onImageChanged.apply(
+                                                                return _vm.onImageChangedEdit.apply(
                                                                   null,
                                                                   arguments
                                                                 )
                                                               },
                                                             },
                                                           }),
+                                                          _vm._v(" "),
+                                                          _vm.edit.isImage
+                                                            ? _c(
+                                                                "div",
+                                                                {
+                                                                  staticClass:
+                                                                    "dropzone-previews mt-3 position-relative",
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "div",
+                                                                    {
+                                                                      staticClass:
+                                                                        "card mt-1 mb-0 shadow-none border",
+                                                                    },
+                                                                    [
+                                                                      _c(
+                                                                        "div",
+                                                                        {
+                                                                          staticClass:
+                                                                            "p-2",
+                                                                        },
+                                                                        [
+                                                                          _c(
+                                                                            "div",
+                                                                            {
+                                                                              staticClass:
+                                                                                "row align-items-center",
+                                                                            },
+                                                                            [
+                                                                              _c(
+                                                                                "div",
+                                                                                {
+                                                                                  staticClass:
+                                                                                    "col-auto",
+                                                                                },
+                                                                                [
+                                                                                  _c(
+                                                                                    "img",
+                                                                                    {
+                                                                                      staticClass:
+                                                                                        "avatar-sm rounded bg-light",
+                                                                                      attrs:
+                                                                                        {
+                                                                                          "data-dz-thumbnail":
+                                                                                            "",
+                                                                                          src: _vm
+                                                                                            .edit
+                                                                                            .file
+                                                                                            ? _vm
+                                                                                                .edit
+                                                                                                .file
+                                                                                            : "#",
+                                                                                          alt: "",
+                                                                                        },
+                                                                                    }
+                                                                                  ),
+                                                                                ]
+                                                                              ),
+                                                                              _vm._v(
+                                                                                " "
+                                                                              ),
+                                                                              _c(
+                                                                                "div",
+                                                                                {
+                                                                                  staticClass:
+                                                                                    "col pl-0",
+                                                                                }
+                                                                              ),
+                                                                              _vm._v(
+                                                                                " "
+                                                                              ),
+                                                                              _c(
+                                                                                "div",
+                                                                                {
+                                                                                  staticClass:
+                                                                                    "col-auto",
+                                                                                }
+                                                                              ),
+                                                                            ]
+                                                                          ),
+                                                                        ]
+                                                                      ),
+                                                                    ]
+                                                                  ),
+                                                                ]
+                                                              )
+                                                            : _vm._e(),
                                                           _vm._v(" "),
                                                           _vm.isDrop &&
                                                           _vm.image
@@ -20925,7 +21136,7 @@ var render = function () {
                                                                                               $event
                                                                                             ) {
                                                                                               $event.preventDefault()
-                                                                                              return _vm.deleteImageCreate.apply(
+                                                                                              return _vm.deleteImageEdit.apply(
                                                                                                 null,
                                                                                                 arguments
                                                                                               )
@@ -21104,7 +21315,7 @@ var render = function () {
                                   "th",
                                   {
                                     staticClass: "text-center",
-                                    attrs: { colspan: "5" },
+                                    attrs: { colspan: "7" },
                                   },
                                   [
                                     _vm._v(
@@ -21120,10 +21331,10 @@ var render = function () {
                   1
                 ),
                 _vm._v(" "),
-                _vm.companysPagination
+                _vm.companiesPagination
                   ? [
                       _c("pagination-laravel", {
-                        attrs: { data: _vm.companysPagination, limit: 3 },
+                        attrs: { data: _vm.companiesPagination, limit: 3 },
                         on: { "pagination-change-page": _vm.getData },
                         scopedSlots: _vm._u(
                           [

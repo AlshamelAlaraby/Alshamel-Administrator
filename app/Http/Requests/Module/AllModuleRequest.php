@@ -24,12 +24,10 @@ class AllModuleRequest extends FormRequest
     public function rules()
     {
         return [
-//            "parent_id" => "nullable|exists:modules,id",
-//            // "parent_id" => "nullable|exists:modules,parent_id",
-//            //"parent_id" => "nullable|exists:modules,id",
-//            "is_active" => "nullable|in:active,inactive",
-//            "page" => "nullable|integer",
-//            "per_page" => "nullable|integer",
+            "parent_id" => "nullable",
+            "is_active" => "nullable|in:active,inactive",
+            "page" => "nullable|integer",
+            "per_page" => "nullable|integer",
         ];
     }
 }

@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use  App\Enums\IsActive;
 class Partner extends Model
 {
-    use HasFactory;
+    public Const ACTIVE = 'active';
+    public Const INACTIVE = 'inactive';
+
     protected $table = 'partners';
     protected $fillable = [
         'name',
@@ -18,7 +18,4 @@ class Partner extends Model
         'mobile_no',
     ];
 
-    // protected $casts = [
-    //     'is_active' =>IsActive::class,
-    // ];
 }

@@ -189,9 +189,11 @@ export default {
                 return;
             } else {
                 this.isLoader = true;
+                this.errors = {};
                 adminApi.post(`/modules`,this.create)
                     .then((res) => {
                         this.$bvModal.hide(`create`);
+                        // this.modules.unshift(res.data.data);
                         setTimeout(() => {
                             Swal.fire({
                                 icon: 'success',
@@ -202,7 +204,8 @@ export default {
                         },500);
                     })
                     .catch((err) => {
-                        this.errors = err.response.data.errors;
+                        console.log(err.response);
+                        // this.errors = err.response.data.errors;
                     }).finally(() => {
                         this.isLoader = false;
                     });
@@ -219,9 +222,9 @@ export default {
                 return;
             } else {
                 this.isLoader = true;
+                this.errors = {};
                 adminApi.put(`/modules/${id}`,this.edit)
                     .then((res) => {
-                        let l = res.data.data;
                         this.$bvModal.hide(`modal-edit-${id}`);
                         setTimeout(() => {
                             Swal.fire({
@@ -463,7 +466,7 @@ export default {
                                 </tr>
                                 </thead>
                                 <tbody v-if="modules.length > 0">
-                                <tr v-for="(data,index) in modules" :key="data.date">
+                                <tr v-for="(data,index) in modules" :key="data.id">
                                     <td>{{ 1 + index }}</td>
                                     <td>
                                         <h5 class="m-0 font-weight-normal">{{ data.name }}</h5>
@@ -471,13 +474,13 @@ export default {
                                     <td>{{ data.name_e }}</td>
                                     <td>
                                         <span :class="[
-                                            data.is_active ?
+                                            data.is_active == 'active' ?
                                             'bg-soft-success text-success':
                                             'bg-soft-danger  text-danger',
                                             'badge'
                                             ]"
                                         >
-                                            {{ data.is_active ? `${$t('general.Active')}`:`${$t('general.Inactive')}`}}
+                                            {{ data.is_active == 'active'? `${$t('general.Active')}`:`${$t('general.Inactive')}`}}
                                         </span>
                                     </td>
                                     <td>

@@ -37,10 +37,7 @@ class PartnerController extends ResponseController
 
             $models = $this->repository->getAllPartners($request);
         }
-        // $models = Partner::get();
-        // dd($models);
 
-        // return responseJson(200, 'success', ($this->resource)::collection ($models['data']), $models['paginate'] ? getPaginates($models['data']) : null);
         return $this->successResponse (($this->resource)::collection ($models['data']) ,__ ('Done'),200);
     }
 

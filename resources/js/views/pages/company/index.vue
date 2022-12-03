@@ -42,9 +42,8 @@ export default {
             per_page: 10,
             search: '',
             debounce: {},
-            companysPagination: {},
-            companys: [],
-            parents: [],
+            companiesPagination: {},
+            companies: [],
             enabled3: false,
             isLoader: false,
             create: {
@@ -80,7 +79,8 @@ export default {
                 is_active: null,
                 type: '',
                 search: "",
-
+                file: '',
+                isImage: true
             },
             errors: {},
             isDrop: false,
@@ -120,7 +120,7 @@ export default {
             address: {required,minLength: minLength(10),maxLength: maxLength(200)},
             logo: {},
             partner_id: {required,integer},
-            is_active: {required},
+            is_active: {required}
         },
     },
     watch: {
@@ -143,7 +143,6 @@ export default {
     mounted() {
         this.getData();
         this.keyDropdown();
-        this.ClickDropdown();
     },
     methods: {
         /**
@@ -156,8 +155,8 @@ export default {
             adminApi.get(`/companies?page=${page}&per_page=${this.per_page}&search=${this.search}`)
                 .then((res) => {
                     let l = res.data;
-                    this.companys = l.data;
-                    this.companysPagination = l.pagination;
+                    this.companies = l.data;
+                    this.companiesPagination = l.pagination;
                 })
                 .catch((err) => {
                     Swal.fire({
@@ -191,7 +190,7 @@ export default {
 
                     adminApi.delete(`/companies/${id}`)
                         .then((res) => {
-                            this.companys.splice(index,1);
+                            this.companies.splice(index,1);
                             Swal.fire({
                                 icon: 'success',
                                 title: `${this.$t('general.Deleted')}`,
@@ -278,6 +277,7 @@ export default {
                 return;
             } else {
                 this.isLoader = true;
+                this.errors = {};
                 let formDate = new FormData();
                 formDate.append('name',this.create.name);
                 formDate.append('name_e',this.create.name_e);
@@ -290,13 +290,13 @@ export default {
                 formDate.append('cr',this.create.cr);
                 formDate.append('url',this.create.url);
                 formDate.append('address',this.create.address);
-                // formDate.append('is_active',this.create.is_active);
+                formDate.append('is_active',this.create.is_active);
                 formDate.append('vat_no',this.create.vat_no);
 
                 adminApi.post(`/companies`,formDate)
                     .then((res) => {
                         this.$bvModal.hide(`create`);
-                        console.log(res);
+                        this.companies.unshift(res.data.data);
                         setTimeout(() => {
                             Swal.fire({
                                 icon: 'success',
@@ -307,8 +307,7 @@ export default {
                         },500);
                     })
                     .catch((err) => {
-                        console.log(err.response);
-                        // this.errors = err.response.data.errors;
+                        this.errors = err.response.data.errors;
                     }).finally(() => {
                         this.isLoader = false;
                     });
@@ -318,16 +317,35 @@ export default {
         /**
          *  edit company
          */
-        editSubmit(id){
+        editSubmit(id,index){
             this.$v.edit.$touch();
-
+            console.log(id);
             if (this.$v.edit.$invalid) {
                 return;
             } else {
                 this.isLoader = true;
-                adminApi.put(`/companies/${id}`,this.edit)
+                this.errors = {};
+
+                let formDate = new FormData();
+                formDate.append('name',this.edit.name);
+                formDate.append('name_e',this.edit.name_e);
+                formDate.append('email',this.edit.email);
+                formDate.append('phone',this.edit.phone);
+                formDate.append('tax_id',this.edit.tax_id);
+                formDate.append('partner_id',this.edit.partner_id);
+                formDate.append('logo',this.edit.logo);
+                formDate.append('website',this.edit.website);
+                formDate.append('cr',this.edit.cr);
+                formDate.append('url',this.edit.url);
+                formDate.append('address',this.edit.address);
+                formDate.append('is_active',this.edit.is_active);
+                formDate.append('vat_no',this.edit.vat_no);
+                formDate.append('_method','PUT');
+
+                adminApi.post(`/companies/${id}`,formDate)
                     .then((res) => {
-                        let l = res.data.data;
+                        console.log(res);
+                        this.companies[index] = res.data.data;
                         this.$bvModal.hide(`modal-edit-${id}`);
                         setTimeout(() => {
                             Swal.fire({
@@ -339,17 +357,18 @@ export default {
                         },500);
                     })
                     .catch((err) => {
+                        console.log(err.response);
                         this.errors = err.response.data.errors;
                     }).finally(() => {
-                    this.isLoader = false;
-                });
+                        this.isLoader = false;
+                    });
             }
         },
         /**
          *  get parent
          */
         getPartner(){
-            adminApi.get(`/partners?per_page=${this.per_page}&search=${this.search}`)
+            adminApi.get(`/partners?per_page=${this.per_page}&search=${this.search}&is_active=active`)
                 .then((res) => {
                     let l = res.data;
                     this.dropDownSenders = l.data;
@@ -366,37 +385,53 @@ export default {
          *   show Modal (edit)
          */
         resetModalEdit(id){
-            let company = this.companys.find(e => id == e.id );
+            let company = this.companies.find(e => id == e.id );
             this.edit.name = company.name;
             this.edit.name_e = company.name_e;
             this.edit.is_active = company.is_active;
             this.edit.email = company.email;
             this.edit.address = company.address;
             this.edit.cr = company.cr;
-            this.edit.partner_id = company.partner_id;
+            this.edit.partner_id = company.partner.id;
+            this.edit.search = this.$i18n.locale == 'ar'? company.partner.name : company.partner.name_e;
             this.edit.tax_id = company.tax_id;
             this.edit.url = company.url;
             this.edit.website = company.website;
             this.edit.vat_no = company.vat_no;
             this.edit.phone = company.phone;
-            // this.edit.logo = company.logo;
+            this.dropDownSenders = [];
+            this.errors = {};
+            this.edit.file = company.logo;
         },
         /**
          *  hidden Modal (edit)
          */
         resetModalHiddenEdit(id){
-            let company = this.companys.find(e => id == e.id );
-            company.name = this.edit.name;
-            company.name_e = this.edit.name_e;
-            company.is_active = this.edit.is_active;
-            company.email = this.edit.email;
-            company.password = this.edit.password;
-            company.mobile_no = this.edit.mobile_no;
-            this.edit = {name: '', name_e: '', email: '', password:'', repeatPassword:'', mobile_no:'', is_active: null};
+            this.edit = {
+                name: '',
+                name_e: '',
+                email: '',
+                partner_id: null,
+                url:'',
+                phone:'',
+                tax_id: null,
+                vat_no: null,
+                cr:'',
+                logo:{},
+                address:'',
+                website: '',
+                is_active: null,
+                type: '',
+                search: "",
+                file: '',
+                isImage: true
+            };
             this.errors = {};
+            this.dropDownSenders = [];
         },
+
         /**
-         *  start Image
+         *  start Image ceate
          */
         onDragEnter(){
             this.isDrop = true;
@@ -415,6 +450,7 @@ export default {
         },
         onImageChanged(e){
             this.create.logo = {};
+            this.edit.isImage = false;
             this.image = '';
             const file = e.target.files[0];
             this.addImage(file);
@@ -433,11 +469,59 @@ export default {
             this.create.type = '';
             this.image = '';
             this.create.logo = {};
-            document.getElementById('uploadImageCreate').value = '';
-            document.getElementById('uploadImageEdit').value = '';
         },
         /**
-         *  end Image
+         *  end Image ceate
+         */
+
+        /**
+         *  start Image ceate
+         */
+        onDragEnterEdit(){
+            this.isDrop = true;
+            this.counter++;
+        },
+        onDragLeaveEdit(){
+            this.counter--;
+            this.isDrop = false;
+        },
+        onDropEdit(e){
+            this.edit.logo = {};
+            this.image = '';
+            this.edit.isImage = false;
+            this.isDrop = false;
+            const file = e.dataTransfer.files;
+            this.addImageEdit(file[0]);
+        },
+        onImageChangedEdit(e){
+            this.edit.logo = {};
+            this.edit.isImage = false;
+            this.image = '';
+            const file = e.target.files[0];
+            this.addImageEdit(file);
+        },
+        addImageEdit(file){
+            if(file){
+                this.isDrop = true;
+                this.edit.type = file.type;
+                this.edit.logo = file; //upload
+                //preview of image
+                const reader = new FileReader();
+                reader.onload = (e)=> this.image = e.target.result;
+                reader.readAsDataURL(this.edit.logo);
+            }else{
+                this.edit.isImage = true;
+            }
+        },
+        deleteImageEdit(){
+            this.isDrop = false;
+            this.edit.isImage = true;
+            this.edit.type = '';
+            this.image = '';
+            this.edit.logo = {};
+        },
+        /**
+         *  end Image ceate
          */
 
         /**
@@ -445,7 +529,9 @@ export default {
          */
         searchSender(){
             this.dropDownSenders = [];
-            if(this.create.search){
+            this.create.partner_id = null;
+            this.edit.partner_id = null;
+            if(this.create.search || this.edit.search){
                 clearTimeout(this.debounce);
                 this.debounce = setTimeout(() => {
                     this.getPartner();
@@ -459,7 +545,9 @@ export default {
         showSenderName(index){
             let item = this.dropDownSenders[index];
             this.create.partner_id = item.id;
-            this.create.search = item.name;
+            this.create.search = (this.$i18n.locale == 'ar' ? item.name : item.name_e);
+            this.edit.partner_id = item.id;
+            this.edit.search = (this.$i18n.locale == 'ar' ? item.name : item.name_e);
             this.isButton = true;
             this.dropDownSenders = [];
         },
@@ -532,10 +620,14 @@ export default {
                     e.target.blur();
                 };
             });
+
             document.addEventListener('click',(e) => {
                 if(this.dropDownSenders.length > 0){
-                    if((!e.target.classList.contains('Sender') || !e.target.classList.contains('input-Sender')) && e.pointerType){
+                    if(e.target.classList.contains('Sender') || e.target.classList.contains('input-Sender')){
                         this.isButton = false;
+                    }else {
+                        this.isButton = false;
+                        this.dropDownSenders = [];
                     }
                 }
             });
@@ -543,8 +635,11 @@ export default {
 
         ClickDropdown(e){
             if(this.dropDownSenders.length > 0){
-                if((!e.target.classList.contains('Sender') || !e.target.classList.contains('input-Sender')) && e.pointerType){
+                if(e.target.classList.contains('Sender') || e.target.classList.contains('input-Sender')){
                     this.isButton = false;
+                }else {
+                    this.isButton = true;
+                    this.dropDownSenders = [];
                 }
             }
         }
@@ -803,7 +898,7 @@ export default {
                                                 class="form-control input-Sender"
                                                 v-model.trim="create.search"
                                                 @input="searchSender"
-                                                @blur="ClickDropdown"
+                                                @blur.prevent="ClickDropdown"
                                                 @focus="isButton = false"
                                                 :class="{
                                                 'is-invalid':$v.create.partner_id.$error || errors.partner_id,
@@ -813,7 +908,7 @@ export default {
                                             />
 
                                             <ul class="dropdown-search list-unstyled sender-search"
-                                                v-if="dropDownSenders.length && !isButton"
+                                                v-if="dropDownSenders.length > 0"
                                             >
                                                 <li
                                                     class="Sender"
@@ -1008,27 +1103,31 @@ export default {
                                     <th>{{ $t('general.Name') }}</th>
                                     <th>{{ $t('general.Name_en') }}</th>
                                     <th>{{ $t('login.Emailaddress') }}</th>
+                                    <th>{{ $t('partner.partner') }}</th>
+                                    <th>{{ $t('general.mobile_no') }}</th>
                                     <th>{{ $t('general.Status') }}</th>
                                     <th>{{ $t('general.Action') }}</th>
                                 </tr>
                                 </thead>
-                                <tbody v-if="companys.length > 0">
-                                <tr v-for="(data,index) in companys" :key="data.date">
+                                <tbody v-if="companies.length > 0">
+                                <tr v-for="(data,index) in companies" :key="data.id">
                                     <td>{{ 1 + index }}</td>
                                     <td>
                                         <h5 class="m-0 font-weight-normal">{{ data.name }}</h5>
                                     </td>
                                     <td>{{ data.name_e }}</td>
                                     <td>{{ data.email }}</td>
+                                    <td>{{ $i18n.locale == 'ar'? data.partner.name : data.partner.name_e}}</td>
+                                    <td>{{ data.phone }}</td>
                                     <td>
                                         <span :class="[
-                                            data.is_active ?
+                                            data.is_active == 'active' ?
                                             'bg-soft-success text-success':
                                             'bg-soft-danger  text-danger',
                                             'badge'
                                             ]"
                                         >
-                                            {{ data.is_active ? `${$t('general.Active')}`:`${$t('general.Inactive')}`}}
+                                            {{ data.is_active == 'active' ? `${$t('general.Active')}`:`${$t('general.Inactive')}`}}
                                         </span>
                                     </td>
                                     <td>
@@ -1058,7 +1157,7 @@ export default {
                                             @show="resetModalEdit(data.id)"
                                             @hidden="resetModalHiddenEdit(data.id)"
                                         >
-                                            <form  @submit.stop.prevent="editSubmit(data.id)">
+                                            <form  @submit.stop.prevent="editSubmit(data.id,index)">
 
                                                 <div class="row">
                                                     <div class="col-md-6">
@@ -1250,7 +1349,7 @@ export default {
                                                                 class="form-control input-Sender"
                                                                 v-model.trim="edit.search"
                                                                 @input="searchSender"
-                                                                @blur="ClickDropdown"
+                                                                @blur.prevent="ClickDropdown"
                                                                 @focus="isButton = false"
                                                                 :class="{
                                                                     'is-invalid':$v.edit.partner_id.$error || errors.partner_id,
@@ -1354,14 +1453,14 @@ export default {
                                                         <div
                                                             class="dropzone-custom position-relative"
                                                             :style="{minHeight: !isDrop? '160px':'160px'}"
-                                                            @dragenter.prevent="onDragEnter"
-                                                            @dragleave.prevent="onDragLeave"
+                                                            @dragenter.prevent="onDragEnterEdit"
+                                                            @dragleave.prevent="onDragLeaveEdit"
                                                             @dragover.prevent
-                                                            @drop.prevent.stop="onDrop"
+                                                            @drop.prevent.stop="onDropEdit"
                                                         >
                                                             <div
                                                                 class="dropzone-content text-center"
-                                                                v-if="!isDrop"
+                                                                v-if="isDrop && !edit.isImage"
                                                             >
                                                                 <div class="dropzone-icon">
                                                                     <i class="fas fa-cloud-download-alt"></i>
@@ -1374,13 +1473,32 @@ export default {
                                                             <input
                                                                 accept="image/png, image/gif, image/jpeg, image/jpg"
                                                                 type="file"
-                                                                @change.prevent="onImageChanged"
+                                                                @change.prevent="onImageChangedEdit"
                                                                 class="input-file-upload position-absolute"
                                                                 :class="{
                                                                         'is-invalid':$v.edit.logo.$error || errors.logo,
                                                                         'is-valid':!$v.edit.logo.$invalid && !errors.logo
                                                                     }"
                                                                 >
+
+                                                            <div class="dropzone-previews mt-3 position-relative" v-if="edit.isImage">
+                                                                <div class="card mt-1 mb-0 shadow-none border">
+                                                                    <div class="p-2">
+                                                                        <div class="row align-items-center">
+                                                                            <div class="col-auto">
+                                                                                <img
+                                                                                    data-dz-thumbnail
+                                                                                    :src="edit.file?edit.file:'#'"
+                                                                                    class="avatar-sm rounded bg-light"
+                                                                                    alt=""
+                                                                                >
+                                                                            </div>
+                                                                            <div class="col pl-0"></div>
+                                                                            <div class="col-auto"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
 
                                                             <template  v-if="isDrop && image">
                                                                 <div class="dropzone-previews mt-3 position-relative">
@@ -1402,7 +1520,7 @@ export default {
                                                                                         href="javascript:void(0);"
                                                                                         class="btn btn-link btn-lg text-muted"
                                                                                         data-dz-remove
-                                                                                        @click.prevent="deleteImageCreate"
+                                                                                        @click.prevent="deleteImageEdit"
                                                                                     >
                                                                                         <i class="fe-x"></i>
                                                                                     </a>
@@ -1448,7 +1566,7 @@ export default {
                                 </tbody>
                                 <tbody v-else>
                                 <tr>
-                                    <th class="text-center" colspan="5">{{ $t('general.notDataFound') }}</th>
+                                    <th class="text-center" colspan="7">{{ $t('general.notDataFound') }}</th>
                                 </tr>
                                 </tbody>
                             </table>
@@ -1456,9 +1574,9 @@ export default {
                         <!-- end .table-responsive-->
 
                         <!-- start Pagination -->
-                        <template v-if="companysPagination">
+                        <template v-if="companiesPagination">
                             <pagination-laravel
-                                :data="companysPagination"
+                                :data="companiesPagination"
                                 @pagination-change-page="getData"
                                 :limit="3"
                             >

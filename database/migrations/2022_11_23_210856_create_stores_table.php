@@ -18,7 +18,7 @@ class CreateStoresTable extends Migration
             $table->foreignId('company_id')->constrained('companies')->references("id")->cascadeOnDelete()->cascadeOnUpdate();
             $table->string("name" , 100)->comment("Name Arabic");
             $table->string("name_e" , 100)->comment("Name English");
-            $table->string('is_active')->default('active');
+            $table->string('is_active')->default('inactive');
             $table->timestamps();
         });
     }

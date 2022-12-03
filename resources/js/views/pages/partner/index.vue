@@ -189,7 +189,6 @@ export default {
         resetModal(){
             this.create =  {name: '', name_e: '', email: '', password:'', repeatPassword:'', mobile_no:'', is_active: null};
             this.$nextTick(() => { this.$v.$reset() });
-            this.getParent();
             this.errors = {};
         },
         /**
@@ -202,9 +201,11 @@ export default {
                 return;
             } else {
                 this.isLoader = true;
+                this.errors = {};
                 adminApi.post(`/partners`,this.create)
                     .then((res) => {
                         this.$bvModal.hide(`create`);
+                        this.parents.unshift(res.data.data);
                         setTimeout(() => {
                             Swal.fire({
                                 icon: 'success',
@@ -232,6 +233,7 @@ export default {
                 return;
             } else {
                 this.isLoader = true;
+                this.errors = {};
                 adminApi.put(`/partners/${id}`,this.edit)
                     .then((res) => {
                         let l = res.data.data;
@@ -528,27 +530,29 @@ export default {
                                     <th>{{ $t('general.Name') }}</th>
                                     <th>{{ $t('general.Name_en') }}</th>
                                     <th>{{ $t('login.Emailaddress') }}</th>
+                                    <th>{{ $t('general.mobile_no') }}</th>
                                     <th>{{ $t('general.Status') }}</th>
                                     <th>{{ $t('general.Action') }}</th>
                                 </tr>
                                 </thead>
                                 <tbody v-if="partners.length > 0">
-                                <tr v-for="(data,index) in partners" :key="data.date">
+                                <tr v-for="(data,index) in partners" :key="data.id">
                                     <td>{{ 1 + index }}</td>
                                     <td>
                                         <h5 class="m-0 font-weight-normal">{{ data.name }}</h5>
                                     </td>
                                     <td>{{ data.name_e }}</td>
                                     <td>{{ data.email }}</td>
+                                    <td>{{ data.mobile_no }}</td>
                                     <td>
                                         <span :class="[
-                                            data.is_active ?
+                                            data.is_active == 'active'?
                                             'bg-soft-success text-success':
                                             'bg-soft-danger  text-danger',
                                             'badge'
                                             ]"
                                         >
-                                            {{ data.is_active ? `${$t('general.Active')}`:`${$t('general.Inactive')}`}}
+                                            {{ data.is_active == 'active'? `${$t('general.Active')}`:`${$t('general.Inactive')}`}}
                                         </span>
                                     </td>
                                     <td>
