@@ -4,7 +4,8 @@ namespace App\Repositories\Partner;
 
 use App\Models\Partner;
 use Illuminate\Support\Facades\DB;
-use Hash;
+use Illuminate\Support\Facades\Hash;
+
 class PartnerRepository implements PartnerRepositoryInterface
 {
 

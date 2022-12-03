@@ -2,10 +2,10 @@
 import Layout from "../../layouts/main";
 import PageHeader from "../../../components/Page-header";
 import adminApi from "../../../api/adminAxios";
-import startDate from "../../../helper/startDate";
 import Switches from "vue-switches";
 import { required, minLength, maxLength ,integer } from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
+import ErrorMessage from "../../../components/widgets/errorMessage";
 import loader from "../../../components/loader";
 
 
@@ -21,18 +21,19 @@ export default {
         Layout,
         PageHeader,
         Switches,
+        ErrorMessage,
         loader
     },
     data() {
         return {
-            title: `${this.$t('module.module')}`,
+            title: `module.module`,
             items: [
                 {
-                    text: "Minton",
-                    href: "/",
+                    text: "alshamel",
+                    to: {name: "home"},
                 },
                 {
-                    text: `${this.$t('module.module')}`,
+                    text: `module.module`,
                     active: true,
                 },
             ],
@@ -56,6 +57,7 @@ export default {
                 parent_id: 0,
                 is_active: null
             },
+            errors: {}
         }
     },
     validations: {
@@ -163,8 +165,9 @@ export default {
          *  reset Modal (create)
          */
         resetModalHidden(){
-            this.create =  {name: '', name_e: '', parent_id: '', is_active: null};
+            this.create =  {name: '', name_e: '', parent_id: 0, is_active: null};
             this.$nextTick(() => { this.$v.$reset() });
+            this.errors = {};
             this.$bvModal.hide(`create`);
         },
         /**
@@ -173,6 +176,7 @@ export default {
         resetModal(){
             this.create =  {name: '', name_e: '', parent_id: 0, is_active: null};
             this.$nextTick(() => { this.$v.$reset() });
+            this.errors = {};
             this.getParent();
         },
         /**
@@ -198,7 +202,7 @@ export default {
                         },500);
                     })
                     .catch((err) => {
-                        console.log(err.response);
+                        this.errors = err.response.data.errors;
                     }).finally(() => {
                         this.isLoader = false;
                     });
@@ -229,7 +233,7 @@ export default {
                         },500);
                     })
                     .catch((err) => {
-                        console.log(err.response);
+                        this.errors = err.response.data.errors;
                     }).finally(() => {
                         this.isLoader = false;
                     });
@@ -260,6 +264,7 @@ export default {
             this.edit.name_e = module.name_e;
             this.edit.is_active = module.is_active;
             this.edit.parent_id = module.parent_id;
+            this.errors = {};
             this.getParent();
         },
         /**
@@ -271,6 +276,7 @@ export default {
             module.name_e = this.edit.name_e;
             module.is_active = this.edit.is_active;
             module.parent_id = this.edit.parent_id;
+            this.errors = {};
             this.edit = {
                 name: '',
                 name_e: '',
@@ -301,7 +307,7 @@ export default {
 
                         <div class="row justify-content-between align-items-center mb-3">
                             <div class="col-lg-3 col-6" style="font-weight: 500">
-                                Show
+                                {{ $t('general.Show') }}
                                 <select
                                     class="custom-select custom-select-sm mr-sm-2"
                                     v-model="per_page"
@@ -311,16 +317,16 @@ export default {
                                     <option value="25">25</option>
                                     <option value="50">50</option>
                                 </select>
-                                entries
+                                {{ $t('general.entries') }}
                             </div>
                             <div class="col-lg-3 col-6" style="font-weight: 500">
-                                Search:
+                                {{ $t('general.Search') }}:
                                 <input
                                     class="form-control form-control-sm"
                                     style="display: inline-block;width:auto"
                                     type="text"
                                     v-model.trim="search"
-                                    placeholder="Search..."
+                                    :placeholder="`${$t('general.Search')}...`"
                                 >
                             </div>
                         </div>
@@ -345,15 +351,18 @@ export default {
                                                 class="form-control"
                                                 v-model="$v.create.name.$model"
                                                 :class="{
-                                                'is-invalid':$v.create.name.$error,
-                                                'is-valid':!$v.create.name.$invalid
+                                                'is-invalid':$v.create.name.$error || errors.name,
+                                                'is-valid':!$v.create.name.$invalid && !errors.name
                                             }"
                                                 :placeholder="$t('general.Name')" id="field-1"
                                             />
-                                            <div class="valid-feedback">{{ $t('general.Looksgood') }}</div>
+                                            <div class="valid-feedback" v-if="!errors.name">{{ $t('general.Looksgood') }}</div>
                                             <div v-if="!$v.create.name.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                             <div v-if="!$v.create.name.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.name.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.name.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.name.$params.maxLength.max }} {{ $t('general.letters') }}</div>
+                                            <template v-if="errors.name">
+                                                <ErrorMessage v-for="(errorMessage,index) in errors.name" :key="index">{{ errorMessage }}</ErrorMessage>
+                                            </template>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -364,15 +373,18 @@ export default {
                                                 class="form-control"
                                                 v-model="$v.create.name_e.$model"
                                                 :class="{
-                                                'is-invalid':$v.create.name_e.$error,
-                                                'is-valid':!$v.create.name_e.$invalid
+                                                'is-invalid':$v.create.name_e.$error || errors.name_e,
+                                                'is-valid':!$v.create.name_e.$invalid && !errors.name_e
                                             }"
                                                 :placeholder="$t('general.Name_en')" id="field-2"
                                             />
-                                            <div class="valid-feedback">{{ $t('general.Looksgood') }}</div>
+                                            <div class="valid-feedback" v-if="!errors.name_e">{{ $t('general.Looksgood') }}</div>
                                             <div v-if="!$v.create.name_e.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                             <div v-if="!$v.create.name_e.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.name_e.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.name_e.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.name_e.$params.maxLength.max }} {{ $t('general.letters') }}</div>
+                                            <template v-if="errors.name_e">
+                                                <ErrorMessage v-for="(errorMessage,index) in errors.name_e" :key="index">{{ errorMessage }}</ErrorMessage>
+                                            </template>
                                         </div>
                                     </div>
                                     <div class="col-md-6 mt-1">
@@ -383,16 +395,19 @@ export default {
                                                 id="inlineFormCustomSelectPref"
                                                 v-model="$v.create.is_active.$model"
                                                 :class="{
-                                                'is-invalid':$v.create.is_active.$error,
-                                                'is-valid':!$v.create.is_active.$invalid
+                                                'is-invalid':$v.create.is_active.$error || errors.is_active,
+                                                'is-valid':!$v.create.is_active.$invalid && !errors.is_active
                                             }"
                                             >
                                                 <option value="" selected>{{ $t('general.Choose') }}...</option>
                                                 <option value="active">{{ $t('general.Active') }}</option>
                                                 <option value="inactive">{{ $t('general.Inactive') }}</option>
                                             </select>
-                                            <div class="valid-feedback">{{ $t('general.Looksgood') }}</div>
+                                            <div class="valid-feedback" v-if="!errors.is_active">{{ $t('general.Looksgood') }}</div>
                                             <div v-if="!$v.create.is_active.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
+                                            <template v-if="errors.is_active">
+                                                <ErrorMessage v-for="(errorMessage,index) in errors.is_active" :key="index">{{ errorMessage }}</ErrorMessage>
+                                            </template>
                                         </div>
                                     </div>
                                     <div class="col-md-6 mt-1">
@@ -501,15 +516,18 @@ export default {
                                                                 class="form-control"
                                                                 v-model="$v.edit.name.$model"
                                                                 :class="{
-                                                                    'is-invalid':$v.edit.name.$error,
-                                                                    'is-valid':!$v.edit.name.$invalid
+                                                                    'is-invalid':$v.edit.name.$error || errors.name,
+                                                                    'is-valid':!$v.edit.name.$invalid && !errors.name
                                                                 }"
                                                                 :placeholder="$t('general.Name')" id="field-u-1"
                                                             />
-                                                            <div class="valid-feedback">{{ $t('general.Looksgood') }}</div>
+                                                            <div class="valid-feedback" v-if="!errors.name">{{ $t('general.Looksgood') }}</div>
                                                             <div v-if="!$v.edit.name.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                                             <div v-if="!$v.edit.name.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.edit.name.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                                             <div v-if="!$v.edit.name.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.edit.name.$params.maxLength.max }} {{ $t('general.letters') }}</div>
+                                                            <template v-if="errors.name">
+                                                                <ErrorMessage v-for="(errorMessage,index) in errors.name" :key="index">{{ errorMessage }}</ErrorMessage>
+                                                            </template>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -520,15 +538,18 @@ export default {
                                                                 class="form-control"
                                                                 v-model="$v.edit.name_e.$model"
                                                                 :class="{
-                                                                    'is-invalid':$v.edit.name_e.$error,
-                                                                    'is-valid':!$v.edit.name_e.$invalid
+                                                                    'is-invalid':$v.edit.name_e.$error || errors.name_e,
+                                                                    'is-valid':!$v.edit.name_e.$invalid && !errors.name_e
                                                                 }"
                                                                 :placeholder="$t('general.Name_en')" id="field-u-2"
                                                             />
-                                                            <div class="valid-feedback">{{ $t('general.Looksgood') }}</div>
+                                                            <div class="valid-feedback" v-if="!errors.name_e">{{ $t('general.Looksgood') }}</div>
                                                             <div v-if="!$v.edit.name_e.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                                             <div v-if="!$v.edit.name_e.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.edit.name_e.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                                             <div v-if="!$v.edit.name_e.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.edit.name_e.$params.maxLength.max }} {{ $t('general.letters') }}</div>
+                                                            <template v-if="errors.name_e">
+                                                                <ErrorMessage v-for="(errorMessage,index) in errors.name_e" :key="index">{{ errorMessage }}</ErrorMessage>
+                                                            </template>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 mt-1">
@@ -539,16 +560,19 @@ export default {
                                                                 id="inlineFormCustomSelectPrefs"
                                                                 v-model="$v.edit.is_active.$model"
                                                                 :class="{
-                                                                    'is-invalid':$v.edit.is_active.$error,
-                                                                    'is-valid':!$v.edit.is_active.$invalid
+                                                                    'is-invalid':$v.edit.is_active.$error || errors.is_active,
+                                                                    'is-valid':!$v.edit.is_active.$invalid && !errors.is_active
                                                                 }"
                                                                 >
                                                                 <option value="" selected>{{ $t('general.Choose') }}...</option>
                                                                 <option value="active">{{ $t('general.Active') }}</option>
                                                                 <option value="inactive">{{ $t('general.Inactive') }}</option>
                                                             </select>
-                                                            <div class="valid-feedback">{{ $t('general.Looksgood') }}</div>
+                                                            <div class="valid-feedback" v-if="!errors.is_active">{{ $t('general.Looksgood') }}</div>
                                                             <div v-if="!$v.edit.is_active.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
+                                                            <template v-if="errors.is_active">
+                                                                <ErrorMessage v-for="(errorMessage,index) in errors.is_active" :key="index">{{ errorMessage }}</ErrorMessage>
+                                                            </template>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 mt-1">
@@ -578,7 +602,11 @@ export default {
                                                         <span class="sr-only">{{ $t('login.Loading') }}...</span>
                                                     </b-button>
 
-                                                    <b-button variant="secondary" type="button" @click.prevent="resetModal(data.id)">
+                                                    <b-button
+                                                        variant="secondary"
+                                                        type="button"
+                                                        @click.prevent="$bvModal.hide(`modal-edit-${data.id}`)"
+                                                    >
                                                         {{ $t('general.Cancel') }}
                                                     </b-button>
                                                 </div>
@@ -598,7 +626,8 @@ export default {
                         <!-- end .table-responsive-->
 
                         <!-- start Pagination -->
-                        <pagination-laravel
+                        <template v-if="modulesPagination">
+                            <pagination-laravel
                             :data="modulesPagination"
                             @pagination-change-page="getData"
                             :limit="3"
@@ -610,6 +639,7 @@ export default {
                                 <span>{{ $t('general.Next') }} &gt;</span>
                             </template>
                         </pagination-laravel>
+                        </template>
                         <!-- end Pagination -->
 
                     </div>

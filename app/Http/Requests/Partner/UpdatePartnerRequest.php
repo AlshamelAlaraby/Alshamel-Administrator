@@ -44,7 +44,6 @@ class UpdatePartnerRequest extends FormRequest
             'required'      => __('message.name is required'),
             'is_active.in'  => __('message.status must be active or inactive'),
             'unique'        => __('message.field is unique'),
-
         ];
     }
 }
