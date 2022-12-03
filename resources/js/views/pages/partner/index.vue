@@ -205,7 +205,7 @@ export default {
                 adminApi.post(`/partners`,this.create)
                     .then((res) => {
                         this.$bvModal.hide(`create`);
-                        this.parents.unshift(res.data.data);
+                        this.partners.unshift(res.data.data);
                         setTimeout(() => {
                             Swal.fire({
                                 icon: 'success',
@@ -236,7 +236,6 @@ export default {
                 this.errors = {};
                 adminApi.put(`/partners/${id}`,this.edit)
                     .then((res) => {
-                        let l = res.data.data;
                         this.$bvModal.hide(`modal-edit-${id}`);
                         setTimeout(() => {
                             Swal.fire({

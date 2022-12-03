@@ -3,11 +3,14 @@
 namespace App\Repositories\Partner;
 
 use App\Models\Partner;
+use App\Traits\ApiResponser;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class PartnerRepository implements PartnerRepositoryInterface
 {
+
+    use ApiResponser;
 
     private $model;
     public function __construct(Partner $model)
@@ -45,12 +48,16 @@ class PartnerRepository implements PartnerRepositoryInterface
 
     public function create($request)
     {
+
+        $data = $request;
+        $data['password'] = Hash::make($data['password']);
+        $partner = $this->model->create($data);
+
         DB::transaction(function () use ($request) {
-            $data = $request;
-            $data['password'] = Hash::make($data['password']);
-            $this->model->create($data);
             cacheForget("Partners");
         });
+
+        return $this->successResponse($partner,__('Done'));
     }
 
     public function update($request, $id)

@@ -1618,7 +1618,7 @@ __webpack_require__.r(__webpack_exports__);
         this.errors = {};
         _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/partners", this.create).then(function (res) {
           _this6.$bvModal.hide("create");
-          _this6.parents.unshift(res.data.data);
+          _this6.partners.unshift(res.data.data);
           setTimeout(function () {
             sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
               icon: 'success',
@@ -1646,7 +1646,6 @@ __webpack_require__.r(__webpack_exports__);
         this.isLoader = true;
         this.errors = {};
         _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].put("/partners/".concat(id), this.edit).then(function (res) {
-          var l = res.data.data;
           _this7.$bvModal.hide("modal-edit-".concat(id));
           setTimeout(function () {
             sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
