@@ -19,7 +19,7 @@ class PartnerResource extends JsonResource
             'id'   =>$this->id,
             'name' => $this->name,
             'name_e' => $this->name_e,
-            "is_active"  => $this->is_active == 1 ? Partner::ACTIVE : Partner::INACTIVE,
+            "is_active"  => $this->is_active,
             'email' => $this->email,
             'password' => $this->password,
             'mobile_no' => $this->mobile_no,

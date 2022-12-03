@@ -29,7 +29,7 @@ class StorePartnerRequest extends FormRequest
             'email'     => 'required|email|unique:partners,email',
             'password'  => 'required|min:8',
             'mobile_no' => 'nullable',
-            'is_active' => 'nullable|in:0,1',
+            "is_active" => "nullable|in:active,inactive",
         ];
     }
 

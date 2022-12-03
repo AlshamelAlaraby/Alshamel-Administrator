@@ -27,7 +27,7 @@ class UpdatePartnerRequest extends FormRequest
         return [
             'name'      => 'required|string|max:255',
             'name_e'    => 'required|string|max:255',
-            'is_active' => 'nullable|in:0,1',
+            "is_active" => "nullable|in:active,inactive",
             'email' => [
                 'required',
                 'email',

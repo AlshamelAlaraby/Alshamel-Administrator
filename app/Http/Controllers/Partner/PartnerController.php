@@ -66,7 +66,7 @@ class PartnerController extends ResponseController
     public function store(StorePartnerRequest $request)
     {
         try {
-            return $this->successResponse($this->repository->create($request->validated()), __('Done'), 200);
+            return $this->repository->create($request->validated());
         } catch (Exception $exception) {
             return $this->errorResponse($exception->getMessage(), $exception->getCode());
         }

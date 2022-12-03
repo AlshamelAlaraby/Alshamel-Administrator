@@ -6,6 +6,7 @@ use App\Http\Request\Company\StoreCompanyRequest;
 use App\Http\Request\Company\UpdateCompanyRequest;
 use App\Http\Resources\Company\CompanyResource;
 use App\Repositories\Company\CompanyRepositoryInterface;
+use App\Traits\ApiResponser;
 use Illuminate\Routing\Controller;
 use Mockery\Exception;
 use Illuminate\Http\Request;
@@ -13,6 +14,7 @@ use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
+    use ApiResponser;
     public $repository;
     public $resource = CompanyResource::class;
     public function __construct(CompanyRepositoryInterface $repository)
@@ -52,9 +54,9 @@ class CompanyController extends Controller
     {
         try {
             // return responseJson(200 , __('created'),  new CompanyResource($this->repository->create($request->validated())));
-            return responseJson(200 , __('created'),  $this->repository->create($request->validated()));
+            return $this->repository->create($request->validated());
         } catch (Exception $exception) {
-            return responseJson($exception->getCode() ,$exception->getMessage());
+            return  $this->errorResponse($exception->getMessage(), $exception->getCode());
         }
     }
 
@@ -95,13 +97,11 @@ class CompanyController extends Controller
         try {
             $model = $this->repository->show($id);
             if (!$model) {
-                return  responseJson(404 , __('message.data not found'));
+                return  $this->errorResponse(__('message.data not found'), 404);
             }
-            $model = $this->repository->update($request->validated(), $id);
-
-            return  responseJson(200 ,__('Done')  );
+            return  $this->repository->update($request->validated(), $id);
         } catch (Exception $exception) {
-            return responseJson($exception->getCode() ,$exception->getMessage());
+            return  $this->errorResponse($exception->getMessage(), $exception->getCode());
         }
     }
 

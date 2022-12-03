@@ -52,7 +52,7 @@ Vue.use(VueGoogleMaps, {
 
 
 // change lang
-
+if(!localStorage.getItem('lang')) localStorage.setItem('lang','ar');
 let style_dashboard = document.getElementById('style_dashboard');
 if(localStorage.getItem('lang') == 'ar'){
     document.body.style.textAlign = 'right';

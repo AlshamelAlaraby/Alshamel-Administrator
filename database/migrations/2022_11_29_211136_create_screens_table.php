@@ -21,7 +21,7 @@ class CreateScreensTable extends Migration
             $table->string("title" , 100)->unique()->comment("title Arabic");
             $table->string("title_e" , 100)->unique()->comment("title English");
             $table->unsignedBigInteger('serial_id')->nullable();
-            $table->foreign('serial_id')->references('id')->on('serials');
+//            $table->foreign('serial_id')->references('id')->on('serials');
             $table->softDeletes();
             $table->timestamps();
         });
