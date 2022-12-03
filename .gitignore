@@ -6,6 +6,7 @@
 /storage/*.key
 /storage
 /public/hot
+/public/uploads
 /public/storage
 /storage/*.key
 /vendor
