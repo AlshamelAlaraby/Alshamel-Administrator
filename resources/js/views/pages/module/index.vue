@@ -300,12 +300,14 @@ export default {
                     <div class="card-body">
                         <div class="row justify-content-between align-items-center mb-3">
                             <h4 class="header-title"> {{ $t('module.ModulesTable') }}</h4>
+
                             <b-button
                                 v-b-modal.create
                                 variant="success"
                             >
                                 {{ $t('general.Create') }}
                             </b-button>
+
                         </div>
 
                         <div class="row justify-content-between align-items-center mb-3">
@@ -467,6 +469,7 @@ export default {
                                 </thead>
                                 <tbody v-if="modules.length > 0">
                                 <tr v-for="(data,index) in modules" :key="data.id">
+
                                     <td>{{ 1 + index }}</td>
                                     <td>
                                         <h5 class="m-0 font-weight-normal">{{ data.name }}</h5>
@@ -618,6 +621,7 @@ export default {
                                         <!--  /edit   -->
                                     </td>
                                 </tr>
+
                                 </tbody>
                                 <tbody v-else>
                                 <tr>
