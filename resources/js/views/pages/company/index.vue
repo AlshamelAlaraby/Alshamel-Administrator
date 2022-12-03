@@ -1425,6 +1425,7 @@ export default {
                                                             <template v-if="errors.website">
                                                                 <ErrorMessage v-for="(errorMessage,index) in errors.website" :key="index">{{ errorMessage }}</ErrorMessage>
                                                             </template>
+
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -1440,10 +1441,12 @@ export default {
                                                                 }"
                                                                 :placeholder="$t('general.address')" id="edit-12"
                                                             />
+
                                                             <div class="valid-feedback" v-if="!errors.address">{{ $t('general.Looksgood') }}</div>
                                                             <div v-if="!$v.edit.address.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                                             <div v-if="!$v.edit.address.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.edit.address.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                                             <div v-if="!$v.edit.address.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.edit.address.$params.maxLength.max }} {{ $t('general.letters') }}</div>
+
                                                             <template v-if="edit.address">
                                                                 <ErrorMessage v-for="(errorMessage,index) in errors.address" :key="index">{{ errorMessage }}</ErrorMessage>
                                                             </template>
@@ -1559,6 +1562,7 @@ export default {
                                                     >
                                                         {{ $t('general.Cancel') }}
                                                     </b-button>
+
                                                 </div>
                                             </form>
                                         </b-modal>
