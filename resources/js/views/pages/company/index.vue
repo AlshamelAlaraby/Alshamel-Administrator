@@ -1296,6 +1296,7 @@ export default {
                                                             </template>
                                                         </div>
                                                     </div>
+
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="edit-6" class="control-label">{{ $t('general.Valueaddedregistrationnumber') }}</label>
@@ -1536,6 +1537,7 @@ export default {
                                                             <ErrorMessage v-for="(errorMessage,index) in errors.logo" :key="index">{{ errorMessage }}</ErrorMessage>
                                                         </template>
                                                     </div>
+
                                                 </div>
 
                                                 <div class="mt-1 d-flex justify-content-end">
