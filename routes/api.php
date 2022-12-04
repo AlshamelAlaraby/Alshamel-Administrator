@@ -46,7 +46,7 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
         Route::get('', [CompanyController::class, "index"])->name('companies.index');
         Route::get('/{id}', [CompanyController::class, "show"])->name('companies.show');
         Route::post('', [CompanyController::class, "store"])->name('companies.store');
-        Route::put('/{id}', [CompanyController::class, "update"])->name('companies.update');
+        Route::post('/{id}', [CompanyController::class, "update"])->name('companies.update');
         Route::delete('/{id}', [CompanyController::class, "destroy"])->name('companies.delete');
     });
 
