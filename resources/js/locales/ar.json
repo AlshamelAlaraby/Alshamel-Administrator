@@ -425,6 +425,8 @@
         "address": "العنوان",
         "Dropfileshereorclicktoupload": "إسقاط الملفات هنا أو انقر للتحميل.",
         "fieldIsImage": "هذا الحقل يجب ان يكون الصوره .",
-        "ItmustbeyourImage": "يجب ان يكون امتداد الصور (jpeg,png,gif,jpg)"
+        "ItmustbeyourImage": "يجب ان يكون امتداد الصور (jpeg,png,gif,jpg)",
+        "alphaArabic": "هذا الحقل يجب ان يكون باللغه العربيه.",
+        "alphaEnglish": "هذا الحقل يجب ان يكون باللغه الانجليزيه."
     }
 }

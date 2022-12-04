@@ -34,7 +34,10 @@ class UpdatePartnerRequest extends FormRequest
                 'max:191',
                 Rule::unique('partners', 'email')->ignore($this->route('id')),
             ],
-            'mobile_no' => 'nullable',
+            'mobile_no' => [
+                'required',
+                Rule::unique('partners', 'mobile_no')->ignore($this->route('id')),
+            ],
         ];
     }
 

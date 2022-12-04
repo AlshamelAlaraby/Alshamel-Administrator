@@ -6,9 +6,9 @@ export const menuItems = [
     },
     {
         id: 2,
-        label: 'menuitems.module.text',
-        icon: 'fab fa-medium-m',
-        link: '/module'
+        label: 'menuitems.partner.text',
+        icon: 'far fa-user-circle',
+        link: '/partner'
     },
     {
         id: 3,
@@ -18,9 +18,9 @@ export const menuItems = [
     },
     {
         id: 4,
-        label: 'menuitems.partner.text',
-        icon: 'far fa-user-circle',
-        link: '/partner'
+        label: 'menuitems.module.text',
+        icon: 'fab fa-medium-m',
+        link: '/module'
     },
     {
         id: 1115,

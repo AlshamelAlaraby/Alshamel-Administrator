@@ -2624,9 +2624,9 @@ var menuItems = [{
   isTitle: true
 }, {
   id: 2,
-  label: 'menuitems.module.text',
-  icon: 'fab fa-medium-m',
-  link: '/module'
+  label: 'menuitems.partner.text',
+  icon: 'far fa-user-circle',
+  link: '/partner'
 }, {
   id: 3,
   label: 'menuitems.company.text',
@@ -2634,9 +2634,9 @@ var menuItems = [{
   link: '/company'
 }, {
   id: 4,
-  label: 'menuitems.partner.text',
-  icon: 'far fa-user-circle',
-  link: '/partner'
+  label: 'menuitems.module.text',
+  icon: 'fab fa-medium-m',
+  link: '/module'
 }, {
   id: 1115,
   label: "menuitems.dashboard.text",
