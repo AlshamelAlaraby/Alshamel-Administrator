@@ -26,7 +26,7 @@ class StoreModuleRequest extends FormRequest
         return [
             'name' => 'required|string|max:255|unique:modules,name',
             'name_e' => 'required|string|max:255|unique:modules,name_e',
-            'parent_id' => "nullable|exists:modules,id" ,
+            'parent_id' => "nullable" ,
             "is_active" => "nullable|in:active,inactive",
         ];
     }

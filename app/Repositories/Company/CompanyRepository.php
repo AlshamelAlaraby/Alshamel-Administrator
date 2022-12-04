@@ -4,7 +4,10 @@
 namespace App\Repositories\Company;
 
 
+use App\Http\Resources\Company\CompanyResource;
 use App\Models\Company;
+use App\Traits\ApiResponser;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -13,6 +16,8 @@ use Illuminate\Support\Facades\DB;
 
 class CompanyRepository implements CompanyRepositoryInterface
 {
+    use ApiResponser;
+
     public $model;
     public function __construct(Company $model){
         $this->model = $model;
@@ -43,13 +48,15 @@ class CompanyRepository implements CompanyRepositoryInterface
     public function create($request){
         if (isset($request['logo'])) {
             $request['logo']->store('companies');
-            $request['logo'] = $request['logo']->hashName();
+            $request['logo'] = storage_path('app/companies'). '/' .$request['logo']->hashName();
         }
 
         DB::transaction(function () use ($request) {
-           $this->model->create($request);
+            $this->model->create($request);
             cacheForget("company");
         });
+
+        return $this->successResponse([],__('created'));
     }
 
     public function show($id){
@@ -57,22 +64,23 @@ class CompanyRepository implements CompanyRepositoryInterface
     }
 
     public function update($data,$id){
-        if (isset($data['logo'])) {
+        if (request()->hasFile('logo')) {
             Storage::disk('companies')->delete($this->model->find($id)['logo']);
             $data['logo']->store('companies');
-            $data['logo'] = $data['logo']->hashName();
+            $data['logo'] = storage_path('app/companies'). '/' .$data['logo']->hashName();
         }
-        DB::transaction(function () use ($id, $data) {
-            $this->model->where("id", $id)->update($data);
-            $this->forget($id);
 
+        DB::transaction(function () use ($id,$data) {
+            $this->model->find($id)->update($data);
+            $this->forget($id);
         });
 
+        return $this->successResponse([],__('created'));
     }
 
     public function destroy($id){
 
-        $model = $this->find($id);
+        $model = $this->model->find($id);
         $this->forget($id);
         $model->delete();
     }

@@ -3,8 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+
+
 class Partner extends Model
 {
+    use SoftDeletes;
+
+
     public Const ACTIVE = 'active';
     public Const INACTIVE = 'inactive';
 
@@ -17,5 +24,6 @@ class Partner extends Model
         'password',
         'mobile_no',
     ];
+
 
 }

@@ -55,3 +55,18 @@ function cacheForget($key)
 {
     return Cache::forget($key);
 }
+
+
+/**
+     * upload file from request
+     * @param $file File -> file from request
+     * @param $path String -> the path of folder of the file
+     */
+    function uploadFile($file, $path)
+    {
+        $realName = $file->getClientOriginalName();
+        $filename = $file->hashName();
+        $file->move($path, $filename);
+        $fullpath =  $path . $filename;
+        return $fullpath;
+    }

@@ -249,6 +249,7 @@ export default {
             <!--- Sidemenu -->
             <div class="sidebar-main-menu">
                 <simplebar id="two-col-menu" class="h-100" data-simplebar>
+
                     <div class="twocolumn-menu-item d-block" id="dashboard" v-if="activetab === 1">
                         <div class="title-box">
                             <h5 class="menu-title">Dashboards</h5>
@@ -289,7 +290,6 @@ export default {
                             <li class="nav-item">
                                 <router-link
                                     class="nav-link side-nav-link-ref"
-                                    to="/apps/calendar"
                                     :to="{name:'calendar'}"
                                 >
                                     Calendar
@@ -328,7 +328,6 @@ export default {
                                         </li>
                                         <li>
                                             <router-link
-                                                to="/ecommerce/product-detail/1"
                                                 :to="{name:'product-detail'}"
                                                 class="side-nav-link-ref"
                                             >
@@ -456,7 +455,6 @@ export default {
                                         </li>
                                         <li>
                                             <router-link
-                                                to="/task/detail"
                                                 class="side-nav-link-ref"
                                                 :to="{name:'task-detail'}"
                                             >
@@ -483,7 +481,6 @@ export default {
                                     <ul class="nav-second-level">
                                         <li>
                                             <router-link
-                                                to="/contacts/list"
                                                 :to="{name:'contacts-list'}"
                                                 class="side-nav-link-ref"
                                             >
@@ -492,7 +489,6 @@ export default {
                                         </li>
                                         <li>
                                             <router-link
-                                                to="/contacts/profile"
                                                 :to="{name:'contacts-profile'}"
                                                 class="side-nav-link-ref"
                                             >
@@ -945,6 +941,7 @@ export default {
                             </ul>
                         </div>
                     </div>
+
                 </simplebar>
             </div>
             <div class="clearfix"></div>

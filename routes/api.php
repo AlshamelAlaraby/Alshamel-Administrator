@@ -12,6 +12,7 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Store\StoreController;
 use App\Http\Controllers\Helpfile\HelpfileController;
 
+use App\Http\Controllers\WorkflowTree\WorkflowTreeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -110,6 +111,17 @@ Route::group(['prefix' => 'helpfiles'], function () {
     });
 });
 
+
+// api of WorkflowTree
+Route::group(['prefix' => 'workflow-trees'], function () {
+    Route::controller(WorkflowTreeController::class)->group(function () {
+        Route::get('/', 'all')->name('WorkflowTree.index');
+        Route::get('/{id}', 'find');
+        Route::post('/', 'store')->name('WorkflowTree.store');
+        Route::put('/{id}', 'update')->name('WorkflowTree.update');
+        Route::delete('/{id}', 'delete')->name('WorkflowTree.destroy');
+    });
+});
 
 // api op serials
     Route::group(['prefix' => 'serials'], function () {

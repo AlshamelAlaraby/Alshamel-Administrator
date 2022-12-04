@@ -27,14 +27,17 @@ class UpdatePartnerRequest extends FormRequest
         return [
             'name'      => 'required|string|max:255',
             'name_e'    => 'required|string|max:255',
-            'is_active' => 'nullable|in:0,1',
+            "is_active" => "nullable|in:active,inactive",
             'email' => [
                 'required',
                 'email',
                 'max:191',
                 Rule::unique('partners', 'email')->ignore($this->route('id')),
             ],
-            'mobile_no' => 'nullable',
+            'mobile_no' => [
+                'required',
+                Rule::unique('partners', 'mobile_no')->ignore($this->route('id')),
+            ],
         ];
     }
 

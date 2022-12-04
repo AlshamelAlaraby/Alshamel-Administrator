@@ -28,21 +28,21 @@ export default {
 <template>
   <div>
     <!-- Begin page -->
-    <Vertical v-if="layoutType === 'vertical'" :layout="layoutType">
+    <Vertical>
       <slot />
     </Vertical>
     <!-- END layout-wrapper -->
 
-    <Horizontal v-if="layoutType === 'horizontal'" :layout="layoutType">
-      <slot />
-    </Horizontal>
+<!--    <Horizontal v-if="layoutType === 'horizontal'" :layout="layoutType">-->
+<!--      <slot />-->
+<!--    </Horizontal>-->
 
-    <Detached v-if="layoutType === 'detached'" :layout="layoutType">
-      <slot />
-    </Detached>
+<!--    <Detached>-->
+<!--      <slot />-->
+<!--    </Detached>-->
 
-    <TwoColumn v-if="layoutType === 'two-column'" :layout="layoutType">
-      <slot />
-    </TwoColumn>
+<!--    <TwoColumn>-->
+<!--      <slot />-->
+<!--    </TwoColumn>-->
   </div>
 </template>

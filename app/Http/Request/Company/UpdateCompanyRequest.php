@@ -17,7 +17,7 @@ class UpdateCompanyRequest extends FormRequest
             "name"       => "string|max:100",
             "name_e"     => "string|max:100",
             "url"        => "string|max:200",
-            "logo"       => "image",
+            "logo"       => "nullable".($request->hasFile('logo')? '|image':''),
             "address"    => "string|max:200",
             "phone"      => "numeric|digits_between:8,16",
             "cr"         => "string",
@@ -35,22 +35,5 @@ class UpdateCompanyRequest extends FormRequest
     {
         return true;
     }
-
-
-    public function failedValidation ( Validator $validator )
-    {
-        throw new HttpResponseException(response()->json(
-            [
-                'status'    => 422,
-
-                'success'   => false,
-
-                'message'   => __ ('validation errors'),
-
-                'data'      => $validator->errors()
-            ]
-        ));
-    }
-
 
 }
