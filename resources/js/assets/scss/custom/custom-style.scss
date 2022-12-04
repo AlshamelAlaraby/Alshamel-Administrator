@@ -22,3 +22,22 @@
 .custom-btn-1 i.fa-trash{color: #f1556c;}
 .custom-btn-1 i{font-size: 15px}
 .custom-btn-1:hover i {color: #fff !important;}
+
+.custom-eye {
+    font-size: 18px;
+    cursor: pointer;
+}
+.custom-eye.active {
+    color: #1abc9c;
+}
+
+.direction {
+    direction: rtl;
+}
+
+.direction-ltr {
+    direction: ltr;
+}
+.direction-ltr-left {
+    text-align: left;
+}

@@ -1340,10 +1340,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_widgets_errorMessage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../components/widgets/errorMessage */ "./resources/js/components/widgets/errorMessage.vue");
 /* harmony import */ var _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../api/adminAxios */ "./resources/js/api/adminAxios.js");
 /* harmony import */ var vue_switches__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-switches */ "./node_modules/vue-switches/src/switches.vue");
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _components_loader__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../components/loader */ "./resources/js/components/loader.vue");
+/* harmony import */ var _helper_alphaArabic__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../helper/alphaArabic */ "./resources/js/helper/alphaArabic.js");
+/* harmony import */ var _helper_alphaEnglish__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../helper/alphaEnglish */ "./resources/js/helper/alphaEnglish.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _components_loader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../components/loader */ "./resources/js/components/loader.vue");
+
+
 
 
 
@@ -1368,7 +1372,7 @@ __webpack_require__.r(__webpack_exports__);
     Layout: _layouts_main__WEBPACK_IMPORTED_MODULE_0__["default"],
     PageHeader: _components_Page_header__WEBPACK_IMPORTED_MODULE_1__["default"],
     Switches: vue_switches__WEBPACK_IMPORTED_MODULE_4__["default"],
-    loader: _components_loader__WEBPACK_IMPORTED_MODULE_6__["default"],
+    loader: _components_loader__WEBPACK_IMPORTED_MODULE_8__["default"],
     ErrorMessage: _components_widgets_errorMessage__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   data: function data() {
@@ -1409,78 +1413,86 @@ __webpack_require__.r(__webpack_exports__);
         mobile_no: '',
         is_active: null
       },
-      errors: {}
+      errors: {},
+      isEye: false,
+      isEyeEdit: false
     };
   },
   validations: {
     create: {
       name: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.maxLength)(100)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(100),
+        alphaArabic: _helper_alphaArabic__WEBPACK_IMPORTED_MODULE_5__["default"]
       },
       name_e: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.maxLength)(100)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(100),
+        alphaEnglish: _helper_alphaEnglish__WEBPACK_IMPORTED_MODULE_6__["default"]
       },
       email: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.required,
-        email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.email,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.maxLength)(100)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.email,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(100)
       },
       password: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.minLength)(8),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.maxLength)(16)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(8),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(16)
       },
       repeatPassword: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.required,
-        sameAs: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.sameAs)('password')
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        sameAs: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.sameAs)('password')
       },
       mobile_no: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.minLength)(9),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.maxLength)(18)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(9),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(18),
+        integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.integer
       },
       is_active: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required
       }
     },
     edit: {
       name: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.maxLength)(100)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(100),
+        alphaArabic: _helper_alphaArabic__WEBPACK_IMPORTED_MODULE_5__["default"]
       },
       name_e: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.maxLength)(100)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(100),
+        alphaEnglish: _helper_alphaEnglish__WEBPACK_IMPORTED_MODULE_6__["default"]
       },
       email: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.required,
-        email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.email,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.maxLength)(100)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.email,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(100)
       },
       password: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.minLength)(8),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.maxLength)(16)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(8),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(16)
       },
       repeatPassword: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.required,
-        sameAs: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.sameAs)('password')
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        sameAs: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.sameAs)('password')
       },
       mobile_no: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.minLength)(9),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.maxLength)(18)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(9),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(18),
+        integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.integer
       },
       is_active: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required
       }
     }
   },
@@ -1518,7 +1530,8 @@ __webpack_require__.r(__webpack_exports__);
         _this2.partners = l.data;
         _this2.partnersPagination = l.pagination;
       })["catch"](function (err) {
-        sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
+        console.log(err.response);
+        sweetalert2__WEBPACK_IMPORTED_MODULE_7___default().fire({
           icon: 'error',
           title: "".concat(_this2.$t('general.Error')),
           text: "".concat(_this2.$t('general.Thereisanerrorinthesystem'))
@@ -1532,7 +1545,7 @@ __webpack_require__.r(__webpack_exports__);
      */
     deletePartner: function deletePartner(id, index) {
       var _this3 = this;
-      sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
+      sweetalert2__WEBPACK_IMPORTED_MODULE_7___default().fire({
         title: "".concat(this.$t('general.Areyousure')),
         text: "".concat(this.$t('general.Youwontbeabletoreverthis')),
         type: "warning",
@@ -1547,7 +1560,7 @@ __webpack_require__.r(__webpack_exports__);
           _this3.isLoader = true;
           _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"]["delete"]("/partners/".concat(id)).then(function (res) {
             _this3.partners.splice(index, 1);
-            sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
+            sweetalert2__WEBPACK_IMPORTED_MODULE_7___default().fire({
               icon: 'success',
               title: "".concat(_this3.$t('general.Deleted')),
               text: "".concat(_this3.$t('general.Yourrowhasbeendeleted')),
@@ -1555,7 +1568,7 @@ __webpack_require__.r(__webpack_exports__);
               timer: 1500
             });
           })["catch"](function (err) {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
+            sweetalert2__WEBPACK_IMPORTED_MODULE_7___default().fire({
               icon: 'error',
               title: "".concat(_this3.$t('general.Error')),
               text: "".concat(_this3.$t('general.Thereisanerrorinthesystem'))
@@ -1618,9 +1631,9 @@ __webpack_require__.r(__webpack_exports__);
         this.errors = {};
         _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/partners", this.create).then(function (res) {
           _this6.$bvModal.hide("create");
-          _this6.partners.unshift(res.data.data);
+          _this6.getData();
           setTimeout(function () {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
+            sweetalert2__WEBPACK_IMPORTED_MODULE_7___default().fire({
               icon: 'success',
               text: "".concat(_this6.$t('general.Addedsuccessfully')),
               showConfirmButton: false,
@@ -1647,8 +1660,9 @@ __webpack_require__.r(__webpack_exports__);
         this.errors = {};
         _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].put("/partners/".concat(id), this.edit).then(function (res) {
           _this7.$bvModal.hide("modal-edit-".concat(id));
+          _this7.getData();
           setTimeout(function () {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
+            sweetalert2__WEBPACK_IMPORTED_MODULE_7___default().fire({
               icon: 'success',
               text: "".concat(_this7.$t('general.Editsuccessfully')),
               showConfirmButton: false,
@@ -1680,16 +1694,7 @@ __webpack_require__.r(__webpack_exports__);
     /**
      *  hidden Modal (edit)
      */
-    resetModalHiddenEdit: function resetModalHiddenEdit(id) {
-      var Partner = this.partners.find(function (e) {
-        return id == e.id;
-      });
-      Partner.name = this.edit.name;
-      Partner.name_e = this.edit.name_e;
-      Partner.is_active = this.edit.is_active;
-      Partner.email = this.edit.email;
-      Partner.password = this.edit.password;
-      Partner.mobile_no = this.edit.mobile_no;
+    resetModalHiddenEdit: function resetModalHiddenEdit() {
       this.edit = {
         name: '',
         name_e: '',
@@ -2227,9 +2232,9 @@ var menuItems = [{
   isTitle: true
 }, {
   id: 2,
-  label: 'menuitems.module.text',
-  icon: 'fab fa-medium-m',
-  link: '/module'
+  label: 'menuitems.partner.text',
+  icon: 'far fa-user-circle',
+  link: '/partner'
 }, {
   id: 3,
   label: 'menuitems.company.text',
@@ -2237,9 +2242,9 @@ var menuItems = [{
   link: '/company'
 }, {
   id: 4,
-  label: 'menuitems.partner.text',
-  icon: 'far fa-user-circle',
-  link: '/partner'
+  label: 'menuitems.module.text',
+  icon: 'fab fa-medium-m',
+  link: '/module'
 }, {
   id: 1115,
   label: "menuitems.dashboard.text",
@@ -2770,6 +2775,42 @@ var menuItems = [{
     }]
   }]
 }];
+
+/***/ }),
+
+/***/ "./resources/js/helper/alphaArabic.js":
+/*!********************************************!*\
+  !*** ./resources/js/helper/alphaArabic.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(value) {
+  var re = /^[\u0621-\u064A ]+$/;
+  return re.test(value);
+}
+
+/***/ }),
+
+/***/ "./resources/js/helper/alphaEnglish.js":
+/*!*********************************************!*\
+  !*** ./resources/js/helper/alphaEnglish.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(value) {
+  var re = /^[a-zA-Z ]+$/;
+  return re.test(value);
+}
 
 /***/ }),
 
@@ -15121,291 +15162,333 @@ var render = function () {
                       },
                       [
                         _c("div", { staticClass: "row" }, [
-                          _c("div", { staticClass: "col-md-6" }, [
-                            _c(
-                              "div",
-                              { staticClass: "form-group" },
-                              [
-                                _c(
-                                  "label",
-                                  {
-                                    staticClass: "control-label",
-                                    attrs: { for: "field-1" },
-                                  },
-                                  [_vm._v(_vm._s(_vm.$t("general.Name")))]
-                                ),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "col-md-6 direction",
+                              attrs: { dir: "rtl" },
+                            },
+                            [
+                              _c(
+                                "div",
+                                { staticClass: "form-group" },
+                                [
+                                  _c(
+                                    "label",
                                     {
-                                      name: "model",
-                                      rawName: "v-model.trim",
+                                      staticClass: "control-label",
+                                      attrs: { for: "field-1" },
+                                    },
+                                    [_vm._v(_vm._s(_vm.$t("general.Name")))]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model.trim",
+                                        value: _vm.$v.create.name.$model,
+                                        expression: "$v.create.name.$model",
+                                        modifiers: { trim: true },
+                                      },
+                                    ],
+                                    staticClass: "form-control",
+                                    class: {
+                                      "is-invalid":
+                                        _vm.$v.create.name.$error ||
+                                        _vm.errors.name,
+                                      "is-valid":
+                                        !_vm.$v.create.name.$invalid &&
+                                        !_vm.errors.name,
+                                    },
+                                    attrs: {
+                                      type: "text",
+                                      placeholder: _vm.$t("general.Name"),
+                                      id: "field-1",
+                                    },
+                                    domProps: {
                                       value: _vm.$v.create.name.$model,
-                                      expression: "$v.create.name.$model",
-                                      modifiers: { trim: true },
                                     },
-                                  ],
-                                  staticClass: "form-control",
-                                  class: {
-                                    "is-invalid":
-                                      _vm.$v.create.name.$error ||
-                                      _vm.errors.name,
-                                    "is-valid":
-                                      !_vm.$v.create.name.$invalid &&
-                                      !_vm.errors.name,
-                                  },
-                                  attrs: {
-                                    type: "text",
-                                    placeholder: _vm.$t("general.Name"),
-                                    id: "field-1",
-                                  },
-                                  domProps: {
-                                    value: _vm.$v.create.name.$model,
-                                  },
-                                  on: {
-                                    input: function ($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        _vm.$v.create.name,
-                                        "$model",
-                                        $event.target.value.trim()
-                                      )
-                                    },
-                                    blur: function ($event) {
-                                      return _vm.$forceUpdate()
-                                    },
-                                  },
-                                }),
-                                _vm._v(" "),
-                                !_vm.errors.name
-                                  ? _c(
-                                      "div",
-                                      { staticClass: "valid-feedback" },
-                                      [
-                                        _vm._v(
-                                          _vm._s(_vm.$t("general.Looksgood"))
-                                        ),
-                                      ]
-                                    )
-                                  : _vm._e(),
-                                _vm._v(" "),
-                                !_vm.$v.create.name.required
-                                  ? _c(
-                                      "div",
-                                      { staticClass: "invalid-feedback" },
-                                      [
-                                        _vm._v(
-                                          _vm._s(
-                                            _vm.$t("general.fieldIsRequired")
-                                          )
-                                        ),
-                                      ]
-                                    )
-                                  : _vm._e(),
-                                _vm._v(" "),
-                                !_vm.$v.create.name.minLength
-                                  ? _c(
-                                      "div",
-                                      { staticClass: "invalid-feedback" },
-                                      [
-                                        _vm._v(
-                                          _vm._s(
-                                            _vm.$t("general.Itmustbeatleast")
-                                          ) +
-                                            " " +
-                                            _vm._s(
-                                              _vm.$v.create.name.$params
-                                                .minLength.min
-                                            ) +
-                                            " " +
-                                            _vm._s(_vm.$t("general.letters"))
-                                        ),
-                                      ]
-                                    )
-                                  : _vm._e(),
-                                _vm._v(" "),
-                                !_vm.$v.create.name.maxLength
-                                  ? _c(
-                                      "div",
-                                      { staticClass: "invalid-feedback" },
-                                      [
-                                        _vm._v(
-                                          _vm._s(
-                                            _vm.$t("general.Itmustbeatmost")
-                                          ) +
-                                            "  " +
-                                            _vm._s(
-                                              _vm.$v.create.name.$params
-                                                .maxLength.max
-                                            ) +
-                                            " " +
-                                            _vm._s(_vm.$t("general.letters"))
-                                        ),
-                                      ]
-                                    )
-                                  : _vm._e(),
-                                _vm._v(" "),
-                                _vm.errors.name
-                                  ? _vm._l(
-                                      _vm.errors.name,
-                                      function (errorMessage, index) {
-                                        return _c(
-                                          "ErrorMessage",
-                                          { key: index },
-                                          [_vm._v(_vm._s(errorMessage))]
+                                    on: {
+                                      input: function ($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.$v.create.name,
+                                          "$model",
+                                          $event.target.value.trim()
                                         )
-                                      }
-                                    )
-                                  : _vm._e(),
-                              ],
-                              2
-                            ),
-                          ]),
+                                      },
+                                      blur: function ($event) {
+                                        return _vm.$forceUpdate()
+                                      },
+                                    },
+                                  }),
+                                  _vm._v(" "),
+                                  !_vm.errors.name
+                                    ? _c(
+                                        "div",
+                                        { staticClass: "valid-feedback" },
+                                        [
+                                          _vm._v(
+                                            _vm._s(_vm.$t("general.Looksgood"))
+                                          ),
+                                        ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  !_vm.$v.create.name.required
+                                    ? _c(
+                                        "div",
+                                        { staticClass: "invalid-feedback" },
+                                        [
+                                          _vm._v(
+                                            _vm._s(
+                                              _vm.$t("general.fieldIsRequired")
+                                            )
+                                          ),
+                                        ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  !_vm.$v.create.name.minLength
+                                    ? _c(
+                                        "div",
+                                        { staticClass: "invalid-feedback" },
+                                        [
+                                          _vm._v(
+                                            _vm._s(
+                                              _vm.$t("general.Itmustbeatleast")
+                                            ) +
+                                              " " +
+                                              _vm._s(
+                                                _vm.$v.create.name.$params
+                                                  .minLength.min
+                                              ) +
+                                              " " +
+                                              _vm._s(_vm.$t("general.letters"))
+                                          ),
+                                        ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  !_vm.$v.create.name.maxLength
+                                    ? _c(
+                                        "div",
+                                        { staticClass: "invalid-feedback" },
+                                        [
+                                          _vm._v(
+                                            _vm._s(
+                                              _vm.$t("general.Itmustbeatmost")
+                                            ) +
+                                              "  " +
+                                              _vm._s(
+                                                _vm.$v.create.name.$params
+                                                  .maxLength.max
+                                              ) +
+                                              " " +
+                                              _vm._s(_vm.$t("general.letters"))
+                                          ),
+                                        ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  !_vm.$v.create.name.alphaArabic
+                                    ? _c(
+                                        "div",
+                                        { staticClass: "invalid-feedback" },
+                                        [
+                                          _vm._v(
+                                            _vm._s(
+                                              _vm.$t("general.alphaArabic")
+                                            )
+                                          ),
+                                        ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.errors.name
+                                    ? _vm._l(
+                                        _vm.errors.name,
+                                        function (errorMessage, index) {
+                                          return _c(
+                                            "ErrorMessage",
+                                            { key: index },
+                                            [_vm._v(_vm._s(errorMessage))]
+                                          )
+                                        }
+                                      )
+                                    : _vm._e(),
+                                ],
+                                2
+                              ),
+                            ]
+                          ),
                           _vm._v(" "),
-                          _c("div", { staticClass: "col-md-6" }, [
-                            _c(
-                              "div",
-                              { staticClass: "form-group" },
-                              [
-                                _c(
-                                  "label",
-                                  {
-                                    staticClass: "control-label",
-                                    attrs: { for: "field-2" },
-                                  },
-                                  [_vm._v(_vm._s(_vm.$t("general.Name_en")))]
-                                ),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "col-md-6 direction-ltr",
+                              attrs: { dir: "ltr" },
+                            },
+                            [
+                              _c(
+                                "div",
+                                { staticClass: "form-group" },
+                                [
+                                  _c(
+                                    "label",
                                     {
-                                      name: "model",
-                                      rawName: "v-model.trim",
+                                      staticClass: "control-label",
+                                      attrs: { for: "field-2" },
+                                    },
+                                    [_vm._v(_vm._s(_vm.$t("general.Name_en")))]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model.trim",
+                                        value: _vm.$v.create.name_e.$model,
+                                        expression: "$v.create.name_e.$model",
+                                        modifiers: { trim: true },
+                                      },
+                                    ],
+                                    staticClass: "form-control",
+                                    class: {
+                                      "is-invalid":
+                                        _vm.$v.create.name_e.$error ||
+                                        _vm.errors.name_e,
+                                      "is-valid":
+                                        !_vm.$v.create.name_e.$invalid &&
+                                        !_vm.errors.name_e,
+                                    },
+                                    attrs: {
+                                      type: "text",
+                                      placeholder: _vm.$t("general.Name_en"),
+                                      id: "field-2",
+                                    },
+                                    domProps: {
                                       value: _vm.$v.create.name_e.$model,
-                                      expression: "$v.create.name_e.$model",
-                                      modifiers: { trim: true },
                                     },
-                                  ],
-                                  staticClass: "form-control",
-                                  class: {
-                                    "is-invalid":
-                                      _vm.$v.create.name_e.$error ||
-                                      _vm.errors.name_e,
-                                    "is-valid":
-                                      !_vm.$v.create.name_e.$invalid &&
-                                      !_vm.errors.name_e,
-                                  },
-                                  attrs: {
-                                    type: "text",
-                                    placeholder: _vm.$t("general.Name_en"),
-                                    id: "field-2",
-                                  },
-                                  domProps: {
-                                    value: _vm.$v.create.name_e.$model,
-                                  },
-                                  on: {
-                                    input: function ($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        _vm.$v.create.name_e,
-                                        "$model",
-                                        $event.target.value.trim()
-                                      )
-                                    },
-                                    blur: function ($event) {
-                                      return _vm.$forceUpdate()
-                                    },
-                                  },
-                                }),
-                                _vm._v(" "),
-                                !_vm.errors.name_e
-                                  ? _c(
-                                      "div",
-                                      { staticClass: "valid-feedback" },
-                                      [
-                                        _vm._v(
-                                          _vm._s(_vm.$t("general.Looksgood"))
-                                        ),
-                                      ]
-                                    )
-                                  : _vm._e(),
-                                _vm._v(" "),
-                                !_vm.$v.create.name_e.required
-                                  ? _c(
-                                      "div",
-                                      { staticClass: "invalid-feedback" },
-                                      [
-                                        _vm._v(
-                                          _vm._s(
-                                            _vm.$t("general.fieldIsRequired")
-                                          )
-                                        ),
-                                      ]
-                                    )
-                                  : _vm._e(),
-                                _vm._v(" "),
-                                !_vm.$v.create.name_e.minLength
-                                  ? _c(
-                                      "div",
-                                      { staticClass: "invalid-feedback" },
-                                      [
-                                        _vm._v(
-                                          _vm._s(
-                                            _vm.$t("general.Itmustbeatleast")
-                                          ) +
-                                            " " +
-                                            _vm._s(
-                                              _vm.$v.create.name_e.$params
-                                                .minLength.min
-                                            ) +
-                                            " " +
-                                            _vm._s(_vm.$t("general.letters"))
-                                        ),
-                                      ]
-                                    )
-                                  : _vm._e(),
-                                _vm._v(" "),
-                                !_vm.$v.create.name_e.maxLength
-                                  ? _c(
-                                      "div",
-                                      { staticClass: "invalid-feedback" },
-                                      [
-                                        _vm._v(
-                                          _vm._s(
-                                            _vm.$t("general.Itmustbeatmost")
-                                          ) +
-                                            "  " +
-                                            _vm._s(
-                                              _vm.$v.create.name_e.$params
-                                                .maxLength.max
-                                            ) +
-                                            " " +
-                                            _vm._s(_vm.$t("general.letters"))
-                                        ),
-                                      ]
-                                    )
-                                  : _vm._e(),
-                                _vm._v(" "),
-                                _vm.errors.name_e
-                                  ? _vm._l(
-                                      _vm.errors.name_e,
-                                      function (errorMessage, index) {
-                                        return _c(
-                                          "ErrorMessage",
-                                          { key: index },
-                                          [_vm._v(_vm._s(errorMessage))]
+                                    on: {
+                                      input: function ($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.$v.create.name_e,
+                                          "$model",
+                                          $event.target.value.trim()
                                         )
-                                      }
-                                    )
-                                  : _vm._e(),
-                              ],
-                              2
-                            ),
-                          ]),
+                                      },
+                                      blur: function ($event) {
+                                        return _vm.$forceUpdate()
+                                      },
+                                    },
+                                  }),
+                                  _vm._v(" "),
+                                  !_vm.errors.name_e
+                                    ? _c(
+                                        "div",
+                                        { staticClass: "valid-feedback" },
+                                        [
+                                          _vm._v(
+                                            _vm._s(_vm.$t("general.Looksgood"))
+                                          ),
+                                        ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  !_vm.$v.create.name_e.required
+                                    ? _c(
+                                        "div",
+                                        { staticClass: "invalid-feedback" },
+                                        [
+                                          _vm._v(
+                                            _vm._s(
+                                              _vm.$t("general.fieldIsRequired")
+                                            )
+                                          ),
+                                        ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  !_vm.$v.create.name_e.minLength
+                                    ? _c(
+                                        "div",
+                                        { staticClass: "invalid-feedback" },
+                                        [
+                                          _vm._v(
+                                            _vm._s(
+                                              _vm.$t("general.Itmustbeatleast")
+                                            ) +
+                                              " " +
+                                              _vm._s(
+                                                _vm.$v.create.name_e.$params
+                                                  .minLength.min
+                                              ) +
+                                              " " +
+                                              _vm._s(_vm.$t("general.letters"))
+                                          ),
+                                        ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  !_vm.$v.create.name_e.maxLength
+                                    ? _c(
+                                        "div",
+                                        { staticClass: "invalid-feedback" },
+                                        [
+                                          _vm._v(
+                                            _vm._s(
+                                              _vm.$t("general.Itmustbeatmost")
+                                            ) +
+                                              "  " +
+                                              _vm._s(
+                                                _vm.$v.create.name_e.$params
+                                                  .maxLength.max
+                                              ) +
+                                              " " +
+                                              _vm._s(_vm.$t("general.letters"))
+                                          ),
+                                        ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  !_vm.$v.create.name_e.alphaEnglish
+                                    ? _c(
+                                        "div",
+                                        { staticClass: "invalid-feedback" },
+                                        [
+                                          _vm._v(
+                                            _vm._s(
+                                              _vm.$t("general.alphaEnglish")
+                                            )
+                                          ),
+                                        ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.errors.name_e
+                                    ? _vm._l(
+                                        _vm.errors.name_e,
+                                        function (errorMessage, index) {
+                                          return _c(
+                                            "ErrorMessage",
+                                            { key: index },
+                                            [_vm._v(_vm._s(errorMessage))]
+                                          )
+                                        }
+                                      )
+                                    : _vm._e(),
+                                ],
+                                2
+                              ),
+                            ]
+                          ),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-6" }, [
                             _c(
@@ -15574,93 +15657,57 @@ var render = function () {
                                 _c(
                                   "label",
                                   {
-                                    attrs: {
-                                      for: "inlineFormCustomSelectPref",
-                                    },
+                                    staticClass: "control-label",
+                                    attrs: { for: "field-7" },
                                   },
-                                  [_vm._v(_vm._s(_vm.$t("general.Status")))]
+                                  [_vm._v(_vm._s(_vm.$t("general.mobile_no")))]
                                 ),
                                 _vm._v(" "),
-                                _c(
-                                  "select",
-                                  {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.$v.create.is_active.$model,
-                                        expression:
-                                          "$v.create.is_active.$model",
-                                      },
-                                    ],
-                                    staticClass: "custom-select",
-                                    class: {
-                                      "is-invalid":
-                                        _vm.$v.create.is_active.$error ||
-                                        _vm.errors.is_active,
-                                      "is-valid":
-                                        !_vm.$v.create.is_active.$invalid &&
-                                        !_vm.errors.is_active,
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model.trim",
+                                      value: _vm.$v.create.mobile_no.$model,
+                                      expression: "$v.create.mobile_no.$model",
+                                      modifiers: { trim: true },
                                     },
-                                    attrs: { id: "inlineFormCustomSelectPref" },
-                                    on: {
-                                      change: function ($event) {
-                                        var $$selectedVal =
-                                          Array.prototype.filter
-                                            .call(
-                                              $event.target.options,
-                                              function (o) {
-                                                return o.selected
-                                              }
-                                            )
-                                            .map(function (o) {
-                                              var val =
-                                                "_value" in o
-                                                  ? o._value
-                                                  : o.value
-                                              return val
-                                            })
-                                        _vm.$set(
-                                          _vm.$v.create.is_active,
-                                          "$model",
-                                          $event.target.multiple
-                                            ? $$selectedVal
-                                            : $$selectedVal[0]
-                                        )
-                                      },
+                                  ],
+                                  staticClass: "form-control",
+                                  class: {
+                                    "is-invalid":
+                                      _vm.$v.create.mobile_no.$error ||
+                                      _vm.errors.mobile_no,
+                                    "is-valid":
+                                      !_vm.$v.create.mobile_no.$invalid &&
+                                      !_vm.errors.mobile_no,
+                                  },
+                                  attrs: {
+                                    type: "number",
+                                    placeholder: _vm.$t("general.mobile_no"),
+                                    id: "field-7",
+                                  },
+                                  domProps: {
+                                    value: _vm.$v.create.mobile_no.$model,
+                                  },
+                                  on: {
+                                    input: function ($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.$v.create.mobile_no,
+                                        "$model",
+                                        $event.target.value.trim()
+                                      )
+                                    },
+                                    blur: function ($event) {
+                                      return _vm.$forceUpdate()
                                     },
                                   },
-                                  [
-                                    _c(
-                                      "option",
-                                      { attrs: { value: "", selected: "" } },
-                                      [
-                                        _vm._v(
-                                          _vm._s(_vm.$t("general.Choose")) +
-                                            "..."
-                                        ),
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "option",
-                                      { attrs: { value: "active" } },
-                                      [_vm._v(_vm._s(_vm.$t("general.Active")))]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "option",
-                                      { attrs: { value: "inactive" } },
-                                      [
-                                        _vm._v(
-                                          _vm._s(_vm.$t("general.Inactive"))
-                                        ),
-                                      ]
-                                    ),
-                                  ]
-                                ),
+                                }),
                                 _vm._v(" "),
-                                !_vm.errors.is_active
+                                !_vm.errors.mobile_no
                                   ? _c(
                                       "div",
                                       { staticClass: "valid-feedback" },
@@ -15672,7 +15719,7 @@ var render = function () {
                                     )
                                   : _vm._e(),
                                 _vm._v(" "),
-                                !_vm.$v.create.is_active.required
+                                !_vm.$v.create.mobile_no.required
                                   ? _c(
                                       "div",
                                       { staticClass: "invalid-feedback" },
@@ -15686,9 +15733,65 @@ var render = function () {
                                     )
                                   : _vm._e(),
                                 _vm._v(" "),
-                                _vm.errors.is_active
+                                !_vm.$v.create.mobile_no.minLength
+                                  ? _c(
+                                      "div",
+                                      { staticClass: "invalid-feedback" },
+                                      [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.$t("general.Itmustbeatleast")
+                                          ) +
+                                            " " +
+                                            _vm._s(
+                                              _vm.$v.create.mobile_no.$params
+                                                .minLength.min
+                                            ) +
+                                            " " +
+                                            _vm._s(_vm.$t("general.letters"))
+                                        ),
+                                      ]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                !_vm.$v.create.mobile_no.maxLength
+                                  ? _c(
+                                      "div",
+                                      { staticClass: "invalid-feedback" },
+                                      [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.$t("general.Itmustbeatmost")
+                                          ) +
+                                            "  " +
+                                            _vm._s(
+                                              _vm.$v.create.mobile_no.$params
+                                                .maxLength.max
+                                            ) +
+                                            " " +
+                                            _vm._s(_vm.$t("general.letters"))
+                                        ),
+                                      ]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                !_vm.$v.create.mobile_no.integer
+                                  ? _c(
+                                      "div",
+                                      { staticClass: "invalid-feedback" },
+                                      [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.$t("general.fieldIsInteger")
+                                          )
+                                        ),
+                                      ]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                _vm.errors.mobile_no
                                   ? _vm._l(
-                                      _vm.errors.is_active,
+                                      _vm.errors.mobile_no,
                                       function (errorMessage, index) {
                                         return _c(
                                           "ErrorMessage",
@@ -15709,12 +15812,35 @@ var render = function () {
                               { staticClass: "form-group" },
                               [
                                 _c(
-                                  "label",
+                                  "div",
                                   {
-                                    staticClass: "control-label",
-                                    attrs: { for: "field-5" },
+                                    staticClass:
+                                      "d-flex justify-content-between align-items-center",
                                   },
-                                  [_vm._v(_vm._s(_vm.$t("login.Password")))]
+                                  [
+                                    _c(
+                                      "label",
+                                      {
+                                        staticClass: "control-label",
+                                        attrs: { for: "field-5" },
+                                      },
+                                      [_vm._v(_vm._s(_vm.$t("login.Password")))]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("i", {
+                                      class: [
+                                        "fas custom-eye",
+                                        !_vm.isEye
+                                          ? "fa-eye-slash"
+                                          : "fas fa-eye active",
+                                      ],
+                                      on: {
+                                        click: function ($event) {
+                                          _vm.isEye = !_vm.isEye
+                                        },
+                                      },
+                                    }),
+                                  ]
                                 ),
                                 _vm._v(" "),
                                 _c("input", {
@@ -15737,7 +15863,7 @@ var render = function () {
                                       !_vm.errors.password,
                                   },
                                   attrs: {
-                                    type: "password",
+                                    type: !_vm.isEye ? "password" : "text",
                                     placeholder: _vm.$t("login.Password"),
                                     id: "field-5",
                                   },
@@ -15975,57 +16101,93 @@ var render = function () {
                                 _c(
                                   "label",
                                   {
-                                    staticClass: "control-label",
-                                    attrs: { for: "field-7" },
+                                    attrs: {
+                                      for: "inlineFormCustomSelectPref",
+                                    },
                                   },
-                                  [_vm._v(_vm._s(_vm.$t("general.mobile_no")))]
+                                  [_vm._v(_vm._s(_vm.$t("general.Status")))]
                                 ),
                                 _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model.trim",
-                                      value: _vm.$v.create.mobile_no.$model,
-                                      expression: "$v.create.mobile_no.$model",
-                                      modifiers: { trim: true },
+                                _c(
+                                  "select",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.$v.create.is_active.$model,
+                                        expression:
+                                          "$v.create.is_active.$model",
+                                      },
+                                    ],
+                                    staticClass: "custom-select",
+                                    class: {
+                                      "is-invalid":
+                                        _vm.$v.create.is_active.$error ||
+                                        _vm.errors.is_active,
+                                      "is-valid":
+                                        !_vm.$v.create.is_active.$invalid &&
+                                        !_vm.errors.is_active,
                                     },
-                                  ],
-                                  staticClass: "form-control",
-                                  class: {
-                                    "is-invalid":
-                                      _vm.$v.create.mobile_no.$error ||
-                                      _vm.errors.mobile_no,
-                                    "is-valid":
-                                      !_vm.$v.create.mobile_no.$invalid &&
-                                      !_vm.errors.mobile_no,
-                                  },
-                                  attrs: {
-                                    type: "password",
-                                    placeholder: _vm.$t("general.mobile_no"),
-                                    id: "field-7",
-                                  },
-                                  domProps: {
-                                    value: _vm.$v.create.mobile_no.$model,
-                                  },
-                                  on: {
-                                    input: function ($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        _vm.$v.create.mobile_no,
-                                        "$model",
-                                        $event.target.value.trim()
-                                      )
-                                    },
-                                    blur: function ($event) {
-                                      return _vm.$forceUpdate()
+                                    attrs: { id: "inlineFormCustomSelectPref" },
+                                    on: {
+                                      change: function ($event) {
+                                        var $$selectedVal =
+                                          Array.prototype.filter
+                                            .call(
+                                              $event.target.options,
+                                              function (o) {
+                                                return o.selected
+                                              }
+                                            )
+                                            .map(function (o) {
+                                              var val =
+                                                "_value" in o
+                                                  ? o._value
+                                                  : o.value
+                                              return val
+                                            })
+                                        _vm.$set(
+                                          _vm.$v.create.is_active,
+                                          "$model",
+                                          $event.target.multiple
+                                            ? $$selectedVal
+                                            : $$selectedVal[0]
+                                        )
+                                      },
                                     },
                                   },
-                                }),
+                                  [
+                                    _c(
+                                      "option",
+                                      { attrs: { value: "", selected: "" } },
+                                      [
+                                        _vm._v(
+                                          _vm._s(_vm.$t("general.Choose")) +
+                                            "..."
+                                        ),
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "option",
+                                      { attrs: { value: "active" } },
+                                      [_vm._v(_vm._s(_vm.$t("general.Active")))]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "option",
+                                      { attrs: { value: "inactive" } },
+                                      [
+                                        _vm._v(
+                                          _vm._s(_vm.$t("general.Inactive"))
+                                        ),
+                                      ]
+                                    ),
+                                  ]
+                                ),
                                 _vm._v(" "),
-                                !_vm.errors.mobile_no
+                                !_vm.errors.is_active
                                   ? _c(
                                       "div",
                                       { staticClass: "valid-feedback" },
@@ -16037,7 +16199,7 @@ var render = function () {
                                     )
                                   : _vm._e(),
                                 _vm._v(" "),
-                                !_vm.$v.create.mobile_no.required
+                                !_vm.$v.create.is_active.required
                                   ? _c(
                                       "div",
                                       { staticClass: "invalid-feedback" },
@@ -16051,51 +16213,9 @@ var render = function () {
                                     )
                                   : _vm._e(),
                                 _vm._v(" "),
-                                !_vm.$v.create.mobile_no.minLength
-                                  ? _c(
-                                      "div",
-                                      { staticClass: "invalid-feedback" },
-                                      [
-                                        _vm._v(
-                                          _vm._s(
-                                            _vm.$t("general.Itmustbeatleast")
-                                          ) +
-                                            " " +
-                                            _vm._s(
-                                              _vm.$v.create.mobile_no.$params
-                                                .minLength.min
-                                            ) +
-                                            " " +
-                                            _vm._s(_vm.$t("general.letters"))
-                                        ),
-                                      ]
-                                    )
-                                  : _vm._e(),
-                                _vm._v(" "),
-                                !_vm.$v.create.mobile_no.maxLength
-                                  ? _c(
-                                      "div",
-                                      { staticClass: "invalid-feedback" },
-                                      [
-                                        _vm._v(
-                                          _vm._s(
-                                            _vm.$t("general.Itmustbeatmost")
-                                          ) +
-                                            "  " +
-                                            _vm._s(
-                                              _vm.$v.create.mobile_no.$params
-                                                .maxLength.max
-                                            ) +
-                                            " " +
-                                            _vm._s(_vm.$t("general.letters"))
-                                        ),
-                                      ]
-                                    )
-                                  : _vm._e(),
-                                _vm._v(" "),
-                                _vm.errors.mobile_no
+                                _vm.errors.is_active
                                   ? _vm._l(
-                                      _vm.errors.mobile_no,
+                                      _vm.errors.is_active,
                                       function (errorMessage, index) {
                                         return _c(
                                           "ErrorMessage",
@@ -16370,7 +16490,11 @@ var render = function () {
                                                 [
                                                   _c(
                                                     "div",
-                                                    { staticClass: "col-md-6" },
+                                                    {
+                                                      staticClass:
+                                                        "col-md-6 direction",
+                                                      attrs: { dir: "rtl" },
+                                                    },
                                                     [
                                                       _c(
                                                         "div",
@@ -16577,6 +16701,26 @@ var render = function () {
                                                               )
                                                             : _vm._e(),
                                                           _vm._v(" "),
+                                                          !_vm.$v.edit.name
+                                                            .alphaArabic
+                                                            ? _c(
+                                                                "div",
+                                                                {
+                                                                  staticClass:
+                                                                    "invalid-feedback",
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    _vm._s(
+                                                                      _vm.$t(
+                                                                        "general.alphaArabic"
+                                                                      )
+                                                                    )
+                                                                  ),
+                                                                ]
+                                                              )
+                                                            : _vm._e(),
+                                                          _vm._v(" "),
                                                           _vm.errors.name
                                                             ? _vm._l(
                                                                 _vm.errors.name,
@@ -16608,7 +16752,11 @@ var render = function () {
                                                   _vm._v(" "),
                                                   _c(
                                                     "div",
-                                                    { staticClass: "col-md-6" },
+                                                    {
+                                                      staticClass:
+                                                        "col-md-6 direction-ltr",
+                                                      attrs: { dir: "ltr" },
+                                                    },
                                                     [
                                                       _c(
                                                         "div",
@@ -16813,6 +16961,26 @@ var render = function () {
                                                                           "general.letters"
                                                                         )
                                                                       )
+                                                                  ),
+                                                                ]
+                                                              )
+                                                            : _vm._e(),
+                                                          _vm._v(" "),
+                                                          !_vm.$v.edit.name_e
+                                                            .alphaEnglish
+                                                            ? _c(
+                                                                "div",
+                                                                {
+                                                                  staticClass:
+                                                                    "invalid-feedback",
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    _vm._s(
+                                                                      _vm.$t(
+                                                                        "general.alphaEnglish"
+                                                                      )
+                                                                    )
                                                                   ),
                                                                 ]
                                                               )
@@ -17123,161 +17291,96 @@ var render = function () {
                                                           _c(
                                                             "label",
                                                             {
+                                                              staticClass:
+                                                                "control-label",
                                                               attrs: {
-                                                                for: "edit-4",
+                                                                for: "edit-7",
                                                               },
                                                             },
                                                             [
                                                               _vm._v(
                                                                 _vm._s(
                                                                   _vm.$t(
-                                                                    "general.Status"
+                                                                    "general.mobile_no"
                                                                   )
                                                                 )
                                                               ),
                                                             ]
                                                           ),
                                                           _vm._v(" "),
-                                                          _c(
-                                                            "select",
-                                                            {
-                                                              directives: [
-                                                                {
-                                                                  name: "model",
-                                                                  rawName:
-                                                                    "v-model",
-                                                                  value:
-                                                                    _vm.$v.edit
-                                                                      .is_active
-                                                                      .$model,
-                                                                  expression:
-                                                                    "$v.edit.is_active.$model",
-                                                                },
-                                                              ],
-                                                              staticClass:
-                                                                "custom-select",
-                                                              class: {
-                                                                "is-invalid":
+                                                          _c("input", {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model.trim",
+                                                                value:
                                                                   _vm.$v.edit
-                                                                    .is_active
-                                                                    .$error ||
-                                                                  _vm.errors
-                                                                    .is_active,
-                                                                "is-valid":
-                                                                  !_vm.$v.edit
-                                                                    .is_active
-                                                                    .$invalid &&
-                                                                  !_vm.errors
-                                                                    .is_active,
+                                                                    .mobile_no
+                                                                    .$model,
+                                                                expression:
+                                                                  "$v.edit.mobile_no.$model",
+                                                                modifiers: {
+                                                                  trim: true,
+                                                                },
                                                               },
-                                                              attrs: {
-                                                                id: "edit-4",
+                                                            ],
+                                                            staticClass:
+                                                              "form-control",
+                                                            class: {
+                                                              "is-invalid":
+                                                                _vm.$v.edit
+                                                                  .mobile_no
+                                                                  .$error ||
+                                                                _vm.errors
+                                                                  .mobile_no,
+                                                              "is-valid":
+                                                                !_vm.$v.edit
+                                                                  .mobile_no
+                                                                  .$invalid &&
+                                                                !_vm.errors
+                                                                  .mobile_no,
+                                                            },
+                                                            attrs: {
+                                                              type: "number",
+                                                              placeholder:
+                                                                _vm.$t(
+                                                                  "general.mobile_no"
+                                                                ),
+                                                              id: "edit-7",
+                                                            },
+                                                            domProps: {
+                                                              value:
+                                                                _vm.$v.edit
+                                                                  .mobile_no
+                                                                  .$model,
+                                                            },
+                                                            on: {
+                                                              input: function (
+                                                                $event
+                                                              ) {
+                                                                if (
+                                                                  $event.target
+                                                                    .composing
+                                                                ) {
+                                                                  return
+                                                                }
+                                                                _vm.$set(
+                                                                  _vm.$v.edit
+                                                                    .mobile_no,
+                                                                  "$model",
+                                                                  $event.target.value.trim()
+                                                                )
                                                               },
-                                                              on: {
-                                                                change:
-                                                                  function (
-                                                                    $event
-                                                                  ) {
-                                                                    var $$selectedVal =
-                                                                      Array.prototype.filter
-                                                                        .call(
-                                                                          $event
-                                                                            .target
-                                                                            .options,
-                                                                          function (
-                                                                            o
-                                                                          ) {
-                                                                            return o.selected
-                                                                          }
-                                                                        )
-                                                                        .map(
-                                                                          function (
-                                                                            o
-                                                                          ) {
-                                                                            var val =
-                                                                              "_value" in
-                                                                              o
-                                                                                ? o._value
-                                                                                : o.value
-                                                                            return val
-                                                                          }
-                                                                        )
-                                                                    _vm.$set(
-                                                                      _vm.$v
-                                                                        .edit
-                                                                        .is_active,
-                                                                      "$model",
-                                                                      $event
-                                                                        .target
-                                                                        .multiple
-                                                                        ? $$selectedVal
-                                                                        : $$selectedVal[0]
-                                                                    )
-                                                                  },
+                                                              blur: function (
+                                                                $event
+                                                              ) {
+                                                                return _vm.$forceUpdate()
                                                               },
                                                             },
-                                                            [
-                                                              _c(
-                                                                "option",
-                                                                {
-                                                                  attrs: {
-                                                                    value: "",
-                                                                    selected:
-                                                                      "",
-                                                                  },
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    _vm._s(
-                                                                      _vm.$t(
-                                                                        "general.Choose"
-                                                                      )
-                                                                    ) + "..."
-                                                                  ),
-                                                                ]
-                                                              ),
-                                                              _vm._v(" "),
-                                                              _c(
-                                                                "option",
-                                                                {
-                                                                  attrs: {
-                                                                    value:
-                                                                      "active",
-                                                                  },
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    _vm._s(
-                                                                      _vm.$t(
-                                                                        "general.Active"
-                                                                      )
-                                                                    )
-                                                                  ),
-                                                                ]
-                                                              ),
-                                                              _vm._v(" "),
-                                                              _c(
-                                                                "option",
-                                                                {
-                                                                  attrs: {
-                                                                    value:
-                                                                      "inactive",
-                                                                  },
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    _vm._s(
-                                                                      _vm.$t(
-                                                                        "general.Inactive"
-                                                                      )
-                                                                    )
-                                                                  ),
-                                                                ]
-                                                              ),
-                                                            ]
-                                                          ),
+                                                          }),
                                                           _vm._v(" "),
-                                                          !_vm.errors.is_active
+                                                          !_vm.errors.mobile_no
                                                             ? _c(
                                                                 "div",
                                                                 {
@@ -17296,7 +17399,7 @@ var render = function () {
                                                               )
                                                             : _vm._e(),
                                                           _vm._v(" "),
-                                                          !_vm.$v.edit.is_active
+                                                          !_vm.$v.edit.mobile_no
                                                             .required
                                                             ? _c(
                                                                 "div",
@@ -17316,10 +17419,100 @@ var render = function () {
                                                               )
                                                             : _vm._e(),
                                                           _vm._v(" "),
-                                                          _vm.errors.is_active
+                                                          !_vm.$v.edit.mobile_no
+                                                            .minLength
+                                                            ? _c(
+                                                                "div",
+                                                                {
+                                                                  staticClass:
+                                                                    "invalid-feedback",
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    _vm._s(
+                                                                      _vm.$t(
+                                                                        "general.Itmustbeatleast"
+                                                                      )
+                                                                    ) +
+                                                                      " " +
+                                                                      _vm._s(
+                                                                        _vm.$v
+                                                                          .edit
+                                                                          .mobile_no
+                                                                          .$params
+                                                                          .minLength
+                                                                          .min
+                                                                      ) +
+                                                                      " " +
+                                                                      _vm._s(
+                                                                        _vm.$t(
+                                                                          "general.letters"
+                                                                        )
+                                                                      )
+                                                                  ),
+                                                                ]
+                                                              )
+                                                            : _vm._e(),
+                                                          _vm._v(" "),
+                                                          !_vm.$v.edit.mobile_no
+                                                            .maxLength
+                                                            ? _c(
+                                                                "div",
+                                                                {
+                                                                  staticClass:
+                                                                    "invalid-feedback",
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    _vm._s(
+                                                                      _vm.$t(
+                                                                        "general.Itmustbeatmost"
+                                                                      )
+                                                                    ) +
+                                                                      "  " +
+                                                                      _vm._s(
+                                                                        _vm.$v
+                                                                          .edit
+                                                                          .mobile_no
+                                                                          .$params
+                                                                          .maxLength
+                                                                          .max
+                                                                      ) +
+                                                                      " " +
+                                                                      _vm._s(
+                                                                        _vm.$t(
+                                                                          "general.letters"
+                                                                        )
+                                                                      )
+                                                                  ),
+                                                                ]
+                                                              )
+                                                            : _vm._e(),
+                                                          _vm._v(" "),
+                                                          !_vm.$v.edit.mobile_no
+                                                            .integer
+                                                            ? _c(
+                                                                "div",
+                                                                {
+                                                                  staticClass:
+                                                                    "invalid-feedback",
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    _vm._s(
+                                                                      _vm.$t(
+                                                                        "general.fieldIsInteger"
+                                                                      )
+                                                                    )
+                                                                  ),
+                                                                ]
+                                                              )
+                                                            : _vm._e(),
+                                                          _vm._v(" "),
+                                                          _vm.errors.mobile_no
                                                             ? _vm._l(
                                                                 _vm.errors
-                                                                  .is_active,
+                                                                  .mobile_no,
                                                                 function (
                                                                   errorMessage,
                                                                   index
@@ -17358,22 +17551,49 @@ var render = function () {
                                                         },
                                                         [
                                                           _c(
-                                                            "label",
+                                                            "div",
                                                             {
                                                               staticClass:
-                                                                "control-label",
-                                                              attrs: {
-                                                                for: "edit-5",
-                                                              },
+                                                                "d-flex justify-content-between align-items-center",
                                                             },
                                                             [
-                                                              _vm._v(
-                                                                _vm._s(
-                                                                  _vm.$t(
-                                                                    "login.Password"
-                                                                  )
-                                                                )
+                                                              _c(
+                                                                "label",
+                                                                {
+                                                                  staticClass:
+                                                                    "control-label",
+                                                                  attrs: {
+                                                                    for: "field-5",
+                                                                  },
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    _vm._s(
+                                                                      _vm.$t(
+                                                                        "login.Password"
+                                                                      )
+                                                                    )
+                                                                  ),
+                                                                ]
                                                               ),
+                                                              _vm._v(" "),
+                                                              _c("i", {
+                                                                class: [
+                                                                  "fas custom-eye",
+                                                                  !_vm.isEyeEdit
+                                                                    ? "fa-eye-slash"
+                                                                    : "fas fa-eye active",
+                                                                ],
+                                                                on: {
+                                                                  click:
+                                                                    function (
+                                                                      $event
+                                                                    ) {
+                                                                      _vm.isEyeEdit =
+                                                                        !_vm.isEyeEdit
+                                                                    },
+                                                                },
+                                                              }),
                                                             ]
                                                           ),
                                                           _vm._v(" "),
@@ -17411,7 +17631,9 @@ var render = function () {
                                                                   .password,
                                                             },
                                                             attrs: {
-                                                              type: "password",
+                                                              type: !_vm.isEyeEdit
+                                                                ? "password"
+                                                                : "text",
                                                               placeholder:
                                                                 _vm.$t(
                                                                   "login.Password"
@@ -17798,96 +18020,161 @@ var render = function () {
                                                           _c(
                                                             "label",
                                                             {
-                                                              staticClass:
-                                                                "control-label",
                                                               attrs: {
-                                                                for: "edit-7",
+                                                                for: "edit-4",
                                                               },
                                                             },
                                                             [
                                                               _vm._v(
                                                                 _vm._s(
                                                                   _vm.$t(
-                                                                    "general.mobile_no"
+                                                                    "general.Status"
                                                                   )
                                                                 )
                                                               ),
                                                             ]
                                                           ),
                                                           _vm._v(" "),
-                                                          _c("input", {
-                                                            directives: [
-                                                              {
-                                                                name: "model",
-                                                                rawName:
-                                                                  "v-model.trim",
-                                                                value:
-                                                                  _vm.$v.edit
-                                                                    .mobile_no
-                                                                    .$model,
-                                                                expression:
-                                                                  "$v.edit.mobile_no.$model",
-                                                                modifiers: {
-                                                                  trim: true,
+                                                          _c(
+                                                            "select",
+                                                            {
+                                                              directives: [
+                                                                {
+                                                                  name: "model",
+                                                                  rawName:
+                                                                    "v-model",
+                                                                  value:
+                                                                    _vm.$v.edit
+                                                                      .is_active
+                                                                      .$model,
+                                                                  expression:
+                                                                    "$v.edit.is_active.$model",
                                                                 },
-                                                              },
-                                                            ],
-                                                            staticClass:
-                                                              "form-control",
-                                                            class: {
-                                                              "is-invalid":
-                                                                _vm.$v.edit
-                                                                  .mobile_no
-                                                                  .$error ||
-                                                                _vm.errors
-                                                                  .mobile_no,
-                                                              "is-valid":
-                                                                !_vm.$v.edit
-                                                                  .mobile_no
-                                                                  .$invalid &&
-                                                                !_vm.errors
-                                                                  .mobile_no,
-                                                            },
-                                                            attrs: {
-                                                              type: "password",
-                                                              placeholder:
-                                                                _vm.$t(
-                                                                  "general.mobile_no"
-                                                                ),
-                                                              id: "edit-7",
-                                                            },
-                                                            domProps: {
-                                                              value:
-                                                                _vm.$v.edit
-                                                                  .mobile_no
-                                                                  .$model,
-                                                            },
-                                                            on: {
-                                                              input: function (
-                                                                $event
-                                                              ) {
-                                                                if (
-                                                                  $event.target
-                                                                    .composing
-                                                                ) {
-                                                                  return
-                                                                }
-                                                                _vm.$set(
+                                                              ],
+                                                              staticClass:
+                                                                "custom-select",
+                                                              class: {
+                                                                "is-invalid":
                                                                   _vm.$v.edit
-                                                                    .mobile_no,
-                                                                  "$model",
-                                                                  $event.target.value.trim()
-                                                                )
+                                                                    .is_active
+                                                                    .$error ||
+                                                                  _vm.errors
+                                                                    .is_active,
+                                                                "is-valid":
+                                                                  !_vm.$v.edit
+                                                                    .is_active
+                                                                    .$invalid &&
+                                                                  !_vm.errors
+                                                                    .is_active,
                                                               },
-                                                              blur: function (
-                                                                $event
-                                                              ) {
-                                                                return _vm.$forceUpdate()
+                                                              attrs: {
+                                                                id: "edit-4",
+                                                              },
+                                                              on: {
+                                                                change:
+                                                                  function (
+                                                                    $event
+                                                                  ) {
+                                                                    var $$selectedVal =
+                                                                      Array.prototype.filter
+                                                                        .call(
+                                                                          $event
+                                                                            .target
+                                                                            .options,
+                                                                          function (
+                                                                            o
+                                                                          ) {
+                                                                            return o.selected
+                                                                          }
+                                                                        )
+                                                                        .map(
+                                                                          function (
+                                                                            o
+                                                                          ) {
+                                                                            var val =
+                                                                              "_value" in
+                                                                              o
+                                                                                ? o._value
+                                                                                : o.value
+                                                                            return val
+                                                                          }
+                                                                        )
+                                                                    _vm.$set(
+                                                                      _vm.$v
+                                                                        .edit
+                                                                        .is_active,
+                                                                      "$model",
+                                                                      $event
+                                                                        .target
+                                                                        .multiple
+                                                                        ? $$selectedVal
+                                                                        : $$selectedVal[0]
+                                                                    )
+                                                                  },
                                                               },
                                                             },
-                                                          }),
+                                                            [
+                                                              _c(
+                                                                "option",
+                                                                {
+                                                                  attrs: {
+                                                                    value: "",
+                                                                    selected:
+                                                                      "",
+                                                                  },
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    _vm._s(
+                                                                      _vm.$t(
+                                                                        "general.Choose"
+                                                                      )
+                                                                    ) + "..."
+                                                                  ),
+                                                                ]
+                                                              ),
+                                                              _vm._v(" "),
+                                                              _c(
+                                                                "option",
+                                                                {
+                                                                  attrs: {
+                                                                    value:
+                                                                      "active",
+                                                                  },
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    _vm._s(
+                                                                      _vm.$t(
+                                                                        "general.Active"
+                                                                      )
+                                                                    )
+                                                                  ),
+                                                                ]
+                                                              ),
+                                                              _vm._v(" "),
+                                                              _c(
+                                                                "option",
+                                                                {
+                                                                  attrs: {
+                                                                    value:
+                                                                      "inactive",
+                                                                  },
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    _vm._s(
+                                                                      _vm.$t(
+                                                                        "general.Inactive"
+                                                                      )
+                                                                    )
+                                                                  ),
+                                                                ]
+                                                              ),
+                                                            ]
+                                                          ),
                                                           _vm._v(" "),
-                                                          !_vm.errors.mobile_no
+                                                          !_vm.errors.is_active
                                                             ? _c(
                                                                 "div",
                                                                 {
@@ -17906,7 +18193,7 @@ var render = function () {
                                                               )
                                                             : _vm._e(),
                                                           _vm._v(" "),
-                                                          !_vm.$v.edit.mobile_no
+                                                          !_vm.$v.edit.is_active
                                                             .required
                                                             ? _c(
                                                                 "div",
@@ -17926,80 +18213,10 @@ var render = function () {
                                                               )
                                                             : _vm._e(),
                                                           _vm._v(" "),
-                                                          !_vm.$v.edit.mobile_no
-                                                            .minLength
-                                                            ? _c(
-                                                                "div",
-                                                                {
-                                                                  staticClass:
-                                                                    "invalid-feedback",
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    _vm._s(
-                                                                      _vm.$t(
-                                                                        "general.Itmustbeatleast"
-                                                                      )
-                                                                    ) +
-                                                                      " " +
-                                                                      _vm._s(
-                                                                        _vm.$v
-                                                                          .edit
-                                                                          .mobile_no
-                                                                          .$params
-                                                                          .minLength
-                                                                          .min
-                                                                      ) +
-                                                                      " " +
-                                                                      _vm._s(
-                                                                        _vm.$t(
-                                                                          "general.letters"
-                                                                        )
-                                                                      )
-                                                                  ),
-                                                                ]
-                                                              )
-                                                            : _vm._e(),
-                                                          _vm._v(" "),
-                                                          !_vm.$v.edit.mobile_no
-                                                            .maxLength
-                                                            ? _c(
-                                                                "div",
-                                                                {
-                                                                  staticClass:
-                                                                    "invalid-feedback",
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    _vm._s(
-                                                                      _vm.$t(
-                                                                        "general.Itmustbeatmost"
-                                                                      )
-                                                                    ) +
-                                                                      "  " +
-                                                                      _vm._s(
-                                                                        _vm.$v
-                                                                          .edit
-                                                                          .mobile_no
-                                                                          .$params
-                                                                          .maxLength
-                                                                          .max
-                                                                      ) +
-                                                                      " " +
-                                                                      _vm._s(
-                                                                        _vm.$t(
-                                                                          "general.letters"
-                                                                        )
-                                                                      )
-                                                                  ),
-                                                                ]
-                                                              )
-                                                            : _vm._e(),
-                                                          _vm._v(" "),
-                                                          _vm.errors.mobile_no
+                                                          _vm.errors.is_active
                                                             ? _vm._l(
                                                                 _vm.errors
-                                                                  .mobile_no,
+                                                                  .is_active,
                                                                 function (
                                                                   errorMessage,
                                                                   index
@@ -18144,7 +18361,7 @@ var render = function () {
                                   "th",
                                   {
                                     staticClass: "text-center",
-                                    attrs: { colspan: "5" },
+                                    attrs: { colspan: "7" },
                                   },
                                   [
                                     _vm._v(

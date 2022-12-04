@@ -49,15 +49,14 @@ class PartnerRepository implements PartnerRepositoryInterface
     public function create($request)
     {
 
-        $data = $request;
-        $data['password'] = Hash::make($data['password']);
-        $partner = $this->model->create($data);
-
         DB::transaction(function () use ($request) {
+            $data = $request;
+            $data['password'] = Hash::make($data['password']);
+            $this->model->create($data);
             cacheForget("Partners");
         });
 
-        return $this->successResponse($partner,__('Done'));
+        return $this->successResponse([],__('Done'));
     }
 
     public function update($request, $id)

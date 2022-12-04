@@ -51,14 +51,12 @@ class CompanyRepository implements CompanyRepositoryInterface
             $request['logo'] = storage_path('app/companies'). '/' .$request['logo']->hashName();
         }
 
-        $company = $this->model->create($request);
-
-        DB::transaction(function () use ($request,$company) {
-            $company;
+        DB::transaction(function () use ($request) {
+            $this->model->create($request);
             cacheForget("company");
         });
 
-        return $this->successResponse(new CompanyResource($company),__('created'));
+        return $this->successResponse([],__('created'));
     }
 
     public function show($id){
@@ -72,14 +70,12 @@ class CompanyRepository implements CompanyRepositoryInterface
             $data['logo'] = storage_path('app/companies'). '/' .$data['logo']->hashName();
         }
 
-        $company = $this->model->find($id)->update($data);
-
-        DB::transaction(function () use ($id, $company) {
-            $company;
+        DB::transaction(function () use ($id,$data) {
+            $this->model->find($id)->update($data);
             $this->forget($id);
         });
 
-        return $this->successResponse(new CompanyResource($company),__('created'));
+        return $this->successResponse([],__('created'));
     }
 
     public function destroy($id){

@@ -425,6 +425,8 @@
           "address": "Address",
           "Dropfileshereorclicktoupload": "Drop files here or click to upload.",
           "fieldIsImage": "This field should be the picture",
-          "ItmustbeyourImage": "It must be (jpeg,png,gif,jpg)"
+          "ItmustbeyourImage": "It must be (jpeg,png,gif,jpg)",
+          "alphaArabic": "This field must be in Arabic.",
+          "alphaEnglish" : "This field must be in English."
     }
 }
