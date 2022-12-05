@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStoresTable extends Migration
+class CreateButtonsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateStoresTable extends Migration
      */
     public function up()
     {
-        Schema::create('stores', function (Blueprint $table) {
+        Schema::create('buttons', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->constrained('companies')->references("id");
-            $table->string("name" , 100)->comment("Name Arabic");
-            $table->string("name_e" , 100)->comment("Name English");
-            $table->string('is_active')->default('inactive');
+            $table->string("name" , 100)->unique()->comment("Name Arabic");
+            $table->string("name_e" , 100)->unique()->comment("Name English");
+            $table->string("icon" , 200)->unique()->comment("No icon, othewise the path of icon");
             $table->softDeletes();
             $table->timestamps();
         });
@@ -31,6 +30,6 @@ class CreateStoresTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('stores');
+        Schema::dropIfExists('buttons');
     }
 }

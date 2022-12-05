@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Helpfile;
+namespace App\Http\Controllers\Button;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\Helpfile\HelpfileRepositoryInterface;
-use App\Http\Resources\Helpfile\HelpfileResource;
 use Illuminate\Http\Request;
-use App\Http\Requests\Helpfile\StoreHelpfileRequest;
-use App\Http\Requests\Helpfile\UpdateHelpfileRequest;
 use Mockery\Exception;
+use App\Repositories\Button\ButtonRepositoryInterface;
+use App\Http\Resources\Button\ButtonResource;
+use App\Http\Requests\Button\StoreButtonRequest;
+use App\Http\Requests\Button\UpdateButtonRequest;
 
-class HelpfileController extends Controller
+class ButtonController extends Controller
 {
 
     protected $repository;
-    protected $resource = HelpfileResource::class;
+    protected $resource = ButtonResource::class;
 
 
-    public function __construct(HelpfileRepositoryInterface $repository)
+    public function __construct(ButtonRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
@@ -25,18 +25,18 @@ class HelpfileController extends Controller
     public function all(Request $request)
     {
         if (count($_GET) == 0) {
-            $models = cacheGet('Helpfiles');
+            $models = cacheGet('Buttons');
 
             if (!$models) {
-                $models = $this->repository->getAllHelpfiles($request);
-                cachePut('Helpfiles', $models);
+                $models = $this->repository->getAllButtons($request);
+                cachePut('Buttons', $models);
             }
         } else {
 
-            $models = $this->repository->getAllHelpfiles($request);
+            $models = $this->repository->getAllButtons($request);
         }
 
-        return responseJson(200, 'success', HelpfileResource::collection($models['data']), $models['paginate'] ? getPaginates($models['data']) : null);
+        return responseJson(200, 'success', ButtonResource::collection($models['data']), $models['paginate'] ? getPaginates($models['data']) : null);
 
     }
 
@@ -44,24 +44,24 @@ class HelpfileController extends Controller
     public function find($id)
     {
         try{
-            $model = cacheGet('Helpfiles_' . $id);
+            $model = cacheGet('Buttons_' . $id);
 
             if (!$model) {
                 $model = $this->repository->find($id);
                 if (!$model) {
                     return responseJson( 404 , __('message.data not found'));
                 } else {
-                    cachePut('Helpfiles_' . $id, $model);
+                    cachePut('Buttons_' . $id, $model);
                 }
             }
-            return responseJson(200 , __('Done'), new HelpfileResource($model));
+            return responseJson(200 , __('Done'), new ButtonResource($model));
         } catch (Exception $exception) {
             return responseJson( $exception->getCode() , $exception->getMessage());
         }
     }
 
 
-    public function store(StoreHelpfileRequest $request)
+    public function store(StoreButtonRequest $request)
     {
         try {
             return responseJson(200 , __('Done') , $this->repository->create($request->validated()));
@@ -71,7 +71,7 @@ class HelpfileController extends Controller
     }
 
 
-    public function update(UpdateHelpfileRequest $request , $id)
+    public function update(UpdateButtonRequest $request , $id)
     {
         try {
             $model = $this->repository->find($id);

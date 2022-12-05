@@ -134,4 +134,15 @@ Route::group(['prefix' => 'workflow-trees'], function () {
         });
     });
 
+// api op serials
+    Route::group(['prefix' => 'buttons'], function () {
+        Route::controller(ButtonController::class)->group(function () {
+            Route::get('/', 'all')->name('buttons.index');
+            Route::get('/show/{id}', 'find');
+            Route::post('/store', 'store')->name('buttons.store');
+            Route::put('/update/{id}', 'update')->name('buttons.update');
+            Route::delete('/delete/{id}', 'delete')->name('buttons.destroy');
+        });
+    });
+
     Route::resource('branches', BranchController::class)->except('create', 'edit');
