@@ -11,6 +11,7 @@ use App\Http\Controllers\Serial\SerialController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Store\StoreController;
 use App\Http\Controllers\Helpfile\HelpfileController;
+use App\Http\Controllers\Button\ButtonController;
 
 use App\Http\Controllers\WorkflowTree\WorkflowTreeController;
 use Illuminate\Support\Facades\Route;
@@ -106,7 +107,7 @@ Route::group(['prefix' => 'helpfiles'], function () {
         Route::get('/', 'all')->name('helpfiles.index');
         Route::get('/{id}', 'find');
         Route::post('/', 'store')->name('helpfiles.store');
-        Route::put('/{id}', 'update')->name('helpfiles.update');
+        Route::post('/{id}', 'update')->name('helpfiles.update');
         Route::delete('/{id}', 'delete')->name('helpfiles.destroy');
     });
 });
@@ -123,25 +124,25 @@ Route::group(['prefix' => 'workflow-trees'], function () {
     });
 });
 
-// api op serials
-    Route::group(['prefix' => 'serials'], function () {
-        Route::controller(SerialController::class)->group(function () {
-            Route::get('/', 'all')->name('serials.index');
-            Route::get('/show/{id}', 'find');
-            Route::post('/store', 'store')->name('serials.store');
-            Route::put('/update/{id}', 'update')->name('serials.update');
-            Route::delete('/delete/{id}', 'delete')->name('serials.destroy');
-        });
-    });
+// // api op serials
+//     Route::group(['prefix' => 'serials'], function () {
+//         Route::controller(SerialController::class)->group(function () {
+//             Route::get('/', 'all')->name('serials.index');
+//             Route::get('/show/{id}', 'find');
+//             Route::post('/store', 'store')->name('serials.store');
+//             Route::put('/update/{id}', 'update')->name('serials.update');
+//             Route::delete('/delete/{id}', 'delete')->name('serials.destroy');
+//         });
+//     });
 
 // api op serials
     Route::group(['prefix' => 'buttons'], function () {
         Route::controller(ButtonController::class)->group(function () {
             Route::get('/', 'all')->name('buttons.index');
-            Route::get('/show/{id}', 'find');
-            Route::post('/store', 'store')->name('buttons.store');
-            Route::put('/update/{id}', 'update')->name('buttons.update');
-            Route::delete('/delete/{id}', 'delete')->name('buttons.destroy');
+            Route::get('/{id}', 'find');
+            Route::post('/', 'store')->name('buttons.store');
+            Route::post('/{id}', 'update')->name('buttons.update');
+            Route::delete('/{id}', 'delete')->name('buttons.destroy');
         });
     });
 

@@ -51,15 +51,17 @@ class ButtonRepository implements ButtonRepositoryInterface
     {
         DB::transaction(function () use ($id, $request) {
            $resource =  $this->model->where("id", $id)->update($request);
+           $model = $this->model->find($id);
             if(isset($request['icon'])){
-                if($resource->icon){
-                    $path = $resource->icon? public_path($resource->icon) : null;
+                if($model->icon){
+                    $path = $model->icon? public_path($model->icon) : null;
                     if(file_exists($path)){
                         unlink($path);
                     }
                 }
                 $request['icon'] = uploadFile($request['icon'], config('paths.BUTTON_PATH'));
             }
+            $model->update($request);
             $this->forget($id);
         });
 

@@ -17,7 +17,7 @@ class StoreHelpfileRequest extends FormRequest
         return [
             'name'       => 'required|string|max:100|unique:helpfiles,name',
             'name_e'     => 'required|string|max:100|unique:helpfiles,name_e',
-            'url'        => 'required|string|max:200|unique:helpfiles,title'
+            'url'        => 'required|string|max:200|unique:helpfiles,url'
         ];
     }
 
