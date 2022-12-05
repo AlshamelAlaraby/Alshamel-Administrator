@@ -18,6 +18,7 @@ class CreateHelpfilesTable extends Migration
             $table->string("name" , 100)->unique()->comment("Name Arabic");
             $table->string("name_e" , 100)->unique()->comment("Name English");
             $table->string("url" , 200)->unique()->comment("مسار الشرح");
+            $table->softDeletes();
             $table->timestamps();
         });
     }
