@@ -15,13 +15,7 @@ class ScreenHelpfileRepository implements ScreenHelpfileRepositoryInterface
 
     public function getAllScreenHelpfiles($request)
     {
-        $models = $this->model->where(function ($q) use ($request) {
-
-            if ($request->search) {
-                $q->where('name', 'like', '%' . $request->search . '%')
-                    ->orWhere('name_e', 'like', '%' . $request->search . '%');
-            }
-        })->latest();
+        $models = $this->model;
 
         if ($request->per_page) {
             return ['data' => $models->paginate($request->per_page), 'paginate' => true];
