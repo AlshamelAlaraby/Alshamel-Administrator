@@ -12,4 +12,12 @@ class Helpfile extends Model
 
     protected $guarded = [] ;
 
+
+
+    public function screen()
+    {
+        return $this->belongsToMany(ScreenHelpfile::class, 'screens_helpfiles' , 'helpfile_id' , 'screen_id');
+    }
+
+
 }

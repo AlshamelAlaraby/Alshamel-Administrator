@@ -12,10 +12,8 @@ class storeStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            "company_id" => "required",
-            "branch_id"  => "required",
-            // "company_id" => "required|exists:companies,id",
-            // "branch_id"  => "required|exists:branches,id",
+            "company_id" => "required|exists:companies,id",
+            "branch_id"  => "required|exists:branches,id",
             "name"       => "required|string|max:100",
             "name_e"     => "required|string|max:100",
             "is_active"  => "in:active,inactive",

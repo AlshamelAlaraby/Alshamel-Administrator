@@ -26,6 +26,8 @@ use App\Repositories\WorkflowTree\WorkflowTreeRepository;
 use App\Repositories\WorkflowTree\WorkflowTreeRepositoryInterface;
 use App\Repositories\Button\ButtonRepository;
 use App\Repositories\Button\ButtonRepositoryInterface;
+use App\Repositories\ScreenHelpfile\ScreenHelpfileRepository;
+use App\Repositories\ScreenHelpfile\ScreenHelpfileRepositoryInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -57,6 +59,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(BranchRepositoryInterface::class, BranchRepository::class);
 
         $this->app->bind(ButtonRepositoryInterface::class, ButtonRepository::class);
+
+        $this->app->bind(ScreenHelpfileRepositoryInterface::class, ScreenHelpfileRepository::class);
 
     }
 

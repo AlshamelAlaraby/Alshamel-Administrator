@@ -16,9 +16,9 @@ class UpdateHelpfileRequest extends FormRequest
     public function rules(Request $request)
     {
         return [
-            'name'       => 'string|max:100|unique:helpfiles,name,'    .$request->id ,
-            'name_e'     => 'string|max:100|unique:helpfiles,name_e,'  .$request->id ,
-            'url'        => 'string|max:200|unique:helpfiles,url,'   .$request->id
+            'name'       => 'string|max:100' ,
+            'name_e'     => 'string|max:100' ,
+            'url'        => 'string|max:200'
         ];
     }
 

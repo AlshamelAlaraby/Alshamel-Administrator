@@ -10,8 +10,9 @@ use App\Http\Controllers\Screen\ScreenController;
 use App\Http\Controllers\Serial\SerialController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Store\StoreController;
-use App\Http\Controllers\Helpfile\HelpfileController;
 use App\Http\Controllers\Button\ButtonController;
+use App\Http\Controllers\Helpfile\HelpfileController;
+use App\Http\Controllers\ScreenHelpfile\ScreenHelpfileController;
 
 use App\Http\Controllers\WorkflowTree\WorkflowTreeController;
 use Illuminate\Support\Facades\Route;
@@ -109,6 +110,17 @@ Route::group(['prefix' => 'helpfiles'], function () {
         Route::post('/', 'store')->name('helpfiles.store');
         Route::post('/{id}', 'update')->name('helpfiles.update');
         Route::delete('/{id}', 'delete')->name('helpfiles.destroy');
+    });
+});
+
+// api of screenhelpfile
+Route::group(['prefix' => 'screen-helpfile'], function () {
+    Route::controller(ScreenHelpfileController::class)->group(function () {
+        Route::get('/', 'all')->name('screenhelpfile.index');
+        Route::get('/{id}', 'find');
+        Route::post('/', 'store')->name('screenhelpfile.store');
+        Route::post('/{id}', 'update')->name('screenhelpfile.update');
+        Route::delete('/{id}', 'delete')->name('screenhelpfile.destroy');
     });
 });
 
