@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Repositories\Branch\BranchRepository;
 use App\Repositories\Branch\BranchRepositoryInterface;
+use App\Repositories\DocumentType\DocumentTypeInterface;
+use App\Repositories\DocumentType\DocumentTypeRepository;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Repositories\Partner\PartnerRepository;
@@ -39,29 +41,18 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
-
         $this->app->bind(PartnerRepositoryInterface::class, PartnerRepository::class);
-
         $this->app->bind(ScreenRepositoryInterface::class, ScreenRepository::class);
-
         $this->app->bind(HelpfileRepositoryInterface::class, HelpfileRepository::class);
-
         $this->app->bind(WorkflowTreeRepositoryInterface::class, WorkflowTreeRepository::class);
-
         $this->app->bind(SerialRepositoryInterface::class, SerialRepository::class);
-
         $this->app->bind(CompanyRepositoryInterface::class, CompanyRepository::class);
-
         $this->app->bind(StoreRepositoryInterface::class, StoreRepository::class);
-
         $this->app->bind(ModuleInterface::class, ModuleRepository::class);
-
         $this->app->bind(BranchRepositoryInterface::class, BranchRepository::class);
-
         $this->app->bind(ButtonRepositoryInterface::class, ButtonRepository::class);
-
         $this->app->bind(ScreenHelpfileRepositoryInterface::class, ScreenHelpfileRepository::class);
-
+        $this->app->bind(DocumentTypeInterface::class, DocumentTypeRepository::class);
     }
 
     /**
