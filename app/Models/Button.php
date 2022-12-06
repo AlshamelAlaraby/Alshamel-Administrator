@@ -14,6 +14,13 @@ class Button extends Model
 
     protected $appends = ['icon'];
 
+
+    public function screens()
+    {
+        return $this->belongsToMany(Screen::class, 'screens_buttons', 'button_id' , 'screen_id');
+    }
+
+
     public function getIconUrlAttribute()
     {
         return asset($this->icon);

@@ -28,6 +28,8 @@ use App\Repositories\Button\ButtonRepository;
 use App\Repositories\Button\ButtonRepositoryInterface;
 use App\Repositories\ScreenHelpfile\ScreenHelpfileRepository;
 use App\Repositories\ScreenHelpfile\ScreenHelpfileRepositoryInterface;
+use App\Repositories\ScreenButton\ScreenButtonRepository;
+use App\Repositories\ScreenButton\ScreenButtonRepositoryInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -61,6 +63,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ButtonRepositoryInterface::class, ButtonRepository::class);
 
         $this->app->bind(ScreenHelpfileRepositoryInterface::class, ScreenHelpfileRepository::class);
+
+        $this->app->bind(ScreenButtonRepositoryInterface::class, ScreenButtonRepository::class);
 
     }
 

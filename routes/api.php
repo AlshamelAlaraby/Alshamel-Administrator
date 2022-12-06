@@ -13,6 +13,7 @@ use App\Http\Controllers\Store\StoreController;
 use App\Http\Controllers\Button\ButtonController;
 use App\Http\Controllers\Helpfile\HelpfileController;
 use App\Http\Controllers\ScreenHelpfile\ScreenHelpfileController;
+use App\Http\Controllers\ScreenButton\ScreenButtonController;
 
 use App\Http\Controllers\WorkflowTree\WorkflowTreeController;
 use Illuminate\Support\Facades\Route;
@@ -121,6 +122,17 @@ Route::group(['prefix' => 'screen-helpfile'], function () {
         Route::post('/', 'store')->name('screenhelpfile.store');
         Route::post('/{id}', 'update')->name('screenhelpfile.update');
         Route::delete('/{id}', 'delete')->name('screenhelpfile.destroy');
+    });
+});
+
+// api of screenbutton
+Route::group(['prefix' => 'screen-button'], function () {
+    Route::controller(ScreenButtonController::class)->group(function () {
+        Route::get('/', 'all')->name('screenbutton.index');
+        Route::get('/{id}', 'find');
+        Route::post('/', 'store')->name('screenbutton.store');
+        Route::post('/{id}', 'update')->name('screenbutton.update');
+        Route::delete('/{id}', 'delete')->name('screenbutton.destroy');
     });
 });
 
