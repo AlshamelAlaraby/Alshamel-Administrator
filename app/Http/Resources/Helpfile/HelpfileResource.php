@@ -19,6 +19,7 @@ class HelpfileResource extends JsonResource
             'name' => $this->name ,
             'name_e' => $this->name_e ,
             'url' => $this->url ,
+            "screen" => $this->screen
         ];
     }
 }

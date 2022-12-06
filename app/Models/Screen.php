@@ -20,7 +20,7 @@ class Screen extends Model
 
     public function helpfile()
     {
-        return $this->belongsToMany(ScreenHelpfile::class, 'screens_helpfiles', 'screen_id', 'helpfile_id');
+        return $this->belongsToMany(Helpfile::class, 'screens_helpfiles', 'screen_id', 'helpfile_id');
     }
 
     public function serial(){
