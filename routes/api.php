@@ -14,6 +14,7 @@ use App\Http\Controllers\Button\ButtonController;
 use App\Http\Controllers\Helpfile\HelpfileController;
 use App\Http\Controllers\ScreenHelpfile\ScreenHelpfileController;
 use App\Http\Controllers\ScreenButton\ScreenButtonController;
+use App\Http\Controllers\hotfield\hotfieldController;
 
 use App\Http\Controllers\WorkflowTree\WorkflowTreeController;
 use Illuminate\Support\Facades\Route;
@@ -133,6 +134,17 @@ Route::group(['prefix' => 'screen-button'], function () {
         Route::post('/', 'store')->name('screenbutton.store');
         Route::post('/{id}', 'update')->name('screenbutton.update');
         Route::delete('/{id}', 'delete')->name('screenbutton.destroy');
+    });
+});
+
+// api of hotfield
+Route::group(['prefix' => 'hotfields'], function () {
+    Route::controller(HotfieldController::class)->group(function () {
+        Route::get('/', 'all')->name('hotfield.index');
+        Route::get('/{id}', 'find');
+        Route::post('/', 'store')->name('hotfield.store');
+        Route::post('/{id}', 'update')->name('hotfield.update');
+        Route::delete('/{id}', 'delete')->name('hotfield.destroy');
     });
 });
 
