@@ -221,7 +221,15 @@ export default {
                         },500);
                     })
                     .catch((err) => {
-                        this.errors = err.response.data.errors;
+                        if(err.response.data){
+                            this.errors = err.response.data.errors;
+                        }else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: `${this.$t('general.Error')}`,
+                                text: `${this.$t('general.Thereisanerrorinthesystem')}`,
+                            });
+                        }
                     }).finally(() => {
                         this.isLoader = false;
                     });
@@ -253,7 +261,15 @@ export default {
                         },500);
                     })
                     .catch((err) => {
-                        this.errors = err.response.data.errors;
+                        if(err.response.data){
+                            this.errors = err.response.data.errors;
+                        }else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: `${this.$t('general.Error')}`,
+                                text: `${this.$t('general.Thereisanerrorinthesystem')}`,
+                            });
+                        }
                     }).finally(() => {
                         this.isLoader = false;
                     });

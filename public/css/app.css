@@ -77808,3 +77808,60 @@ readers do not read off random characters that represent icons */
 .direction-ltr-left {
   text-align: left;
 }
+
+.dropzone-custom {
+  border: 1px dashed;
+  padding: 16px;
+  cursor: pointer;
+}
+
+.dropzone-custom .dropzone-content .dropzone-icon i {
+  font-size: 37px;
+}
+
+.dropzone-custom .dropzone-content h3 {
+  font-size: 28px;
+}
+
+.dropzone-custom .input-file-upload {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.dropzone-custom .dropzone-previews {
+  z-index: 15;
+  cursor: context-menu;
+}
+
+.dropdown-search {
+  position: absolute;
+  width: 100%;
+  background-color: #fafafa;
+  border: 1px solid #d9d3d3;
+  top: 71px;
+  z-index: 10;
+  padding: 0;
+}
+
+.dropdown-search li {
+  padding: 5px;
+}
+
+.dropdown-search li:not(:last-child) {
+  border-bottom: 1px solid #d9d3d3;
+}
+
+.dropdown-search li:hover {
+  background-color: #f3f3f3;
+  cursor: pointer;
+}
+
+.dropdown-search li.active {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
