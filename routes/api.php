@@ -6,10 +6,13 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Branch\BranchController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Partner\PartnerController;
+use App\Http\Controllers\Screen\ScreenController;
 use App\Http\Controllers\Serial\SerialController;
 use App\Http\Controllers\User\UserController;
-//use App\Http\Controllers\Store\StoreController;
+use App\Http\Controllers\Store\StoreController;
+use App\Http\Controllers\Helpfile\HelpfileController;
 
+use App\Http\Controllers\WorkflowTree\WorkflowTreeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,7 +30,7 @@ Route::get('/users', [UserController::class, "index"]);
 
 /*
  * Auth
- */
+*/
 
 Route::group(['prefix' => 'auth'], function () {
     Route::post('/login', [LoginController::class, "login"]);
@@ -42,19 +45,19 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
 });
 
     Route::group(['prefix' => 'companies'], function () {
-        Route::get('', [CompanyController::class, "index"]);
-        Route::get('/{id}', [CompanyController::class, "show"]);
-        Route::post('', [CompanyController::class, "store"]);
-        Route::post('/{id}', [CompanyController::class, "update"]);
-        Route::delete('/{id}', [CompanyController::class, "destroy"]);
+        Route::get('', [CompanyController::class, "index"])->name('companies.index');
+        Route::get('/{id}', [CompanyController::class, "show"])->name('companies.show');
+        Route::post('', [CompanyController::class, "store"])->name('companies.store');
+        Route::post('/{id}', [CompanyController::class, "update"])->name('companies.update');
+        Route::delete('/{id}', [CompanyController::class, "destroy"])->name('companies.delete');
     });
 
     Route::group(['prefix' => 'stores'], function () {
-        Route::get('', [StoreController::class, "index"]);
-        Route::get('/{id}', [StoreController::class, "show"]);
-        Route::post('', [StoreController::class, "store"]);
-        Route::post('/{id}', [StoreController::class, "update"]);
-        Route::delete('/{id}', [StoreController::class, "destroy"]);
+        Route::get('', [StoreController::class, "index"])->name('stores.index');
+        Route::get('/{id}', [StoreController::class, "show"])->name('stores.show');
+        Route::post('', [StoreController::class, "store"])->name('stores.store');
+        Route::post('/{id}', [StoreController::class, "update"])->name('stores.update');
+        Route::delete('/{id}', [StoreController::class, "destroy"])->name('stores.delete');
     });
 
     Route::group(['prefix' => 'modules'], function () {
@@ -67,19 +70,58 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
             Route::post('/company', 'addModuleToCompany')->name('modules.company.add');
             Route::delete('/{module_id}/company/{company_id}', 'removeModuleFromCompany')->name('modules.company.remove');
 
+
         });
     });
 
-    // api op Partners
-    Route::group(['prefix' => 'partners'], function () {
-        Route::controller(PartnerController::class)->group(function () {
-            Route::get('/', 'all')->name('partners.index');
-            Route::get('/show/{id}', 'find');
-            Route::post('/store', 'store')->name('partners.store');
-            Route::put('/update/{id}', 'update')->name('partners.update');
-            Route::delete('/delete/{id}', 'delete')->name('partners.destroy');
-        });
+
+
+
+// api of Partners
+Route::group(['prefix' => 'partners'], function () {
+    Route::controller(PartnerController::class)->group(function () {
+        Route::get('/', 'all')->name('partners.index');
+        Route::get('/{id}', 'find');
+        Route::post('/', 'store')->name('partners.store');
+        Route::put('/{id}', 'update')->name('partners.update');
+        Route::delete('/{id}', 'delete')->name('partners.destroy');
     });
+});
+
+// api of screens
+Route::group(['prefix' => 'screens'], function () {
+    Route::controller(ScreenController::class)->group(function () {
+        Route::get('/', 'all')->name('screens.index');
+        Route::get('/{id}', 'find');
+        Route::post('/', 'store')->name('screens.store');
+        Route::put('/{id}', 'update')->name('screens.update');
+        Route::delete('/{id}', 'delete')->name('screens.destroy');
+    });
+});
+
+
+// api of helpfiles
+Route::group(['prefix' => 'helpfiles'], function () {
+    Route::controller(HelpfileController::class)->group(function () {
+        Route::get('/', 'all')->name('helpfiles.index');
+        Route::get('/{id}', 'find');
+        Route::post('/', 'store')->name('helpfiles.store');
+        Route::put('/{id}', 'update')->name('helpfiles.update');
+        Route::delete('/{id}', 'delete')->name('helpfiles.destroy');
+    });
+});
+
+
+// api of WorkflowTree
+Route::group(['prefix' => 'workflow-trees'], function () {
+    Route::controller(WorkflowTreeController::class)->group(function () {
+        Route::get('/', 'all')->name('WorkflowTree.index');
+        Route::get('/{id}', 'find');
+        Route::post('/', 'store')->name('WorkflowTree.store');
+        Route::put('/{id}', 'update')->name('WorkflowTree.update');
+        Route::delete('/{id}', 'delete')->name('WorkflowTree.destroy');
+    });
+});
 
 // api op serials
     Route::group(['prefix' => 'serials'], function () {
@@ -93,15 +135,3 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
     });
 
     Route::resource('branches', BranchController::class)->except('create', 'edit');
-
-// api op customers
-Route::group(['prefix' => 'partners'], function () {
-    Route::controller(PartnerController::class)->group(function () {
-        Route::get('/', 'all')->name('partners.index');
-        Route::get('/show/{id}', 'find');
-        Route::post('/store', 'store')->name('partners.store');
-        Route::put('/update/{id}', 'update')->name('partners.update');
-        Route::delete('/delete/{id}', 'delete')->name('partners.destroy');
-    });
-
-});

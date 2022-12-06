@@ -20,4 +20,4 @@ export default new VueI18n({
   locale: localStorage.getItem('lang') || 'ar',
   fallbackLocale: localStorage.getItem('lang') || 'ar',
   messages: loadLocaleMessages()
-});
+})

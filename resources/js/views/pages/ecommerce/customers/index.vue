@@ -4,7 +4,7 @@ import Layout from "../../../layouts/main";
 import PageHeader from "../../../../components/Page-header";
 
 /**
- * Partners component
+ * Customers component
  */
 export default {
   components: {
@@ -12,13 +12,13 @@ export default {
     Layout,
   },
   page: {
-    title: "Partners",
+    title: "Customers",
       meta: [{ name: "description", content: 'kdjsd' }],
   },
   data() {
     return {
       customesData: customesData,
-      title: "Partners",
+      title: "Customers",
       items: [
         {
           text: "Minton",
@@ -27,7 +27,7 @@ export default {
           text: "eCommerce",
         },
         {
-          text: "Partners",
+          text: "Customers",
           active: true,
         },
       ],
@@ -45,7 +45,7 @@ export default {
           label: "",
         },
         {
-          key: "Partner",
+          key: "Customer",
           sortable: true,
         },
         {
@@ -135,7 +135,7 @@ export default {
                       size="sm"
                       :options="pageOptions"
                     ></b-form-select
-                    >&nbsp;Partners
+                    >&nbsp;Customers
                   </label>
                 </div>
               </div>
