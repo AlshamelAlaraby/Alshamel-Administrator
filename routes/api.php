@@ -10,6 +10,8 @@ use App\Http\Controllers\Screen\ScreenController;
 use App\Http\Controllers\Serial\SerialController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Store\StoreController;
+use App\Http\Controllers\Helpfile\HelpfileController;
+
 use App\Http\Controllers\WorkflowTree\WorkflowTreeController;
 use Illuminate\Support\Facades\Route;
 
@@ -46,7 +48,7 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
         Route::get('', [CompanyController::class, "index"])->name('companies.index');
         Route::get('/{id}', [CompanyController::class, "show"])->name('companies.show');
         Route::post('', [CompanyController::class, "store"])->name('companies.store');
-        Route::put('/{id}', [CompanyController::class, "update"])->name('companies.update');
+        Route::post('/{id}', [CompanyController::class, "update"])->name('companies.update');
         Route::delete('/{id}', [CompanyController::class, "destroy"])->name('companies.delete');
     });
 
@@ -96,6 +98,19 @@ Route::group(['prefix' => 'screens'], function () {
         Route::delete('/{id}', 'delete')->name('screens.destroy');
     });
 });
+
+
+// api of helpfiles
+Route::group(['prefix' => 'helpfiles'], function () {
+    Route::controller(HelpfileController::class)->group(function () {
+        Route::get('/', 'all')->name('helpfiles.index');
+        Route::get('/{id}', 'find');
+        Route::post('/', 'store')->name('helpfiles.store');
+        Route::put('/{id}', 'update')->name('helpfiles.update');
+        Route::delete('/{id}', 'delete')->name('helpfiles.destroy');
+    });
+});
+
 
 // api of WorkflowTree
 Route::group(['prefix' => 'workflow-trees'], function () {

@@ -166,6 +166,7 @@ export default {
                                 timer: 1500
                             });
                         })
+
                         .catch((err) => {
                             Swal.fire({
                                 icon: 'error',
