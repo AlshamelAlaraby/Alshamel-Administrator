@@ -3,7 +3,7 @@ import router from "../router/index";
 
 
 export default async function checkAuth({ next, store }) {
-    await adminApi.get('/auth/check-token')
+    await adminApi.post('/auth/check-token')
         .then((res) => {
             return next();
         })

@@ -7,7 +7,8 @@ import { required, minLength, maxLength ,integer } from "vuelidate/lib/validator
 import Swal from "sweetalert2";
 import ErrorMessage from "../../../components/widgets/errorMessage";
 import loader from "../../../components/loader";
-
+import alphaArabic  from "../../../helper/alphaArabic";
+import alphaEnglish  from "../../../helper/alphaEnglish";
 
 /**
  * Advanced Table component
@@ -49,26 +50,30 @@ export default {
                 name: '',
                 name_e: '',
                 parent_id: 0,
-                is_active: null
+                is_active: null,
+                search: ''
             },
             edit: {
                 name: '',
                 name_e: '',
                 parent_id: 0,
-                is_active: null
+                is_active: null,
+                search: ''
             },
-            errors: {}
+            errors: {},
+            dropDownSenders: [],
+            isButton: true
         }
     },
     validations: {
         create: {
-            name: {required,minLength: minLength(3),maxLength: maxLength(100)},
-            name_e: {required,minLength: minLength(3),maxLength: maxLength(100)},
+            name: {required,minLength: minLength(3),maxLength: maxLength(100),alphaArabic},
+            name_e: {required,minLength: minLength(3),maxLength: maxLength(100),alphaEnglish},
             is_active: {required}
         },
         edit: {
-            name: {required,minLength: minLength(3),maxLength: maxLength(100)},
-            name_e: {required,minLength: minLength(3),maxLength: maxLength(100)},
+            name: {required,minLength: minLength(3),maxLength: maxLength(100),alphaArabic},
+            name_e: {required,minLength: minLength(3),maxLength: maxLength(100),alphaEnglish},
             is_active: {required}
         },
     },
@@ -92,6 +97,7 @@ export default {
     },
     mounted() {
         this.getData();
+        this.keyDropdown();
     },
     methods: {
         /**
@@ -177,7 +183,6 @@ export default {
             this.create =  {name: '', name_e: '', parent_id: 0, is_active: null};
             this.$nextTick(() => { this.$v.$reset() });
             this.errors = {};
-            this.getParent();
         },
         /**
          *  create module
@@ -193,7 +198,7 @@ export default {
                 adminApi.post(`/modules`,this.create)
                     .then((res) => {
                         this.$bvModal.hide(`create`);
-                        // this.modules.unshift(res.data.data);
+                        this.getData();
                         setTimeout(() => {
                             Swal.fire({
                                 icon: 'success',
@@ -204,8 +209,15 @@ export default {
                         },500);
                     })
                     .catch((err) => {
-                        console.log(err.response);
-                        // this.errors = err.response.data.errors;
+                        if(err.response.data){
+                            this.errors = err.response.data.errors;
+                        }else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: `${this.$t('general.Error')}`,
+                                text: `${this.$t('general.Thereisanerrorinthesystem')}`,
+                            });
+                        }
                     }).finally(() => {
                         this.isLoader = false;
                     });
@@ -223,9 +235,11 @@ export default {
             } else {
                 this.isLoader = true;
                 this.errors = {};
-                adminApi.put(`/modules/${id}`,this.edit)
+                let {name,name_e,parent_id,is_active} = this.edit;
+                adminApi.put(`/modules/${id}`,{name,name_e,parent_id,is_active})
                     .then((res) => {
                         this.$bvModal.hide(`modal-edit-${id}`);
+                        this.getData();
                         setTimeout(() => {
                             Swal.fire({
                                 icon: 'success',
@@ -236,7 +250,15 @@ export default {
                         },500);
                     })
                     .catch((err) => {
-                        this.errors = err.response.data.errors;
+                        if(err.response.data){
+                            this.errors = err.response.data.errors;
+                        }else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: `${this.$t('general.Error')}`,
+                                text: `${this.$t('general.Thereisanerrorinthesystem')}`,
+                            });
+                        }
                     }).finally(() => {
                         this.isLoader = false;
                     });
@@ -248,7 +270,7 @@ export default {
         getParent(){
             adminApi.get(`/modules?parent_id=${0}&is_active=active`)
                 .then((res) => {
-                    this.parents = res.data.data;
+                    this.dropDownSenders = res.data.data;
                 })
                 .catch((err) => {
                     Swal.fire({
@@ -268,17 +290,11 @@ export default {
             this.edit.is_active = module.is_active;
             this.edit.parent_id = module.parent_id;
             this.errors = {};
-            this.getParent();
         },
         /**
          *  hidden Modal (edit)
          */
         resetModalHiddenEdit(id){
-            let module = this.modules.find(e => id == e.id );
-            module.name = this.edit.name;
-            module.name_e = this.edit.name_e;
-            module.is_active = this.edit.is_active;
-            module.parent_id = this.edit.parent_id;
             this.errors = {};
             this.edit = {
                 name: '',
@@ -286,7 +302,134 @@ export default {
                 parent_id: 0,
                 is_active: null
             };
+        },
+        /**
+         *  start  dropdown Google
+         */
+        searchSender(){
+            this.dropDownSenders = [];
+            this.create.parent_id = 0;
+            this.edit.parent_id = 0;
+            if(this.create.search || this.edit.search){
+                clearTimeout(this.debounce);
+                this.debounce = setTimeout(() => {
+                    this.getParent();
+                }, 400);
+            }else{
+                this.dropDownSenders = [];
+            }
+            this.isButton = false;
+        },
+
+        showSenderName(index){
+            let item = this.dropDownSenders[index];
+            this.create.parent_id = item.id;
+            this.create.search = (this.$i18n.locale == 'ar' ? item.name : item.name_e);
+            this.edit.parent_id = item.id;
+            this.edit.search = (this.$i18n.locale == 'ar' ? item.name : item.name_e);
+            this.isButton = true;
+            this.dropDownSenders = [];
+        },
+
+        senderHover(e){
+            let items = document.querySelectorAll('.sender-search .Sender');
+            items.forEach(e => e.classList.remove('active'));
+            e.target.classList.add('active');
+        },
+
+        keyDropdown(){
+            document.addEventListener('keyup',(e) => {
+                if(e.keyCode == 38){ //top arrow
+                    if(this.dropDownSenders.length > 0){
+                        let items = document.querySelectorAll('.sender-search .Sender');
+                        let isTrue = false;
+                        let index = null;
+                        items.forEach((e,i) => {
+                            if(e.classList.contains('active')) {
+                                isTrue = true;
+                                index = i;
+                            }
+                        });
+                        if(isTrue && index != 0){
+                            items[index].classList.remove('active');
+                            items[index - 1].classList.add('active');
+                        }else if(isTrue && index == 0){
+                            items[index].classList.remove('active');
+                            items[items.length - 1].classList.add('active');
+                        }
+                        if(!isTrue) items[0].classList.add('active');
+                    }else {
+                        this.dropDownSenders = [];
+                    }
+                };
+
+                if(e.keyCode == 40){ //down arrow
+                    if(this.dropDownSenders.length > 0){
+                        let items = document.querySelectorAll('.sender-search .Sender');
+                        let isTrue = false;
+                        let index = null;
+                        items.forEach((e,i) => {
+                            if(e.classList.contains('active')) {
+                                isTrue = true;
+                                index = i;
+                            }
+                        });
+                        if(isTrue && index != (items.length - 1)){
+                            items[index].classList.remove('active');
+                            items[index + 1].classList.add('active');
+                        }else if(isTrue && index == (items.length - 1)){
+                            items[index].classList.remove('active');
+                            items[0].classList.add('active');
+                        }
+                        if(!isTrue) items[items.length - 1].classList.add('active');
+                    }else {
+                        this.dropDownSenders = [];
+                    }
+                };
+
+                if(e.keyCode == 13){ //enter
+                    if(this.dropDownSenders.length > 0){
+                        let items = document.querySelectorAll('.sender-search .Sender');
+                        items.forEach((e,i) => {
+                            if(e.classList.contains('active')) this.showSenderName(i);
+                        });
+                    }else {
+                        this.dropDownSenders = [];
+                    }
+                    e.target.blur();
+                };
+            });
+
+            document.addEventListener('click',(e) => {
+                if(this.dropDownSenders.length > 0){
+                    if(e.target.classList.contains('Sender') || e.target.classList.contains('input-Sender')){
+                        this.isButton = false;
+                    }else {
+                        this.isButton = true;
+                        this.dropDownSenders = [];
+                    }
+                }else {
+                    this.isButton = true;
+                }
+            });
+        },
+
+        ClickDropdown(e){
+            if(this.dropDownSenders.length > 0){
+                if(e.target.classList.contains('Sender') || e.target.classList.contains('input-Sender')){
+                    this.isButton = false;
+                }else {
+                    this.isButton = true;
+                    this.dropDownSenders = [];
+                }
+            }else {
+                this.isButton = true;
+            }
         }
+        /**
+         *  end  dropdown Google
+         */
+
     },
 };
 </script>
@@ -348,7 +491,7 @@ export default {
                         >
                             <form  @submit.stop.prevent="AddSubmit">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 direction" dir="rtl">
                                         <div class="form-group">
                                             <label for="field-1" class="control-label">{{ $t('general.Name') }}</label>
                                             <input
@@ -365,12 +508,13 @@ export default {
                                             <div v-if="!$v.create.name.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                             <div v-if="!$v.create.name.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.name.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.name.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.name.$params.maxLength.max }} {{ $t('general.letters') }}</div>
+                                            <div v-if="!$v.create.name.alphaArabic" class="invalid-feedback">{{ $t('general.alphaArabic') }}</div>
                                             <template v-if="errors.name">
                                                 <ErrorMessage v-for="(errorMessage,index) in errors.name" :key="index">{{ errorMessage }}</ErrorMessage>
                                             </template>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 direction-ltr" dir="ltr">
                                         <div class="form-group">
                                             <label for="field-2" class="control-label">{{ $t('general.Name_en') }}</label>
                                             <input
@@ -387,6 +531,7 @@ export default {
                                             <div v-if="!$v.create.name_e.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                             <div v-if="!$v.create.name_e.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.name_e.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.name_e.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.name_e.$params.maxLength.max }} {{ $t('general.letters') }}</div>
+                                            <div v-if="!$v.create.name_e.alphaEnglish" class="invalid-feedback">{{ $t('general.alphaEnglish') }}</div>
                                             <template v-if="errors.name_e">
                                                 <ErrorMessage v-for="(errorMessage,index) in errors.name_e" :key="index">{{ errorMessage }}</ErrorMessage>
                                             </template>
@@ -415,25 +560,38 @@ export default {
                                             </template>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 mt-1">
+                                    <div class="col-md-6 mt-1 position-relative">
                                         <div class="form-group">
-                                            <label class="my-1 mr-2" for="inlineFormCustomSelectPdsred">{{ $t('general.IdParent') }}</label>
-                                            <select
-                                                class="custom-select my-1 mr-sm-2"
-                                                id="inlineFormCustomSelectPdsred"
-                                                v-model="create.parent_id"
+                                            <label class="my-1 mr-2" >{{ $t('general.IdParent') }}</label>
+                                            <input
+                                                class="form-control input-Sender"
+                                                v-model.trim="create.search"
+                                                @input="searchSender"
+                                                @blur.prevent="ClickDropdown"
+                                                @focus="isButton = false"
+                                                :placeholder="$t('general.IdParent')" id="field-9"
+                                            />
+
+                                            <ul class="dropdown-search list-unstyled sender-search"
+                                                v-if="dropDownSenders.length > 0"
                                             >
-                                                <option value="" selected>{{ $t('general.Choose') }}...</option>
-                                                <option v-for="parent in parents" :value="parent.id" :key="parent.id">
-                                                    {{ $i18n.locale == 'ar'? parent.name: parent.name_e}}
-                                                </option>
-                                            </select>
+                                                <li
+                                                    class="Sender"
+                                                    v-for="(dropDownSender,index) in dropDownSenders"
+                                                    :key="index"
+                                                    @click="showSenderName(index)"
+                                                    @mouseenter="senderHover"
+                                                >
+                                                    {{ `${dropDownSender.id}- ${dropDownSender.name}` }}
+                                                </li>
+                                            </ul>
+
                                         </div>
                                     </div>
                                 </div>
                                 <div class="mt-1 d-flex justify-content-end">
                                     <!-- Emulate built in modal footer ok and cancel button actions -->
-                                    <b-button  variant="success" type="submit" class="mx-1" v-if="!isLoader">
+                                    <b-button  variant="success" type="submit" class="mx-1" v-if="!isLoader && isButton">
                                         {{ $t('general.Add') }}
                                     </b-button>
 
@@ -514,7 +672,7 @@ export default {
                                         >
                                             <form  @submit.stop.prevent="editSubmit(data.id)">
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-6 direction" dir="rtl">
                                                         <div class="form-group">
                                                             <label for="field-u-1" class="control-label">{{ $t('general.Name') }}</label>
                                                             <input
@@ -528,6 +686,7 @@ export default {
                                                                 :placeholder="$t('general.Name')" id="field-u-1"
                                                             />
                                                             <div class="valid-feedback" v-if="!errors.name">{{ $t('general.Looksgood') }}</div>
+                                                            <div v-if="!$v.edit.name.alphaArabic" class="invalid-feedback">{{ $t('general.alphaArabic') }}</div>
                                                             <div v-if="!$v.edit.name.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                                             <div v-if="!$v.edit.name.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.edit.name.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                                             <div v-if="!$v.edit.name.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.edit.name.$params.maxLength.max }} {{ $t('general.letters') }}</div>
@@ -536,7 +695,7 @@ export default {
                                                             </template>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-6 direction-ltr" dir="ltr">
                                                         <div class="form-group">
                                                             <label for="field-u-2" class="control-label">{{ $t('general.Name_en') }}</label>
                                                             <input
@@ -553,6 +712,7 @@ export default {
                                                             <div v-if="!$v.edit.name_e.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                                             <div v-if="!$v.edit.name_e.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.edit.name_e.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                                             <div v-if="!$v.edit.name_e.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.edit.name_e.$params.maxLength.max }} {{ $t('general.letters') }}</div>
+                                                            <div v-if="!$v.edit.name_e.alphaEnglish" class="invalid-feedback">{{ $t('general.alphaEnglish') }}</div>
                                                             <template v-if="errors.name_e">
                                                                 <ErrorMessage v-for="(errorMessage,index) in errors.name_e" :key="index">{{ errorMessage }}</ErrorMessage>
                                                             </template>
@@ -570,7 +730,7 @@ export default {
                                                                     'is-valid':!$v.edit.is_active.$invalid && !errors.is_active
                                                                 }"
                                                                 >
-                                                                <option value="" selected>{{ $t('general.Choose') }}...</option>
+                                                                <option value="0" selected>{{ $t('general.Choose') }}...</option>
                                                                 <option value="active">{{ $t('general.Active') }}</option>
                                                                 <option value="inactive">{{ $t('general.Inactive') }}</option>
                                                             </select>
@@ -583,23 +743,35 @@ export default {
                                                     </div>
                                                     <div class="col-md-6 mt-1">
                                                         <div class="form-group">
-                                                            <label class="my-1 mr-2" for="inlineFormCustomSelectPred">{{ $t('general.IdParent') }}</label>
-                                                            <select
-                                                                class="custom-select my-1 mr-sm-2"
-                                                                id="inlineFormCustomSelectPred"
-                                                                v-model="edit.parent_id"
+                                                            <label class="my-1 mr-2">{{ $t('general.IdParent') }}</label>
+                                                            <input
+                                                                class="form-control input-Sender"
+                                                                v-model.trim="edit.search"
+                                                                @input="searchSender"
+                                                                @blur.prevent="ClickDropdown"
+                                                                @focus="isButton = false"
+                                                                :placeholder="$t('general.IdParent')"
+                                                            />
+
+                                                            <ul class="dropdown-search list-unstyled sender-search"
+                                                                v-if="dropDownSenders.length > 0"
                                                             >
-                                                                <option value="" selected>{{ $t('general.Choose') }}...</option>
-                                                                <option v-for="parent in parents" :value="parent.id" :key="parent.id">
-                                                                    {{ $i18n.locale == 'ar'? parent.name: parent.name_e}}
-                                                                </option>
-                                                            </select>
+                                                                <li
+                                                                    class="Sender"
+                                                                    v-for="(dropDownSender,index) in dropDownSenders"
+                                                                    :key="index"
+                                                                    @click="showSenderName(index)"
+                                                                    @mouseenter="senderHover"
+                                                                >
+                                                                    {{ `${dropDownSender.id}- ${dropDownSender.name}` }}
+                                                                </li>
+                                                            </ul>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="mt-1 d-flex justify-content-end">
                                                     <!-- Emulate built in modal footer ok and cancel button actions -->
-                                                    <b-button  variant="success" type="submit" class="mx-1" v-if="!isLoader">
+                                                    <b-button  variant="success" type="submit" class="mx-1" v-if="!isLoader && isButton">
                                                         {{ $t('general.Edit') }}
                                                     </b-button>
 

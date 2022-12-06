@@ -1,8 +1,9 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
+
 const adminApi = axios.create({
-    baseURL: 'https://alshamelalaraby.com/api/'
+    baseURL: `${process.env.MIX_APP_URL}api/`
 });
 
 adminApi.interceptors.request.use(
@@ -17,6 +18,7 @@ adminApi.interceptors.request.use(
 );
 
 adminApi.defaults.headers.common['secretApi'] = 'Snr92EUKCmrE06PiJ';
+adminApi.defaults.headers.common['Accept'] = 'application/json';
 // end axios
 
 export default adminApi;
