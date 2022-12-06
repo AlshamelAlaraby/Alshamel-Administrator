@@ -15,9 +15,9 @@ class CreateButtonsTable extends Migration
     {
         Schema::create('buttons', function (Blueprint $table) {
             $table->id();
-            $table->string("name" , 100)->unique()->comment("Name Arabic");
-            $table->string("name_e" , 100)->unique()->comment("Name English");
-            $table->string("icon" , 200)->unique()->comment("No icon, othewise the path of icon");
+            $table->string("name" , 100)->comment("Name Arabic");
+            $table->string("name_e" , 100)->comment("Name English");
+            $table->string("icon" , 200)->comment("No icon, othewise the path of icon");
             $table->softDeletes();
             $table->timestamps();
         });
