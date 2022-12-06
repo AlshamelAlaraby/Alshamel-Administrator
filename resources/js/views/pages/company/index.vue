@@ -364,11 +364,9 @@ export default {
                     });
             }
         },
-
         /**
          *  get parent
          */
-
         getPartner(){
             adminApi.get(`/partners?per_page=${this.per_page}&search=${this.search}&is_active=active`)
                 .then((res) => {
