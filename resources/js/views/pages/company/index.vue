@@ -6,6 +6,8 @@ import adminApi from "../../../api/adminAxios";
 import { required, minLength, maxLength ,integer,email, sameAs ,url} from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
 import loader from "../../../components/loader";
+import alphaArabic  from "../../../helper/alphaArabic";
+import alphaEnglish  from "../../../helper/alphaEnglish";
 
 
 /**
@@ -87,13 +89,13 @@ export default {
             isButton: true,
             image: '',
             counter: 0,
-            dropDownSenders: []
+            dropDownSenders: [],
         }
     },
     validations: {
         create: {
-            name: {required,minLength: minLength(3),maxLength: maxLength(100)},
-            name_e: {required,minLength: minLength(3),maxLength: maxLength(100)},
+            name: {required,minLength: minLength(3),maxLength: maxLength(100),alphaArabic},
+            name_e: {required,minLength: minLength(3),maxLength: maxLength(100),alphaEnglish},
             email: {required,email,minLength: minLength(3),maxLength: maxLength(100)},
             phone: {required,minLength: minLength(8),maxLength: maxLength(16),integer},
             tax_id: {required,minLength: minLength(1),maxLength: maxLength(10),integer},
@@ -108,8 +110,8 @@ export default {
             type: {imgValid}
         },
         edit: {
-            name: {required,minLength: minLength(3),maxLength: maxLength(100)},
-            name_e: {required,minLength: minLength(3),maxLength: maxLength(100)},
+            name: {required,minLength: minLength(3),maxLength: maxLength(100),alphaArabic},
+            name_e: {required,minLength: minLength(3),maxLength: maxLength(100),alphaEnglish},
             email: {required,email,minLength: minLength(3),maxLength: maxLength(100)},
             phone: {required,minLength: minLength(8),maxLength: maxLength(16),integer},
             tax_id: {required,minLength: minLength(1),maxLength: maxLength(10),integer},
@@ -296,7 +298,7 @@ export default {
                 adminApi.post(`/companies`,formDate)
                     .then((res) => {
                         this.$bvModal.hide(`create`);
-                        this.companies.unshift(res.data.data);
+                        this.getData();
                         setTimeout(() => {
                             Swal.fire({
                                 icon: 'success',
@@ -307,7 +309,15 @@ export default {
                         },500);
                     })
                     .catch((err) => {
-                        this.errors = err.response.data.errors;
+                        if(err.response.data){
+                            this.errors = err.response.data.errors;
+                        }else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: `${this.$t('general.Error')}`,
+                                text: `${this.$t('general.Thereisanerrorinthesystem')}`,
+                            });
+                        }
                     }).finally(() => {
                         this.isLoader = false;
                     });
@@ -319,7 +329,6 @@ export default {
          */
         editSubmit(id,index){
             this.$v.edit.$touch();
-            console.log(id);
             if (this.$v.edit.$invalid) {
                 return;
             } else {
@@ -344,8 +353,7 @@ export default {
 
                 adminApi.post(`/companies/${id}`,formDate)
                     .then((res) => {
-                        console.log(res);
-                        this.companies[index] = res.data.data;
+                        this.getData();
                         this.$bvModal.hide(`modal-edit-${id}`);
                         setTimeout(() => {
                             Swal.fire({
@@ -357,8 +365,15 @@ export default {
                         },500);
                     })
                     .catch((err) => {
-                        console.log(err.response);
-                        this.errors = err.response.data.errors;
+                        if(err.response.data){
+                            this.errors = err.response.data.errors;
+                        }else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: `${this.$t('general.Error')}`,
+                                text: `${this.$t('general.Thereisanerrorinthesystem')}`,
+                            });
+                        }
                     }).finally(() => {
                         this.isLoader = false;
                     });
@@ -429,7 +444,12 @@ export default {
             this.errors = {};
             this.dropDownSenders = [];
         },
+        /**
+         *  update phone
+         */
+        updatePhone(e){
 
+        },
         /**
          *  start Image ceate
          */
@@ -469,6 +489,8 @@ export default {
             this.create.type = '';
             this.image = '';
             this.create.logo = {};
+            let imageInput = document.getElementById('uploadImageCreate');
+            if(imageInput.value) {imageInput.value = ''}
         },
         /**
          *  end Image ceate
@@ -519,6 +541,8 @@ export default {
             this.edit.type = '';
             this.image = '';
             this.edit.logo = {};
+            let imageInput = document.getElementById('uploadImageEdit');
+            if(imageInput.value) {imageInput.value = ''}
         },
         /**
          *  end Image ceate
@@ -626,9 +650,11 @@ export default {
                     if(e.target.classList.contains('Sender') || e.target.classList.contains('input-Sender')){
                         this.isButton = false;
                     }else {
-                        this.isButton = false;
+                        this.isButton = true;
                         this.dropDownSenders = [];
                     }
+                }else {
+                    this.isButton = true;
                 }
             });
         },
@@ -641,6 +667,8 @@ export default {
                     this.isButton = true;
                     this.dropDownSenders = [];
                 }
+            }else {
+                this.isButton = true;
             }
         }
         /**
@@ -709,7 +737,7 @@ export default {
                         >
                             <form  @submit.stop.prevent="AddSubmit">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 direction" dir="rtl">
                                         <div class="form-group">
                                             <label for="field-1" class="control-label">{{ $t('general.Name') }}</label>
                                             <input
@@ -726,12 +754,13 @@ export default {
                                             <div v-if="!$v.create.name.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                             <div v-if="!$v.create.name.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.name.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.name.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.name.$params.maxLength.max }} {{ $t('general.letters') }}</div>
+                                            <div v-if="!$v.create.name.alphaArabic" class="invalid-feedback">{{ $t('general.alphaArabic') }}</div>
                                             <template v-if="errors.name">
                                                 <ErrorMessage v-for="(errorMessage,index) in errors.name" :key="index">{{ errorMessage }}</ErrorMessage>
                                             </template>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 direction-ltr" dir="ltr">
                                         <div class="form-group">
                                             <label for="field-2" class="control-label">{{ $t('general.Name_en') }}</label>
                                             <input
@@ -748,6 +777,7 @@ export default {
                                             <div v-if="!$v.create.name_e.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                             <div v-if="!$v.create.name_e.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.name_e.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.name_e.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.name_e.$params.maxLength.max }} {{ $t('general.letters') }}</div>
+                                            <div v-if="!$v.create.name_e.alphaEnglish" class="invalid-feedback">{{ $t('general.alphaEnglish') }}</div>
                                             <template v-if="errors.name_e">
                                                 <ErrorMessage v-for="(errorMessage,index) in errors.name_e" :key="index">{{ errorMessage }}</ErrorMessage>
                                             </template>
@@ -778,29 +808,6 @@ export default {
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="inlineFormCustomSelectPref">{{ $t('general.Status') }}</label>
-                                            <select
-                                                class="custom-select"
-                                                id="inlineFormCustomSelectPref"
-                                                v-model="$v.create.is_active.$model"
-                                                :class="{
-                                                'is-invalid':$v.create.is_active.$error || errors.is_active,
-                                                'is-valid':!$v.create.is_active.$invalid && !errors.is_active
-                                            }"
-                                            >
-                                                <option value="" selected>{{ $t('general.Choose') }}...</option>
-                                                <option value="active">{{ $t('general.Active') }}</option>
-                                                <option value="inactive">{{ $t('general.Inactive') }}</option>
-                                            </select>
-                                            <div class="valid-feedback" v-if="!errors.is_active">{{ $t('general.Looksgood') }}</div>
-                                            <div v-if="!$v.create.is_active.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
-                                            <template v-if="errors.is_active">
-                                                <ErrorMessage v-for="(errorMessage,index) in errors.is_active" :key="index">{{ errorMessage }}</ErrorMessage>
-                                            </template>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
                                             <label for="field-7" class="control-label">{{ $t('general.mobile_no') }}</label>
                                             <input
                                                 type="number"
@@ -812,6 +819,14 @@ export default {
                                             }"
                                                 :placeholder="$t('general.mobile_no')" id="field-7"
                                             />
+
+<!--                                            <VuePhoneNumberInput-->
+<!--                                                v-model="phone"-->
+<!--                                                default-country-code="EG"-->
+<!--                                                :preferred-countries="['FR', 'EG', 'DE']"-->
+<!--                                                @update="updatePhone"-->
+<!--                                            />-->
+
                                             <div class="valid-feedback" v-if="!errors.phone">{{ $t('general.Looksgood') }}</div>
                                             <div v-if="!$v.create.phone.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                             <div v-if="!$v.create.phone.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.phone.$params.minLength.min }} {{ $t('general.letters') }}</div>
@@ -822,7 +837,7 @@ export default {
                                             </template>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="field-5" class="control-label">{{ $t('general.taxnumber') }}</label>
                                             <input
@@ -845,7 +860,7 @@ export default {
                                             </template>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="field-6" class="control-label">{{ $t('general.Valueaddedregistrationnumber') }}</label>
                                             <input
@@ -868,7 +883,7 @@ export default {
                                             </template>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="field-8" class="control-label">{{ $t('general.CommercialRecord') }}</label>
                                             <input
@@ -890,7 +905,7 @@ export default {
                                             </template>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group position-relative">
                                             <label for="field-9" class="control-label">{{ $t('partner.partner') }}</label>
                                             <input
@@ -903,7 +918,7 @@ export default {
                                                 :class="{
                                                 'is-invalid':$v.create.partner_id.$error || errors.partner_id,
                                                 'is-valid':!$v.create.partner_id.$invalid && !errors.partner_id
-                                            }"
+                                                }"
                                                 :placeholder="$t('partner.partner')" id="field-9"
                                             />
 
@@ -929,7 +944,7 @@ export default {
                                             </template>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="field-10" class="control-label">{{ $t('general.companysystempath') }}</label>
                                             <input
@@ -952,7 +967,7 @@ export default {
                                             </template>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="field-11" class="control-label">{{ $t('general.website') }}</label>
                                             <input
@@ -975,7 +990,7 @@ export default {
                                             </template>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="field-12" class="control-label">{{ $t('general.address') }}</label>
                                             <input
@@ -997,7 +1012,30 @@ export default {
                                             </template>
                                         </div>
                                     </div>
-                                    <div class="col-md-12 my-4">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="inlineFormCustomSelectPref">{{ $t('general.Status') }}</label>
+                                            <select
+                                                class="custom-select"
+                                                id="inlineFormCustomSelectPref"
+                                                v-model="$v.create.is_active.$model"
+                                                :class="{
+                                                'is-invalid':$v.create.is_active.$error || errors.is_active,
+                                                'is-valid':!$v.create.is_active.$invalid && !errors.is_active
+                                            }"
+                                            >
+                                                <option value="" selected>{{ $t('general.Choose') }}...</option>
+                                                <option value="active">{{ $t('general.Active') }}</option>
+                                                <option value="inactive">{{ $t('general.Inactive') }}</option>
+                                            </select>
+                                            <div class="valid-feedback" v-if="!errors.is_active">{{ $t('general.Looksgood') }}</div>
+                                            <div v-if="!$v.create.is_active.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
+                                            <template v-if="errors.is_active">
+                                                <ErrorMessage v-for="(errorMessage,index) in errors.is_active" :key="index">{{ errorMessage }}</ErrorMessage>
+                                            </template>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 my-2">
                                         <label class="mb-1">{{ $t('company.LogoFileUpload') }}</label>
                                         <div
                                             class="dropzone-custom position-relative"
@@ -1160,7 +1198,7 @@ export default {
                                             <form  @submit.stop.prevent="editSubmit(data.id,index)">
 
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-6 direction" dir="rtl">
                                                         <div class="form-group">
                                                             <label for="edit-17" class="control-label">{{ $t('general.Name') }}</label>
                                                             <input
@@ -1176,13 +1214,14 @@ export default {
                                                             <div class="valid-feedback" v-if="!errors.name">{{ $t('general.Looksgood') }}</div>
                                                             <div v-if="!$v.edit.name.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                                             <div v-if="!$v.edit.name.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.edit.name.$params.minLength.min }} {{ $t('general.letters') }}</div>
+                                                            <div v-if="!$v.edit.name.alphaArabic" class="invalid-feedback">{{ $t('general.alphaArabic') }}</div>
                                                             <div v-if="!$v.edit.name.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.edit.name.$params.maxLength.max }} {{ $t('general.letters') }}</div>
                                                             <template v-if="errors.name">
                                                                 <ErrorMessage v-for="(errorMessage,index) in errors.name" :key="index">{{ errorMessage }}</ErrorMessage>
                                                             </template>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-6 direction-ltr" dir="ltr">
                                                         <div class="form-group">
                                                             <label for="edit-2" class="control-label">{{ $t('general.Name_en') }}</label>
                                                             <input
@@ -1199,6 +1238,7 @@ export default {
                                                             <div v-if="!$v.edit.name_e.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                                             <div v-if="!$v.edit.name_e.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.edit.name_e.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                                             <div v-if="!$v.edit.name_e.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.edit.name_e.$params.maxLength.max }} {{ $t('general.letters') }}</div>
+                                                            <div v-if="!$v.edit.name_e.alphaEnglish" class="invalid-feedback">{{ $t('general.alphaEnglish') }}</div>
                                                             <template v-if="errors.name_e">
                                                                 <ErrorMessage v-for="(errorMessage,index) in errors.name_e" :key="index">{{ errorMessage }}</ErrorMessage>
                                                             </template>
@@ -1229,29 +1269,6 @@ export default {
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="edit-332">{{ $t('general.Status') }}</label>
-                                                            <select
-                                                                class="custom-select"
-                                                                id="edit-332"
-                                                                v-model="$v.edit.is_active.$model"
-                                                                :class="{
-                                                                        'is-invalid':$v.edit.is_active.$error || errors.is_active,
-                                                                        'is-valid':!$v.edit.is_active.$invalid && !errors.is_active
-                                                                    }"
-                                                                 >
-                                                                <option value="" selected>{{ $t('general.Choose') }}...</option>
-                                                                <option value="active">{{ $t('general.Active') }}</option>
-                                                                <option value="inactive">{{ $t('general.Inactive') }}</option>
-                                                            </select>
-                                                            <div class="valid-feedback" v-if="!errors.is_active">{{ $t('general.Looksgood') }}</div>
-                                                            <div v-if="!$v.edit.is_active.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
-                                                            <template v-if="errors.is_active">
-                                                                <ErrorMessage v-for="(errorMessage,index) in errors.is_active" :key="index">{{ errorMessage }}</ErrorMessage>
-                                                            </template>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
                                                             <label for="field-7" class="control-label">{{ $t('general.mobile_no') }}</label>
                                                             <input
                                                                 type="number"
@@ -1273,7 +1290,7 @@ export default {
                                                             </template>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="edit-5" class="control-label">{{ $t('general.taxnumber') }}</label>
                                                             <input
@@ -1296,8 +1313,7 @@ export default {
                                                             </template>
                                                         </div>
                                                     </div>
-
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="edit-6" class="control-label">{{ $t('general.Valueaddedregistrationnumber') }}</label>
                                                             <input
@@ -1320,7 +1336,7 @@ export default {
                                                             </template>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="field-8" class="control-label">{{ $t('general.CommercialRecord') }}</label>
                                                             <input
@@ -1342,7 +1358,7 @@ export default {
                                                             </template>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-4">
                                                         <div class="form-group position-relative">
                                                             <label for="edit-9" class="control-label">{{ $t('partner.partner') }}</label>
                                                             <input
@@ -1381,7 +1397,7 @@ export default {
                                                             </template>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="field-10" class="control-label">{{ $t('general.companysystempath') }}</label>
                                                             <input
@@ -1404,7 +1420,7 @@ export default {
                                                             </template>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="edit-11" class="control-label">{{ $t('general.website') }}</label>
                                                             <input
@@ -1428,7 +1444,7 @@ export default {
 
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="edit-12" class="control-label">{{ $t('general.address') }}</label>
                                                             <input
@@ -1452,7 +1468,30 @@ export default {
                                                             </template>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-12 my-4">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="edit-332">{{ $t('general.Status') }}</label>
+                                                            <select
+                                                                class="custom-select"
+                                                                id="edit-332"
+                                                                v-model="$v.edit.is_active.$model"
+                                                                :class="{
+                                                                        'is-invalid':$v.edit.is_active.$error || errors.is_active,
+                                                                        'is-valid':!$v.edit.is_active.$invalid && !errors.is_active
+                                                                    }"
+                                                            >
+                                                                <option value="" selected>{{ $t('general.Choose') }}...</option>
+                                                                <option value="active">{{ $t('general.Active') }}</option>
+                                                                <option value="inactive">{{ $t('general.Inactive') }}</option>
+                                                            </select>
+                                                            <div class="valid-feedback" v-if="!errors.is_active">{{ $t('general.Looksgood') }}</div>
+                                                            <div v-if="!$v.edit.is_active.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
+                                                            <template v-if="errors.is_active">
+                                                                <ErrorMessage v-for="(errorMessage,index) in errors.is_active" :key="index">{{ errorMessage }}</ErrorMessage>
+                                                            </template>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 my-2">
                                                         <label class="mb-1">{{ $t('company.LogoFileUpload') }}</label>
                                                         <div
                                                             class="dropzone-custom position-relative"
@@ -1477,6 +1516,7 @@ export default {
                                                             <input
                                                                 accept="image/png, image/gif, image/jpeg, image/jpg"
                                                                 type="file"
+                                                                id="uploadImageEdit"
                                                                 @change.prevent="onImageChangedEdit"
                                                                 class="input-file-upload position-absolute"
                                                                 :class="{
@@ -1494,6 +1534,7 @@ export default {
                                                                                     data-dz-thumbnail
                                                                                     :src="edit.file?edit.file:'#'"
                                                                                     class="avatar-sm rounded bg-light"
+                                                                                    onerror="src='/images/logo-sm-dark.png'"
                                                                                     alt=""
                                                                                 >
                                                                             </div>
@@ -1602,43 +1643,3 @@ export default {
         </div>
     </Layout>
 </template>
-
-<style>
-    .dropzone-custom {border: 1px dashed;padding: 16px;cursor: pointer;}
-    .dropzone-custom .dropzone-content .dropzone-icon i{font-size: 37px;}
-    .dropzone-custom .dropzone-content h3{font-size: 28px;}
-    .dropzone-custom .input-file-upload {
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        opacity: 0;
-        cursor: pointer;
-        z-index: 10;
-    }
-    .dropzone-custom .dropzone-previews {z-index: 15;cursor: context-menu}
-
-    .dropdown-search{
-        position: absolute;
-        width: 100%;
-        background-color: #fafafa;
-        border: 1px solid #d9d3d3;
-        top: 71px;
-        z-index: 10;
-        padding: 0;
-    }
-    .dropdown-search li{
-        padding: 5px;
-    }
-    .dropdown-search li:not(:last-child){
-        border-bottom: 1px solid #d9d3d3;
-    }
-    .dropdown-search li:hover{
-        background-color: #f3f3f3;
-        cursor: pointer;
-    }
-    .dropdown-search li.active{
-        background-color: #f1f1f1;
-        cursor: pointer;
-    }
-</style>

@@ -9,7 +9,6 @@ import VueTour from 'vue-tour';
 import vco from "v-click-outside";
 import * as VueGoogleMaps from "vue2-google-maps";
 import i18n from './lang/i18n';
-
 import router from './router';
 import store from './state/store';
 
@@ -20,7 +19,6 @@ import Lightbox from 'vue-easy-lightbox';
 Vue.config.productionTip = false;
 
 Vue.use(vco);
-
 // As a plugin
 import VueMask from 'v-mask';
 import VueQuillEditor from 'vue-quill-editor';
@@ -30,7 +28,9 @@ Vue.use(VueQuillEditor);
 Vue.use(VueMask);
 
 import VueSlideBar from 'vue-slide-bar';
+// import 'vue-phone-number-input/dist/vue-phone-number-input.css';
 
+// Vue.component('VuePhoneNumberInput', require('vue-phone-number-input'));
 Vue.component('VueSlideBar', VueSlideBar);
 Vue.component('pagination-laravel', require('laravel-vue-pagination'));
 Vue.component('apexchart', VueApexCharts);

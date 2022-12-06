@@ -119,7 +119,8 @@ export default {
                   return this.$router.push({name: 'login'});
               })
               .catch((err) => {
-                  console.log(err.response.data);
+                  this.$store.commit('auth/logoutToken');
+                  return this.$router.push({name: 'login'});
               }).finally(() => {
 
               });
