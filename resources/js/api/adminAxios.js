@@ -2,16 +2,16 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 const adminApi = axios.create({
-    baseURL: 'http://127.0.0.1:8000/api/'
+    baseURL: 'https://alshamelalaraby.com/api/'
 });
 
 adminApi.interceptors.request.use(
-    function (config) {
+    function(config) {
         config.headers['lang'] = localStorage.getItem("lang") || 'ar';
-        config.headers['Authorization'] = "Bearer "+ (Cookies.get("token") || '');
+        config.headers['Authorization'] = "Bearer " + (Cookies.get("token") || '');
         return config;
     },
-    function (error) {
+    function(error) {
         return Promise.reject(error);
     }
 );
