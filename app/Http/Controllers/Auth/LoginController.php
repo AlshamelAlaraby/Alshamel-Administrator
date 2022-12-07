@@ -7,7 +7,7 @@ use App\Http\Resources\Admin\AdminResource;
 use Auth;
 
 
-use App\Http\Request\Auth\LoginRequest;
+use App\Http\Requests\Auth\LoginRequest;
 
 class LoginController extends Controller
 {

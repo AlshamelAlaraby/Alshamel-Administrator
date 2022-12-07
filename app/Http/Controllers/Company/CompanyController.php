@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Company;
 
-use App\Http\Request\Company\StoreCompanyRequest;
-use App\Http\Request\Company\UpdateCompanyRequest;
+use App\Http\Requests\Company\StoreCompanyRequest;
+use App\Http\Requests\Company\UpdateCompanyRequest;
 use App\Http\Resources\Company\CompanyResource;
 use App\Repositories\Company\CompanyRepositoryInterface;
 use App\Traits\ApiResponser;
@@ -56,7 +56,7 @@ class CompanyController extends Controller
             // return responseJson(200 , __('created'),  new CompanyResource($this->repository->create($request->validated())));
             return $this->repository->create($request->validated());
         } catch (Exception $exception) {
-            return  $this->errorResponse($exception->getMessage(), $exception->getCode());
+            return  responseJson($exception->getCode() ,$exception->getMessage() );
         }
     }
 
@@ -97,11 +97,11 @@ class CompanyController extends Controller
         try {
             $model = $this->repository->show($id);
             if (!$model) {
-                return  $this->errorResponse(__('message.data not found'), 404);
+                return  responseJson( 404 , __('message.data not found'));
             }
             return  $this->repository->update($request->validated(), $id);
         } catch (Exception $exception) {
-            return  $this->errorResponse($exception->getMessage(), $exception->getCode());
+            return responseJson($exception->getCode() ,$exception->getMessage());
         }
     }
 
@@ -118,7 +118,7 @@ class CompanyController extends Controller
                 return  responseJson(404 , __('message.data not found'));
             }
             $this->repository->destroy($id);
-            return  responseJson(200 ,__('Done')  );
+            return  responseJson(200 ,__('Done'));
 
         } catch (Exception $exception) {
             return responseJson($exception->getCode() ,$exception->getMessage());

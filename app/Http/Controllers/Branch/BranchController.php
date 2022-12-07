@@ -2,18 +2,10 @@
 
 namespace App\Http\Controllers\Branch;
 
-
-
-
-
-
-
 use App\Http\Controllers\ResponseController;
-
-use App\Http\Request\Branch\CreateBranchRequest;
-use App\Http\Request\Branch\EditBranchRequest;
+use App\Http\Requests\Branch\CreateBranchRequest;
+use App\Http\Requests\Branch\EditBranchRequest;
 use App\Http\Resources\Branch\BranchResource;
-use App\Http\Resources\Module\ModuleResource;
 use App\Repositories\Branch\BranchRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

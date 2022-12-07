@@ -18,6 +18,15 @@ class Screen extends Model
         'serial_id',
     ];
 
+    public function helpfiles()
+    {
+        return $this->belongsToMany(Helpfile::class, 'screens_helpfiles', 'screen_id', 'helpfile_id');
+    }
+
+    public function buttons()
+    {
+        return $this->belongsToMany(Button::class, 'screens_buttons', 'screen_id', 'button_id');
+    }
 
     public function serial(){
         return $this->belongsTo(Serial::class);
