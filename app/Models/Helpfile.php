@@ -14,7 +14,7 @@ class Helpfile extends Model
 
 
 
-    public function screen()
+    public function screens()
     {
         return $this->belongsToMany(Screen::class, 'screens_helpfiles' , 'helpfile_id' , 'screen_id');
     }

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Helpfile;
+namespace App\Http\Resources\ScreenButton;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class HelpfileResource extends JsonResource
+class ScreenButtonResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,12 +14,6 @@ class HelpfileResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'id' => $this->id ,
-            'name' => $this->name ,
-            'name_e' => $this->name_e ,
-            'url' => $this->url ,
-            "screen" => $this->screens
-        ];
+        return parent::toArray($request);
     }
 }

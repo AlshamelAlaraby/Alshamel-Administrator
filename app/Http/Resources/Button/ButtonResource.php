@@ -19,6 +19,7 @@ class ButtonResource extends JsonResource
             'name'       => $this->name    ,
             'name_e'     => $this->name_e  ,
             'icon'       => $this->iconUrl ,
+            'screen'     => $this->screens  ,
         ];
     }
 }
