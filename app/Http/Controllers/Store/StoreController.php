@@ -5,11 +5,10 @@ namespace App\Http\Controllers\Store;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ResponseController;
 use Mockery\Exception;
-use Illuminate\Contracts\Support\Renderable;
 use App\Repositories\Store\StoreRepositoryInterface;
 use App\Http\Resources\Store\StoreResource;
-use App\Http\Request\Store\StoreStoreRequest;
-use App\Http\Request\Store\UpdateStoreRequest;
+use App\Http\Requests\Store\StoreStoreRequest;
+use App\Http\Requests\Store\UpdateStoreRequest;
 
 class StoreController extends ResponseController
 {

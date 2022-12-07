@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Company;
 
-use App\Http\Request\Company\StoreCompanyRequest;
-use App\Http\Request\Company\UpdateCompanyRequest;
+use App\Http\Requests\Company\StoreCompanyRequest;
+use App\Http\Requests\Company\UpdateCompanyRequest;
 use App\Http\Resources\Company\CompanyResource;
 use App\Repositories\Company\CompanyRepositoryInterface;
 use App\Traits\ApiResponser;
