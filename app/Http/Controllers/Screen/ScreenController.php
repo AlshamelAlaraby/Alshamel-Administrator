@@ -37,8 +37,7 @@ class ScreenController extends ResponseController
 
             $models = $this->repository->getAllScreens($request);
         }
-
-        return $this->successResponse (($this->resource)::collection ($models['data']) ,__ ('Done'),200);
+        return  responseJson(200, 'success',($this->resource)::collection($models['data']), $models['paginate'] ? getPaginates($models['data']) : null);
     }
 
 
@@ -51,14 +50,14 @@ class ScreenController extends ResponseController
             if (!$model) {
                 $model = $this->repository->find($id);
                 if (!$model) {
-                    return $this->errorResponse( __('message.data not found'),404);
+                    return responseJson( 404 , __('message.data not found'));
                 } else {
                     cachePut('Screens_' . $id, $model);
                 }
             }
-            return $this->successResponse( new ScreenResource($model),__ ('Done'),200);
+           return responseJson( 200 , __('Done'), new ScreenResource($model),);
         } catch (Exception $exception) {
-            return $this->errorResponse($exception->getMessage(), $exception->getCode());
+            return responseJson( $exception->getCode() , $exception->getMessage());
         }
     }
 
@@ -66,9 +65,9 @@ class ScreenController extends ResponseController
     public function store(StoreScreenRequest $request)
     {
         try {
-            return $this->successResponse($this->repository->create($request->validated()), __('Done'), 200);
+            return responseJson(200 , __('Done') , $this->repository->create($request->validated()));
         } catch (Exception $exception) {
-            return $this->errorResponse($exception->getMessage(), $exception->getCode());
+            return responseJson( $exception->getCode() , $exception->getMessage());
         }
     }
 
@@ -78,13 +77,13 @@ class ScreenController extends ResponseController
         try {
             $model = $this->repository->find($id);
             if (!$model) {
-                return  $this->errorResponse( __('message.data not found'),404);
+                return  responseJson( 404 , __('message.data not found'));
             }
             $model = $this->repository->update($request->validated(), $id);
 
-            return  $this->successResponse(__('Done'),200);
+            return responseJson(200 , __('Done'));
         } catch (Exception $exception) {
-            return $this->errorResponse($exception->getMessage(), $exception->getCode());
+            return responseJson( $exception->getCode() , $exception->getMessage());
         }
 
     }
@@ -95,13 +94,13 @@ class ScreenController extends ResponseController
         try{
             $model = $this->repository->find($id);
             if (!$model) {
-                return  $this->errorResponse( __('message.data not found'),404);
+                return  responseJson( 404 , __('message.data not found'));
             }
             $this->repository->delete($id);
-            return  $this->successResponse(__('Done'),200);
+            return responseJson(200 , __('Done'));
 
         } catch (Exception $exception) {
-            return $this->errorResponse($exception->getMessage(), $exception->getCode());
+            return responseJson( $exception->getCode() , $exception->getMessage());
         }
     }
 }
