@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Branch\BranchController;
 use App\Http\Controllers\Company\CompanyController;
+use App\Http\Controllers\DocumentType\DocumentTypeController;
 use App\Http\Controllers\Partner\PartnerController;
 use App\Http\Controllers\Screen\ScreenController;
 use App\Http\Controllers\Serial\SerialController;
@@ -72,9 +73,7 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
             Route::put('/{id}', 'update')->name('modules.update');
             Route::delete('/{id}', 'delete')->name('modules.destroy');
             Route::post('/company', 'addModuleToCompany')->name('modules.company.add');
-            Route::delete('/{module_id}/company/{company_id}', 'removeModuleFromCompany')->name('modules.company.remove');
-
-
+            Route::get('/{module_id}/company/{company_id}', 'removeModuleFromCompany')->name('modules.company.remove');
         });
     });
 
@@ -183,3 +182,13 @@ Route::group(['prefix' => 'workflow-trees'], function () {
     });
 
     Route::resource('branches', BranchController::class)->except('create', 'edit');
+
+Route::group(['prefix' => 'document-type'], function () {
+    Route::controller(DocumentTypeController::class)->group(function () {
+        Route::get('/', 'all')->name('modules.index');
+        Route::get('/{id}', 'find');
+        Route::post('/', 'create')->name('modules.create');
+        Route::put('/{id}', 'update')->name('modules.update');
+        Route::delete('/{id}', 'delete')->name('modules.destroy');
+    });
+});
