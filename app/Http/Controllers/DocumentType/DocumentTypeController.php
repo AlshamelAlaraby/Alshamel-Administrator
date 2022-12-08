@@ -5,6 +5,7 @@ namespace App\Http\Controllers\DocumentType;
 use App\Http\Requests\DocumentTypeRequest\DocumentTypeRequest;
 use App\Http\Resources\DocumentType\DocumentTypeResource;
 use App\Repositories\DocumentType\DocumentTypeInterface;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 class DocumentTypeController extends Controller
@@ -25,7 +26,7 @@ class DocumentTypeController extends Controller
         return responseJson(200, 'success', new DocumentTypeResource($model));
     }
 
-    public function all(DocumentTypeRequest $request)
+    public function all(Request $request)
     {
         if (count($_GET) == 0) {
             $models = cacheGet('DocumentType');

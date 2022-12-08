@@ -15,10 +15,6 @@ class DocumentType extends Model
         'is_default',
     ];
 
-    protected $casts = [
-        'is_default' => 'App\Enums\IsDefault',
-    ];
-
     public function scopeFilter($query,$request)
     {
         return $query->where(function ($q) use ($request) {
