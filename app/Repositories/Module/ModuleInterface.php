@@ -19,4 +19,8 @@ interface ModuleInterface
 
     public function removeModuleFromCompany($module_id, $company_id);
 
+    public function setting($request);
+
+    public function getSetting($user_id , $screen_id);
+
 }

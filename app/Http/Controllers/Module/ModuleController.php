@@ -6,7 +6,10 @@ use App\Http\Requests\Module\AllModuleRequest;
 use App\Http\Requests\Module\StoreModuleRequest;
 use App\Http\Requests\Module\UpdateModuleRequest;
 use App\Http\Resources\Module\ModuleResource;
+use App\Http\Resources\ScreenSetting\ScreenSettingResource;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Mockery\Exception;
 
 class ModuleController extends Controller
 {
@@ -86,6 +89,28 @@ class ModuleController extends Controller
 
         $this->modelInterface->removeModuleFromCompany($module_id, $company_id);
         return responseJson(200, 'success');
+    }
+
+    public function screenSetting(Request $request)
+    {
+        try {
+            return responseJson(200 , __('Done') , $this->modelInterface->setting($request->all()));
+        } catch (Exception $exception) {
+            return  responseJson( $exception->getCode() , $exception->getMessage());
+        }
+    }
+
+    public function getScreenSetting($user_id , $screen_id)
+    {
+        try{
+            $screenSetting = $this->modelInterface->getSetting($user_id , $screen_id);
+            if (!$screenSetting) {
+                return responseJson( 404 , __('message.data not found'));
+            }
+            return responseJson( 200 , __('Done'), new ScreenSettingResource($screenSetting));
+        } catch (Exception $exception) {
+            return  responseJson( $exception->getCode() , $exception->getMessage());
+        }
     }
 
 }

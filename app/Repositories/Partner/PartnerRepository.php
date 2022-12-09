@@ -3,6 +3,7 @@
 namespace App\Repositories\Partner;
 
 use App\Models\Partner;
+use App\Models\UserSettingScreen;
 use App\Traits\ApiResponser;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -22,17 +23,8 @@ class PartnerRepository implements PartnerRepositoryInterface
     public function getAllPartners($request)
     {
         $models = $this->model->where(function ($q) use ($request) {
-
-            if ($request->search) {
-                $q->where('name', 'like', '%' . $request->search . '%');
-                $q->orWhere('name_e', 'like', '%' . $request->search . '%');
-            }
-
-            if ($request->is_active) {
-                $q->where('is_active', $request->is_active);
-            }
-
-        })->latest();
+            $this->model->scopeFilter($q , $request);
+        })->orderBy($request->order ? $request->order : 'updated_at', $request->sort ? $request->sort : 'DESC');;
 
         if ($request->per_page) {
             return ['data' => $models->paginate($request->per_page), 'paginate' => true];
@@ -78,6 +70,27 @@ class PartnerRepository implements PartnerRepositoryInterface
         $model = $this->find($id);
         $this->forget($id);
         $model->delete();
+    }
+
+
+    public function setting($request)
+    {
+        DB::transaction(function () use ($request) {
+            $screenSetting = UserSettingScreen::where('user_id',$request['user_id'])->where('screen_id',$request['screen_id'])->first();
+            $request['data_json'] =json_encode($request['data_json']);
+            if (!$screenSetting) {
+                UserSettingScreen::create($request);
+            } else {
+                $screenSetting->update($request);
+            }
+        });
+        return $this->successResponse([],__('Done'));
+    }
+
+
+    public function getSetting($user_id, $screen_id)
+    {
+        return  UserSettingScreen::where('user_id',$user_id)->where('screen_id',$screen_id)->first();
     }
 
 
