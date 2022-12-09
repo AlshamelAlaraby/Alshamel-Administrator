@@ -9,7 +9,7 @@ class Store extends Model
 {
     use SoftDeletes;
 
-    protected $guarded = [] ;
+    protected $guarded = ["id"] ;
 
     protected $casts = [
         'is_active' => 'App\Enums\IsActive',

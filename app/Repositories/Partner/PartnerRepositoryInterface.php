@@ -15,5 +15,9 @@ interface PartnerRepositoryInterface
 
     public function delete($id);
 
+    public function setting($request);
+
+    public function getSetting($user_id , $screen_id);
+
 
 }
