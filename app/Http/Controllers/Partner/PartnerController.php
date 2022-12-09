@@ -8,6 +8,7 @@ use App\Http\Resources\Partner\PartnerResource;
 use Illuminate\Http\Request;
 use App\Http\Requests\Partner\StorePartnerRequest;
 use App\Http\Requests\Partner\UpdatePartnerRequest;
+use App\Http\Resources\ScreenSetting\ScreenSettingResource;
 use Mockery\Exception;
 use App\Models\Partner;
 class PartnerController extends ResponseController
@@ -100,6 +101,29 @@ class PartnerController extends ResponseController
             $this->repository->delete($id);
             return  responseJson(200 , __('Done'));
 
+        } catch (Exception $exception) {
+            return  responseJson( $exception->getCode() , $exception->getMessage());
+        }
+    }
+
+
+    public function screenSetting(Request $request)
+    {
+        try {
+            return responseJson(200 , __('Done') , $this->repository->setting($request->all()));
+        } catch (Exception $exception) {
+            return  responseJson( $exception->getCode() , $exception->getMessage());
+        }
+    }
+
+    public function getScreenSetting($user_id , $screen_id)
+    {
+        try{
+            $screenSetting = $this->repository->getSetting($user_id , $screen_id);
+            if (!$screenSetting) {
+                return responseJson( 404 , __('message.data not found'));
+            }
+            return responseJson( 200 , __('Done'), new ScreenSettingResource($screenSetting));
         } catch (Exception $exception) {
             return  responseJson( $exception->getCode() , $exception->getMessage());
         }

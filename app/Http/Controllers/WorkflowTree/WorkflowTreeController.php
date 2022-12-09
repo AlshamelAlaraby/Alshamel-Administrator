@@ -38,7 +38,6 @@ class WorkflowTreeController extends ResponseController
             $models = $this->repository->getAllWorkflowTrees($request);
         }
       return  responseJson(200, 'success',($this->resource)::collection($models['data']), $models['paginate'] ? getPaginates($models['data']) : null);
-        //  $this->successResponse (($this->resource)::collection ($models['data']) ,__ ('Done'),200);
     }
 
 
