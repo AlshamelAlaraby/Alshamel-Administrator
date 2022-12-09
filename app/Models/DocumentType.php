@@ -15,10 +15,17 @@ class DocumentType extends Model
         'is_default',
     ];
 
+
+    public function screens()
+    {
+        return $this->belongsToMany(Screen::class,'screen_document_types','documentType_id','screen_id','id','id');
+    }
+
     public function scopeFilter($query,$request)
     {
         return $query->where(function ($q) use ($request) {
-            if ($request->search) {
+            if ($request->search)
+            {
                 $q->where('name', 'like', '%' . $request->search . '%');
                 $q->orWhere('name_e', 'like', '%' . $request->search . '%');
             }
@@ -27,6 +34,8 @@ class DocumentType extends Model
             }
         });
     }
+
+
 
 
 }

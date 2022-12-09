@@ -32,4 +32,10 @@ class Screen extends Model
         return $this->belongsTo(Serial::class);
 
     }
+
+    public function documentTypes()
+    {
+        return $this->belongsToMany(DocumentType::class,'screen_document_types');
+
+    }
 }

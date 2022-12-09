@@ -191,12 +191,17 @@ Route::group(['prefix' => 'workflow-trees'], function () {
 
     Route::resource('branches', BranchController::class)->except('create', 'edit');
 
-Route::group(['prefix' => 'document-type'], function () {
-    Route::controller(DocumentTypeController::class)->group(function () {
-        Route::get('/', 'all')->name('modules.index');
-        Route::get('/{id}', 'find');
-        Route::post('/', 'create')->name('modules.create');
-        Route::put('/{id}', 'update')->name('modules.update');
-        Route::delete('/{id}', 'delete')->name('modules.destroy');
+    Route::group(['prefix' => 'document-type'], function () {
+        Route::controller(DocumentTypeController::class)->group(function () {
+            Route::get('/', 'all')->name('modules.index');
+            Route::get('/{id}', 'find');
+            Route::post('/', 'create')->name('modules.create');
+            Route::put('/{id}', 'update')->name('modules.update');
+            Route::delete('/{id}', 'delete')->name('modules.destroy');
+        });
     });
-});
+
+    Route::group(['prefix' => 'screenDocumentType'], function () {
+        Route::post('/add', [ScreenController::class,'addScreenToDocumentType']);
+        Route::delete('/remove/{screen_id}/{documentType_id}', [ScreenController::class,'removeScreenFromDocumentType']);
+    });
