@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Screen;
 
+use App\Exceptions\NotFoundException;
 use App\Http\Controllers\ResponseController;
+use App\Http\Requests\Screen\AddScreenToDocumentTypeRequest;
 use App\Repositories\Screen\ScreenRepositoryInterface;
 use App\Http\Resources\Screen\ScreenResource;
 use Illuminate\Http\Request;
 use App\Http\Requests\Screen\StoreScreenRequest;
 use App\Http\Requests\Screen\UpdateScreenRequest;
 use Mockery\Exception;
-use App\Models\Screen;
+
 class ScreenController extends ResponseController
 {
 
@@ -103,4 +105,30 @@ class ScreenController extends ResponseController
             return responseJson( $exception->getCode() , $exception->getMessage());
         }
     }
+
+    public function addScreenToDocumentType(AddScreenToDocumentTypeRequest $request)
+    {
+        try {
+            $this->repository->addScreenToDocumentType($request);
+            return responseJson(200, 'success');
+        }catch (\Exception $ex)
+        {
+            return responseJson(422, $ex->getMessage()?$ex->getMessage():throw new NotFoundException());
+        }
+
+    }
+
+    public function removeScreenFromDocumentType($screen_id, $documentType_id)
+    {
+        try {
+            $this->repository->removeScreenFromDocumentType($screen_id, $documentType_id);
+            return responseJson(200, 'deleted successfully');
+        }catch (\Exception $ex)
+        {
+            return responseJson(422, $ex->getMessage()?$ex->getMessage():throw new NotFoundException());
+        }
+
+    }
+
+
 }

@@ -57,7 +57,6 @@ class ModuleRepository implements ModuleInterface
         DB::transaction(function () use ($id, $request) {
             $this->model->where("id", $id)->update($request->all());
             $this->forget($id);
-
         });
 
     }
