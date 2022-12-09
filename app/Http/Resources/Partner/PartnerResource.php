@@ -2,7 +2,8 @@
 
 namespace App\Http\Resources\Partner;
 
-use App\Models\Partner;
+use App\Http\Resources\Company\CompanyResource;
+use App\Http\Resources\Module\ModuleResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PartnerResource extends JsonResource
@@ -25,6 +26,7 @@ class PartnerResource extends JsonResource
             'mobile_no' => $this->mobile_no,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            "companies" => CompanyResource::collection($this->whenLoaded('companies')),
         ];
     }
 }
