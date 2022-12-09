@@ -74,6 +74,8 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
             Route::delete('/{id}', 'delete')->name('modules.destroy');
             Route::post('/company', 'addModuleToCompany')->name('modules.company.add');
             Route::get('/{module_id}/company/{company_id}', 'removeModuleFromCompany')->name('modules.company.remove');
+            Route::post('/screen-setting', 'screenSetting')->name('modules.screenSetting');
+            Route::get('/get-screen-setting/{user_id}/{screen_id}', 'getScreenSetting')->name('modules.getScreenSetting');
         });
     });
 
@@ -88,6 +90,8 @@ Route::group(['prefix' => 'partners'], function () {
         Route::post('/', 'store')->name('partners.store');
         Route::put('/{id}', 'update')->name('partners.update');
         Route::delete('/{id}', 'delete')->name('partners.destroy');
+        Route::post('/screen-setting', 'screenSetting')->name('partners.screenSetting');
+        Route::get('/get-screen-setting/{user_id}/{screen_id}', 'getScreenSetting')->name('partners.getScreenSetting');
     });
 });
 
