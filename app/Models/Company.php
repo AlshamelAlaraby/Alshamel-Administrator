@@ -37,4 +37,31 @@ class Company extends Model
         return Storage::disk("companies")->url($this->logo) ;
     }
 
+    public function scopeFilter($query,$request)
+    {
+        return $query->where(function ($q) use ($request) {
+
+            if ($request->search) {
+                $q->partner()->where('name', 'like', '%' . $request->search . '%');
+                $q->partner()->where('name_e', 'like', '%' . $request->search . '%');
+                $q->orWhere('name', 'like', '%' . $request->search . '%');
+                $q->orWhere('name_e', 'like', '%' . $request->search . '%');
+                $q->orWhere('url', 'like', '%' . $request->search . '%');
+                $q->orWhere('address', 'like', '%' . $request->search . '%');
+                $q->orWhere('phone', 'like', '%' . $request->search . '%');
+                $q->orWhere('cr', 'like', '%' . $request->search . '%');
+                $q->orWhere('tax_id', 'like', '%' . $request->search . '%');
+                $q->orWhere('vat_no', 'like', '%' . $request->search . '%');
+                $q->orWhere('email', 'like', '%' . $request->search . '%');
+                $q->orWhere('website', 'like', '%' . $request->search . '%');
+            }
+
+
+
+            if ($request->is_default) {
+                $q->where('is_default', $request->is_default);
+            }
+        });
+    }
+
 }
