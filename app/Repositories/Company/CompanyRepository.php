@@ -29,7 +29,6 @@ class CompanyRepository implements CompanyRepositoryInterface
 
             if ($request->search) {
                 $q->where('name', 'like', '%' . $request->search . '%');
-                $q->orWhere('name_e', 'like', '%' . $request->search . '%');
             }
 
             if ($request->is_active) {

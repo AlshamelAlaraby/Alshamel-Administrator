@@ -8,10 +8,9 @@ use Illuminate\Support\Facades\Storage;
 
 class Company extends Model
 {
-
     use SoftDeletes;
 
-    protected $guarded = [] ;
+    protected $guarded = ['id'] ;
 
     protected $casts = [
         'is_active' => 'App\Enums\IsActive',
