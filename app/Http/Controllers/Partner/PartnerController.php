@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Partner;
 
+use App\Exceptions\NotFoundException;
 use App\Http\Controllers\ResponseController;
+use App\Http\Requests\Auth\LoginRequest;
 use App\Repositories\Partner\PartnerRepositoryInterface;
 use App\Http\Resources\Partner\PartnerResource;
 use Illuminate\Http\Request;
 use App\Http\Requests\Partner\StorePartnerRequest;
 use App\Http\Requests\Partner\UpdatePartnerRequest;
 use App\Http\Resources\ScreenSetting\ScreenSettingResource;
+use Illuminate\Support\Facades\Hash;
 use Mockery\Exception;
 use App\Models\Partner;
 class PartnerController extends ResponseController
@@ -124,6 +127,26 @@ class PartnerController extends ResponseController
                 return responseJson( 404 , __('message.data not found'));
             }
             return responseJson( 200 , __('Done'), new ScreenSettingResource($screenSetting));
+        } catch (Exception $exception) {
+            return  responseJson( $exception->getCode() , $exception->getMessage());
+        }
+    }
+
+    public function companies(LoginRequest $request)
+    {
+        try
+        {
+            $user = Partner::whereEmail($request->email)->first();
+            if(!$user)
+            {
+                throw new NotFoundException();
+            }
+            if(!Hash::check($request->password, $user->password))
+            {
+                return responseJson(422,'Invalid credentials');
+            }
+            $data['partner'] = new partnerResource($user->load(['companies.modules']));
+            return responseJson(200,'success',$data);
         } catch (Exception $exception) {
             return  responseJson( $exception->getCode() , $exception->getMessage());
         }

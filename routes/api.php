@@ -55,7 +55,7 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
         Route::post('', [CompanyController::class, "store"])->name('companies.store');
         Route::post('/{id}', [CompanyController::class, "update"])->name('companies.update');
         Route::delete('/{id}', [CompanyController::class, "destroy"])->name('companies.delete');
-        Route::delete('/screen-setting', 'screenSetting', [CompanyController::class, "screenSetting"])->name('companies.screenSetting');
+        Route::delete('/screen-setting',[CompanyController::class, "screenSetting"])->name('companies.screenSetting');
         Route::delete('/get-screen-setting/{user_id}/{screen_id}', [CompanyController::class, "getScreenSetting"])->name('companies.getScreenSetting');
 
     });
@@ -95,6 +95,7 @@ Route::group(['prefix' => 'partners'], function () {
         Route::delete('/{id}', 'delete')->name('partners.destroy');
         Route::post('/screen-setting', 'screenSetting')->name('partners.screenSetting');
         Route::get('/get-screen-setting/{user_id}/{screen_id}', 'getScreenSetting')->name('partners.getScreenSetting');
+        Route::post('/companies', 'companies');
     });
 });
 

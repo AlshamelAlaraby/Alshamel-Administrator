@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Partner extends Model
@@ -16,7 +16,6 @@ class Partner extends Model
     public Const ACTIVE = 'active';
     public Const INACTIVE = 'inactive';
 
-    protected $table = 'partners';
     protected $fillable = [
         'name',
         'name_e',
@@ -26,13 +25,10 @@ class Partner extends Model
         'mobile_no',
     ];
 
-
-    /**
-     * this method used to make filter of query
-     * @param Query  $query
-     * @param $request
-     * @return $query
-     */
+    public function companies() : HasMany
+    {
+        return $this->hasMany(Company::class);
+    }
     public function scopeFilter($query,$request)
     {
         return $query->where(function ($q) use ($request) {

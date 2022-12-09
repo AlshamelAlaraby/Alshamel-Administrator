@@ -16,6 +16,8 @@ class Module extends Model
         'is_active',
     ];
 
+    protected $hidden =['pivot'];
+
 
     protected $casts = [
         'is_active' => 'App\Enums\IsActive',
