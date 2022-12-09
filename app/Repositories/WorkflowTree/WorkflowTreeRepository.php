@@ -16,7 +16,7 @@ class WorkflowTreeRepository implements WorkflowTreeRepositoryInterface
     public function getAllWorkflowTrees($request)
     {
         $models = $this->model->where(function ($q) use ($request) {
-            $this->filter($request , $q);
+            return $this->filter($request , $q);
         })->latest();
 
         if ($request->per_page) {
@@ -81,32 +81,35 @@ class WorkflowTreeRepository implements WorkflowTreeRepositoryInterface
     private function filter($request ,$q)
     {
         if ($request->search) {
-          return  $q->where('name', 'like', '%' . $request->search . '%')
+            $q->where('name', 'like', '%' . $request->search . '%')
                     ->orWhere('name_e', 'like', '%' . $request->search . '%');
         }
 
         if ($request->is_active) {
-            $q->where('is_active', $request->is_active);
+             $q->where('is_active', $request->is_active);
         }
 
         if ($request->parent_id) {
-            return $q->where('parent_id', $request->parent_id);
+             $q->where('parent_id', $request->parent_id);
         }
 
         if ($request->partner_id) {
-            return $q->where('partner_id', $request->partner_id);
+             $q->where('partner_id', $request->partner_id);
         }
 
         if ($request->company_id) {
-            return $q->where('company_id', $request->company_id);
+             $q->where('company_id', $request->company_id);
         }
 
         if ($request->module_id) {
-            return $q->where('module_id', $request->module_id);
+             $q->where('module_id', $request->module_id);
         }
 
         if ($request->screen_id) {
-            return $q->where('screen_id', $request->screen_id);
+             $q->where('screen_id', $request->screen_id);
+        }
+        if ($request->sort_id) {
+             $q->where('sort_id', $request->sort_id);
         }
 
     }
