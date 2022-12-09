@@ -66,8 +66,19 @@ class Company extends Model
             }
 
 
-            if ($request->advanced && $request->advanced_index) {
-                $q->where($request->advanced_index, $request->advanced);
+            if ($request->column_name && $request->column_value) {
+
+                $dataSearch = explode("." , $request->column_name) ;
+                if(count($dataSearch) == 1){
+                    $q->where($request->column_name , "like" ,  '%' . $request->column_value. '%');
+                }
+
+                if( count($dataSearch) == 2 ){
+                    $q->whereHas($dataSearch[0], function($q) use ($request , $dataSearch) {
+                        $q->where($dataSearch[1], 'like', '%' . $request->column_value . '%');;
+                    });
+                }
+
             }
 
             if ($request->is_default) {

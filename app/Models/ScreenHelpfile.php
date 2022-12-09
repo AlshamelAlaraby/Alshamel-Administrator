@@ -12,6 +12,6 @@ class ScreenHelpfile extends Model
 
     protected $table = 'screens_helpfiles';
 
-    protected $guarded = [] ;
+    protected $guarded = ["id"] ;
 
 }
