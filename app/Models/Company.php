@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 
 class Company extends Model
 {
+    use HasFactory;
     use SoftDeletes;
 
     protected $guarded = ['id'] ;
@@ -42,8 +44,15 @@ class Company extends Model
         return $query->where(function ($q) use ($request) {
 
             if ($request->search) {
-                $q->partner()->where('name', 'like', '%' . $request->search . '%');
-                $q->partner()->where('name_e', 'like', '%' . $request->search . '%');
+
+                $q->whereHas('partner', function($q) use ($request){
+                    $q->where('name', 'like', '%' . $request->search . '%');;
+                });
+
+                $q->orWhereHas('partner', function($q) use ($request){
+                    $q->where('name_e', 'like', '%' . $request->search . '%');;
+                });
+
                 $q->orWhere('name', 'like', '%' . $request->search . '%');
                 $q->orWhere('name_e', 'like', '%' . $request->search . '%');
                 $q->orWhere('url', 'like', '%' . $request->search . '%');
@@ -57,6 +66,9 @@ class Company extends Model
             }
 
 
+            if ($request->advanced && $request->advanced_index) {
+                $q->where($request->advanced_index, $request->advanced);
+            }
 
             if ($request->is_default) {
                 $q->where('is_default', $request->is_default);
