@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\Company;
 
+use App\Exceptions\NotFoundException;
 use App\Http\Requests\Company\StoreCompanyRequest;
 use App\Http\Requests\Company\UpdateCompanyRequest;
 use App\Http\Resources\Company\CompanyResource;
+use App\Http\Resources\Module\ModuleResource;
 use App\Repositories\Company\CompanyRepositoryInterface;
 use App\Traits\ApiResponser;
 use Illuminate\Routing\Controller;
 use Mockery\Exception;
 use Illuminate\Http\Request;
+use function PHPUnit\Framework\throwException;
 
 
 class CompanyController extends Controller
@@ -124,4 +127,27 @@ class CompanyController extends Controller
             return responseJson($exception->getCode() ,$exception->getMessage());
         }
     }
+
+
+    public function companyModules(Request $request, $company_id)
+    {
+        try {
+            $company = $this->repository->show($company_id);
+            if(!$company)
+            {
+                throw new NotFoundException();
+            }
+            $data = $company->filterCompanyModules($request)->first();
+            if(count($data->modules) == 0)
+            {
+                throw new NotFoundException();
+            }
+            return responseJson(200,'success',ModuleResource::collection($data->modules));
+        }catch (\Exception $exception)
+        {
+            return responseJson(422 ,$exception->getMessage()?$exception->getMessage():throw new NotFoundException());
+        }
+
+    }
+
 }

@@ -94,6 +94,11 @@ class CompanyRepository implements CompanyRepositoryInterface
         return  UserSettingScreen::where('user_id',$user_id)->where('screen_id',$screen_id)->first();
     }
 
+    public function companyModules($request)
+    {
+        return $this->model->filterCompanyModules($request)->get();
+    }
+
 
     private function forget($id)
     {
