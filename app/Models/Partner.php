@@ -6,11 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Activitylog\ActivityLogger;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Traits\CausesActivity;
+use Spatie\Activitylog\Contracts\Activity;
+
 
 class Partner extends Model
 {
-    use HasFactory;
+    use HasFactory ;
     use SoftDeletes;
+    use LogsActivity;
+    use CausesActivity;
 
 
     public Const ACTIVE = 'active';
@@ -24,6 +32,24 @@ class Partner extends Model
         'password',
         'mobile_no',
     ];
+
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        $activity->causer_id = auth()->user()->id ?? 0;
+        $activity->causer_type = auth()->user()->role ?? "admin";
+    }
+
+    public function getActivitylogOptions()
+    {
+        $user =  auth()->user()->id ?? "system" ;
+
+        return LogOptions::defaults()
+        ->logAll()
+        ->useLogName('Partner')
+        ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName} by ($user)");
+    }
+
+
 
     public function companies() : HasMany
     {
