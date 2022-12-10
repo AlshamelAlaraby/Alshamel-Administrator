@@ -87,4 +87,17 @@ class Company extends Model
         });
     }
 
+    public function scopeFilterCompanyModules($query,$request)
+    {
+            if ($request->search)
+            {
+                return $query->with(['modules'=>function($q) use ($request){
+                    $q->where('name', 'like', '%' . $request->search . '%')
+                    ->orWhere('name_e', 'like', '%' . $request->search . '%');
+                }]);
+            }
+         return  $query->with('modules');
+    }
+
+
 }

@@ -57,8 +57,9 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
         Route::delete('/{id}', [CompanyController::class, "destroy"])->name('companies.delete');
         Route::delete('/screen-setting',[CompanyController::class, "screenSetting"])->name('companies.screenSetting');
         Route::delete('/get-screen-setting/{user_id}/{screen_id}', [CompanyController::class, "getScreenSetting"])->name('companies.getScreenSetting');
-
     });
+
+    Route::post('/companyModules/{id}', [CompanyController::class, "companyModules"]);
 
     Route::group(['prefix' => 'stores'], function () {
         Route::get('', [StoreController::class, "index"])->name('stores.index');
