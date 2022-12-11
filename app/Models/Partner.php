@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Spatie\Activitylog\ActivityLogger;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\Traits\CausesActivity;
@@ -39,7 +38,7 @@ class Partner extends Model
         $activity->causer_type = auth()->user()->role ?? "admin";
     }
 
-    public function getActivitylogOptions()
+    public function getActivitylogOptions(): LogOptions
     {
         $user =  auth()->user()->id ?? "system" ;
 
