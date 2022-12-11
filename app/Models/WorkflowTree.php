@@ -5,10 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Traits\CausesActivity;
+use Spatie\Activitylog\Contracts\Activity;
 
 class WorkflowTree extends Model
 {
     use SoftDeletes;
+    use LogsActivity;
+    use CausesActivity;
+
 
     public Const ACTIVE = 'active';
     public Const INACTIVE = 'inactive';
@@ -32,6 +39,23 @@ class WorkflowTree extends Model
     public function getIconAttribute()
     {
         return asset($this->icon_url);
+    }
+
+
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        $activity->causer_id = auth()->user()->id ?? 0;
+        $activity->causer_type = auth()->user()->role ?? "admin";
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        $user =  auth()->user()->id ?? "system" ;
+
+        return LogOptions::defaults()
+        ->logAll()
+        ->useLogName('Partner')
+        ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName} by ($user)");
     }
 
     /**

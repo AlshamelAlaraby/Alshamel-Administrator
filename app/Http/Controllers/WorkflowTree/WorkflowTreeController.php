@@ -103,4 +103,16 @@ class WorkflowTreeController extends ResponseController
             return  responseJson( $exception->getCode() , $exception->getMessage());
         }
     }
+
+    public function logs($id)
+    {
+        $model = $this->repository->find($id);
+        if (!$model) {
+            return responseJson(404, __('message.data not found'));
+        }
+
+        $logs = $this->repository->logs($id);
+        return responseJson(200, 'success', \App\Http\Resources\Log\LogResource::collection($logs));
+
+    }
 }
