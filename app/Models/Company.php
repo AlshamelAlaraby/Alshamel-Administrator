@@ -66,6 +66,43 @@ class Company extends Model
             }
 
 
+            if ($request->name) {
+                $q->where('name', $request->name);
+            }
+
+            if ($request->name_e) {
+                $q->where('name_e', $request->name_e);
+            }
+            if ($request->url) {
+                $q->where('url', $request->url);
+            }
+            if ($request->address) {
+                $q->where('address', $request->address);
+            }
+            if ($request->phone) {
+                $q->where('phone', $request->phone);
+            }
+            if ($request->cr) {
+                $q->where('cr', $request->cr);
+            }
+            if ($request->tax_id) {
+                $q->where('tax_id', $request->tax_id);
+            }
+            if ($request->vat_no) {
+                $q->where('vat_no', $request->vat_no);
+            }
+            if ($request->email) {
+                $q->where('email', $request->email);
+            }
+            if ($request->website) {
+                $q->where('website', $request->website);
+            }
+
+            if ($request->is_default) {
+                $q->where('is_default', $request->is_default);
+            }
+
+
             if ($request->column_name && $request->column_value) {
 
                 $dataSearch = explode("." , $request->column_name) ;
@@ -81,9 +118,6 @@ class Company extends Model
 
             }
 
-            if ($request->is_default) {
-                $q->where('is_default', $request->is_default);
-            }
         });
     }
 
