@@ -48,12 +48,11 @@ class Partner extends Model
         ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName} by ($user)");
     }
 
-
-
     public function companies() : HasMany
     {
         return $this->hasMany(Company::class);
     }
+
     public function scopeFilter($query,$request)
     {
         return $query->where(function ($q) use ($request) {
