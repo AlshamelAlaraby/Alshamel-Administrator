@@ -19,11 +19,8 @@ class WorkflowTreeRepository implements WorkflowTreeRepositoryInterface
             return $this->filter($request , $q);
         })->latest();
 
-        if ($request->per_page) {
-            return ['data' => $models->paginate($request->per_page), 'paginate' => true];
-        } else {
-            return ['data' => $models->get(), 'paginate' => false];
-        }
+        return ['data' => $models->paginate($request->per_page), 'paginate' => true];
+
     }
 
     public function find($id)
@@ -70,7 +67,10 @@ class WorkflowTreeRepository implements WorkflowTreeRepositoryInterface
         $model->delete();
     }
 
-
+    public function logs($id)
+    {
+        return $this->model->find($id)->activities()->orderBy('created_at', 'DESC')->get();
+    }
 
     /**
      * this function used to make filter of query
@@ -83,6 +83,14 @@ class WorkflowTreeRepository implements WorkflowTreeRepositoryInterface
         if ($request->search) {
             $q->where('name', 'like', '%' . $request->search . '%')
                     ->orWhere('name_e', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->name) {
+             $q->where('name', $request->name);
+        }
+
+        if ($request->name_e) {
+             $q->where('name_e', $request->name_e);
         }
 
         if ($request->is_active) {

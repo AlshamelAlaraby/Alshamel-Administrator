@@ -19,7 +19,7 @@ class ScreenSettingResource extends JsonResource
             "id"         => $this->id,
             "user_id"    => $this->user_id,
             "screen_id"  => new ScreenRelationResource($this->screen),
-            "data_json"      => json_decode($this->data_json),
+            "data_json"  => json_decode($this->data_json),
         ];
     }
 }
