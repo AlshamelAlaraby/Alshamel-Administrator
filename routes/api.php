@@ -16,7 +16,7 @@ use App\Http\Controllers\Helpfile\HelpfileController;
 use App\Http\Controllers\ScreenHelpfile\ScreenHelpfileController;
 use App\Http\Controllers\ScreenButton\ScreenButtonController;
 use App\Http\Controllers\hotfield\hotfieldController;
-
+use App\Http\Controllers\MainController;
 use App\Http\Controllers\WorkflowTree\WorkflowTreeController;
 use Illuminate\Support\Facades\Route;
 
@@ -79,8 +79,7 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
             Route::delete('/{id}', 'delete')->name('modules.destroy');
             Route::post('/company', 'addModuleToCompany')->name('modules.company.add');
             Route::get('/{module_id}/company/{company_id}', 'removeModuleFromCompany')->name('modules.company.remove');
-            Route::post('/screen-setting', 'screenSetting')->name('modules.screenSetting');
-            Route::get('/get-screen-setting/{user_id}/{screen_id}', 'getScreenSetting')->name('modules.getScreenSetting');
+
         });
     });
 
@@ -101,6 +100,11 @@ Route::group(['prefix' => 'partners'], function () {
     });
 });
 
+// api for screen setting
+Route::controller(MainController::class)->group(function () {
+    Route::post("/setting", "setting");
+    Route::get("/setting/{user_id}/{screen_id}", "getSetting");
+});
 // api of screens
 Route::group(['prefix' => 'screens'], function () {
     Route::controller(ScreenController::class)->group(function () {
@@ -167,6 +171,8 @@ Route::group(['prefix' => 'workflow-trees'], function () {
         Route::post('/', 'store')->name('WorkflowTree.store');
         Route::put('/{id}', 'update')->name('WorkflowTree.update');
         Route::delete('/{id}', 'delete')->name('WorkflowTree.destroy');
+        Route::get('logs/{id}', 'logs')->name('WorkflowTree.logs');
+
     });
 });
 

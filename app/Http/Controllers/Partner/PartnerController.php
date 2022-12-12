@@ -10,6 +10,7 @@ use App\Http\Resources\Partner\PartnerResource;
 use Illuminate\Http\Request;
 use App\Http\Requests\Partner\StorePartnerRequest;
 use App\Http\Requests\Partner\UpdatePartnerRequest;
+use App\Http\Resources\Log\LogResource;
 use App\Http\Resources\ScreenSetting\ScreenSettingResource;
 use Illuminate\Support\Facades\Hash;
 use Mockery\Exception;
@@ -140,7 +141,7 @@ class PartnerController extends ResponseController
         }
 
         $logs = $this->repository->logs($id);
-        return responseJson(200, 'success', \App\Http\Resources\Log\LogResource::collection($logs));
+        return responseJson(200, 'success', LogResource::collection($logs));
 
     }
 
