@@ -94,6 +94,13 @@ class PartnerRepository implements PartnerRepositoryInterface
     }
 
 
+
+    public function logs($id)
+    {
+        return $this->model->find($id)->activities()->orderBy('created_at', 'DESC')->get();
+    }
+
+
     private function forget($id)
     {
         $keys = [

@@ -132,6 +132,18 @@ class PartnerController extends ResponseController
         }
     }
 
+    public function logs($id)
+    {
+        $model = $this->repository->find($id);
+        if (!$model) {
+            return responseJson(404, __('message.data not found'));
+        }
+
+        $logs = $this->repository->logs($id);
+        return responseJson(200, 'success', \App\Http\Resources\Log\LogResource::collection($logs));
+
+    }
+
     public function companies(LoginRequest $request)
     {
         try
