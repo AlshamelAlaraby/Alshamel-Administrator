@@ -12,6 +12,7 @@ use App\Http\Controllers\Serial\SerialController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Store\StoreController;
 use App\Http\Controllers\Button\ButtonController;
+use App\Http\Controllers\CompanyModule\CompanyModuleController;
 use App\Http\Controllers\Helpfile\HelpfileController;
 use App\Http\Controllers\ScreenHelpfile\ScreenHelpfileController;
 use App\Http\Controllers\ScreenButton\ScreenButtonController;
@@ -94,8 +95,6 @@ Route::group(['prefix' => 'partners'], function () {
         Route::post('/', 'store')->name('partners.store');
         Route::put('/{id}', 'update')->name('partners.update');
         Route::delete('/{id}', 'delete')->name('partners.destroy');
-        Route::post('/screen-setting', 'screenSetting')->name('partners.screenSetting');
-        Route::get('/get-screen-setting/{user_id}/{screen_id}', 'getScreenSetting')->name('partners.getScreenSetting');
         Route::post('/companies', 'companies');
     });
 });
@@ -105,6 +104,8 @@ Route::controller(MainController::class)->group(function () {
     Route::post("/setting", "setting");
     Route::get("/setting/{user_id}/{screen_id}", "getSetting");
 });
+
+
 // api of screens
 Route::group(['prefix' => 'screens'], function () {
     Route::controller(ScreenController::class)->group(function () {
@@ -113,6 +114,21 @@ Route::group(['prefix' => 'screens'], function () {
         Route::post('/', 'store')->name('screens.store');
         Route::put('/{id}', 'update')->name('screens.update');
         Route::delete('/{id}', 'delete')->name('screens.destroy');
+
+    });
+});
+
+
+// api of company_modules
+Route::group(['prefix' => 'company-modules'], function () {
+    Route::controller(CompanyModuleController::class)->group(function () {
+        Route::get('/', 'all')->name('company_modules.index');
+        Route::get('/{id}', 'find');
+        Route::post('/', 'store')->name('company_modules.store');
+        Route::put('/{id}', 'update')->name('company_modules.update');
+        Route::delete('/{id}', 'delete')->name('company_modules.destroy');
+        Route::get('logs/{id}', 'logs')->name('company_modules.logs');
+
 
     });
 });

@@ -1,26 +1,24 @@
 <?php
 
-namespace App\Repositories\Partner;
+namespace App\Repositories\CompanyModule;
 
-use App\Models\Partner;
-use App\Models\UserSettingScreen;
+use App\Models\CompanyModule;
+
 use App\Traits\ApiResponser;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-class PartnerRepository implements PartnerRepositoryInterface
+class CompanyModuleRepository implements CompanyModuleRepositoryInterface
 {
 
-    use ApiResponser;
-
     private $model;
-    public function __construct(Partner $model)
+    public function __construct(CompanyModule $model)
     {
         $this->model = $model;
 
     }
 
-    public function getAllPartners($request)
+    public function getCompanyModules($request)
     {
         $models = $this->model->where(function ($q) use ($request) {
             $this->model->scopeFilter($q , $request);
@@ -39,23 +37,18 @@ class PartnerRepository implements PartnerRepositoryInterface
     {
 
         DB::transaction(function () use ($request) {
-            $data = $request;
-            $data['password'] = Hash::make($data['password']);
-            $this->model->create($data);
-            cacheForget("Partners");
+
+            $this->model->create($request);
+            cacheForget("CompanyModules");
         });
 
-        return $this->successResponse([],__('Done'));
     }
 
     public function update($request, $id)
     {
         DB::transaction(function () use ($id, $request) {
-            $data = $request;
-            if (isset($data['password'])) {
-                $data['password'] = Hash::make($data['password']);
-            }
-            $this->model->where("id", $id)->update($data);
+
+            $this->model->where("id", $id)->update($request);
             $this->forget($id);
 
         });
@@ -81,8 +74,8 @@ class PartnerRepository implements PartnerRepositoryInterface
     private function forget($id)
     {
         $keys = [
-            "Partners",
-            "Partners_" . $id,
+            "CompanyModules",
+            "CompanyModules_" . $id,
         ];
         foreach ($keys as $key) {
             cacheForget($key);
