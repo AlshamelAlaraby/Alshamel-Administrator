@@ -1,28 +1,28 @@
 <?php
 
-namespace App\Http\Controllers\Partner;
+namespace App\Http\Controllers\CompanyModule;
 
 use App\Exceptions\NotFoundException;
 use App\Http\Controllers\ResponseController;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Repositories\Partner\PartnerRepositoryInterface;
-use App\Http\Resources\Partner\PartnerResource;
+use App\Repositories\CompanyModule\CompanyModuleRepositoryInterface;
+use App\Http\Resources\CompanyModule\CompanyModuleResource;
 use Illuminate\Http\Request;
-use App\Http\Requests\Partner\StorePartnerRequest;
-use App\Http\Requests\Partner\UpdatePartnerRequest;
+use App\Http\Requests\CompanyModule\StoreCompanyModuleRequest;
+use App\Http\Requests\CompanyModule\UpdateCompanyModuleRequest;
 use App\Http\Resources\Log\LogResource;
 use App\Http\Resources\ScreenSetting\ScreenSettingResource;
 use Illuminate\Support\Facades\Hash;
 use Mockery\Exception;
-use App\Models\Partner;
-class PartnerController extends ResponseController
+use App\Models\CompanyModule;
+class CompanyModuleController extends ResponseController
 {
 
     protected $repository;
-    protected $resource = PartnerResource::class;
+    protected $resource = CompanyModuleResource::class;
 
 
-    public function __construct(PartnerRepositoryInterface $repository)
+    public function __construct(CompanyModuleRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
@@ -31,16 +31,16 @@ class PartnerController extends ResponseController
     public function all(Request $request)
     {
         if (count($_GET) == 0) {
-            $models = cacheGet('Partners');
+            $models = cacheGet('CompanyModules');
 
             if (!$models) {
-                $models = $this->repository->getAllPartners($request);
+                $models = $this->repository->getCompanyModules($request);
 
-                cachePut('Partners', $models);
+                cachePut('CompanyModules', $models);
             }
         } else {
 
-            $models = $this->repository->getAllPartners($request);
+            $models = $this->repository->getCompanyModules($request);
         }
 
         return  responseJson(200, 'success',($this->resource)::collection($models['data']), $models['paginate'] ? getPaginates($models['data']) : null);
@@ -51,24 +51,24 @@ class PartnerController extends ResponseController
     {
 
         try{
-            $model = cacheGet('Partners_' . $id);
+            $model = cacheGet('CompanyModules_' . $id);
 
             if (!$model) {
                 $model = $this->repository->find($id);
                 if (!$model) {
                     return responseJson( 404 , __('message.data not found'));
                 } else {
-                    cachePut('Partners_' . $id, $model);
+                    cachePut('CompanyModules_' . $id, $model);
                 }
             }
-            return responseJson( 200 , __('Done'), new PartnerResource($model),);
+            return responseJson( 200 , __('Done'), new CompanyModuleResource($model),);
         } catch (Exception $exception) {
             return  responseJson( $exception->getCode() , $exception->getMessage());
         }
     }
 
 
-    public function store(StorePartnerRequest $request)
+    public function store(StoreCompanyModuleRequest $request)
     {
         try {
             return responseJson(200 , __('Done') , $this->repository->create($request->validated()));
@@ -78,7 +78,7 @@ class PartnerController extends ResponseController
     }
 
 
-    public function update(UpdatePartnerRequest $request , $id)
+    public function update(UpdateCompanyModuleRequest $request , $id)
     {
         try {
             $model = $this->repository->find($id);
@@ -112,7 +112,6 @@ class PartnerController extends ResponseController
 
 
 
-
     public function logs($id)
     {
         $model = $this->repository->find($id);
@@ -121,27 +120,8 @@ class PartnerController extends ResponseController
         }
 
         $logs = $this->repository->logs($id);
-        return responseJson(200, 'success', LogResource::collection($logs));
+        return responseJson(200, 'success', \App\Http\Resources\Log\LogResource::collection($logs));
 
     }
 
-    public function companies(LoginRequest $request)
-    {
-        try
-        {
-            $user = Partner::whereEmail($request->email)->first();
-            if(!$user)
-            {
-                throw new NotFoundException();
-            }
-            if(!Hash::check($request->password, $user->password))
-            {
-                return responseJson(422,'Invalid credentials');
-            }
-            $data['partner'] = new partnerResource($user->load(['companies.modules']));
-            return responseJson(200,'success',$data);
-        } catch (Exception $exception) {
-            return  responseJson( $exception->getCode() , $exception->getMessage());
-        }
-    }
 }

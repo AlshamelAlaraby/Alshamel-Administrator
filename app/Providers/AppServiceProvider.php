@@ -28,6 +28,8 @@ use App\Repositories\WorkflowTree\WorkflowTreeRepository;
 use App\Repositories\WorkflowTree\WorkflowTreeRepositoryInterface;
 use App\Repositories\Button\ButtonRepository;
 use App\Repositories\Button\ButtonRepositoryInterface;
+use App\Repositories\CompanyModule\CompanyModuleRepository;
+use App\Repositories\CompanyModule\CompanyModuleRepositoryInterface;
 use App\Repositories\ScreenHelpfile\ScreenHelpfileRepository;
 use App\Repositories\ScreenHelpfile\ScreenHelpfileRepositoryInterface;
 use App\Repositories\ScreenButton\ScreenButtonRepository;
@@ -49,6 +51,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ScreenRepositoryInterface::class, ScreenRepository::class);
         $this->app->bind(HelpfileRepositoryInterface::class, HelpfileRepository::class);
         $this->app->bind(WorkflowTreeRepositoryInterface::class, WorkflowTreeRepository::class);
+        $this->app->bind(CompanyModuleRepositoryInterface::class, CompanyModuleRepository::class);
         $this->app->bind(SerialRepositoryInterface::class, SerialRepository::class);
         $this->app->bind(CompanyRepositoryInterface::class, CompanyRepository::class);
         $this->app->bind(StoreRepositoryInterface::class, StoreRepository::class);
