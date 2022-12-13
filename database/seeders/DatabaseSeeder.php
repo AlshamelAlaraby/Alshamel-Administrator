@@ -16,11 +16,9 @@ class DatabaseSeeder extends Seeder
 
     public function run()
     {
-<<<<<<< .merge_file_a06280
         $this->call([ModuleSeeder::class,]);
         $this->call([UserSeeder::class,]);
         $this->call([AdminSeeder::class,]);
-=======
         \App\Models\User::create([
             'name' => 'admin',
             "email"=> "mrehab9797@gmail.com",
@@ -29,6 +27,5 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ModuleSeeder::class,
         ]);
->>>>>>> .merge_file_a24504
     }
 }
