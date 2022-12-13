@@ -6,10 +6,17 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Branch\BranchController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Partner\PartnerController;
+use App\Http\Controllers\Screen\ScreenController;
 use App\Http\Controllers\Serial\SerialController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Store\StoreController;
+use App\Http\Controllers\Button\ButtonController;
+use App\Http\Controllers\Helpfile\HelpfileController;
+use App\Http\Controllers\ScreenHelpfile\ScreenHelpfileController;
+use App\Http\Controllers\ScreenButton\ScreenButtonController;
+use App\Http\Controllers\hotfield\hotfieldController;
 
+use App\Http\Controllers\WorkflowTree\WorkflowTreeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,19 +49,19 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
 });
 
     Route::group(['prefix' => 'companies'], function () {
-        Route::get('', [CompanyController::class, "index"]);
-        Route::get('/{id}', [CompanyController::class, "show"]);
-        Route::post('', [CompanyController::class, "store"]);
-        Route::post('/{id}', [CompanyController::class, "update"]);
-        Route::delete('/{id}', [CompanyController::class, "destroy"]);
+        Route::get('', [CompanyController::class, "index"])->name('companies.index');
+        Route::get('/{id}', [CompanyController::class, "show"])->name('companies.show');
+        Route::post('', [CompanyController::class, "store"])->name('companies.store');
+        Route::post('/{id}', [CompanyController::class, "update"])->name('companies.update');
+        Route::delete('/{id}', [CompanyController::class, "destroy"])->name('companies.delete');
     });
 
     Route::group(['prefix' => 'stores'], function () {
-        Route::get('', [StoreController::class, "index"]);
-        Route::get('/{id}', [StoreController::class, "show"]);
-        Route::post('', [StoreController::class, "store"]);
-        Route::post('/{id}', [StoreController::class, "update"]);
-        Route::delete('/{id}', [StoreController::class, "destroy"]);
+        Route::get('', [StoreController::class, "index"])->name('stores.index');
+        Route::get('/{id}', [StoreController::class, "show"])->name('stores.show');
+        Route::post('', [StoreController::class, "store"])->name('stores.store');
+        Route::post('/{id}', [StoreController::class, "update"])->name('stores.update');
+        Route::delete('/{id}', [StoreController::class, "destroy"])->name('stores.delete');
     });
 
     Route::group(['prefix' => 'modules'], function () {
@@ -84,14 +91,94 @@ Route::group(['prefix' => 'partners'], function () {
         Route::delete('/{id}', 'delete')->name('partners.destroy');
     });
 });
+
+// api of screens
+Route::group(['prefix' => 'screens'], function () {
+    Route::controller(ScreenController::class)->group(function () {
+        Route::get('/', 'all')->name('screens.index');
+        Route::get('/{id}', 'find');
+        Route::post('/', 'store')->name('screens.store');
+        Route::put('/{id}', 'update')->name('screens.update');
+        Route::delete('/{id}', 'delete')->name('screens.destroy');
+    });
+});
+
+
+// api of helpfiles
+Route::group(['prefix' => 'helpfiles'], function () {
+    Route::controller(HelpfileController::class)->group(function () {
+        Route::get('/', 'all')->name('helpfiles.index');
+        Route::get('/{id}', 'find');
+        Route::post('/', 'store')->name('helpfiles.store');
+        Route::post('/{id}', 'update')->name('helpfiles.update');
+        Route::delete('/{id}', 'delete')->name('helpfiles.destroy');
+    });
+});
+
+// api of screenhelpfile
+Route::group(['prefix' => 'screen-helpfile'], function () {
+    Route::controller(ScreenHelpfileController::class)->group(function () {
+        Route::get('/', 'all')->name('screenhelpfile.index');
+        Route::get('/{id}', 'find');
+        Route::post('/', 'store')->name('screenhelpfile.store');
+        Route::post('/{id}', 'update')->name('screenhelpfile.update');
+        Route::delete('/{id}', 'delete')->name('screenhelpfile.destroy');
+    });
+});
+
+// api of screenbutton
+Route::group(['prefix' => 'screen-button'], function () {
+    Route::controller(ScreenButtonController::class)->group(function () {
+        Route::get('/', 'all')->name('screenbutton.index');
+        Route::get('/{id}', 'find');
+        Route::post('/', 'store')->name('screenbutton.store');
+        Route::post('/{id}', 'update')->name('screenbutton.update');
+        Route::delete('/{id}', 'delete')->name('screenbutton.destroy');
+    });
+});
+
+// api of hotfield
+Route::group(['prefix' => 'hotfields'], function () {
+    Route::controller(HotfieldController::class)->group(function () {
+        Route::get('/', 'all')->name('hotfield.index');
+        Route::get('/{id}', 'find');
+        Route::post('/', 'store')->name('hotfield.store');
+        Route::post('/{id}', 'update')->name('hotfield.update');
+        Route::delete('/{id}', 'delete')->name('hotfield.destroy');
+    });
+});
+
+
+// api of WorkflowTree
+Route::group(['prefix' => 'workflow-trees'], function () {
+    Route::controller(WorkflowTreeController::class)->group(function () {
+        Route::get('/', 'all')->name('WorkflowTree.index');
+        Route::get('/{id}', 'find');
+        Route::post('/', 'store')->name('WorkflowTree.store');
+        Route::put('/{id}', 'update')->name('WorkflowTree.update');
+        Route::delete('/{id}', 'delete')->name('WorkflowTree.destroy');
+    });
+});
+
+// // api op serials
+//     Route::group(['prefix' => 'serials'], function () {
+//         Route::controller(SerialController::class)->group(function () {
+//             Route::get('/', 'all')->name('serials.index');
+//             Route::get('/show/{id}', 'find');
+//             Route::post('/store', 'store')->name('serials.store');
+//             Route::put('/update/{id}', 'update')->name('serials.update');
+//             Route::delete('/delete/{id}', 'delete')->name('serials.destroy');
+//         });
+//     });
+
 // api op serials
-    Route::group(['prefix' => 'serials'], function () {
-        Route::controller(SerialController::class)->group(function () {
-            Route::get('/', 'all')->name('serials.index');
-            Route::get('/show/{id}', 'find');
-            Route::post('/store', 'store')->name('serials.store');
-            Route::put('/update/{id}', 'update')->name('serials.update');
-            Route::delete('/delete/{id}', 'delete')->name('serials.destroy');
+    Route::group(['prefix' => 'buttons'], function () {
+        Route::controller(ButtonController::class)->group(function () {
+            Route::get('/', 'all')->name('buttons.index');
+            Route::get('/{id}', 'find');
+            Route::post('/', 'store')->name('buttons.store');
+            Route::post('/{id}', 'update')->name('buttons.update');
+            Route::delete('/{id}', 'delete')->name('buttons.destroy');
         });
     });
 

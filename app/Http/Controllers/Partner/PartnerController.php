@@ -37,10 +37,7 @@ class PartnerController extends ResponseController
 
             $models = $this->repository->getAllPartners($request);
         }
-        // $models = Partner::get();
-        // dd($models);
 
-        // return responseJson(200, 'success', ($this->resource)::collection ($models['data']), $models['paginate'] ? getPaginates($models['data']) : null);
         return $this->successResponse (($this->resource)::collection ($models['data']) ,__ ('Done'),200);
     }
 
@@ -69,7 +66,7 @@ class PartnerController extends ResponseController
     public function store(StorePartnerRequest $request)
     {
         try {
-            return $this->successResponse($this->repository->create($request->validated()), __('Done'), 200);
+            return $this->repository->create($request->validated());
         } catch (Exception $exception) {
             return $this->errorResponse($exception->getMessage(), $exception->getCode());
         }

@@ -137,7 +137,7 @@ export default {
                       size="sm"
                       :options="pageOptions"
                     ></b-form-select
-                    >&nbsp;Partners
+                    >&nbsp;customers
                   </label>
                 </div>
               </div>

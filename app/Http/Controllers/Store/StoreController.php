@@ -5,11 +5,10 @@ namespace App\Http\Controllers\Store;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ResponseController;
 use Mockery\Exception;
-use Illuminate\Contracts\Support\Renderable;
 use App\Repositories\Store\StoreRepositoryInterface;
 use App\Http\Resources\Store\StoreResource;
-use App\Http\Request\Store\StoreStoreRequest;
-use App\Http\Request\Store\UpdateStoreRequest;
+use App\Http\Requests\Store\StoreStoreRequest;
+use App\Http\Requests\Store\UpdateStoreRequest;
 
 class StoreController extends ResponseController
 {
@@ -24,9 +23,22 @@ class StoreController extends ResponseController
      * Display a listing of the resource.
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->successResponse (($this->resource)::collection ($this->repository->getAllCompanies ()),__ ('Done'),200);
+        if (count($_GET) == 0) {
+            $models = cacheGet('store');
+
+            if (!$models) {
+                $models = $this->repository->getAllStores($request);
+
+                cachePut('store', $models);
+            }
+        } else {
+
+            $models = $this->repository->getAllStores($request);
+        }
+
+        return responseJson(200, 'success', StoreResource::collection($models['data']), $models['paginate'] ? getPaginates($models['data']) : null);
     }
 
     /**
@@ -37,9 +49,10 @@ class StoreController extends ResponseController
     public function store(StoreStoreRequest $request)
     {
         try {
-            return $this->successResponse (new $this->resource($this->repository->create($request->validated ())),__('created'),200);
-        }catch (Exception $exception){
-            return $this->errorResponse ($exception->getMessage (),$exception->getCode ());
+            // return responseJson(200 , __('created'),  new CompanyResource($this->repository->create($request->validated())));
+            return responseJson(200 , __('created'),  $this->repository->create($request->validated()));
+        } catch (Exception $exception) {
+            return responseJson($exception->getCode() ,$exception->getMessage());
         }
     }
 
@@ -50,21 +63,22 @@ class StoreController extends ResponseController
      */
     public function show($id)
     {
-        if ($branch = $this->repository->show($id)){
-            return $this->successResponse (new $this->resource($branch),__ ('Done'),200);
+        try{
+            $model = cacheGet('store_' . $id);
+            if (!$model) {
+                $model = $this->repository->show($id);
+                if (!$model) {
+                    return responseJson( 404 , __('message.data not found'));
+                } else {
+                    cachePut('store_' . $id, $model);
+                }
+            }
+            return responseJson( 200 ,__ ('Done'),new StoreResource( $model ));
+        } catch (Exception $exception) {
+            return responseJson($exception->getCode() ,$exception->getMessage());
         }
-        return $this->errorResponse ('not found',404);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function edit($id)
-    {
-
-    }
 
     /**
      * Update the specified resource in storage.
@@ -75,9 +89,15 @@ class StoreController extends ResponseController
     public function update(UpdateStoreRequest $request, $id)
     {
         try {
-            return $this->successResponse ($this->repository->update($request->validated(),$id),__('updated'),200);
-        }catch (Exception $exception){
-            return $this->errorResponse ($exception->getMessage(),$exception->getCode());
+            $model = $this->repository->show($id);
+            if (!$model) {
+                return  responseJson(404 , __('message.data not found'));
+            }
+            $model = $this->repository->update($request->validated(), $id);
+
+            return  responseJson(200 ,__('Done')  );
+        } catch (Exception $exception) {
+            return responseJson($exception->getCode() ,$exception->getMessage());
         }
     }
 
@@ -88,7 +108,16 @@ class StoreController extends ResponseController
      */
     public function destroy($id)
     {
-        $this->repository->destroy($id);
-        return $this->successResponse(null,__('deleted'),200);
+        try{
+            $model = $this->repository->show($id);
+            if (!$model) {
+                return  responseJson(404 , __('message.data not found'));
+            }
+            $this->repository->destroy($id);
+            return  responseJson(200 ,__('Done')  );
+
+        } catch (Exception $exception) {
+            return responseJson($exception->getCode() ,$exception->getMessage());
+        }
     }
 }

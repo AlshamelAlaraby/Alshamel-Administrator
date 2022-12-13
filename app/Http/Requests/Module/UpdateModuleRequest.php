@@ -27,7 +27,7 @@ class UpdateModuleRequest extends FormRequest
         return [
             'name' => 'required|string|max:255|unique:modules,name,' . $id,
             'name_e' => 'required|string|max:255|unique:modules,name_e,' . $id,
-            'parent_id' => ["nullable", new \App\Rules\NotInChildrenRule(), "exists:modules,id", "not_in:" . $id],
+            'parent_id' => ["nullable"],
             "is_active" => "nullable|in:active,inactive",
         ];
     }

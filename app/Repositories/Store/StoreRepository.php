@@ -5,6 +5,7 @@ namespace App\Repositories\Store;
 
 
 use App\Models\Store;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class StoreRepository implements StoreRepositoryInterface
@@ -14,13 +15,32 @@ class StoreRepository implements StoreRepositoryInterface
         $this->model = $model;
     }
 
-    public function getAllStores ()
+    public function getAllStores ($request)
     {
-        return $this->model->get();
-    }
+        $models = $this->model->where(function ($q) use ($request) {
 
-    public function create(array $data){
-        return $this->model->create($data);
+            if ($request->search) {
+                $q->where('name', 'like', '%' . $request->search . '%');
+                $q->orWhere('name_e', 'like', '%' . $request->search . '%');
+            }
+
+            if ($request->is_active) {
+                $q->where('is_active', $request->is_active);
+            }
+
+        })->orderBy($request->order ? $request->order : 'updated_at', $request->sort ? $request->sort : 'DESC');
+
+        if ($request->per_page) {
+            return ['data' => $models->paginate($request->per_page), 'paginate' => true];
+        } else {
+            return ['data' => $models->get(), 'paginate' => false];
+        }    }
+
+    public function create($request){
+        DB::transaction(function () use ($request) {
+            $this->model->create($request);
+             cacheForget("company");
+         });
     }
 
     public function show($id){
@@ -28,12 +48,28 @@ class StoreRepository implements StoreRepositoryInterface
     }
 
     public function update($data,$id){
-
-        return $this->model->find($id)->update($data);
+        DB::transaction(function () use ($id, $data) {
+            $this->model->where("id", $id)->update($data);
+            $this->forget($id);
+        });
     }
 
     public function destroy($id){
-        return $this->model->find($id)->delete();
+        $model = $this->show($id);
+        $this->forget($id);
+        $model->delete();
+    }
+
+    private function forget($id)
+    {
+        $keys = [
+            "store",
+            "store_" . $id,
+        ];
+        foreach ($keys as $key) {
+            cacheForget($key);
+        }
+
     }
 
 }

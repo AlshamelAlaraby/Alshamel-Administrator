@@ -28,8 +28,8 @@ class StorePartnerRequest extends FormRequest
             'name_e'    => 'required|string|max:255',
             'email'     => 'required|email|unique:partners,email',
             'password'  => 'required|min:8',
-            'mobile_no' => 'nullable',
-            'is_active' => 'nullable|in:active,inactive',
+            'mobile_no' => 'nullable|unique:partners,mobile_no',
+            "is_active" => "nullable|in:active,inactive",
         ];
     }
 
@@ -37,7 +37,7 @@ class StorePartnerRequest extends FormRequest
     {
         return [
             'required'      => __('message.field is required'),
-            'unique'        => __('message.field is unique'),
+            'unique'        => __('message.field already exists'),
             'is_active.in'  => __('message.status must be active or inactive'),
         ];
     }

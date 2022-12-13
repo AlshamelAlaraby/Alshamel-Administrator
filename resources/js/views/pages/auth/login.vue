@@ -11,7 +11,6 @@ export default {
   page: {
     title: "Login",
     meta: [{ name: "description", content: 'login' }],
-    meta: [{ name: "description", content: 'kdjsd' }],
   },
   data() {
     return {

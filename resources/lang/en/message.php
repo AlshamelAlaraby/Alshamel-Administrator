@@ -1,11 +1,11 @@
 <?php
 
 return [
-    'name is required' => 'name is required',
+    'field is required' => 'field is required',
     'parent not found' => 'parent not found',
     'status must be active or inactive' => 'status must be active or inactive',
     "parent can not be child" => "parent can not be child",
-    "name already exists" => "name already exists",
+    "unique already exists" => "unique already exists",
     "data not found" => "data not found",
     "module is required" => "module is required",
     "company is required" => "company is required",

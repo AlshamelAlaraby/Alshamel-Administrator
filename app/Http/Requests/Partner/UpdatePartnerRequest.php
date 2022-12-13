@@ -27,24 +27,26 @@ class UpdatePartnerRequest extends FormRequest
         return [
             'name'      => 'required|string|max:255',
             'name_e'    => 'required|string|max:255',
-            'is_active' => 'nullable|in:active,inactive',
+            "is_active" => "nullable|in:active,inactive",
             'email' => [
                 'required',
                 'email',
                 'max:191',
                 Rule::unique('partners', 'email')->ignore($this->route('id')),
             ],
-            'mobile_no' => 'nullable',
+            'mobile_no' => [
+                'required',
+                Rule::unique('partners', 'mobile_no')->ignore($this->route('id')),
+            ],
         ];
     }
 
     public function messages()
     {
         return [
-            'required'      => __('message.name is required'),
+            'required'      => __('message.field is required'),
+            'unique'        => __('message.field already exists'),
             'is_active.in'  => __('message.status must be active or inactive'),
-            'unique'        => __('message.field is unique'),
-
         ];
     }
 }

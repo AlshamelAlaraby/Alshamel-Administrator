@@ -81,8 +81,8 @@ class ModuleRepository implements ModuleInterface
     public function removeModuleFromCompany($module_id, $company_id)
     {
         $this->model->find($module_id)->companies()->detach($company_id);
-
     }
+
     private function forget($id)
     {
         $keys = [

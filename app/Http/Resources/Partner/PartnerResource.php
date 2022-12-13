@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Partner;
 
+use App\Models\Partner;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PartnerResource extends JsonResource
@@ -18,7 +19,7 @@ class PartnerResource extends JsonResource
             'id'   =>$this->id,
             'name' => $this->name,
             'name_e' => $this->name_e,
-            "is_active"  => $this->is_active ,
+            "is_active"  => $this->is_active,
             'email' => $this->email,
             'password' => $this->password,
             'mobile_no' => $this->mobile_no,
