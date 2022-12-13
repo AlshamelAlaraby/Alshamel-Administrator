@@ -13,7 +13,13 @@ interface PartnerRepositoryInterface
 
     public function update($request, $id);
 
+    public function logs($id);
+
     public function delete($id);
+
+    public function setting($request);
+
+    public function getSetting($user_id , $screen_id);
 
 
 }

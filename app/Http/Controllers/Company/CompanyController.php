@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers\Company;
 
+use App\Exceptions\NotFoundException;
 use App\Http\Requests\Company\StoreCompanyRequest;
 use App\Http\Requests\Company\UpdateCompanyRequest;
 use App\Http\Resources\Company\CompanyResource;
+use App\Http\Resources\Module\ModuleResource;
+use App\Http\Resources\ScreenSetting\ScreenSettingResource;
 use App\Repositories\Company\CompanyRepositoryInterface;
 use App\Traits\ApiResponser;
 use Illuminate\Routing\Controller;
 use Mockery\Exception;
 use Illuminate\Http\Request;
+use function PHPUnit\Framework\throwException;
 
 
 class CompanyController extends Controller
@@ -124,4 +128,49 @@ class CompanyController extends Controller
             return responseJson($exception->getCode() ,$exception->getMessage());
         }
     }
+
+
+    public function screenSetting(Request $request)
+    {
+        try {
+            return responseJson(200 , __('Done') , $this->repository->setting($request->all()));
+        } catch (Exception $exception) {
+            return  responseJson( $exception->getCode() , $exception->getMessage());
+        }
+    }
+
+    public function getScreenSetting($user_id , $screen_id)
+    {
+        try{
+            $screenSetting = $this->repository->getSetting($user_id , $screen_id);
+            if (!$screenSetting) {
+                return responseJson( 404 , __('message.data not found'));
+            }
+            return responseJson( 200 , __('Done'), new ScreenSettingResource($screenSetting));
+        } catch (Exception $exception) {
+            return  responseJson( $exception->getCode() , $exception->getMessage());
+        }
+    }
+
+    public function companyModules(Request $request, $company_id)
+    {
+        try {
+            $company = $this->repository->show($company_id);
+            if(!$company)
+            {
+                throw new NotFoundException();
+            }
+            $data = $company->filterCompanyModules($request)->first();
+            if(count($data->modules) == 0)
+            {
+                throw new NotFoundException();
+            }
+            return responseJson(200,'success',ModuleResource::collection($data->modules));
+        }catch (\Exception $exception)
+        {
+            return responseJson(422 ,$exception->getMessage()?$exception->getMessage():throw new NotFoundException());
+        }
+
+    }
+
 }

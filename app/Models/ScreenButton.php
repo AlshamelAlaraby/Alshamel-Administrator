@@ -11,7 +11,7 @@ class ScreenButton extends Model
 
     protected $table = 'screens_buttons';
 
-    protected $guarded = [] ;
+    protected $guarded = ["id"] ;
 
 
 

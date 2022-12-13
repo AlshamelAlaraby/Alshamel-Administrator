@@ -37,8 +37,7 @@ class WorkflowTreeController extends ResponseController
 
             $models = $this->repository->getAllWorkflowTrees($request);
         }
-
-        return $this->successResponse (($this->resource)::collection ($models['data']) ,__ ('Done'),200);
+      return  responseJson(200, 'success',($this->resource)::collection($models['data']), $models['paginate'] ? getPaginates($models['data']) : null);
     }
 
 
@@ -51,14 +50,14 @@ class WorkflowTreeController extends ResponseController
             if (!$model) {
                 $model = $this->repository->find($id);
                 if (!$model) {
-                    return $this->errorResponse( __('message.data not found'),404);
+                    return responseJson( 404 , __('message.data not found'));
                 } else {
                     cachePut('WorkflowTrees_' . $id, $model);
                 }
             }
-            return $this->successResponse( new WorkflowTreeResource($model),__ ('Done'),200);
+            return responseJson( 200 , __('Done'), new WorkflowTreeResource($model),);
         } catch (Exception $exception) {
-            return $this->errorResponse($exception->getMessage(), $exception->getCode());
+            return  responseJson( $exception->getCode() , $exception->getMessage());
         }
     }
 
@@ -66,9 +65,9 @@ class WorkflowTreeController extends ResponseController
     public function store(StoreWorkflowTreeRequest $request)
     {
         try {
-            return $this->successResponse($this->repository->create($request->validated()), __('Done'), 200);
+           return responseJson(200 , __('Done') , $this->repository->create($request->validated()));
         } catch (Exception $exception) {
-            return $this->errorResponse($exception->getMessage(), $exception->getCode());
+            return  responseJson( $exception->getCode() , $exception->getMessage());
         }
     }
 
@@ -78,13 +77,13 @@ class WorkflowTreeController extends ResponseController
         try {
             $model = $this->repository->find($id);
             if (!$model) {
-                return  $this->errorResponse( __('message.data not found'),404);
+                 return responseJson( 404 , __('message.data not found'));
             }
             $model = $this->repository->update($request->validated(), $id);
 
-            return  $this->successResponse(__('Done'),200);
+            return responseJson(200 , __('Done'));
         } catch (Exception $exception) {
-            return $this->errorResponse($exception->getMessage(), $exception->getCode());
+            return  responseJson( $exception->getCode() , $exception->getMessage());
         }
 
     }
@@ -95,13 +94,25 @@ class WorkflowTreeController extends ResponseController
         try{
             $model = $this->repository->find($id);
             if (!$model) {
-                return  $this->errorResponse( __('message.data not found'),404);
+                 return responseJson( 404 , __('message.data not found'));
             }
             $this->repository->delete($id);
-            return  $this->successResponse(__('Done'),200);
+            return  responseJson(200 , __('Done'));
 
         } catch (Exception $exception) {
-            return $this->errorResponse($exception->getMessage(), $exception->getCode());
+            return  responseJson( $exception->getCode() , $exception->getMessage());
         }
+    }
+
+    public function logs($id)
+    {
+        $model = $this->repository->find($id);
+        if (!$model) {
+            return responseJson(404, __('message.data not found'));
+        }
+
+        $logs = $this->repository->logs($id);
+        return responseJson(200, 'success', \App\Http\Resources\Log\LogResource::collection($logs));
+
     }
 }
