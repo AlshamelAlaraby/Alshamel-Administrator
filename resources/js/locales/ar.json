@@ -427,6 +427,13 @@
         "fieldIsImage": "هذا الحقل يجب ان يكون الصوره .",
         "ItmustbeyourImage": "يجب ان يكون امتداد الصور (jpeg,png,gif,jpg)",
         "alphaArabic": "هذا الحقل يجب ان يكون باللغه العربيه.",
-        "alphaEnglish": "هذا الحقل يجب ان يكون باللغه الانجليزيه."
+        "alphaEnglish": "هذا الحقل يجب ان يكون باللغه الانجليزيه.",
+        "filter": "فلتر",
+        "group": "جروب",
+        "setting": "اعدادات",
+        "commands": "الاوامر",
+        "delete": "حذف",
+        "edit": "تعديل",
+        "searchSetting": "Search Setting"
     }
 }

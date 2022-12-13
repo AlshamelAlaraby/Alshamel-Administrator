@@ -84,3 +84,12 @@ export default {
     <Rightbar />
   </div>
 </template>
+<style>
+    .container-fluid {
+        padding: unset;
+        margin: unset;
+    }
+    .content-page {
+        padding: 70px 0 65px !important;
+    }
+</style>

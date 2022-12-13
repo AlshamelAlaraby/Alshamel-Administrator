@@ -28,9 +28,9 @@ Vue.use(VueQuillEditor);
 Vue.use(VueMask);
 
 import VueSlideBar from 'vue-slide-bar';
-// import 'vue-phone-number-input/dist/vue-phone-number-input.css';
+import 'vue-phone-number-input/dist/vue-phone-number-input.css';
 
-// Vue.component('VuePhoneNumberInput', require('vue-phone-number-input'));
+Vue.component('VuePhoneNumberInput', require('vue-phone-number-input'));
 Vue.component('VueSlideBar', VueSlideBar);
 Vue.component('pagination-laravel', require('laravel-vue-pagination'));
 Vue.component('apexchart', VueApexCharts);

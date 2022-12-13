@@ -1,9 +1,9 @@
-// 
+//
 // topbar.scss
 //
 
 .navbar-custom {
-    background-color: $bg-topbar-dark;
+    background-color: hsl(205deg 97% 87%);
     box-shadow: $shadow;
     padding: 0 10px 0 0;
     position: fixed;
@@ -16,6 +16,7 @@
 
     .logo-box {
         display: none;
+        background-color: #f0f8ff !important;
     }
 
     .topnav-menu {
@@ -89,7 +90,7 @@
 
     .button-menu-mobile {
         border: none;
-        color: $white;
+        color: #000;
         display: inline-block;
         height: $topbar-height;
         line-height: $topbar-height;
@@ -409,11 +410,11 @@ body[data-layout-mode="horizontal"] {
             max-width: $boxed-layout-width !important;
         }
     }
-    
+
     .button-menu-mobile {
         display: none;
     }
-    
+
     .logo-box {
         width: auto;
         padding-right: 50px;
@@ -442,9 +443,9 @@ body[data-layout-mode="horizontal"] {
     }
 }
 
-// 
-// Detached 
-// 
+//
+// Detached
+//
 
 body[data-layout-mode="detached"] {
     .logo-box {

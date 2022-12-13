@@ -427,6 +427,13 @@
           "fieldIsImage": "This field should be the picture",
           "ItmustbeyourImage": "It must be (jpeg,png,gif,jpg)",
           "alphaArabic": "This field must be in Arabic.",
-          "alphaEnglish" : "This field must be in English."
+          "alphaEnglish" : "This field must be in English.",
+          "filter": "Filter",
+          "group": "Group",
+          "setting": "Setting",
+          "commands": "Commands",
+          "delete": "Delete",
+          "edit": "Edit",
+          "searchSetting": "إعداد البحث"
     }
 }
