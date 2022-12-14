@@ -45,6 +45,10 @@ return [
             'driver' => 'session',
             'provider' => 'admins',
         ],
+        'partner' => [
+            'driver' => 'session',
+            'provider' => 'partners',
+        ],
     ],
 
     /*
@@ -70,10 +74,14 @@ return [
             'model' => App\Models\User::class,
         ],
 
-         'admins' => [
-             'driver' => 'eloquent',
-             'model' =>  App\Models\Admin::class,
-         ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' =>  App\Models\Admin::class,
+        ],
+        'partners' => [
+            'driver' => 'eloquent',
+            'model' =>  App\Models\Partner::class,
+        ],
     ],
 
     /*
@@ -89,7 +97,7 @@ return [
     | considered valid. This security feature keeps tokens short-lived so
     | they have less time to be guessed. You may change this as needed.
     |
-    */
+    */  
 
     'passwords' => [
         'users' => [

@@ -63,7 +63,6 @@ Route::group(['prefix' => 'companies'], function () {
     Route::delete('/logs/{id}', [CompanyController::class, "logs"])->name('companies.logs');
     Route::delete('/screen-setting', [CompanyController::class, "screenSetting"])->name('companies.screenSetting');
     Route::delete('/get-screen-setting/{user_id}/{screen_id}', [CompanyController::class, "getScreenSetting"])->name('companies.getScreenSetting');
-
 });
 
 Route::post('/companyModules/{id}', [CompanyController::class, "companyModules"]);
@@ -85,7 +84,6 @@ Route::group(['prefix' => 'modules'], function () {
         Route::delete('/{id}', 'delete')->name('modules.destroy');
         Route::post('/company', 'addModuleToCompany')->name('modules.company.add');
         Route::get('/{module_id}/company/{company_id}', 'removeModuleFromCompany')->name('modules.company.remove');
-
     });
 });
 
@@ -99,7 +97,7 @@ Route::group(['prefix' => 'partners'], function () {
         Route::delete('/{id}', 'delete')->name('partners.destroy');
         Route::post('/screen-setting', 'screenSetting')->name('partners.screenSetting');
         Route::get('/get-screen-setting/{user_id}/{screen_id}', 'getScreenSetting')->name('partners.getScreenSetting');
-        Route::post('/companies', 'companies');
+        Route::post('/login', 'login');
     });
 });
 
@@ -116,7 +114,6 @@ Route::group(['prefix' => 'screens'], function () {
         Route::post('/', 'store')->name('screens.store');
         Route::put('/{id}', 'update')->name('screens.update');
         Route::delete('/{id}', 'delete')->name('screens.destroy');
-
     });
 });
 
@@ -173,7 +170,6 @@ Route::group(['prefix' => 'workflow-trees'], function () {
         Route::put('/{id}', 'update')->name('WorkflowTree.update');
         Route::delete('/{id}', 'delete')->name('WorkflowTree.destroy');
         Route::get('logs/{id}', 'logs')->name('WorkflowTree.logs');
-
     });
 });
 
@@ -215,5 +211,4 @@ Route::group(['prefix' => 'screenDocumentType'], function () {
     Route::post('/add', [ScreenController::class, 'addScreenToDocumentType']);
     Route::delete('/remove/{screen_id}/{documentType_id}', [ScreenController::class, 'removeScreenFromDocumentType']);
     Route::get('logs/{id}', [ScreenController::class, 'logs'])->name('screenDocumentType.logs');
-
 });
