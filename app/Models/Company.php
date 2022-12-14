@@ -2,20 +2,17 @@
 
 namespace App\Models;
 
-use App\Models\Module;
-use App\Models\Partner;
-use App\Models\Store;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
-use Spatie\Activitylog\Contracts\Activity;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\CausesActivity;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Company extends Model
 {
-
+    use HasFactory;
     use SoftDeletes, LogsActivity, CausesActivity;
 
     protected $guarded = [];
@@ -44,12 +41,6 @@ class Company extends Model
         return Storage::disk("companies")->url($this->logo);
     }
 
-    public function tapActivity(Activity $activity, string $eventName)
-    {
-        $activity->causer_id = auth()->user()->id ?? 0;
-        $activity->causer_type = auth()->user()->role ?? "admin";
-    }
-
     public function getActivitylogOptions(): LogOptions
     {
         $user = auth()->user()->id ?? "system";
@@ -59,4 +50,5 @@ class Company extends Model
             ->useLogName('Store')
             ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName} by ($user)");
     }
+
 }

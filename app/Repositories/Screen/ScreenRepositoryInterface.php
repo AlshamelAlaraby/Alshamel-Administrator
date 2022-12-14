@@ -15,5 +15,13 @@ interface ScreenRepositoryInterface
 
     public function delete($id);
 
+    public function addScreenToDocumentType($request);
+
+    public function logs($id);
+
+
+    public function removeScreenFromDocumentType($screen_id, $documentType_id);
+
+
 
 }

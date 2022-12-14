@@ -6,6 +6,7 @@ namespace App\Repositories\Company;
 
 use App\Http\Resources\Company\CompanyResource;
 use App\Models\Company;
+use App\Models\UserSettingScreen;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
@@ -25,18 +26,7 @@ class CompanyRepository implements CompanyRepositoryInterface
 
     public function getAllCompanies ($request)
     {
-        $models = $this->model->where(function ($q) use ($request) {
-
-            if ($request->search) {
-                $q->where('name', 'like', '%' . $request->search . '%');
-                $q->orWhere('name_e', 'like', '%' . $request->search . '%');
-            }
-
-            if ($request->is_active) {
-                $q->where('is_active', $request->is_active);
-            }
-
-        })->orderBy($request->order ? $request->order : 'updated_at', $request->sort ? $request->sort : 'DESC');
+        $models = $this->model->filter($request)->orderBy($request->order ? $request->order : 'updated_at', $request->sort ? $request->sort : 'DESC');
 
         if ($request->per_page) {
             return ['data' => $models->paginate($request->per_page), 'paginate' => true];
@@ -86,6 +76,33 @@ class CompanyRepository implements CompanyRepositoryInterface
     }
 
 
+    public function setting($request)
+    {
+        DB::transaction(function () use ($request) {
+            $screenSetting = UserSettingScreen::where('user_id',$request['user_id'])->where('screen_id',$request['screen_id'])->first();
+            $request['data_json'] =json_encode($request['data_json']);
+            if (!$screenSetting) {
+                UserSettingScreen::create($request);
+            } else {
+                $screenSetting->update($request);
+            }
+        });
+    }
+
+    public function getSetting($user_id, $screen_id)
+    {
+        return  UserSettingScreen::where('user_id',$user_id)->where('screen_id',$screen_id)->first();
+    }
+
+    public function companyModules($request)
+    {
+        return $this->model->filterCompanyModules($request)->get();
+    }
+
+    public function logs($id)
+    {
+        return $this->model->find($id)->activities()->orderBy('created_at', 'DESC')->get();
+    }
     private function forget($id)
     {
         $keys = [

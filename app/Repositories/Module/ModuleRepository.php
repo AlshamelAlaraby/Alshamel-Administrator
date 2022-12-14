@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Module;
 
+use App\Models\UserSettingScreen;
 use Illuminate\Support\Facades\DB;
 
 class ModuleRepository implements ModuleInterface
@@ -16,20 +17,7 @@ class ModuleRepository implements ModuleInterface
     public function all($request)
     {
         $models = $this->model->where(function ($q) use ($request) {
-
-            if ($request->search) {
-                $q->where('name', 'like', '%' . $request->search . '%');
-                $q->orWhere('name_e', 'like', '%' . $request->search . '%');
-            }
-
-            if ($request->is_active) {
-                $q->where('is_active', $request->is_active);
-            }
-
-            if ($request->parent_id) {
-                $q->where('parent_id', $request->parent_id);
-            }
-
+            $this->model->scopeFilter($q , $request);
         })->orderBy($request->order ? $request->order : 'updated_at', $request->sort ? $request->sort : 'DESC');
 
         if ($request->per_page) {
@@ -57,7 +45,6 @@ class ModuleRepository implements ModuleInterface
         DB::transaction(function () use ($id, $request) {
             $this->model->where("id", $id)->update($request->all());
             $this->forget($id);
-
         });
 
     }
@@ -81,6 +68,25 @@ class ModuleRepository implements ModuleInterface
     public function removeModuleFromCompany($module_id, $company_id)
     {
         $this->model->find($module_id)->companies()->detach($company_id);
+    }
+
+    public function setting($request)
+    {
+        DB::transaction(function () use ($request) {
+            $screenSetting = UserSettingScreen::where('user_id',$request['user_id'])->where('screen_id',$request['screen_id'])->first();
+            $request['data_json'] =json_encode($request['data_json']);
+            if (!$screenSetting) {
+                UserSettingScreen::create($request);
+            } else {
+                $screenSetting->update($request);
+            }
+        });
+    }
+
+
+    public function getSetting($user_id, $screen_id)
+    {
+        return  UserSettingScreen::where('user_id',$user_id)->where('screen_id',$screen_id)->first();
     }
 
     private function forget($id)

@@ -24,5 +24,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make(124578963),
         ]);
 
+        \App\Models\Partner::factory(100)->create();
+        \App\Models\Company::factory(100)->create();
     }
 }
