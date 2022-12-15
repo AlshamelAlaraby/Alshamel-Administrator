@@ -65,6 +65,11 @@ class WorkflowTree extends Model
         return $this->belongsTo(WorkflowTree::class , 'parent_id' , 'id');
     }
 
+
+    public function parent(){
+        return $this->belongsTo(WorkflowTree::class , 'parent_id' , 'id');
+    }
+
     /**
      * return relation  with  partner
      */
@@ -83,6 +88,10 @@ class WorkflowTree extends Model
      * return relation with  module
      */
     public function moduleName(){
+        return $this->belongsTo(Module::class);
+    }
+
+    public function module(){
         return $this->belongsTo(Module::class);
     }
 
