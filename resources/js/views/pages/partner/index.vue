@@ -713,7 +713,7 @@ export default {
                                 <tr
                                     v-for="(data,index) in partners"
                                     :key="data.id" class="body-tr-custom"
-                                    @click.prevent="checkRow(data.id)"
+                                    @click.capture="checkRow(data.id)"
                                     @dblclick.prevent="$bvModal.show(`modal-edit-${data.id}`)"
                                 >
                                     <td>
@@ -1022,4 +1022,3 @@ export default {
         </div>
     </Layout>
 </template>
-

@@ -15861,8 +15861,7 @@ var render = function () {
                                     key: data.id,
                                     staticClass: "body-tr-custom",
                                     on: {
-                                      click: function ($event) {
-                                        $event.preventDefault()
+                                      "!click": function ($event) {
                                         return _vm.checkRow(data.id)
                                       },
                                       dblclick: function ($event) {

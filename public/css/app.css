@@ -77762,8 +77762,47 @@ body {
   background-color: #dff0fe;
 }
 
+.modal-content {
+  background-color: #dff0fe !important;
+}
+
+.modal-header {
+  padding: 0.5rem 1rem !important;
+  background-color: hsl(209deg, 53%, 90%);
+}
+
+.modal-header h5.modal-title {
+  font-size: 23px !important;
+  margin: 0 1.5rem !important;
+}
+
+.modal-header .close {
+  font-size: 57px !important;
+  width: 38px !important;
+  padding: 0 0 11px 0 !important;
+  height: 36px !important;
+  text-align: center;
+  line-height: 7px !important;
+  margin: -0.2rem 0rem -1rem 0rem !important;
+  background-color: hsl(210deg, 80%, 94%);
+  color: hsl(200deg, 98%, 49%);
+}
+
 .navbar-custom .topnav-menu .nav-link {
   color: #000 !important;
+}
+
+.dropdown-custom-ali .dropdown-toggle {
+  padding: 0.35rem 0.6rem !important;
+}
+
+.form-group {
+  margin-bottom: 0.3rem !important;
+}
+
+label {
+  margin-bottom: 0.2rem !important;
+  color: #343a40 !important;
 }
 
 .nav-user, .nav-route-related {
@@ -77893,6 +77932,27 @@ custom-table-theme tbody tr td, .custom-table-theme thead th {
 .dropzone-custom .dropzone-previews {
   z-index: 15;
   cursor: context-menu;
+}
+
+.dropzone-close {
+  position: absolute;
+  left: 95%;
+  top: -10px;
+  height: 20px;
+  line-height: 20px;
+  width: 20px;
+  text-align: center;
+  color: #fff !important;
+  border-radius: 48%;
+}
+
+.dropzone-close-rtl {
+  right: 95%;
+  left: unset;
+}
+
+.show-dropzone {
+  max-height: 400px;
 }
 
 .dropdown-search {
@@ -78044,4 +78104,21 @@ table tbody tr:nth-child(even) {
 
 .custom-control-input:checked ~ .custom-control-label::before {
   background-color: #2494be;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active,
+.btn-primary:not(:disabled):not(.disabled).active,
+.show > .btn-primary.dropdown-toggle,
+.btn.btn-primary {
+  font-weight: bold !important;
+  color: snow;
+}
+
+td i.fe-info {
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.modal.show .modal-dialog {
+  height: 85%;
 }
