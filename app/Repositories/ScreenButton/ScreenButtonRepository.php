@@ -4,6 +4,7 @@ namespace App\Repositories\ScreenButton;
 
 use App\Models\ScreenButton;
 use Illuminate\Support\Facades\DB;
+
 class ScreenButtonRepository implements ScreenButtonRepositoryInterface
 {
 
@@ -15,7 +16,7 @@ class ScreenButtonRepository implements ScreenButtonRepositoryInterface
 
     public function getAllScreenButtons($request)
     {
-        $models = $this->model;
+        $models = $this->model->filter($request);
 
         if ($request->per_page) {
             return ['data' => $models->paginate($request->per_page), 'paginate' => true];
@@ -43,9 +44,7 @@ class ScreenButtonRepository implements ScreenButtonRepositoryInterface
         DB::transaction(function () use ($id, $request) {
             $this->model->where("id", $id)->update($request);
             $this->forget($id);
-
         });
-
     }
 
     public function delete($id)
@@ -55,6 +54,10 @@ class ScreenButtonRepository implements ScreenButtonRepositoryInterface
         $model->delete();
     }
 
+    public function logs($id)
+    {
+        return $this->model->find($id)->activities()->orderBy('created_at', 'DESC')->get();
+    }
 
     private function forget($id)
     {
@@ -65,6 +68,5 @@ class ScreenButtonRepository implements ScreenButtonRepositoryInterface
         foreach ($keys as $key) {
             cacheForget($key);
         }
-
     }
 }

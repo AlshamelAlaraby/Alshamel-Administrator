@@ -24,7 +24,7 @@ class StoreScreenHelpfileRequest extends FormRequest
     public function rules()
     {
         return [
-            "screen_id" => "required|exists:screens,id",
+            "screen_id" => "required|exists:sys_screens,id",
             "helpfile_id" => "required|exists:helpfiles,id",
         ];
     }
