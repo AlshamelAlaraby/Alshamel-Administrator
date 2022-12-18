@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\WorkflowTree;
 
 use App\Http\Controllers\ResponseController;
+use App\Http\Resources\WorkflowTree\WorkflowTreeResource1;
+use App\Models\Company;
 use App\Repositories\WorkflowTree\WorkflowTreeRepositoryInterface;
 use App\Http\Resources\WorkflowTree\WorkflowTreeResource;
 use Illuminate\Http\Request;
@@ -59,6 +61,16 @@ class WorkflowTreeController extends ResponseController
         } catch (Exception $exception) {
             return  responseJson( $exception->getCode() , $exception->getMessage());
         }
+    }
+
+    public function  everything_about_the_company($id){
+        $company = Company::query ()->find ($id);
+        if (!$company){
+            return responseJson( 404 , __('message.data not found'));
+        }
+        $wf = WorkflowTree::query ()->where ('is_active',1)->where ('company_id',$company->id)->get();
+        $company->work_flow_trees = WorkflowTreeResource1::collection ($wf);
+        return responseJson( 200 , __(''),$company);
     }
 
 
