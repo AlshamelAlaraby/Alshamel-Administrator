@@ -32,8 +32,7 @@ class BranchController extends ResponseController
             $branches = $this->repository->getAllBranches($request);
             cachePut('branches', $branches);
         }
-        return responseJson(200, 'success', ($this->resource)::collection ($branches['data']), $branches['paginate'] ? getPaginates($branches['data']) : null);
-//        return $this->successResponse (($this->resource)::collection ($this->repository->getAllBranches ()),__ ('Done'),200);
+        return responseJson(200, 'success', ($this->resource)::collection ($branches),  null);
     }
 
 

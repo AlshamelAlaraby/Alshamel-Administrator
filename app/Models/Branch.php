@@ -13,5 +13,4 @@ class Branch extends Model
     protected $guarded = ['id'];
 
 
-
 }
