@@ -10,6 +10,8 @@ import loader from "../../../components/loader";
 import alphaArabic  from "../../../helper/alphaArabic";
 import alphaEnglish  from "../../../helper/alphaEnglish";
 import {dynamicSortString}  from "../../../helper/tableSort";
+import Multiselect from "vue-multiselect";
+
 
 /**
  * Advanced Table component
@@ -24,7 +26,8 @@ export default {
         PageHeader,
         Switches,
         ErrorMessage,
-        loader
+        loader,
+        Multiselect
     },
     data() {
         return {
@@ -39,22 +42,28 @@ export default {
             create: {
                 name: '',
                 name_e: '',
-                parent_id: 0,
+                parent_id: null,
                 is_active: 'active',
                 search: ''
             },
             edit: {
                 name: '',
                 name_e: '',
-                parent_id: 0,
+                parent_id: null,
                 is_active: 'active',
                 search: ''
             },
+            setting: {
+                name: true,
+                name_e: true,
+                parent_id: true,
+                is_active: true
+            },
+            filterSetting: ['name', 'name_e'],
             errors: {},
-            dropDownSenders: [],
-            isButton: true,
             isCheckAll: false,
             checkAll: [],
+            is_disabled: false,
             current_page: 1
         }
     },
@@ -103,7 +112,6 @@ export default {
     },
     mounted() {
         this.getData();
-        this.keyDropdown();
     },
     methods: {
         /**
@@ -112,7 +120,12 @@ export default {
         getData(page = 1){
             this.isLoader = true;
 
-            adminApi.get(`/modules?page=${page}&per_page=${this.per_page}&search=${this.search}`)
+            let filter = '';
+            for (let i = 0; i > this.filterSetting.length; ++i) {
+                filter += `columns[${i}]=${this.filterSetting[i]}&`;
+            }
+
+            adminApi.get(`/modules?page=${page}&per_page=${this.per_page}&search=${this.search}&${filter}`)
                 .then((res) => {
                     let l = res.data;
                     this.modules = l.data;
@@ -133,8 +146,12 @@ export default {
         getDataCurrentPage(){
             if(this.current_page <= this.modulesPagination.last_page && this.current_page != this.modulesPagination.current_page && this.current_page){
                 this.isLoader = true;
+                let filter = '';
+                for (let i = 0; i > this.filterSetting.length; ++i) {
+                    filter += `columns[${i}]=${this.filterSetting[i]}&`;
+                }
 
-                adminApi.get(`/modules?page=${this.current_page}&per_page=${this.per_page}&search=${this.search}`)
+                adminApi.get(`/modules?page=${this.current_page}&per_page=${this.per_page}&search=${this.search}&${filter}`)
                     .then((res) => {
                         let l = res.data;
                         this.modules = l.data;
@@ -201,22 +218,30 @@ export default {
          *  reset Modal (create)
          */
         resetModalHidden(){
-            this.create =  {name: '', name_e: '', parent_id: 0, is_active: 'active'};
+            this.create =  {name: '', name_e: '', parent_id: null, is_active: 'active'};
             this.$nextTick(() => { this.$v.$reset() });
             this.errors = {};
+            this.parents = [];
             this.$bvModal.hide(`create`);
         },
         /**
          *  hidden Modal (create)
          */
-        resetModal(){
-            this.create =  {name: '', name_e: '', parent_id: 0, is_active: 'active'};
+        async resetModal(){
+            await this.getParent();
+            this.create =  {name: '', name_e: '', parent_id: null, is_active: 'active'};
+            this.is_disabled = false;
             this.$nextTick(() => { this.$v.$reset() });
             this.errors = {};
         },
         /**
          *  create module
          */
+        resetForm(){
+            this.create =  {name: '', name_e: '', parent_id: null, is_active: 'active'};
+            this.is_disabled = false;
+            this.$nextTick(() => { this.$v.$reset() });
+        },
         AddSubmit(){
             this.$v.create.$touch();
 
@@ -225,10 +250,12 @@ export default {
             } else {
                 this.isLoader = true;
                 this.errors = {};
+                this.is_disabled = false;
+                if(!this.create.parent_id){this.create.parent_id = 0};
                 adminApi.post(`/modules`,this.create)
                     .then((res) => {
-                        this.$bvModal.hide(`create`);
                         this.getData();
+                        this.is_disabled = true;
                         setTimeout(() => {
                             Swal.fire({
                                 icon: 'success',
@@ -265,6 +292,7 @@ export default {
             } else {
                 this.isLoader = true;
                 this.errors = {};
+                if(!this.edit.parent_id){this.edit.parent_id = 0};
                 let {name,name_e,parent_id,is_active} = this.edit;
                 adminApi.put(`/modules/${id}`,{name,name_e,parent_id,is_active})
                     .then((res) => {
@@ -297,10 +325,10 @@ export default {
         /**
          *  get parent
          */
-        getParent(){
-            adminApi.get(`/modules?parent_id=${0}&is_active=active`)
+        async getParent(){
+            await adminApi.get(`/modules?parent_id=${0}&is_active=active`)
                 .then((res) => {
-                    this.dropDownSenders = res.data.data;
+                    this.parents = res.data.data;
                 })
                 .catch((err) => {
                     Swal.fire({
@@ -313,8 +341,9 @@ export default {
         /**
          *   show Modal (edit)
          */
-        resetModalEdit(id){
+        async resetModalEdit(id){
             let module = this.modules.find(e => id == e.id );
+            await this.getParent();
             this.edit.name = module.name;
             this.edit.name_e = module.name_e;
             this.edit.is_active = module.is_active;
@@ -329,136 +358,12 @@ export default {
             this.edit = {
                 name: '',
                 name_e: '',
-                parent_id: 0,
+                parent_id: null,
                 is_active: 'active'
             };
-        },
-        /**
-         *  start  dropdown Google
-         */
-        searchSender(){
-            this.dropDownSenders = [];
-            this.create.parent_id = 0;
-            this.edit.parent_id = 0;
-            if(this.create.search || this.edit.search){
-                clearTimeout(this.debounce);
-                this.debounce = setTimeout(() => {
-                    this.getParent();
-                }, 400);
-            }else{
-                this.dropDownSenders = [];
-            }
-            this.isButton = false;
+            this.parents = [];
         },
 
-        showSenderName(index){
-            let item = this.dropDownSenders[index];
-            this.create.parent_id = item.id;
-            this.create.search = (this.$i18n.locale == 'ar' ? item.name : item.name_e);
-            this.edit.parent_id = item.id;
-            this.edit.search = (this.$i18n.locale == 'ar' ? item.name : item.name_e);
-            this.isButton = true;
-            this.dropDownSenders = [];
-        },
-
-        senderHover(e){
-            let items = document.querySelectorAll('.sender-search .Sender');
-            items.forEach(e => e.classList.remove('active'));
-            e.target.classList.add('active');
-        },
-
-        keyDropdown(){
-            document.addEventListener('keyup',(e) => {
-                if(e.keyCode == 38){ //top arrow
-                    if(this.dropDownSenders.length > 0){
-                        let items = document.querySelectorAll('.sender-search .Sender');
-                        let isTrue = false;
-                        let index = null;
-                        items.forEach((e,i) => {
-                            if(e.classList.contains('active')) {
-                                isTrue = true;
-                                index = i;
-                            }
-                        });
-                        if(isTrue && index != 0){
-                            items[index].classList.remove('active');
-                            items[index - 1].classList.add('active');
-                        }else if(isTrue && index == 0){
-                            items[index].classList.remove('active');
-                            items[items.length - 1].classList.add('active');
-                        }
-                        if(!isTrue) items[0].classList.add('active');
-                    }else {
-                        this.dropDownSenders = [];
-                    }
-                };
-
-                if(e.keyCode == 40){ //down arrow
-                    if(this.dropDownSenders.length > 0){
-                        let items = document.querySelectorAll('.sender-search .Sender');
-                        let isTrue = false;
-                        let index = null;
-                        items.forEach((e,i) => {
-                            if(e.classList.contains('active')) {
-                                isTrue = true;
-                                index = i;
-                            }
-                        });
-                        if(isTrue && index != (items.length - 1)){
-                            items[index].classList.remove('active');
-                            items[index + 1].classList.add('active');
-                        }else if(isTrue && index == (items.length - 1)){
-                            items[index].classList.remove('active');
-                            items[0].classList.add('active');
-                        }
-                        if(!isTrue) items[items.length - 1].classList.add('active');
-                    }else {
-                        this.dropDownSenders = [];
-                    }
-                };
-
-                if(e.keyCode == 13){ //enter
-                    if(this.dropDownSenders.length > 0){
-                        let items = document.querySelectorAll('.sender-search .Sender');
-                        items.forEach((e,i) => {
-                            if(e.classList.contains('active')) this.showSenderName(i);
-                        });
-                    }else {
-                        this.dropDownSenders = [];
-                    }
-                    e.target.blur();
-                };
-            });
-
-            document.addEventListener('click',(e) => {
-                if(this.dropDownSenders.length > 0){
-                    if(e.target.classList.contains('Sender') || e.target.classList.contains('input-Sender')){
-                        this.isButton = false;
-                    }else {
-                        this.isButton = true;
-                        this.dropDownSenders = [];
-                    }
-                }else {
-                    this.isButton = true;
-                }
-            });
-        },
-
-        ClickDropdown(e){
-            if(this.dropDownSenders.length > 0){
-                if(e.target.classList.contains('Sender') || e.target.classList.contains('input-Sender')){
-                    this.isButton = false;
-                }else {
-                    this.isButton = true;
-                    this.dropDownSenders = [];
-                }
-            }else {
-                this.isButton = true;
-            }
-        },
-        /**
-         *  end  dropdown Google
-         */
         /**
          *  start  dynamicSortString
          */
@@ -491,9 +396,8 @@ export default {
                                 <div class="d-inline-block" style="width: 22.2%;">
                                     <!-- Basic dropdown -->
                                     <b-dropdown variant="primary" :text="$t('general.searchSetting')" ref="dropdown" class="btn-block setting-search">
-                                        <b-form-checkbox class="mb-1">{{ $t('general.Name') }}</b-form-checkbox>
-                                        <b-form-checkbox class="mb-1">{{ $t('general.Name_en') }}</b-form-checkbox>
-                                        <b-form-checkbox class="mb-1">{{ $t('general.Status') }}</b-form-checkbox>
+                                        <b-form-checkbox v-model="filterSetting" value="name" class="mb-1">{{ $t('general.Name') }}</b-form-checkbox>
+                                        <b-form-checkbox v-model="filterSetting" value="name_e" class="mb-1">{{ $t('general.Name_en') }}</b-form-checkbox>
                                     </b-dropdown>
                                     <!-- Basic dropdown -->
                                 </div>
@@ -575,12 +479,28 @@ export default {
                                         {{ $t('general.group') }}
                                         <i class="fe-menu"></i>
                                     </b-button>
-                                    <b-button
-                                        class="mx-1 custom-btn-background"
-                                    >
-                                        {{ $t('general.setting') }}
-                                        <i class="fe-settings"></i>
-                                    </b-button>
+                                    <!-- Basic dropdown -->
+                                    <b-dropdown variant="primary"
+                                                :html="`${$t('general.setting')} <i class='fe-settings'></i>`"
+                                                ref="dropdown" class="dropdown-custom-ali">
+                                        <b-form-checkbox v-model="setting.name" class="mb-1">{{
+                                                $t('general.Name')
+                                            }}
+                                        </b-form-checkbox>
+                                        <b-form-checkbox v-model="setting.name_e" class="mb-1">
+                                            {{ $t('general.Name_en') }}
+                                        </b-form-checkbox>
+                                        <b-form-checkbox v-model="setting.parent_id" class="mb-1">
+                                            {{ $t('general.IdParent') }}
+                                        </b-form-checkbox>
+                                        <b-form-checkbox v-model="setting.is_active" class="mb-1">
+                                            {{ $t('general.Status') }}
+                                        </b-form-checkbox>
+                                        <div class="d-flex justify-content-end">
+                                            <a href="javascript:void(0)" class="btn btn-primary btn-sm">Apply</a>
+                                        </div>
+                                    </b-dropdown>
+                                    <!-- Basic dropdown -->
                                     <!-- start Pagination -->
                                     <div class="d-inline-flex align-items-center pagination-custom">
                                         <div class="d-inline-block" style="font-size:15px;">
@@ -622,10 +542,34 @@ export default {
                             title-class="font-18"
                             body-class="p-4 "
                             :hide-footer="true"
+                            size="lg"
                             @show="resetModal"
                             @hidden="resetModalHidden"
                         >
-                            <form  @submit.stop.prevent="AddSubmit">
+                            <form>
+                                <div class="mb-3 d-flex justify-content-end">
+                                    <b-button
+                                        variant="success"
+                                        :disabled="!is_disabled"
+                                        @click.prevent="resetForm"
+                                        type="button" class="font-weight-bold px-2"
+                                    >
+                                        {{ $t('general.AddNewRecord') }}
+                                    </b-button>
+                                    <!-- Emulate built in modal footer ok and cancel button actions -->
+                                    <b-button  variant="success" type="submit" class="mx-1" v-if="!isLoader && !is_disabled" @click.prevent="AddSubmit">
+                                        {{ $t('general.Add') }}
+                                    </b-button>
+
+                                    <b-button variant="success" class="mx-1" disabled v-else>
+                                        <b-spinner small></b-spinner>
+                                        <span class="sr-only">{{ $t('login.Loading') }}...</span>
+                                    </b-button>
+
+                                    <b-button variant="danger" type="button" @click.prevent="resetModalHidden">
+                                        {{ $t('general.Cancel') }}
+                                    </b-button>
+                                </div>
                                 <div class="row">
                                     <div class="col-md-6 direction" dir="rtl">
                                         <div class="form-group">
@@ -641,7 +585,7 @@ export default {
                                                 'is-invalid':$v.create.name.$error || errors.name,
                                                 'is-valid':!$v.create.name.$invalid && !errors.name
                                             }"
-                                                :placeholder="$t('general.Name')" id="field-1"
+                                             id="field-1"
                                             />
                                             <div v-if="!$v.create.name.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.name.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.name.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.name.$params.maxLength.max }} {{ $t('general.letters') }}</div>
@@ -665,7 +609,7 @@ export default {
                                                 'is-invalid':$v.create.name_e.$error || errors.name_e,
                                                 'is-valid':!$v.create.name_e.$invalid && !errors.name_e
                                             }"
-                                                :placeholder="$t('general.Name_en')" id="field-2"
+                                                 id="field-2"
                                             />
                                             <div v-if="!$v.create.name_e.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.name_e.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.name_e.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.name_e.$params.maxLength.max }} {{ $t('general.letters') }}</div>
@@ -675,73 +619,44 @@ export default {
                                             </template>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 mt-1">
+                                    <div class="col-md-6 position-relative">
                                         <div class="form-group">
-                                            <label class="my-1 mr-2" for="inlineFormCustomSelectPref">
+                                            <label class="my-1 mr-2" >{{ $t('general.IdParent') }}</label>
+                                            <multiselect
+                                                v-model="create.parent_id"
+                                                :options="parents.map(type => type.id)"
+                                                :custom-label="opt => $i18n.locale ? parents.find(x => x.id == opt).name : parents.find(x => x.id == opt).name_e">
+                                            </multiselect>
+
+                                            <template v-if="errors.parent_id">
+                                                <ErrorMessage v-for="(errorMessage,index) in errors.parent_id" :key="index">{{ errorMessage }}</ErrorMessage>
+                                            </template>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class=" mr-2 mb-2" >
                                                 {{ $t('general.Status') }}
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <select
-                                                class="custom-select my-1 mr-sm-2"
-                                                id="inlineFormCustomSelectPref"
-                                                v-model="$v.create.is_active.$model"
+                                            <b-form-group
                                                 :class="{
-                                                'is-invalid':$v.create.is_active.$error || errors.is_active,
-                                                'is-valid':!$v.create.is_active.$invalid && !errors.is_active
-                                            }"
-                                            >
-                                                <option value="" selected>{{ $t('general.Choose') }}...</option>
-                                                <option value="active">{{ $t('general.Active') }}</option>
-                                                <option value="inactive">{{ $t('general.Inactive') }}</option>
-                                            </select>
+                                                    'is-invalid':$v.create.is_active.$error || errors.is_active,
+                                                    'is-valid':!$v.create.is_active.$invalid && !errors.is_active
+                                                    }"
+                                                >
+                                                <b-form-radio class="d-inline-block" v-model="$v.create.is_active.$model" name="some-radios" value="active">{{$t('general.Active')}}</b-form-radio>
+                                                <b-form-radio class="d-inline-block m-1" v-model="$v.create.is_active.$model" name="some-radios" value="inactive">{{$t('general.Inactive')}}</b-form-radio>
+                                            </b-form-group>
                                             <template v-if="errors.is_active">
-                                                <ErrorMessage v-for="(errorMessage,index) in errors.is_active" :key="index">{{ errorMessage }}</ErrorMessage>
+                                                <ErrorMessage
+                                                    v-for="(errorMessage,index) in errors.is_active"
+                                                    :key="index">{{ errorMessage }}
+                                                </ErrorMessage>
                                             </template>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 mt-1 position-relative">
-                                        <div class="form-group">
-                                            <label class="my-1 mr-2" >{{ $t('general.IdParent') }}</label>
-                                            <input
-                                                class="form-control input-Sender"
-                                                v-model.trim="create.search"
-                                                @input="searchSender"
-                                                @blur.prevent="ClickDropdown"
-                                                @focus="isButton = false"
-                                                :placeholder="$t('general.IdParent')" id="field-9"
-                                            />
-
-                                            <ul class="dropdown-search list-unstyled sender-search"
-                                                v-if="dropDownSenders.length > 0"
-                                            >
-                                                <li
-                                                    class="Sender"
-                                                    v-for="(dropDownSender,index) in dropDownSenders"
-                                                    :key="index"
-                                                    @click="showSenderName(index)"
-                                                    @mouseenter="senderHover"
-                                                >
-                                                    {{ `${dropDownSender.id}- ${dropDownSender.name}` }}
-                                                </li>
-                                            </ul>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mt-1 d-flex justify-content-end">
-                                    <!-- Emulate built in modal footer ok and cancel button actions -->
-                                    <b-button  variant="success" type="submit" class="mx-1" v-if="!isLoader && isButton">
-                                        {{ $t('general.Add') }}
-                                    </b-button>
-
-                                    <b-button variant="success" class="mx-1" disabled v-else>
-                                        <b-spinner small></b-spinner>
-                                        <span class="sr-only">{{ $t('login.Loading') }}...</span>
-                                    </b-button>
-
-                                    <b-button variant="secondary" type="button" @click.prevent="resetModalHidden">
-                                        {{ $t('general.Cancel') }}
-                                    </b-button>
                                 </div>
                             </form>
                         </b-modal>
@@ -766,7 +681,7 @@ export default {
                                             >
                                         </div>
                                     </th>
-                                    <th>
+                                    <th v-if="setting.name">
                                         <div class="d-flex justify-content-center">
                                             <span>{{ $t('general.Name') }}</span>
                                             <div class="arrow-sort">
@@ -775,7 +690,7 @@ export default {
                                             </div>
                                         </div>
                                     </th>
-                                    <th>
+                                    <th v-if="setting.name_e">
                                         <div class="d-flex justify-content-center">
                                             <span>{{ $t('general.Name_en') }}</span>
                                             <div class="arrow-sort">
@@ -784,7 +699,7 @@ export default {
                                             </div>
                                         </div>
                                     </th>
-                                    <th>
+                                    <th v-if="setting.is_active">
                                         <div class="d-flex justify-content-center">
                                             <span>{{ $t('general.Status') }}</span>
                                             <div class="arrow-sort">
@@ -801,7 +716,7 @@ export default {
                                 </thead>
                                 <tbody v-if="modules.length > 0">
                                   <tr
-                                      @click.prevent="checkRow(data.id)"
+                                      @click.capture="checkRow(data.id)"
                                       @dblclick.prevent="$bvModal.show(`modal-edit-${data.id}`)"
                                       v-for="(data,index) in modules"
                                       :key="data.id"
@@ -818,13 +733,13 @@ export default {
                                             >
                                         </div>
                                     </td>
-                                    <td>
+                                    <td v-if="setting.name">
                                         <h5 class="m-0 font-weight-normal">{{ data.name }}</h5>
                                     </td>
-                                    <td>
+                                    <td v-if="setting.name_e">
                                         <h5 class="m-0 font-weight-normal">{{ data.name_e }}</h5>
                                     </td>
-                                    <td>
+                                    <td v-if="setting.is_active">
                                         <span :class="[
                                             data.is_active == 'active' ?
                                             'text-success':
@@ -878,12 +793,32 @@ export default {
                                             :title="$t('module.editmodule')"
                                             title-class="font-18"
                                             body-class="p-4"
+                                            size="lg"
                                             :ref="`edit-${data.id}`"
                                             :hide-footer="true"
                                             @show="resetModalEdit(data.id)"
                                             @hidden="resetModalHiddenEdit(data.id)"
                                         >
-                                            <form  @submit.stop.prevent="editSubmit(data.id)">
+                                            <form>
+                                                <div class="mb-3 d-flex justify-content-end">
+                                                    <!-- Emulate built in modal footer ok and cancel button actions -->
+                                                    <b-button  variant="success" type="submit" class="mx-1" v-if="!isLoader" @click.prevent="editSubmit(data.id)">
+                                                        {{ $t('general.Edit') }}
+                                                    </b-button>
+
+                                                    <b-button variant="success" class="mx-1" disabled v-else>
+                                                        <b-spinner small></b-spinner>
+                                                        <span class="sr-only">{{ $t('login.Loading') }}...</span>
+                                                    </b-button>
+
+                                                    <b-button
+                                                        variant="danger"
+                                                        type="button"
+                                                        @click.prevent="$bvModal.hide(`modal-edit-${data.id}`)"
+                                                    >
+                                                        {{ $t('general.Cancel') }}
+                                                    </b-button>
+                                                </div>
                                                 <div class="row">
                                                     <div class="col-md-6 direction" dir="rtl">
                                                         <div class="form-group">
@@ -933,76 +868,44 @@ export default {
                                                             </template>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6 mt-1">
+                                                    <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label class="my-1 mr-2" for="inlineFormCustomSelectPrefs">
+                                                            <label class="my-1 mr-2" >{{ $t('general.IdParent') }}</label>
+                                                            <multiselect
+                                                                v-model="edit.parent_id"
+                                                                :options="parents.map(type => type.id)"
+                                                                :custom-label="opt => $i18n.locale ? parents.find(x => x.id == opt).name : parents.find(x => x.id == opt).name_e">
+                                                            </multiselect>
+
+                                                            <template v-if="errors.parent_id">
+                                                                <ErrorMessage v-for="(errorMessage,index) in errors.parent_id" :key="index">{{ errorMessage }}</ErrorMessage>
+                                                            </template>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class=" mr-2 mb-2" >
                                                                 {{ $t('general.Status') }}
                                                                 <span class="text-danger">*</span>
                                                             </label>
-                                                            <select
-                                                                class="custom-select my-1 mr-sm-2"
-                                                                id="inlineFormCustomSelectPrefs"
-                                                                v-model="$v.edit.is_active.$model"
+                                                            <b-form-group
                                                                 :class="{
-                                                                    'is-invalid':$v.edit.is_active.$error || errors.is_active,
-                                                                    'is-valid':!$v.edit.is_active.$invalid && !errors.is_active
+                                                                'is-invalid':$v.edit.is_active.$error || errors.is_active,
+                                                                'is-valid':!$v.edit.is_active.$invalid && !errors.is_active
                                                                 }"
-                                                                >
-                                                                <option value="0" selected>{{ $t('general.Choose') }}...</option>
-                                                                <option value="active">{{ $t('general.Active') }}</option>
-                                                                <option value="inactive">{{ $t('general.Inactive') }}</option>
-                                                            </select>
+                                                            >
+                                                                <b-form-radio class="d-inline-block" v-model="$v.edit.is_active.$model" name="some-radios" value="active">{{$t('general.Active')}}</b-form-radio>
+                                                                <b-form-radio class="d-inline-block m-1" v-model="$v.edit.is_active.$model" name="some-radios" value="inactive">{{$t('general.Inactive')}}</b-form-radio>
+                                                            </b-form-group>
                                                             <template v-if="errors.is_active">
-                                                                <ErrorMessage v-for="(errorMessage,index) in errors.is_active" :key="index">{{ errorMessage }}</ErrorMessage>
+                                                                <ErrorMessage
+                                                                    v-for="(errorMessage,index) in errors.is_active"
+                                                                    :key="index">{{ errorMessage }}
+                                                                </ErrorMessage>
                                                             </template>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6 mt-1">
-                                                        <div class="form-group">
-                                                            <label class="my-1 mr-2">{{ $t('general.IdParent') }}</label>
-                                                            <input
-                                                                class="form-control input-Sender"
-                                                                v-model.trim="edit.search"
-                                                                @input="searchSender"
-                                                                @blur.prevent="ClickDropdown"
-                                                                @focus="isButton = false"
-                                                                :placeholder="$t('general.IdParent')"
-                                                            />
-
-                                                            <ul class="dropdown-search list-unstyled sender-search"
-                                                                v-if="dropDownSenders.length > 0"
-                                                            >
-                                                                <li
-                                                                    class="Sender"
-                                                                    v-for="(dropDownSender,index) in dropDownSenders"
-                                                                    :key="index"
-                                                                    @click="showSenderName(index)"
-                                                                    @mouseenter="senderHover"
-                                                                >
-                                                                    {{ `${dropDownSender.id}- ${dropDownSender.name}` }}
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="mt-1 d-flex justify-content-end">
-                                                    <!-- Emulate built in modal footer ok and cancel button actions -->
-                                                    <b-button  variant="success" type="submit" class="mx-1" v-if="!isLoader && isButton">
-                                                        {{ $t('general.Edit') }}
-                                                    </b-button>
-
-                                                    <b-button variant="success" class="mx-1" disabled v-else>
-                                                        <b-spinner small></b-spinner>
-                                                        <span class="sr-only">{{ $t('login.Loading') }}...</span>
-                                                    </b-button>
-
-                                                    <b-button
-                                                        variant="secondary"
-                                                        type="button"
-                                                        @click.prevent="$bvModal.hide(`modal-edit-${data.id}`)"
-                                                    >
-                                                        {{ $t('general.Cancel') }}
-                                                    </b-button>
                                                 </div>
                                             </form>
                                         </b-modal>

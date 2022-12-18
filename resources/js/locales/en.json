@@ -13,7 +13,7 @@
         "Loading": "Loading"
     },
     "module": {
-        "addmodule": "New Add Module",
+        "addmodule": " Add New Module",
         "editmodule": "Edit Module",
         "module": "Module",
         "ModulesTable": "Modules Table"
@@ -434,6 +434,7 @@
           "commands": "Commands",
           "delete": "Delete",
           "edit": "Edit",
-          "searchSetting": "إعداد البحث"
+          "searchSetting": "Search Setting",
+          "AddNewRecord": "Add New Record"
     }
 }
