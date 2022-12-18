@@ -7,12 +7,12 @@ const adminApi = axios.create({
 });
 
 adminApi.interceptors.request.use(
-    function (config) {
+    function(config) {
         config.headers['lang'] = localStorage.getItem("lang") || 'ar';
-        config.headers['Authorization'] = "Bearer "+ (Cookies.get("token") || '');
+        config.headers['Authorization'] = "Bearer " + (Cookies.get("token") || '');
         return config;
     },
-    function (error) {
+    function(error) {
         return Promise.reject(error);
     }
 );

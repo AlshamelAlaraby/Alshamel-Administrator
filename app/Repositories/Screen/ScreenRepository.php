@@ -2,16 +2,14 @@
 
 namespace App\Repositories\Screen;
 
+use App\Exceptions\NotFoundException;
 use App\Models\Screen;
 use Illuminate\Support\Facades\DB;
+
 class ScreenRepository implements ScreenRepositoryInterface
 {
 
-    private $model;
-    public function __construct(Screen $model)
-    {
-        $this->model = $model;
-    }
+    public function __construct(private Screen $model){}
 
     public function getAllScreens($request)
     {
@@ -30,11 +28,8 @@ class ScreenRepository implements ScreenRepositoryInterface
 
         })->latest();
 
-        if ($request->per_page) {
             return ['data' => $models->paginate($request->per_page), 'paginate' => true];
-        } else {
-            return ['data' => $models->get(), 'paginate' => false];
-        }
+
     }
 
     public function find($id)
@@ -56,7 +51,6 @@ class ScreenRepository implements ScreenRepositoryInterface
         DB::transaction(function () use ($id, $request) {
             $this->model->where("id", $id)->update($request);
             $this->forget($id);
-
         });
 
     }
@@ -66,6 +60,26 @@ class ScreenRepository implements ScreenRepositoryInterface
         $model = $this->find($id);
         $this->forget($id);
         $model->delete();
+    }
+
+    public function addScreenToDocumentType($request)
+    {
+        $screen = $this->model->find($request->screen_id);
+        if(!$screen)
+        {
+            throw new NotFoundException();
+        }
+        $screen->documentTypes()->attach($request->documentType_id);
+    }
+
+    public function removeScreenFromDocumentType($screen_id, $documentType_id)
+    {
+        $screen = $this->model->find($screen_id);
+        if(!$screen)
+        {
+            throw new NotFoundException();
+        }
+        $screen->documentTypes()->detach($documentType_id);
     }
 
 
@@ -78,6 +92,5 @@ class ScreenRepository implements ScreenRepositoryInterface
         foreach ($keys as $key) {
             cacheForget($key);
         }
-
     }
 }

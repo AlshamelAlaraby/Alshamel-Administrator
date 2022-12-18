@@ -10,6 +10,14 @@ class Helpfile extends Model
     use SoftDeletes;
 
 
-    protected $guarded = [] ;
+    protected $guarded = ["id"] ;
+
+
+
+    public function screens()
+    {
+        return $this->belongsToMany(Screen::class, 'screens_helpfiles' , 'helpfile_id' , 'screen_id');
+    }
+
 
 }

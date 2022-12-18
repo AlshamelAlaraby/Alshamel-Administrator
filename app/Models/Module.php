@@ -16,10 +16,44 @@ class Module extends Model
         'is_active',
     ];
 
+    protected $hidden =['pivot'];
+
+
     protected $casts = [
         'is_active' => 'App\Enums\IsActive',
     ];
 
+     /**
+     * this method used to make filter of query
+     * @param Query  $query
+     * @param $request
+     * @return $query
+     */
+    public function scopeFilter($query,$request)
+    {
+        return $query->where(function ($q) use ($request) {
+            if ($request->search) {
+                $q->where('name', 'like', '%' . $request->search . '%');
+                $q->orWhere('name_e', 'like', '%' . $request->search . '%');
+            }
+
+            if ($request->name) {
+                $q->orWhere('name', 'like', '%' . $request->name . '%');
+            }
+
+            if ($request->name_e) {
+                $q->orWhere('name_e', 'like', '%' . $request->name_e . '%');
+            }
+
+            if ($request->parent_id) {
+                $q->where('parent_id', $request->parent_id);
+            }
+
+            if ($request->is_active) {
+                $q->where('is_active', $request->is_active);
+            }
+        });
+    }
     public function parent()
     {
         return $this->hasMany(Module::class, 'parent_id', 'id');
@@ -35,7 +69,7 @@ class Module extends Model
         return $this->belongsToMany(Company::class, 'company_module', 'module_id', 'company_id');
     }
 
-    
+
     public function getHaveChildrenAttribute()
     {
         return static::where("parent_id", $this->id)->count() > 0;

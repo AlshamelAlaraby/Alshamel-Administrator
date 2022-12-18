@@ -15,7 +15,7 @@ class CreateCompaniesTable extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('partner_id')->constrained('partners')->references("id")->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('partner_id')->constrained('partners')->references("id");
             $table->string("name" , 100)->comment("Name Arabic");
             $table->string("name_e" , 100)->comment("Name English");
             $table->string("url" , 200)->comment("مسار نظام الشركة");
@@ -28,6 +28,7 @@ class CreateCompaniesTable extends Migration
             $table->string("email");
             $table->string("website");
             $table->string('is_active')->default('inactive');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

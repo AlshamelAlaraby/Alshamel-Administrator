@@ -8,6 +8,8 @@ return [
      */
     'WORKFLOW_TREE_PATH' => 'uploads/workflowTree/',
 
+    'BUTTON_PATH' => 'uploads/button/',
+
 
 
 ];
