@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import loader from "../../../components/loader";
 import alphaArabic  from "../../../helper/alphaArabic";
 import alphaEnglish  from "../../../helper/alphaEnglish";
+import {dynamicSortString} from "../../../helper/tableSort";
 
 
 /**
@@ -30,18 +31,7 @@ export default {
     },
     data() {
         return {
-            title: `company.company`,
-            items: [
-                {
-                    text: "alshamel",
-                    to: {name: "home"},
-                },
-                {
-                    text: `company.company`,
-                    active: true,
-                },
-            ],
-            per_page: 10,
+            per_page: 50,
             search: '',
             debounce: {},
             companiesPagination: {},
@@ -90,6 +80,9 @@ export default {
             image: '',
             counter: 0,
             dropDownSenders: [],
+            isCheckAll: false,
+            checkAll: [],
+            current_page: 1
         }
     },
     validations: {
@@ -97,7 +90,7 @@ export default {
             name: {required,minLength: minLength(3),maxLength: maxLength(100),alphaArabic},
             name_e: {required,minLength: minLength(3),maxLength: maxLength(100),alphaEnglish},
             email: {required,email,minLength: minLength(3),maxLength: maxLength(100)},
-            phone: {required,minLength: minLength(8),maxLength: maxLength(16),integer},
+            phone: {required,integer},
             tax_id: {required,minLength: minLength(1),maxLength: maxLength(10),integer},
             vat_no: {required,minLength: minLength(1),maxLength: maxLength(10),integer},
             url: {required,url,minLength: minLength(10),maxLength: maxLength(200)},
@@ -113,7 +106,7 @@ export default {
             name: {required,minLength: minLength(3),maxLength: maxLength(100),alphaArabic},
             name_e: {required,minLength: minLength(3),maxLength: maxLength(100),alphaEnglish},
             email: {required,email,minLength: minLength(3),maxLength: maxLength(100)},
-            phone: {required,minLength: minLength(8),maxLength: maxLength(16),integer},
+            phone: {required,integer},
             tax_id: {required,minLength: minLength(1),maxLength: maxLength(10),integer},
             vat_no: {required,minLength: minLength(1),maxLength: maxLength(10),integer},
             url: {required,url,minLength: minLength(10),maxLength: maxLength(200)},
@@ -141,6 +134,20 @@ export default {
                 this.getData();
             }, 400);
         },
+        /**
+         * watch check All table
+         */
+        isCheckAll(after,befour){
+            if(after){
+                this.companies.forEach(el => {
+                    if(!this.checkAll.includes(el.id)){
+                        this.checkAll.push(el.id);
+                    }
+                });
+            }else{
+                this.checkAll = [];
+            }
+        }
     },
     mounted() {
         this.getData();
@@ -171,6 +178,29 @@ export default {
                     this.isLoader = false;
                 });
         },
+        getDataCurrentPage(){
+            if(this.current_page <= this.companiesPagination.last_page && this.current_page != this.companiesPagination.current_page && this.current_page){
+                this.isLoader = true;
+
+                adminApi.get(`/companies?page=${this.current_page}&per_page=${this.per_page}&search=${this.search}`)
+                    .then((res) => {
+                        let l = res.data;
+                        this.companies = l.data;
+                        this.companiesPagination = l.pagination;
+                        this.current_page = l.pagination.current_page;
+                    })
+                    .catch((err) => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: `${this.$t('general.Error')}`,
+                            text: `${this.$t('general.Thereisanerrorinthesystem')}`,
+                        });
+                    })
+                    .finally(() => {
+                        this.isLoader = false;
+                    });
+            }
+        },
         /**
          *  delete company
          */
@@ -192,7 +222,8 @@ export default {
 
                     adminApi.delete(`/companies/${id}`)
                         .then((res) => {
-                            this.companies.splice(index,1);
+                            this.checkAll = [];
+                            this.getData();
                             Swal.fire({
                                 icon: 'success',
                                 title: `${this.$t('general.Deleted')}`,
@@ -450,6 +481,9 @@ export default {
         updatePhone(e){
 
         },
+        updatePhoneEdit(e){
+
+        },
         /**
          *  start Image ceate
          */
@@ -670,10 +704,24 @@ export default {
             }else {
                 this.isButton = true;
             }
-        }
+        },
         /**
          *  end  dropdown Google
          */
+        /**
+         *  start  dynamicSortString
+         */
+        sortString(value){
+            return dynamicSortString(value);
+        },
+        checkRow(id){
+            if(!this.checkAll.includes(id)) {
+                this.checkAll.push(id);
+            }else {
+                let index = this.checkAll.indexOf(id);
+                this.checkAll.splice(index,1);
+            }
+        }
 
     }
 };
@@ -681,46 +729,139 @@ export default {
 
 <template>
     <Layout>
-        <PageHeader :title="title" :items="items" />
+        <PageHeader />
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
 
-                        <div class="row justify-content-between align-items-center mb-3">
+                        <div class="row justify-content-between align-items-center mb-2">
                             <h4 class="header-title"> {{ $t('company.companysTable') }}</h4>
-                            <b-button
-                                v-b-modal.create
-                                variant="success"
-                                v-if="isButton"
-                            >
-                                {{ $t('general.Create') }}
-                            </b-button>
+                            <div class="col-xs-10 col-md-9 col-lg-7" style="font-weight: 500">
+
+                                <div class="d-inline-block" style="width: 22.2%;">
+                                    <!-- Basic dropdown -->
+                                    <b-dropdown variant="primary" :text="$t('general.searchSetting')" ref="dropdown" class="btn-block setting-search">
+                                        <b-form-checkbox class="mb-1">{{ $t('general.Name') }}</b-form-checkbox>
+                                        <b-form-checkbox class="mb-1">{{ $t('general.Name_en') }}</b-form-checkbox>
+                                        <b-form-checkbox class="mb-1">{{ $t('general.Status') }}</b-form-checkbox>
+                                    </b-dropdown>
+                                    <!-- Basic dropdown -->
+                                </div>
+
+                                <div class="d-inline-block position-relative" style="width: 77%;">
+                                    <span
+                                        :class="['search-custom position-absolute',$i18n.locale == 'ar'?'search-custom-ar':'']"
+                                    >
+                                        <i class="fe-search"></i>
+                                    </span>
+                                    <input
+                                        class="form-control"
+                                        style="display:block;width:93%;padding-top: 3px;"
+                                        type="text"
+                                        v-model.trim="search"
+                                        :placeholder="`${$t('general.Search')}...`"
+                                    >
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="row justify-content-between align-items-center mb-3">
-                            <div class="col-lg-3 col-6" style="font-weight: 500">
-                                {{ $t('general.Show') }}
-                                <select
-                                    class="custom-select custom-select-sm mr-sm-2"
-                                    v-model="per_page"
-                                    style="display: inline-block;width:auto"
+                        <div class="row justify-content-between align-items-center mb-2 px-1">
+                            <div class="col-md-3 d-flex align-items-center mb-1 mb-xl-0">
+                                <b-button
+                                    v-b-modal.create
+                                    variant="primary"
+                                    class="btn-sm mx-1 font-weight-bold"
                                 >
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                </select>
-                                {{ $t('general.entries') }}
+                                    {{ $t('general.Create') }}
+                                    <i class="fas fa-plus"></i>
+                                </b-button>
+                                <div class="d-inline-flex">
+                                    <button class="custom-btn-dowonload">
+                                        <i class="fas fa-file-download"></i>
+                                    </button>
+                                    <button class="custom-btn-dowonload">
+                                        <i class="fe-printer"></i>
+                                    </button>
+                                    <button
+                                        class="custom-btn-dowonload"
+                                        @click="$bvModal.show(`modal-edit-${checkAll[0]}`)"
+                                        v-if="checkAll.length == 1"
+                                    >
+                                        <i class="mdi mdi-square-edit-outline"></i>
+                                    </button>
+                                    <!-- start mult delete  -->
+                                    <button
+                                        class="custom-btn-dowonload"
+                                        v-if="checkAll.length > 1"
+                                        @click.prevent="deleteModule(checkAll)"
+                                    >
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                    <!-- end mult delete  -->
+                                    <!--  start one delete  -->
+                                    <button
+                                        class="custom-btn-dowonload"
+                                        v-if="checkAll.length == 1"
+                                        @click.prevent="deleteModule(checkAll)"
+                                    >
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                    <!--  end one delete  -->
+                                </div>
                             </div>
-                            <div class="col-lg-3 col-6" style="font-weight: 500">
-                                {{ $t('general.Search') }}:
-                                <input
-                                    class="form-control form-control-sm"
-                                    style="display: inline-block;width:auto"
-                                    type="text"
-                                    v-model.trim="search"
-                                    :placeholder="`${$t('general.Search')}...`"
-                                >
+                            <div
+                                class="col-xs-10 col-md-9 col-lg-7 d-flex align-items-center  justify-content-end"
+                            >
+                                <div>
+                                    <b-button
+                                        class="mx-1 custom-btn-background"
+                                    >
+                                        {{ $t('general.filter') }}
+                                        <i class="fas fa-filter"></i>
+                                    </b-button>
+                                    <b-button
+                                        class="mx-1 custom-btn-background"
+                                    >
+                                        {{ $t('general.group') }}
+                                        <i class="fe-menu"></i>
+                                    </b-button>
+                                    <b-button
+                                        class="mx-1 custom-btn-background"
+                                    >
+                                        {{ $t('general.setting') }}
+                                        <i class="fe-settings"></i>
+                                    </b-button>
+                                    <!-- start Pagination -->
+                                    <div class="d-inline-flex align-items-center pagination-custom">
+                                        <div class="d-inline-block" style="font-size:15px;">
+                                            {{ companiesPagination.from }}-{{ companiesPagination.to }} / {{ companiesPagination.total }}
+                                        </div>
+                                        <div class="d-inline-block">
+                                            <a
+                                                href="javascript:void(0)"
+                                                :style="{'pointer-events':companiesPagination.current_page == 1 ? 'none': ''}"
+                                                @click.prevent="getData(companiesPagination.current_page - 1)"
+                                            >
+                                                <span>&lt;</span>
+                                            </a>
+                                            <input
+                                                type="text"
+                                                @keyup.enter="getDataCurrentPage()"
+                                                v-model="current_page"
+                                                class="pagination-current-page"
+                                            />
+                                            <a
+                                                href="javascript:void(0)"
+                                                :style="{'pointer-events':companiesPagination.last_page == companiesPagination.current_page ? 'none': ''}"
+                                                @click.prevent="getData(companiesPagination.current_page + 1)"
+                                            >
+                                                <span>&gt;</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- end Pagination -->
+                                </div>
                             </div>
                         </div>
 
@@ -739,7 +880,10 @@ export default {
                                 <div class="row">
                                     <div class="col-md-6 direction" dir="rtl">
                                         <div class="form-group">
-                                            <label for="field-1" class="control-label">{{ $t('general.Name') }}</label>
+                                            <label for="field-1" class="control-label">
+                                                {{ $t('general.Name') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input
                                                 type="text"
                                                 class="form-control"
@@ -750,8 +894,6 @@ export default {
                                             }"
                                                 :placeholder="$t('general.Name')" id="field-1"
                                             />
-                                            <div class="valid-feedback" v-if="!errors.name">{{ $t('general.Looksgood') }}</div>
-                                            <div v-if="!$v.create.name.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                             <div v-if="!$v.create.name.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.name.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.name.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.name.$params.maxLength.max }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.name.alphaArabic" class="invalid-feedback">{{ $t('general.alphaArabic') }}</div>
@@ -762,7 +904,10 @@ export default {
                                     </div>
                                     <div class="col-md-6 direction-ltr" dir="ltr">
                                         <div class="form-group">
-                                            <label for="field-2" class="control-label">{{ $t('general.Name_en') }}</label>
+                                            <label for="field-2" class="control-label">
+                                                {{ $t('general.Name_en') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input
                                                 type="text"
                                                 class="form-control"
@@ -773,8 +918,6 @@ export default {
                                             }"
                                                 :placeholder="$t('general.Name_en')" id="field-2"
                                             />
-                                            <div class="valid-feedback" v-if="!errors.name_e">{{ $t('general.Looksgood') }}</div>
-                                            <div v-if="!$v.create.name_e.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                             <div v-if="!$v.create.name_e.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.name_e.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.name_e.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.name_e.$params.maxLength.max }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.name_e.alphaEnglish" class="invalid-feedback">{{ $t('general.alphaEnglish') }}</div>
@@ -785,7 +928,10 @@ export default {
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="field-3" class="control-label">{{ $t('login.Emailaddress') }}</label>
+                                            <label for="field-3" class="control-label">
+                                                {{ $t('login.Emailaddress') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input
                                                 type="email"
                                                 class="form-control"
@@ -796,8 +942,6 @@ export default {
                                             }"
                                                 :placeholder="$t('login.Emailaddress')" id="field-3"
                                             />
-                                            <div class="valid-feedback" v-if="!errors.email">{{ $t('general.Looksgood') }}</div>
-                                            <div v-if="!$v.create.email.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                             <div v-if="!$v.create.email.email" class="invalid-feedback">{{ $t('general.PleaseEnterValidEmail') }}</div>
                                             <div v-if="!$v.create.email.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.email.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.email.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.email.$params.maxLength.max }} {{ $t('general.letters') }}</div>
@@ -808,30 +952,18 @@ export default {
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="field-7" class="control-label">{{ $t('general.mobile_no') }}</label>
-                                            <input
-                                                type="number"
-                                                class="form-control"
-                                                v-model.number="$v.create.phone.$model"
-                                                :class="{
-                                                'is-invalid':$v.create.phone.$error || errors.phone,
-                                                'is-valid':!$v.create.phone.$invalid && !errors.phone
-                                            }"
-                                                :placeholder="$t('general.mobile_no')" id="field-7"
+                                            <label class="control-label">
+                                                {{ $t('general.mobile_no') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <VuePhoneNumberInput
+                                                v-model="$v.create.phone.$model"
+                                                default-country-code="EG"
+                                                valid-color="#28a745"
+                                                error-color="#dc3545"
+                                                :preferred-countries="['FR', 'EG', 'DE']"
+                                                @update="updatePhone"
                                             />
-
-<!--                                            <VuePhoneNumberInput-->
-<!--                                                v-model="phone"-->
-<!--                                                default-country-code="EG"-->
-<!--                                                :preferred-countries="['FR', 'EG', 'DE']"-->
-<!--                                                @update="updatePhone"-->
-<!--                                            />-->
-
-                                            <div class="valid-feedback" v-if="!errors.phone">{{ $t('general.Looksgood') }}</div>
-                                            <div v-if="!$v.create.phone.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
-                                            <div v-if="!$v.create.phone.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.phone.$params.minLength.min }} {{ $t('general.letters') }}</div>
-                                            <div v-if="!$v.create.phone.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.phone.$params.maxLength.max }} {{ $t('general.letters') }}</div>
-                                            <div v-if="!$v.create.phone.integer" class="invalid-feedback">{{ $t('general.fieldIsInteger') }}</div>
                                             <template v-if="errors.phone">
                                                 <ErrorMessage v-for="(errorMessage,index) in errors.phone" :key="index">{{ errorMessage }}</ErrorMessage>
                                             </template>
@@ -839,7 +971,10 @@ export default {
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="field-5" class="control-label">{{ $t('general.taxnumber') }}</label>
+                                            <label for="field-5" class="control-label">
+                                                {{ $t('general.taxnumber') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input
                                                 type="number"
                                                 class="form-control"
@@ -850,8 +985,6 @@ export default {
                                             }"
                                                 :placeholder="$t('general.taxnumber')" id="field-5"
                                             />
-                                            <div class="valid-feedback" v-if="!errors.tax_id">{{ $t('general.Looksgood') }}</div>
-                                            <div v-if="!$v.create.tax_id.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                             <div v-if="!$v.create.tax_id.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.tax_id.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.tax_id.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.tax_id.$params.maxLength.max }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.tax_id.integer" class="invalid-feedback">{{ $t('general.fieldIsInteger') }}</div>
@@ -862,7 +995,10 @@ export default {
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="field-6" class="control-label">{{ $t('general.Valueaddedregistrationnumber') }}</label>
+                                            <label for="field-6" class="control-label">
+                                                {{ $t('general.Valueaddedregistrationnumber') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input
                                                 type="number"
                                                 class="form-control"
@@ -873,8 +1009,6 @@ export default {
                                             }"
                                                 :placeholder="$t('general.Valueaddedregistrationnumber')" id="field-6"
                                             />
-                                            <div class="valid-feedback" v-if="!errors.vat_no">{{ $t('general.Looksgood') }}</div>
-                                            <div v-if="!$v.create.vat_no.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                             <div v-if="!$v.create.vat_no.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.vat_no.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.vat_no.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.vat_no.$params.maxLength.max }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.vat_no.integer" class="invalid-feedback">{{ $t('general.fieldIsInteger') }}</div>
@@ -885,7 +1019,10 @@ export default {
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="field-8" class="control-label">{{ $t('general.CommercialRecord') }}</label>
+                                            <label for="field-8" class="control-label">
+                                                {{ $t('general.CommercialRecord') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input
                                                 type="text"
                                                 class="form-control"
@@ -896,8 +1033,6 @@ export default {
                                             }"
                                                 :placeholder="$t('general.CommercialRecord')" id="field-8"
                                             />
-                                            <div class="valid-feedback" v-if="!errors.cr">{{ $t('general.Looksgood') }}</div>
-                                            <div v-if="!$v.create.cr.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                             <div v-if="!$v.create.cr.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.cr.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.cr.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.cr.$params.maxLength.max }} {{ $t('general.letters') }}</div>
                                             <template v-if="errors.cr">
@@ -907,7 +1042,10 @@ export default {
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group position-relative">
-                                            <label for="field-9" class="control-label">{{ $t('partner.partner') }}</label>
+                                            <label for="field-9" class="control-label">
+                                                {{ $t('partner.partner') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input
                                                 type="text"
                                                 class="form-control input-Sender"
@@ -936,8 +1074,6 @@ export default {
                                                 </li>
                                             </ul>
 
-                                            <div class="valid-feedback" v-if="!errors.partner_id">{{ $t('general.Looksgood') }}</div>
-                                            <div v-if="!$v.create.partner_id.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                             <div v-if="!$v.create.partner_id.integer" class="invalid-feedback">{{ $t('general.fieldIsInteger') }}</div>
                                             <template v-if="errors.partner_id">
                                                 <ErrorMessage v-for="(errorMessage,index) in errors.partner_id" :key="index">{{ errorMessage }}</ErrorMessage>
@@ -946,7 +1082,10 @@ export default {
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="field-10" class="control-label">{{ $t('general.companysystempath') }}</label>
+                                            <label for="field-10" class="control-label">
+                                                {{ $t('general.companysystempath') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input
                                                 type="url"
                                                 class="form-control"
@@ -957,8 +1096,6 @@ export default {
                                             }"
                                                 :placeholder="$t('general.companysystempath')" id="field-10"
                                             />
-                                            <div class="valid-feedback" v-if="!errors.url">{{ $t('general.Looksgood') }}</div>
-                                            <div v-if="!$v.create.url.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                             <div v-if="!$v.create.url.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.url.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.url.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.url.$params.maxLength.max }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.url.url" class="invalid-feedback">{{ $t('general.Itmustbeyourlink') }}</div>
@@ -969,7 +1106,10 @@ export default {
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="field-11" class="control-label">{{ $t('general.website') }}</label>
+                                            <label for="field-11" class="control-label">
+                                                {{ $t('general.website') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input
                                                 type="url"
                                                 class="form-control"
@@ -980,8 +1120,6 @@ export default {
                                             }"
                                                 :placeholder="$t('general.website')" id="field-11"
                                             />
-                                            <div class="valid-feedback" v-if="!errors.website">{{ $t('general.Looksgood') }}</div>
-                                            <div v-if="!$v.create.website.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                             <div v-if="!$v.create.website.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.website.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.website.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.website.$params.maxLength.max }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.website.url" class="invalid-feedback">{{ $t('general.Itmustbeyourlink') }}</div>
@@ -992,7 +1130,10 @@ export default {
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="field-12" class="control-label">{{ $t('general.address') }}</label>
+                                            <label for="field-12" class="control-label">
+                                                {{ $t('general.address') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input
                                                 type="text"
                                                 class="form-control"
@@ -1003,8 +1144,6 @@ export default {
                                             }"
                                                 :placeholder="$t('general.address')" id="field-12"
                                             />
-                                            <div class="valid-feedback" v-if="!errors.address">{{ $t('general.Looksgood') }}</div>
-                                            <div v-if="!$v.create.address.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                             <div v-if="!$v.create.address.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.address.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.address.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.address.$params.maxLength.max }} {{ $t('general.letters') }}</div>
                                             <template v-if="errors.address">
@@ -1014,7 +1153,10 @@ export default {
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="inlineFormCustomSelectPref">{{ $t('general.Status') }}</label>
+                                            <label for="inlineFormCustomSelectPref">
+                                                {{ $t('general.Status') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <select
                                                 class="custom-select"
                                                 id="inlineFormCustomSelectPref"
@@ -1028,15 +1170,16 @@ export default {
                                                 <option value="active">{{ $t('general.Active') }}</option>
                                                 <option value="inactive">{{ $t('general.Inactive') }}</option>
                                             </select>
-                                            <div class="valid-feedback" v-if="!errors.is_active">{{ $t('general.Looksgood') }}</div>
-                                            <div v-if="!$v.create.is_active.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                             <template v-if="errors.is_active">
                                                 <ErrorMessage v-for="(errorMessage,index) in errors.is_active" :key="index">{{ errorMessage }}</ErrorMessage>
                                             </template>
                                         </div>
                                     </div>
                                     <div class="col-md-12 my-2">
-                                        <label class="mb-1">{{ $t('company.LogoFileUpload') }}</label>
+                                        <label class="mb-1">
+                                            {{ $t('company.LogoFileUpload') }}
+                                            <span class="text-danger">*</span>
+                                        </label>
                                         <div
                                             class="dropzone-custom position-relative"
                                             :style="{minHeight: !isDrop? '160px':'160px'}"
@@ -1101,7 +1244,6 @@ export default {
                                             </template>
 
                                         </div>
-                                        <div v-if="!$v.create.logo.required && $v.create.logo.$error" class="text-danger">{{ $t('general.fieldIsRequired') }}</div>
                                         <div v-if="!$v.create.type.imgValid && $v.create.type.$error" class="text-danger">{{ $t('general.ItmustbeyourImage') }}</div>
                                         <template v-if="errors.logo">
                                             <ErrorMessage v-for="(errorMessage,index) in errors.logo" :key="index">{{ errorMessage }}</ErrorMessage>
@@ -1137,7 +1279,15 @@ export default {
                             <table class="table table-borderless table-hover table-centered m-0">
                                 <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th scope="col" style="width: 0;">
+                                        <div class="form-check custom-control">
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox" v-model="isCheckAll"
+                                                style="width: 17px;height: 17px;"
+                                            >
+                                        </div>
+                                    </th>
                                     <th>{{ $t('general.Name') }}</th>
                                     <th>{{ $t('general.Name_en') }}</th>
                                     <th>{{ $t('login.Emailaddress') }}</th>
@@ -1145,11 +1295,28 @@ export default {
                                     <th>{{ $t('general.mobile_no') }}</th>
                                     <th>{{ $t('general.Status') }}</th>
                                     <th>{{ $t('general.Action') }}</th>
+                                    <th><i class="fas fa-ellipsis-v"></i></th>
                                 </tr>
                                 </thead>
                                 <tbody v-if="companies.length > 0">
-                                <tr v-for="(data,index) in companies" :key="data.id">
-                                    <td>{{ 1 + index }}</td>
+                                <tr
+                                    @click.prevent="checkRow(data.id)"
+                                    @dblclick.prevent="$bvModal.show(`modal-edit-${data.id}`)"
+                                    v-for="(data,index) in companies"
+                                    :key="data.id"
+                                    class="body-tr-custom"
+                                >
+                                    <td>
+                                        <div class="form-check custom-control" style="min-height: 1.9em;">
+                                            <input
+                                                style="width: 17px;height: 17px;"
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                :value="data.id"
+                                                v-model="checkAll"
+                                            >
+                                        </div>
+                                    </td>
                                     <td>
                                         <h5 class="m-0 font-weight-normal">{{ data.name }}</h5>
                                     </td>
@@ -1169,19 +1336,41 @@ export default {
                                         </span>
                                     </td>
                                     <td>
-                                        <a href="javascript:void(0);"
-                                           class="btn btn-xs btn-secondary custom-btn-1"
-                                           @click="$bvModal.show(`modal-edit-${data.id}`)"
-                                        >
-                                            <i class="mdi mdi-pencil"></i>
-                                        </a>
-                                        <a
-                                            href="javascript:void(0);"
-                                            class="btn btn-xs btn-danger custom-btn-1"
-                                            @click.prevent="deletecompany(data.id,index)"
-                                        >
-                                            <i class="fas fa-trash"></i>
-                                        </a>
+                                        <div class="btn-group">
+                                            <button
+                                                type="button"
+                                                class="btn btn-sm dropdown-toggle dropdown-coustom"
+                                                data-toggle="dropdown"
+                                                aria-expanded="false"
+                                            >
+                                                {{ $t('general.commands') }}
+                                                <i class="fas fa-angle-down"></i>
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-custom">
+                                                <a
+                                                    class="dropdown-item"
+                                                    href="#"
+                                                    @click="$bvModal.show(`modal-edit-${data.id}`)"
+                                                >
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center text-black"
+                                                    >
+                                                        <span>{{ $t('general.edit') }}</span>
+                                                        <i class="mdi mdi-square-edit-outline text-info"></i>
+                                                    </div>
+                                                </a>
+                                                <a
+                                                    class="dropdown-item text-black"
+                                                    href="#"
+                                                    @click.prevent="deletecompany(data.id)"
+                                                >
+                                                    <div class="d-flex justify-content-between align-items-center text-black">
+                                                        <span>{{ $t('general.delete') }}</span>
+                                                        <i class="fas fa-times text-danger"></i>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
 
                                         <!--  edit   -->
                                         <b-modal
@@ -1200,7 +1389,10 @@ export default {
                                                 <div class="row">
                                                     <div class="col-md-6 direction" dir="rtl">
                                                         <div class="form-group">
-                                                            <label for="edit-17" class="control-label">{{ $t('general.Name') }}</label>
+                                                            <label for="edit-17" class="control-label">
+                                                                {{ $t('general.Name') }}
+                                                                <span class="text-danger">*</span>
+                                                            </label>
                                                             <input
                                                                 type="text"
                                                                 class="form-control"
@@ -1211,8 +1403,6 @@ export default {
                                                                 }"
                                                                 :placeholder="$t('general.Name')" id="edit-17"
                                                             />
-                                                            <div class="valid-feedback" v-if="!errors.name">{{ $t('general.Looksgood') }}</div>
-                                                            <div v-if="!$v.edit.name.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                                             <div v-if="!$v.edit.name.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.edit.name.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                                             <div v-if="!$v.edit.name.alphaArabic" class="invalid-feedback">{{ $t('general.alphaArabic') }}</div>
                                                             <div v-if="!$v.edit.name.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.edit.name.$params.maxLength.max }} {{ $t('general.letters') }}</div>
@@ -1223,7 +1413,10 @@ export default {
                                                     </div>
                                                     <div class="col-md-6 direction-ltr" dir="ltr">
                                                         <div class="form-group">
-                                                            <label for="edit-2" class="control-label">{{ $t('general.Name_en') }}</label>
+                                                            <label for="edit-2" class="control-label">
+                                                                {{ $t('general.Name_en') }}
+                                                                <span class="text-danger">*</span>
+                                                            </label>
                                                             <input
                                                                 type="text"
                                                                 class="form-control"
@@ -1234,8 +1427,6 @@ export default {
                                                                 }"
                                                                 :placeholder="$t('general.Name_en')" id="edit-2"
                                                             />
-                                                            <div class="valid-feedback" v-if="!errors.name_e">{{ $t('general.Looksgood') }}</div>
-                                                            <div v-if="!$v.edit.name_e.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                                             <div v-if="!$v.edit.name_e.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.edit.name_e.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                                             <div v-if="!$v.edit.name_e.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.edit.name_e.$params.maxLength.max }} {{ $t('general.letters') }}</div>
                                                             <div v-if="!$v.edit.name_e.alphaEnglish" class="invalid-feedback">{{ $t('general.alphaEnglish') }}</div>
@@ -1246,7 +1437,10 @@ export default {
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="field-3" class="control-label">{{ $t('login.Emailaddress') }}</label>
+                                                            <label for="field-3" class="control-label">
+                                                                {{ $t('login.Emailaddress') }}
+                                                                <span class="text-danger">*</span>
+                                                            </label>
                                                             <input
                                                                 type="email"
                                                                 class="form-control"
@@ -1257,8 +1451,6 @@ export default {
                                                                 }"
                                                                 :placeholder="$t('login.Emailaddress')" id="edit-3"
                                                             />
-                                                            <div class="valid-feedback" v-if="!errors.email">{{ $t('general.Looksgood') }}</div>
-                                                            <div v-if="!$v.edit.email.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                                             <div v-if="!$v.edit.email.email" class="invalid-feedback">{{ $t('general.PleaseEnterValidEmail') }}</div>
                                                             <div v-if="!$v.edit.email.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.edit.email.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                                             <div v-if="!$v.edit.email.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.edit.email.$params.maxLength.max }} {{ $t('general.letters') }}</div>
@@ -1269,22 +1461,18 @@ export default {
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="field-7" class="control-label">{{ $t('general.mobile_no') }}</label>
-                                                            <input
-                                                                type="number"
-                                                                class="form-control"
-                                                                v-model.number="$v.edit.phone.$model"
-                                                                :class="{
-                                                                    'is-invalid':$v.edit.phone.$error || errors.phone,
-                                                                    'is-valid':!$v.edit.phone.$invalid && !errors.phone
-                                                                }"
-                                                                :placeholder="$t('general.mobile_no')" id="edit-7"
+                                                            <label class="control-label">
+                                                                {{ $t('general.mobile_no') }}
+                                                                <span class="text-danger">*</span>
+                                                            </label>
+                                                            <VuePhoneNumberInput
+                                                                v-model="$v.edit.phone.$model"
+                                                                default-country-code="EG"
+                                                                valid-color="#28a745"
+                                                                error-color="#dc3545"
+                                                                :preferred-countries="['FR', 'EG', 'DE']"
+                                                                @update="updatePhoneEdit"
                                                             />
-                                                            <div class="valid-feedback" v-if="!errors.phone">{{ $t('general.Looksgood') }}</div>
-                                                            <div v-if="!$v.edit.phone.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
-                                                            <div v-if="!$v.edit.phone.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.edit.phone.$params.minLength.min }} {{ $t('general.letters') }}</div>
-                                                            <div v-if="!$v.edit.phone.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.edit.phone.$params.maxLength.max }} {{ $t('general.letters') }}</div>
-                                                            <div v-if="!$v.edit.phone.integer" class="invalid-feedback">{{ $t('general.fieldIsInteger') }}</div>
                                                             <template v-if="errors.phone">
                                                                 <ErrorMessage v-for="(errorMessage,index) in errors.phone" :key="index">{{ errorMessage }}</ErrorMessage>
                                                             </template>
@@ -1292,7 +1480,10 @@ export default {
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label for="edit-5" class="control-label">{{ $t('general.taxnumber') }}</label>
+                                                            <label for="edit-5" class="control-label">
+                                                                {{ $t('general.taxnumber') }}
+                                                                <span class="text-danger">*</span>
+                                                            </label>
                                                             <input
                                                                 type="number"
                                                                 class="form-control"
@@ -1315,7 +1506,10 @@ export default {
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label for="edit-6" class="control-label">{{ $t('general.Valueaddedregistrationnumber') }}</label>
+                                                            <label for="edit-6" class="control-label">
+                                                                {{ $t('general.Valueaddedregistrationnumber') }}
+                                                                <span class="text-danger">*</span>
+                                                            </label>
                                                             <input
                                                                 type="number"
                                                                 class="form-control"
@@ -1338,7 +1532,10 @@ export default {
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label for="field-8" class="control-label">{{ $t('general.CommercialRecord') }}</label>
+                                                            <label for="field-8" class="control-label">
+                                                                {{ $t('general.CommercialRecord') }}
+                                                                <span class="text-danger">*</span>
+                                                            </label>
                                                             <input
                                                                 type="text"
                                                                 class="form-control"
@@ -1349,8 +1546,6 @@ export default {
                                                                 }"
                                                                 :placeholder="$t('general.CommercialRecord')" id="edit-8"
                                                             />
-                                                            <div class="valid-feedback" v-if="!errors.cr">{{ $t('general.Looksgood') }}</div>
-                                                            <div v-if="!$v.edit.cr.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                                             <div v-if="!$v.edit.cr.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.edit.cr.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                                             <div v-if="!$v.edit.cr.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.edit.cr.$params.maxLength.max }} {{ $t('general.letters') }}</div>
                                                             <template v-if="errors.cr">
@@ -1360,7 +1555,10 @@ export default {
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group position-relative">
-                                                            <label for="edit-9" class="control-label">{{ $t('partner.partner') }}</label>
+                                                            <label for="edit-9" class="control-label">
+                                                                {{ $t('partner.partner') }}
+                                                                <span class="text-danger">*</span>
+                                                            </label>
                                                             <input
                                                                 type="text"
                                                                 class="form-control input-Sender"
@@ -1389,8 +1587,6 @@ export default {
                                                                 </li>
                                                             </ul>
 
-                                                            <div class="valid-feedback" v-if="!errors.partner_id">{{ $t('general.Looksgood') }}</div>
-                                                            <div v-if="!$v.edit.partner_id.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                                             <div v-if="!$v.edit.partner_id.integer" class="invalid-feedback">{{ $t('general.fieldIsInteger') }}</div>
                                                             <template v-if="errors.partner_id">
                                                                 <ErrorMessage v-for="(errorMessage,index) in errors.partner_id" :key="index">{{ errorMessage }}</ErrorMessage>
@@ -1399,7 +1595,10 @@ export default {
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label for="field-10" class="control-label">{{ $t('general.companysystempath') }}</label>
+                                                            <label for="field-10" class="control-label">
+                                                                {{ $t('general.companysystempath') }}
+                                                                <span class="text-danger">*</span>
+                                                            </label>
                                                             <input
                                                                 type="url"
                                                                 class="form-control"
@@ -1410,8 +1609,6 @@ export default {
                                                                 }"
                                                                 :placeholder="$t('general.companysystempath')" id="edit-10"
                                                             />
-                                                            <div class="valid-feedback" v-if="!errors.url">{{ $t('general.Looksgood') }}</div>
-                                                            <div v-if="!$v.edit.url.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                                             <div v-if="!$v.edit.url.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.edit.url.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                                             <div v-if="!$v.edit.url.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.edit.url.$params.maxLength.max }} {{ $t('general.letters') }}</div>
                                                             <div v-if="!$v.edit.url.url" class="invalid-feedback">{{ $t('general.Itmustbeyourlink') }}</div>
@@ -1422,7 +1619,10 @@ export default {
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label for="edit-11" class="control-label">{{ $t('general.website') }}</label>
+                                                            <label for="edit-11" class="control-label">
+                                                                {{ $t('general.website') }}
+                                                                <span class="text-danger">*</span>
+                                                            </label>
                                                             <input
                                                                 type="url"
                                                                 class="form-control"
@@ -1433,8 +1633,6 @@ export default {
                                                                 }"
                                                                 :placeholder="$t('general.website')" id="edit-11"
                                                             />
-                                                            <div class="valid-feedback" v-if="!errors.website">{{ $t('general.Looksgood') }}</div>
-                                                            <div v-if="!$v.edit.website.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                                             <div v-if="!$v.edit.website.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.edit.website.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                                             <div v-if="!$v.edit.website.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.edit.website.$params.maxLength.max }} {{ $t('general.letters') }}</div>
                                                             <div v-if="!$v.edit.website.url" class="invalid-feedback">{{ $t('general.Itmustbeyourlink') }}</div>
@@ -1446,7 +1644,10 @@ export default {
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label for="edit-12" class="control-label">{{ $t('general.address') }}</label>
+                                                            <label for="edit-12" class="control-label">
+                                                                {{ $t('general.address') }}
+                                                                <span class="text-danger">*</span>
+                                                            </label>
                                                             <input
                                                                 type="text"
                                                                 class="form-control"
@@ -1458,8 +1659,6 @@ export default {
                                                                 :placeholder="$t('general.address')" id="edit-12"
                                                             />
 
-                                                            <div class="valid-feedback" v-if="!errors.address">{{ $t('general.Looksgood') }}</div>
-                                                            <div v-if="!$v.edit.address.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                                             <div v-if="!$v.edit.address.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.edit.address.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                                             <div v-if="!$v.edit.address.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.edit.address.$params.maxLength.max }} {{ $t('general.letters') }}</div>
 
@@ -1484,15 +1683,16 @@ export default {
                                                                 <option value="active">{{ $t('general.Active') }}</option>
                                                                 <option value="inactive">{{ $t('general.Inactive') }}</option>
                                                             </select>
-                                                            <div class="valid-feedback" v-if="!errors.is_active">{{ $t('general.Looksgood') }}</div>
-                                                            <div v-if="!$v.edit.is_active.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                                             <template v-if="errors.is_active">
                                                                 <ErrorMessage v-for="(errorMessage,index) in errors.is_active" :key="index">{{ errorMessage }}</ErrorMessage>
                                                             </template>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12 my-2">
-                                                        <label class="mb-1">{{ $t('company.LogoFileUpload') }}</label>
+                                                        <label class="mb-1">
+                                                            {{ $t('company.LogoFileUpload') }}
+                                                            <span class="text-danger">*</span>
+                                                        </label>
                                                         <div
                                                             class="dropzone-custom position-relative"
                                                             :style="{minHeight: !isDrop? '160px':'160px'}"
@@ -1608,6 +1808,9 @@ export default {
                                             </form>
                                         </b-modal>
                                         <!--  /edit   -->
+                                    </td>
+                                    <td>
+                                        <i class="fe-info" style="font-size: 22px;"></i>
                                     </td>
                                 </tr>
                                 </tbody>

@@ -28,7 +28,7 @@ class Company extends Model
 
     public function modules()
     {
-        return $this->belongsToMany(Module::class, 'company_module', 'company_id', 'module_id');
+        return $this->belongsToMany(Module::class, 'company_modules', 'company_id', 'module_id');
     }
 
     public function stores()
