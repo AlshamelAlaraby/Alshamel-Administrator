@@ -17,7 +17,7 @@ class BranchRepository implements BranchRepositoryInterface
     public function __construct(Branch $model){
         $this->model = $model;
     }
-    public function getAllBranches ()
+    public function getAllBranches ($req)
     {
         return $this->model->get();
     }

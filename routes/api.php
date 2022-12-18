@@ -212,3 +212,5 @@ Route::group(['prefix' => 'screenDocumentType'], function () {
     Route::delete('/remove/{screen_id}/{documentType_id}', [ScreenController::class, 'removeScreenFromDocumentType']);
     Route::get('logs/{id}', [ScreenController::class, 'logs'])->name('screenDocumentType.logs');
 });
+
+Route::get ('everything_about_the_company/{company_id}',[WorkflowTreeController::class,'everything_about_the_company']);
