@@ -1,8 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Partner;
+namespace App\Http\Controllers\ScreenDocumentType;
 
-use App\Http\Resources\WorkflowTree\WorkflowTreeResource1;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\ScreenDocumentType\CreateScreenDocumentTypeRequest;
+use App\Http\Requests\ScreenDocumentType\EditScreenDocumentTypeRequest;
+use App\Http\Resources\ScreenDocumentType\ScreenDocumentTypeResource;
+use App\Repositories\ScreenDocumentType\ScreenDocumentTypeRepositoryInterface;
 use Mockery\Exception;
 use App\Models\Partner;
 use Illuminate\Http\Request;
@@ -18,70 +22,71 @@ use App\Http\Requests\Partner\UpdatePartnerRequest;
 use App\Repositories\Partner\PartnerRepositoryInterface;
 use App\Http\Resources\ScreenSetting\ScreenSettingResource;
 
-class PartnerController extends ResponseController
+class ScreenDocumentTypeController extends Controller
 {
 
     protected $repository;
-    protected $resource = PartnerResource::class;
+    protected $resource = ScreenDocumentTypeResource::class;
 
 
-    public function __construct(PartnerRepositoryInterface $repository)
+    public function __construct(ScreenDocumentTypeRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
 
 
-    public function all(Request $request)
+    public function index(Request $request)
     {
         if (count($_GET) == 0) {
-            $models = cacheGet('Partners');
+            $models = cacheGet('ScreenDocumentType');
 
             if (!$models) {
-                $models = $this->repository->getAllPartners($request);
+                $models = $this->repository->all($request);
 
-                cachePut('Partners', $models);
+                cachePut('ScreenDocumentType', $models);
             }
         } else {
 
-            $models = $this->repository->getAllPartners($request);
+            $models = $this->repository->all($request);
         }
 
         return  responseJson(200, 'success', ($this->resource)::collection($models['data']), $models['paginate'] ? getPaginates($models['data']) : null);
     }
 
 
-    public function find($id)
+    public function show($id)
     {
 
         try {
-            $model = cacheGet('Partners_' . $id);
+            $model = cacheGet('ScreenDocumentType_' . $id);
 
             if (!$model) {
                 $model = $this->repository->find($id);
                 if (!$model) {
                     return responseJson(404, __('message.data not found'));
                 } else {
-                    cachePut('Partners_' . $id, $model);
+                    cachePut('ScreenDocumentType_' . $id, $model);
                 }
             }
-            return responseJson(200, __('Done'), new PartnerResource($model),);
+            return responseJson(200, __('Done'), new ScreenDocumentTypeResource($model),);
         } catch (Exception $exception) {
             return  responseJson($exception->getCode(), $exception->getMessage());
         }
     }
 
 
-    public function store(StorePartnerRequest $request)
+    public function store(CreateScreenDocumentTypeRequest $request)
     {
         try {
-            return responseJson(200, __('Done'), $this->repository->create($request->validated()));
+            $this->repository->create($request->validated());
+            return responseJson(200, __('Done'));
         } catch (Exception $exception) {
             return  responseJson($exception->getCode(), $exception->getMessage());
         }
     }
 
 
-    public function update(UpdatePartnerRequest $request, $id)
+    public function update(EditScreenDocumentTypeRequest $request, $id)
     {
         try {
             $model = $this->repository->find($id);
@@ -97,7 +102,7 @@ class PartnerController extends ResponseController
     }
 
 
-    public function delete($id)
+    public function destroy($id)
     {
         try {
             $model = $this->repository->find($id);
@@ -145,15 +150,5 @@ class PartnerController extends ResponseController
         return responseJson(200, 'success', LogResource::collection($logs));
     }
 
-    public function login(LoginRequest $request)
-    {
-        if (!Auth::guard('partner')->attempt($request->only("email", "password"))) {
-            return responseJson(422, 'Email Or Password is wrong!');
-        }
-        $authUser = new PartnerResource(Auth::guard('partner')->user());
-        $success['token'] = $authUser->createToken('sanctumPartner')->plainTextToken;
-        $success['partner'] = $authUser;
-        $success['companies'] = $authUser->everything_about_the_company();
-        return responseJson(200, 'Login Successfully', $success);
-    }
+
 }

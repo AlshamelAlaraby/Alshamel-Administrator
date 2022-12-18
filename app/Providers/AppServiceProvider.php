@@ -6,6 +6,8 @@ use App\Repositories\Branch\BranchRepository;
 use App\Repositories\Branch\BranchRepositoryInterface;
 use App\Repositories\DocumentType\DocumentTypeInterface;
 use App\Repositories\DocumentType\DocumentTypeRepository;
+use App\Repositories\ScreenDocumentType\ScreenDocumentTypeRepository;
+use App\Repositories\ScreenDocumentType\ScreenDocumentTypeRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Repositories\Partner\PartnerRepository;
@@ -59,6 +61,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(DocumentTypeInterface::class, DocumentTypeRepository::class);
         $this->app->bind(ScreenButtonRepositoryInterface::class, ScreenButtonRepository::class);
         $this->app->bind(HotfieldRepositoryInterface::class, HotfieldRepository::class);
+        $this->app->bind(ScreenDocumentTypeRepositoryInterface::class, ScreenDocumentTypeRepository::class);
 
     }
 

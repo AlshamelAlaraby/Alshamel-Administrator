@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Resources\WorkflowTree\WorkflowTreeResource1;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -55,6 +56,11 @@ class Partner extends Authenticatable
         return $this->hasMany(Company::class);
     }
 
+    public function company()
+    {
+        return $this->hasOne(Company::class);
+    }
+
     public function scopeFilter($query, $request)
     {
         return $query->where(function ($q) use ($request) {
@@ -84,5 +90,15 @@ class Partner extends Authenticatable
                 $q->where('is_active', $request->is_active);
             }
         });
+    }
+
+    public function  everything_about_the_company(){
+        $company = $this->company;
+        if ($company){
+            $wf = WorkflowTree::query ()->where ('is_active',1)->where ('company_id',$company->id)->get();
+            $company->work_flow_trees = WorkflowTreeResource1::collection ($wf);
+            return $company;
+        }
+        return [];
     }
 }

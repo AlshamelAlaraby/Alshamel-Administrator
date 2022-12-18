@@ -1,34 +1,34 @@
 <?php
 
-namespace App\Repositories\Hotfield;
+namespace App\Repositories\ScreenDocumentType;
 
-use App\Models\Hotfield;
+use App\Models\Partner;
+use App\Models\ScreenDocumentType;
 use App\Models\UserSettingScreen;
+use App\Traits\ApiResponser;
 use Illuminate\Support\Facades\DB;
-class HotfieldRepository implements HotfieldRepositoryInterface
+use Illuminate\Support\Facades\Hash;
+
+class ScreenDocumentTypeRepository implements ScreenDocumentTypeRepositoryInterface
 {
 
+    use ApiResponser;
+
     private $model;
-    public function __construct(Hotfield $model)
+    public function __construct(ScreenDocumentType $model)
     {
         $this->model = $model;
+
     }
 
-    public function getAllHotfields($request)
+    public function all($request)
     {
         $models = $this->model->where(function ($q) use ($request) {
+            $this->model->scopeFilter($q , $request);
+        })->orderBy($request->order ? $request->order : 'updated_at', $request->sort ? $request->sort : 'DESC');;
 
-            if ($request->search) {
-                $q->where('name', 'like', '%' . $request->search . '%')
-                    ->orWhere('name_e', 'like', '%' . $request->search . '%');
-            }
-        })->latest();
+        return ['data' => $models->paginate($request->per_page), 'paginate' => true];
 
-        if ($request->per_page) {
-            return ['data' => $models->paginate($request->per_page), 'paginate' => true];
-        } else {
-            return ['data' => $models->get(), 'paginate' => false];
-        }
     }
 
     public function find($id)
@@ -38,17 +38,21 @@ class HotfieldRepository implements HotfieldRepositoryInterface
 
     public function create($request)
     {
-        DB::transaction(function () use ($request) {
 
-            $this->model->create($request);
-            cacheForget("Hotfields");
+        DB::transaction(function () use ($request) {
+            $data = $request;
+            $this->model->create($data);
+            cacheForget("ScreenDocumentType");
         });
+
+        return $this->successResponse([],__('Done'));
     }
 
     public function update($request, $id)
     {
         DB::transaction(function () use ($id, $request) {
-            $this->model->where("id", $id)->update($request);
+            $data = $request;
+            $this->model->where("id", $id)->update($data);
             $this->forget($id);
 
         });
@@ -61,6 +65,7 @@ class HotfieldRepository implements HotfieldRepositoryInterface
         $this->forget($id);
         $model->delete();
     }
+
 
     public function setting($request)
     {
@@ -90,12 +95,11 @@ class HotfieldRepository implements HotfieldRepositoryInterface
     }
 
 
-
     private function forget($id)
     {
         $keys = [
-            "Hotfields",
-            "Hotfields_" . $id,
+            "ScreenDocumentType",
+            "ScreenDocumentType_" . $id,
         ];
         foreach ($keys as $key) {
             cacheForget($key);

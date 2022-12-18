@@ -12,6 +12,7 @@ use App\Http\Controllers\hotfield\hotfieldController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\Partner\PartnerController;
 use App\Http\Controllers\ScreenButton\ScreenButtonController;
+use App\Http\Controllers\ScreenDocumentType\ScreenDocumentTypeController;
 use App\Http\Controllers\ScreenHelpfile\ScreenHelpfileController;
 use App\Http\Controllers\Screen\ScreenController;
 use App\Http\Controllers\Store\StoreController;
@@ -54,10 +55,10 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
 });
 
 Route::group(['prefix' => 'companies'], function () {
-    Route::get('', [CompanyController::class, "index"])->name('companies.index');
+    Route::get('/', [CompanyController::class, "index"])->name('companies.index');
     Route::get('logs/{id}', [CompanyController::class, "logs"])->name('companies.logs');
     Route::get('/{id}', [CompanyController::class, "show"])->name('companies.show');
-    Route::post('', [CompanyController::class, "store"])->name('companies.store');
+    Route::post('/', [CompanyController::class, "store"])->name('companies.store');
     Route::post('/{id}', [CompanyController::class, "update"])->name('companies.update');
     Route::delete('/{id}', [CompanyController::class, "destroy"])->name('companies.delete');
     Route::delete('/logs/{id}', [CompanyController::class, "logs"])->name('companies.logs');
@@ -92,6 +93,7 @@ Route::group(['prefix' => 'partners'], function () {
     Route::controller(PartnerController::class)->group(function () {
         Route::get('/', 'all')->name('partners.index');
         Route::get('/{id}', 'find');
+        Route::get('logs/{id}', "logs");
         Route::post('/', 'store')->name('partners.store');
         Route::put('/{id}', 'update')->name('partners.update');
         Route::delete('/{id}', 'delete')->name('partners.destroy');
@@ -155,6 +157,7 @@ Route::group(['prefix' => 'hotfields'], function () {
     Route::controller(HotfieldController::class)->group(function () {
         Route::get('/', 'all')->name('hotfield.index');
         Route::get('/{id}', 'find');
+        Route::get('logs/{id}', "logs");
         Route::post('/', 'store')->name('hotfield.store');
         Route::post('/{id}', 'update')->name('hotfield.update');
         Route::delete('/{id}', 'delete')->name('hotfield.destroy');
@@ -204,6 +207,7 @@ Route::group(['prefix' => 'document-type'], function () {
         Route::post('/', 'create')->name('modules.create');
         Route::put('/{id}', 'update')->name('modules.update');
         Route::delete('/{id}', 'delete')->name('modules.destroy');
+        Route::get('logs/{id}', 'logs');
     });
 });
 
@@ -213,4 +217,11 @@ Route::group(['prefix' => 'screenDocumentType'], function () {
     Route::get('logs/{id}', [ScreenController::class, 'logs'])->name('screenDocumentType.logs');
 });
 
+
+
+//----------------------------------------------milad routes ------------------------------
 Route::get ('everything_about_the_company/{company_id}',[WorkflowTreeController::class,'everything_about_the_company']);
+
+Route::resource ('screen-document-type',ScreenDocumentTypeController::class)->except('create', 'edit');
+Route::get('screen-document-type/logs/{id}', [ScreenDocumentTypeController::class,'logs']);
+//----------------------------------------------------------------------------------------------

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\LogTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,7 +14,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 class Company extends Model
 {
     use HasFactory;
-    use SoftDeletes, LogsActivity, CausesActivity;
+    use SoftDeletes, LogTrait;
 
     protected $guarded = [];
 
@@ -41,14 +42,10 @@ class Company extends Model
         return Storage::disk("companies")->url($this->logo);
     }
 
-    public function getActivitylogOptions(): LogOptions
-    {
-        $user = auth()->user()->id ?? "system";
 
-        return \Spatie\Activitylog\LogOptions::defaults()
-            ->logAll()
-            ->useLogName('Store')
-            ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName} by ($user)");
+    public function workflowTrees(){
+        return $this->hasMany (WorkflowTree::class);
     }
+
 
 }
