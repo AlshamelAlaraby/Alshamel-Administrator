@@ -7,6 +7,13 @@ use App\Http\Controllers\Branch\BranchController;
 use App\Http\Controllers\Button\ButtonController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\DocumentType\DocumentTypeController;
+use App\Http\Controllers\Partner\PartnerController;
+use App\Http\Controllers\Screen\ScreenController;
+use App\Http\Controllers\Serial\SerialController;
+use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Store\StoreController;
+use App\Http\Controllers\Button\ButtonController;
+use App\Http\Controllers\CompanyModule\CompanyModuleController;
 use App\Http\Controllers\Helpfile\HelpfileController;
 use App\Http\Controllers\hotfield\hotfieldController;
 use App\Http\Controllers\MainController;
@@ -97,6 +104,7 @@ Route::group(['prefix' => 'partners'], function () {
         Route::post('/', 'store')->name('partners.store');
         Route::put('/{id}', 'update')->name('partners.update');
         Route::delete('/{id}', 'delete')->name('partners.destroy');
+        Route::post('/companies', 'companies');
         Route::post('/screen-setting', 'screenSetting')->name('partners.screenSetting');
         Route::get('/get-screen-setting/{user_id}/{screen_id}', 'getScreenSetting')->name('partners.getScreenSetting');
         Route::post('/login', 'login');
@@ -109,6 +117,8 @@ Route::controller(MainController::class)->group(function () {
     Route::post("/setting", "setting");
     Route::get("/setting/{user_id}/{screen_id}", "getSetting");
 });
+
+
 // api of screens
 Route::group(['prefix' => 'screens'], function () {
     Route::controller(ScreenController::class)->group(function () {
@@ -121,6 +131,20 @@ Route::group(['prefix' => 'screens'], function () {
     });
 });
 
+
+// api of company_modules
+Route::group(['prefix' => 'company-modules'], function () {
+    Route::controller(CompanyModuleController::class)->group(function () {
+        Route::get('/', 'all')->name('company_modules.index');
+        Route::get('/{id}', 'find');
+        Route::post('/', 'store')->name('company_modules.store');
+        Route::put('/{id}', 'update')->name('company_modules.update');
+        Route::delete('/{id}', 'delete')->name('company_modules.destroy');
+        Route::get('logs/{id}', 'logs')->name('company_modules.logs');
+
+
+    });
+});
 // api of helpfiles
 Route::group(['prefix' => 'helpfiles'], function () {
     Route::controller(HelpfileController::class)->group(function () {
@@ -219,3 +243,5 @@ Route::group(['prefix' => 'screenDocumentType'], function () {
     Route::delete('/remove/{screen_id}/{documentType_id}', [ScreenController::class, 'removeScreenFromDocumentType']);
     Route::get('logs/{id}', [ScreenController::class, 'logs'])->name('screenDocumentType.logs');
 });
+
+Route::get ('everything_about_the_company/{company_id}',[WorkflowTreeController::class,'everything_about_the_company']);
