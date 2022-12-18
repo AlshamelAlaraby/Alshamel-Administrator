@@ -55,7 +55,6 @@ class CompanyController extends Controller
     public function store(StoreCompanyRequest $request)
     {
         try {
-            // return responseJson(200 , __('created'),  new CompanyResource($this->repository->create($request->validated())));
             return $this->repository->create($request->validated());
         } catch (Exception $exception) {
             return responseJson($exception->getCode(), $exception->getMessage());
