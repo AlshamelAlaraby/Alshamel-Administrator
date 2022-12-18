@@ -85,7 +85,9 @@ Route::group(['prefix' => 'stores'], function () {
 Route::group(['prefix' => 'modules'], function () {
     Route::controller(\App\Http\Controllers\Module\ModuleController::class)->group(function () {
         Route::get('/', 'all')->name('modules.index');
+        Route::get('logs/{id}', 'logs')->name('modules.logs');
         Route::get('/{id}', 'find');
+
         Route::post('/', 'create')->name('modules.create');
         Route::put('/{id}', 'update')->name('modules.update');
         Route::delete('/{id}', 'delete')->name('modules.destroy');
@@ -111,6 +113,7 @@ Route::group(['prefix' => 'partners'], function () {
 
 // api for screen setting
 Route::controller(MainController::class)->group(function () {
+    Route::post("/media", "media");
     Route::post("/setting", "setting");
     Route::get("/setting/{user_id}/{screen_id}", "getSetting");
 });
@@ -120,6 +123,7 @@ Route::controller(MainController::class)->group(function () {
 Route::group(['prefix' => 'screens'], function () {
     Route::controller(ScreenController::class)->group(function () {
         Route::get('/', 'all')->name('screens.index');
+        Route::get("logs/{id}", "logs")->name("screens.logs");
         Route::get('/{id}', 'find');
         Route::post('/', 'store')->name('screens.store');
         Route::put('/{id}', 'update')->name('screens.update');
@@ -167,6 +171,7 @@ Route::group(['prefix' => 'screen-helpfile'], function () {
 Route::group(['prefix' => 'screen-button'], function () {
     Route::controller(ScreenButtonController::class)->group(function () {
         Route::get('/', 'all')->name('screenbutton.index');
+        Route::get("/logs/{id}", "logs")->name("screenbutton.logs");
         Route::get('/{id}', 'find');
         Route::post('/', 'store')->name('screenbutton.store');
         Route::post('/{id}', 'update')->name('screenbutton.update');
@@ -212,6 +217,7 @@ Route::group(['prefix' => 'workflow-trees'], function () {
 Route::group(['prefix' => 'buttons'], function () {
     Route::controller(ButtonController::class)->group(function () {
         Route::get('/', 'all')->name('buttons.index');
+        Route::get("/logs/{id}", "logs")->name("buttons.logs");
         Route::get('/{id}', 'find');
         Route::post('/', 'store')->name('buttons.store');
         Route::post('/{id}', 'update')->name('buttons.update');
@@ -224,6 +230,7 @@ Route::resource('branches', BranchController::class)->except('create', 'edit');
 Route::group(['prefix' => 'document-type'], function () {
     Route::controller(DocumentTypeController::class)->group(function () {
         Route::get('/', 'all')->name('modules.index');
+        Route::get("/logs/{id}", "logs")->name("modules.logs");
         Route::get('/{id}', 'find');
         Route::post('/', 'create')->name('modules.create');
         Route::put('/{id}', 'update')->name('modules.update');

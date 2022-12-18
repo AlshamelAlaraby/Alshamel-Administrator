@@ -33,7 +33,7 @@ class UpdateWorkflowTreeRequest extends FormRequest
             'company_id' => 'required',
             'module_id'  => 'required',
             'screen_id'  => 'required',
-            'icon_url'   => 'nullable|image|mimes:jpeg,jpg,png,svg',
+            "media" => ["exists:media,id", new \App\Rules\MediaRule()],
             'id_sort'    => 'nullable',
         ];
     }

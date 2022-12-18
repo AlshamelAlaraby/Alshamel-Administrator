@@ -37,69 +37,64 @@ class ButtonController extends Controller
         }
 
         return responseJson(200, 'success', ButtonResource::collection($models['data']), $models['paginate'] ? getPaginates($models['data']) : null);
-
     }
 
 
     public function find($id)
     {
-        try{
-            $model = cacheGet('Buttons_' . $id);
 
+        $model = cacheGet('Buttons_' . $id);
+
+        if (!$model) {
+            $model = $this->repository->find($id);
             if (!$model) {
-                $model = $this->repository->find($id);
-                if (!$model) {
-                    return responseJson( 404 , __('message.data not found'));
-                } else {
-                    cachePut('Buttons_' . $id, $model);
-                }
+                return responseJson(404, __('message.data not found'));
+            } else {
+                cachePut('Buttons_' . $id, $model);
             }
-            return responseJson(200 , __('Done'), new ButtonResource($model));
-        } catch (Exception $exception) {
-            return responseJson( $exception->getCode() , $exception->getMessage());
         }
+        return responseJson(200, __('Done'), new ButtonResource($model));
     }
 
+
+    public function logs($id)
+    {
+
+        $model = $this->repository->find($id);
+        if (!$model) {
+            return responseJson(404, __('message.data not found'));
+        }
+        return responseJson(200, __('Done'), $this->repository->logs($id));
+    }
 
     public function store(StoreButtonRequest $request)
     {
-        try {
-            return responseJson(200 , __('Done') , $this->repository->create($request->validated()));
-        } catch (Exception $exception) {
-            return responseJson( $exception->getCode() , $exception->getMessage());
-        }
+
+        return responseJson(200, __('Done'), $this->repository->create($request->validated()));
     }
 
 
-    public function update(UpdateButtonRequest $request , $id)
+    public function update(UpdateButtonRequest $request, $id)
     {
-        try {
-            $model = $this->repository->find($id);
-            if (!$model) {
-                return responseJson( 404 , __('message.data not found'));
-            }
-            $model = $this->repository->update($request->validated(), $id);
 
-            return  responseJson(200 , __('Done'));
-        } catch (Exception $exception) {
-            return responseJson( $exception->getCode() , $exception->getMessage());
+        $model = $this->repository->find($id);
+        if (!$model) {
+            return responseJson(404, __('message.data not found'));
         }
+        $model = $this->repository->update($request->validated(), $id);
 
+        return  responseJson(200, __('Done'));
     }
 
 
     public function delete($id)
     {
-        try{
-            $model = $this->repository->find($id);
-            if (!$model) {
-                return responseJson( 404 , __('message.data not found'));
-            }
-            $this->repository->delete($id);
-            return  responseJson(200 , __('Done'));
 
-        } catch (Exception $exception) {
-            return responseJson( $exception->getCode() , $exception->getMessage());
+        $model = $this->repository->find($id);
+        if (!$model) {
+            return responseJson(404, __('message.data not found'));
         }
+        $this->repository->delete($id);
+        return  responseJson(200, __('Done'));
     }
 }
