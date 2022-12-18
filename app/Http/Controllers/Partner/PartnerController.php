@@ -111,6 +111,7 @@ class PartnerController extends ResponseController
     }
 
 
+
     public function screenSetting(Request $request)
     {
         try {
