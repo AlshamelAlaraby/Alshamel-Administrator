@@ -32,7 +32,6 @@ class ScreenButtonRepository implements ScreenButtonRepositoryInterface
     public function create($request)
     {
         DB::transaction(function () use ($request) {
-
             $this->model->create($request);
             cacheForget("ScreenButtons");
         });

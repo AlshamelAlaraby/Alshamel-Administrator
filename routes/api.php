@@ -221,7 +221,6 @@ Route::group(['prefix' => 'screenDocumentType'], function () {
 
 //----------------------------------------------milad routes ------------------------------
 Route::get ('everything_about_the_company/{company_id}',[WorkflowTreeController::class,'everything_about_the_company']);
-
 Route::resource ('screen-document-type',ScreenDocumentTypeController::class)->except('create', 'edit');
 Route::get('screen-document-type/logs/{id}', [ScreenDocumentTypeController::class,'logs']);
 //----------------------------------------------------------------------------------------------
