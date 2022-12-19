@@ -12,17 +12,12 @@ use App\Http\Controllers\Screen\ScreenController;
 use App\Http\Controllers\Serial\SerialController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Store\StoreController;
-use App\Http\Controllers\Button\ButtonController;
 use App\Http\Controllers\CompanyModule\CompanyModuleController;
 use App\Http\Controllers\Helpfile\HelpfileController;
 use App\Http\Controllers\hotfield\hotfieldController;
 use App\Http\Controllers\MainController;
-use App\Http\Controllers\Partner\PartnerController;
 use App\Http\Controllers\ScreenButton\ScreenButtonController;
 use App\Http\Controllers\ScreenHelpfile\ScreenHelpfileController;
-use App\Http\Controllers\Screen\ScreenController;
-use App\Http\Controllers\Store\StoreController;
-use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\WorkflowTree\WorkflowTreeController;
 use Illuminate\Support\Facades\Route;
 
@@ -67,7 +62,6 @@ Route::group(['prefix' => 'companies'], function () {
     Route::post('', [CompanyController::class, "store"])->name('companies.store');
     Route::post('/{id}', [CompanyController::class, "update"])->name('companies.update');
     Route::delete('/{id}', [CompanyController::class, "destroy"])->name('companies.delete');
-    Route::delete('/logs/{id}', [CompanyController::class, "logs"])->name('companies.logs');
     Route::delete('/screen-setting', [CompanyController::class, "screenSetting"])->name('companies.screenSetting');
     Route::delete('/get-screen-setting/{user_id}/{screen_id}', [CompanyController::class, "getScreenSetting"])->name('companies.getScreenSetting');
 });
@@ -223,11 +217,11 @@ Route::resource('branches', BranchController::class)->except('create', 'edit');
 
 Route::group(['prefix' => 'document-type'], function () {
     Route::controller(DocumentTypeController::class)->group(function () {
-        Route::get('/', 'all')->name('modules.index');
+        Route::get('/', 'all')->name('document.index');
         Route::get('/{id}', 'find');
-        Route::post('/', 'create')->name('modules.create');
-        Route::put('/{id}', 'update')->name('modules.update');
-        Route::delete('/{id}', 'delete')->name('modules.destroy');
+        Route::post('/', 'create')->name('document.create');
+        Route::put('/{id}', 'update')->name('document.update');
+        Route::delete('/{id}', 'delete')->name('document.destroy');
     });
 });
 
