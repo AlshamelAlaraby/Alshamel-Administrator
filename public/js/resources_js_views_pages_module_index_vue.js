@@ -1408,6 +1408,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       filterSetting: ['name', 'name_e'],
       errors: {},
+      english: '',
       isCheckAll: false,
       checkAll: [],
       is_disabled: false,
@@ -1480,6 +1481,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         });
       } else {
         this.checkAll = [];
+      }
+    },
+    english: function english(after, befour) {
+      var ew = after[after.length - 1].charCodeAt();
+      if (ew == 32) {
+        this.english = after;
+      } else {
+        this.english = befour;
+      }
+      if (48 <= ew && ew <= 57) {
+        this.english = after;
+      } else {
+        this.english = befour;
+      }
+      if (65 <= ew && ew <= 90) {
+        this.english = after;
+      } else {
+        this.english = befour;
+      }
+      if (97 <= ew && ew <= 122) {
+        this.english = after;
+      } else {
+        this.english = befour;
       }
     }
   },
@@ -1593,7 +1617,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
       this.errors = {};
       this.parents = [];
-      this.$bvModal.hide("create");
     },
     /**
      *  hidden Modal (create)
@@ -15010,47 +15033,60 @@ var render = function () {
                             ]
                           ),
                           _vm._v(" "),
-                          !_vm.isLoader && !_vm.is_disabled
-                            ? _c(
-                                "b-button",
-                                {
-                                  staticClass: "mx-1",
-                                  attrs: { variant: "success", type: "submit" },
-                                  on: {
-                                    click: function ($event) {
-                                      $event.preventDefault()
-                                      return _vm.AddSubmit.apply(
-                                        null,
-                                        arguments
-                                      )
-                                    },
-                                  },
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                    " +
-                                      _vm._s(_vm.$t("general.Add")) +
-                                      "\n                                "
-                                  ),
-                                ]
-                              )
-                            : _c(
-                                "b-button",
-                                {
-                                  staticClass: "mx-1",
-                                  attrs: { variant: "success", disabled: "" },
-                                },
-                                [
-                                  _c("b-spinner", { attrs: { small: "" } }),
-                                  _vm._v(" "),
-                                  _c("span", { staticClass: "sr-only" }, [
-                                    _vm._v(
-                                      _vm._s(_vm.$t("login.Loading")) + "..."
+                          !_vm.is_disabled
+                            ? [
+                                !_vm.isLoader
+                                  ? _c(
+                                      "b-button",
+                                      {
+                                        staticClass: "mx-1",
+                                        attrs: {
+                                          variant: "success",
+                                          type: "button",
+                                        },
+                                        on: {
+                                          click: function ($event) {
+                                            $event.preventDefault()
+                                            return _vm.AddSubmit.apply(
+                                              null,
+                                              arguments
+                                            )
+                                          },
+                                        },
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                        " +
+                                            _vm._s(_vm.$t("general.Add")) +
+                                            "\n                                    "
+                                        ),
+                                      ]
+                                    )
+                                  : _c(
+                                      "b-button",
+                                      {
+                                        staticClass: "mx-1",
+                                        attrs: {
+                                          variant: "success",
+                                          disabled: "",
+                                        },
+                                      },
+                                      [
+                                        _c("b-spinner", {
+                                          attrs: { small: "" },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("span", { staticClass: "sr-only" }, [
+                                          _vm._v(
+                                            _vm._s(_vm.$t("login.Loading")) +
+                                              "..."
+                                          ),
+                                        ]),
+                                      ],
+                                      1
                                     ),
-                                  ]),
-                                ],
-                                1
-                              ),
+                              ]
+                            : _vm._e(),
                           _vm._v(" "),
                           _c(
                             "b-button",
@@ -15059,10 +15095,7 @@ var render = function () {
                               on: {
                                 click: function ($event) {
                                   $event.preventDefault()
-                                  return _vm.resetModalHidden.apply(
-                                    null,
-                                    arguments
-                                  )
+                                  return _vm.$bvModal.hide("create")
                                 },
                               },
                             },
@@ -15075,7 +15108,7 @@ var render = function () {
                             ]
                           ),
                         ],
-                        1
+                        2
                       ),
                       _vm._v(" "),
                       _c("div", { staticClass: "row" }, [
@@ -15250,8 +15283,8 @@ var render = function () {
                                     {
                                       name: "model",
                                       rawName: "v-model",
-                                      value: _vm.$v.create.name_e.$model,
-                                      expression: "$v.create.name_e.$model",
+                                      value: _vm.english,
+                                      expression: "english",
                                     },
                                   ],
                                   staticClass: "form-control",
@@ -15264,19 +15297,13 @@ var render = function () {
                                       !_vm.errors.name_e,
                                   },
                                   attrs: { type: "text", id: "field-2" },
-                                  domProps: {
-                                    value: _vm.$v.create.name_e.$model,
-                                  },
+                                  domProps: { value: _vm.english },
                                   on: {
                                     input: function ($event) {
                                       if ($event.target.composing) {
                                         return
                                       }
-                                      _vm.$set(
-                                        _vm.$v.create.name_e,
-                                        "$model",
-                                        $event.target.value
-                                      )
+                                      _vm.english = $event.target.value
                                     },
                                   },
                                 }),

@@ -61,6 +61,7 @@ export default {
             },
             filterSetting: ['name', 'name_e'],
             errors: {},
+            english: '',
             isCheckAll: false,
             checkAll: [],
             is_disabled: false,
@@ -108,6 +109,17 @@ export default {
             }else{
                 this.checkAll = [];
             }
+        },
+        english(after,befour){
+            let ew = after[after.length - 1].charCodeAt();
+            if(ew == 32) {this.english = after;}
+            else {this.english = befour;}
+            if(48 <= ew && ew <= 57) {this.english = after;}
+            else {this.english = befour;}
+            if(65 <= ew && ew <= 90) {this.english =after;}
+            else {this.english = befour;}
+            if(97 <= ew && ew <= 122) {this.english = after;}
+            else {this.english = befour;}
         }
     },
     mounted() {
@@ -222,7 +234,6 @@ export default {
             this.$nextTick(() => { this.$v.$reset() });
             this.errors = {};
             this.parents = [];
-            this.$bvModal.hide(`create`);
         },
         /**
          *  hidden Modal (create)
@@ -377,7 +388,7 @@ export default {
                 let index = this.checkAll.indexOf(id);
                 this.checkAll.splice(index,1);
             }
-        }
+        },
     },
 };
 </script>
@@ -557,16 +568,18 @@ export default {
                                         {{ $t('general.AddNewRecord') }}
                                     </b-button>
                                     <!-- Emulate built in modal footer ok and cancel button actions -->
-                                    <b-button  variant="success" type="submit" class="mx-1" v-if="!isLoader && !is_disabled" @click.prevent="AddSubmit">
-                                        {{ $t('general.Add') }}
-                                    </b-button>
+                                    <template v-if="!is_disabled">
+                                        <b-button  variant="success" type="button" class="mx-1" v-if="!isLoader" @click.prevent="AddSubmit">
+                                            {{ $t('general.Add') }}
+                                        </b-button>
 
-                                    <b-button variant="success" class="mx-1" disabled v-else>
-                                        <b-spinner small></b-spinner>
-                                        <span class="sr-only">{{ $t('login.Loading') }}...</span>
-                                    </b-button>
+                                        <b-button variant="success" class="mx-1" disabled v-else>
+                                            <b-spinner small></b-spinner>
+                                            <span class="sr-only">{{ $t('login.Loading') }}...</span>
+                                        </b-button>
+                                    </template>
 
-                                    <b-button variant="danger" type="button" @click.prevent="resetModalHidden">
+                                    <b-button variant="danger" type="button" @click.prevent="$bvModal.hide(`create`)">
                                         {{ $t('general.Cancel') }}
                                     </b-button>
                                 </div>
@@ -604,7 +617,7 @@ export default {
                                             <input
                                                 type="text"
                                                 class="form-control"
-                                                v-model="$v.create.name_e.$model"
+                                                v-model="english"
                                                 :class="{
                                                 'is-invalid':$v.create.name_e.$error || errors.name_e,
                                                 'is-valid':!$v.create.name_e.$invalid && !errors.name_e
