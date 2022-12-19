@@ -99,7 +99,10 @@ class CompanyRepository implements CompanyRepositoryInterface
         return $this->model->filterCompanyModules($request)->get();
     }
 
-
+    public function logs($id)
+    {
+        return $this->model->find($id)->activities()->orderBy('created_at', 'DESC')->get();
+    }
     private function forget($id)
     {
         $keys = [

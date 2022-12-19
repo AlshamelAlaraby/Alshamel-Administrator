@@ -9,12 +9,18 @@ use Illuminate\Support\Facades\DB;
 class ScreenRepository implements ScreenRepositoryInterface
 {
 
-    public function __construct(private Screen $model){}
+    public function __construct(private Screen $model)
+    {}
 
     public function getAllScreens($request)
     {
         $models = $this->model->where(function ($q) use ($request) {
+            if ($request->search && $request->columns) {
+                foreach ($request->columns as $column) {
+                    $q->orWhere($column, 'like', '%' . $request->search . '%');
+                }
 
+            }
             if ($request->search) {
                 $q->where('name', 'like', '%' . $request->search . '%')
                     ->orWhere('name_e', 'like', '%' . $request->search . '%')
@@ -28,7 +34,7 @@ class ScreenRepository implements ScreenRepositoryInterface
 
         })->latest();
 
-            return ['data' => $models->paginate($request->per_page), 'paginate' => true];
+        return ['data' => $models->paginate($request->per_page), 'paginate' => true];
 
     }
 
@@ -65,8 +71,7 @@ class ScreenRepository implements ScreenRepositoryInterface
     public function addScreenToDocumentType($request)
     {
         $screen = $this->model->find($request->screen_id);
-        if(!$screen)
-        {
+        if (!$screen) {
             throw new NotFoundException();
         }
         $screen->documentTypes()->attach($request->documentType_id);
@@ -75,13 +80,15 @@ class ScreenRepository implements ScreenRepositoryInterface
     public function removeScreenFromDocumentType($screen_id, $documentType_id)
     {
         $screen = $this->model->find($screen_id);
-        if(!$screen)
-        {
+        if (!$screen) {
             throw new NotFoundException();
         }
         $screen->documentTypes()->detach($documentType_id);
     }
-
+    public function logs($id)
+    {
+        return $this->model->find($id)->activities()->orderBy('created_at', 'DESC')->get();
+    }
 
     private function forget($id)
     {

@@ -11,17 +11,19 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\Traits\CausesActivity;
 use Spatie\Activitylog\Contracts\Activity;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
 
-class Partner extends Model
+class Partner extends Authenticatable
 {
-    use HasFactory ;
+    use HasFactory;
     use SoftDeletes;
     use LogsActivity;
-    use CausesActivity;
+    use CausesActivity, HasApiTokens;
 
 
-    public Const ACTIVE = 'active';
-    public Const INACTIVE = 'inactive';
+    public const ACTIVE = 'active';
+    public const INACTIVE = 'inactive';
 
     protected $fillable = [
         'name',
@@ -40,20 +42,20 @@ class Partner extends Model
 
     public function getActivitylogOptions(): LogOptions
     {
-        $user =  auth()->user()->id ?? "system" ;
+        $user =  auth()->user()->id ?? "system";
 
         return LogOptions::defaults()
-        ->logAll()
-        ->useLogName('Partner')
-        ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName} by ($user)");
+            ->logAll()
+            ->useLogName('Partner')
+            ->setDescriptionForEvent(fn (string $eventName) => "This model has been {$eventName} by ($user)");
     }
 
-    public function companies() : HasMany
+    public function companies(): HasMany
     {
         return $this->hasMany(Company::class);
     }
 
-    public function scopeFilter($query,$request)
+    public function scopeFilter($query, $request)
     {
         return $query->where(function ($q) use ($request) {
             if ($request->search) {
@@ -83,5 +85,4 @@ class Partner extends Model
             }
         });
     }
-
 }

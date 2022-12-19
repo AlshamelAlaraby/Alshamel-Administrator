@@ -21,6 +21,8 @@ interface CompanyRepositoryInterface
 
     public function getSetting($user_id , $screen_id);
 
+    public function logs($id);
+
     public function companyModules($request);
 
 
