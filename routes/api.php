@@ -145,6 +145,7 @@ Route::group(['prefix' => 'screen-helpfile'], function () {
 Route::group(['prefix' => 'screen-button'], function () {
     Route::controller(ScreenButtonController::class)->group(function () {
         Route::get('/', 'all')->name('screenbutton.index');
+        Route::get('/screens', 'allScreens')->name('screenbutton.allScreens');
         Route::get('/{id}', 'find');
         Route::post('/', 'store')->name('screenbutton.store');
         Route::post('/{id}', 'update')->name('screenbutton.update');

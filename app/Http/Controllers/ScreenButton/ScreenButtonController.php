@@ -40,6 +40,10 @@ class ScreenButtonController extends Controller
 
     }
 
+    public function allScreens(){
+        return $this->repository->getScreens();
+    }
+
 
     public function find($id)
     {

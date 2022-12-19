@@ -19,8 +19,10 @@ class HotfieldRepository implements HotfieldRepositoryInterface
         $models = $this->model->where(function ($q) use ($request) {
 
             if ($request->search) {
-                $q->where('name', 'like', '%' . $request->search . '%')
-                    ->orWhere('name_e', 'like', '%' . $request->search . '%');
+                $q->where('table_name', 'like', '%' . $request->search . '%')
+                    ->orWhere('field_name', 'like', '%' . $request->search . '%')
+                    ->orWhere('field_title', 'like', '%' . $request->search . '%')
+                    ->orWhere('field_title_en', 'like', '%' . $request->search . '%');
             }
         })->latest();
 
