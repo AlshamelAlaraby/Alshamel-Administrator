@@ -7,8 +7,6 @@ import { required, minLength, maxLength ,integer } from "vuelidate/lib/validator
 import Swal from "sweetalert2";
 import ErrorMessage from "../../../components/widgets/errorMessage";
 import loader from "../../../components/loader";
-import alphaArabic  from "../../../helper/alphaArabic";
-import alphaEnglish  from "../../../helper/alphaEnglish";
 import {dynamicSortString}  from "../../../helper/tableSort";
 import Multiselect from "vue-multiselect";
 
@@ -73,16 +71,16 @@ export default {
     },
     validations: {
         create: {
-            name: {required,minLength: minLength(3),maxLength: maxLength(100),alphaArabic},
-            name_e: {required,minLength: minLength(3),maxLength: maxLength(100),alphaEnglish},
-            title: {required,minLength: minLength(3),maxLength: maxLength(100),alphaArabic},
-            title_e: {required,minLength: minLength(3),maxLength: maxLength(100),alphaEnglish},
+            name: {required,minLength: minLength(3),maxLength: maxLength(100)},
+            name_e: {required,minLength: minLength(3),maxLength: maxLength(100)},
+            title: {required,minLength: minLength(3),maxLength: maxLength(100)},
+            title_e: {required,minLength: minLength(3),maxLength: maxLength(100)},
         },
         edit: {
-            name: {required,minLength: minLength(3),maxLength: maxLength(100),alphaArabic},
-            name_e: {required,minLength: minLength(3),maxLength: maxLength(100),alphaEnglish},
-            title: {required,minLength: minLength(3),maxLength: maxLength(100),alphaArabic},
-            title_e: {required,minLength: minLength(3),maxLength: maxLength(100),alphaEnglish},
+            name: {required,minLength: minLength(3),maxLength: maxLength(100)},
+            name_e: {required,minLength: minLength(3),maxLength: maxLength(100)},
+            title: {required,minLength: minLength(3),maxLength: maxLength(100)},
+            title_e: {required,minLength: minLength(3),maxLength: maxLength(100)},
         },
     },
     watch: {
@@ -287,6 +285,12 @@ export default {
             this.$nextTick(() => { this.$v.$reset() });
         },
         AddSubmit(){
+
+            if(!this.create.name){ this.create.name = this.create.name_e}
+            if(!this.create.name_e){ this.create.name_e = this.create.name}
+            if(!this.create.title){ this.create.title = this.create.title_e}
+            if(!this.create.title_e){ this.create.title_e = this.create.title}
+
             this.$v.create.$touch();
 
             if (this.$v.create.$invalid) {
@@ -620,22 +624,22 @@ export default {
                                     </b-button>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6 position-relative">
-                                        <div class="form-group">
-                                            <label class="my-1 mr-2" >{{ $t('general.serial') }}</label>
-                                            <multiselect
-                                                v-model="create.serial_id"
-                                                :options="serials.map(type => type.id)"
-                                                :custom-label="opt => $i18n.locale ? serials.find(x => x.id == opt).name : serials.find(x => x.id == opt).name_e">
-                                            </multiselect>
+<!--                                    <div class="col-md-6 position-relative">-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label class="my-1 mr-2" >{{ $t('general.serial') }}</label>-->
+<!--                                            <multiselect-->
+<!--                                                v-model="create.serial_id"-->
+<!--                                                :options="serials.map(type => type.id)"-->
+<!--                                                :custom-label="opt => $i18n.locale ? serials.find(x => x.id == opt).name : serials.find(x => x.id == opt).name_e">-->
+<!--                                            </multiselect>-->
 
-                                            <template v-if="errors.serial_id">
-                                                <ErrorMessage v-for="(errorMessage,index) in errors.serial_id" :key="index">{{ errorMessage }}</ErrorMessage>
-                                            </template>
+<!--                                            <template v-if="errors.serial_id">-->
+<!--                                                <ErrorMessage v-for="(errorMessage,index) in errors.serial_id" :key="index">{{ errorMessage }}</ErrorMessage>-->
+<!--                                            </template>-->
 
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6"></div>
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-md-6"></div>-->
                                     <div class="col-md-6 direction">
                                         <div class="form-group">
                                             <label for="field-1" class="control-label">
@@ -653,7 +657,6 @@ export default {
                                             </div>
                                             <div v-if="!$v.create.name.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.name.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.name.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.name.$params.maxLength.max }} {{ $t('general.letters') }}</div>
-                                            <div v-if="!$v.create.name.alphaArabic" class="invalid-feedback">{{ $t('general.alphaArabic') }}</div>
                                             <template v-if="errors.name">
                                                 <ErrorMessage v-for="(errorMessage,index) in errors.name" :key="index">{{ errorMessage }}</ErrorMessage>
                                             </template>
@@ -679,7 +682,6 @@ export default {
                                             </div>
                                             <div v-if="!$v.create.title.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.title.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.title.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.title.$params.maxLength.max }} {{ $t('general.letters') }}</div>
-                                            <div v-if="!$v.create.title.alphaArabic" class="invalid-feedback">{{ $t('general.alphaArabic') }}</div>
                                             <template v-if="errors.title">
                                                 <ErrorMessage v-for="(errorMessage,index) in errors.title" :key="index">{{ errorMessage }}</ErrorMessage>
                                             </template>
@@ -688,8 +690,9 @@ export default {
                                     <div class="col-md-6 direction-ltr">
                                         <div class="form-group">
                                             <label for="field-2" class="control-label">
-                                                {{ $t('general.Name_en') }}
                                                 <span class="text-danger">*</span>
+                                                {{ $t('general.Name_en') }}
+
                                             </label>
                                             <div dir="ltr">
                                             <input
@@ -705,7 +708,6 @@ export default {
                                             </div>
                                             <div v-if="!$v.create.name_e.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.name_e.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.name_e.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.name_e.$params.maxLength.max }} {{ $t('general.letters') }}</div>
-                                            <div v-if="!$v.create.name_e.alphaEnglish" class="invalid-feedback">{{ $t('general.alphaEnglish') }}</div>
                                             <template v-if="errors.name_e">
                                                 <ErrorMessage v-for="(errorMessage,index) in errors.name_e" :key="index">{{ errorMessage }}</ErrorMessage>
                                             </template>
@@ -714,8 +716,9 @@ export default {
                                     <div class="col-md-6 direction-ltr">
                                         <div class="form-group">
                                             <label for="field-2" class="control-label">
-                                                {{ $t('general.title_en') }}
                                                 <span class="text-danger">*</span>
+                                                {{ $t('general.title_en') }}
+
                                             </label>
                                             <div dir="ltr">
                                             <input
@@ -730,7 +733,6 @@ export default {
                                             </div>
                                             <div v-if="!$v.create.title_e.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.title_e.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.title_e.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.title_e.$params.maxLength.max }} {{ $t('general.letters') }}</div>
-                                            <div v-if="!$v.create.title_e.alphaEnglish" class="invalid-feedback">{{ $t('general.alphaEnglish') }}</div>
                                             <template v-if="errors.title_e">
                                                 <ErrorMessage v-for="(errorMessage,index) in errors.title_e" :key="index">{{ errorMessage }}</ErrorMessage>
                                             </template>
@@ -905,22 +907,22 @@ export default {
                                                     </b-button>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="my-1 mr-2" >{{ $t('general.serial') }}</label>
-                                                            <multiselect
-                                                                v-model="edit.serial_id"
-                                                                :options="serials.map(type => type.id)"
-                                                                :custom-label="opt => $i18n.locale ? serials.find(x => x.id == opt).name : serials.find(x => x.id == opt).name_e">
-                                                            </multiselect>
+<!--                                                    <div class="col-md-6">-->
+<!--                                                        <div class="form-group">-->
+<!--                                                            <label class="my-1 mr-2" >{{ $t('general.serial') }}</label>-->
+<!--                                                            <multiselect-->
+<!--                                                                v-model="edit.serial_id"-->
+<!--                                                                :options="serials.map(type => type.id)"-->
+<!--                                                                :custom-label="opt => $i18n.locale ? serials.find(x => x.id == opt).name : serials.find(x => x.id == opt).name_e">-->
+<!--                                                            </multiselect>-->
 
-                                                            <template v-if="errors.serial_id">
-                                                                <ErrorMessage v-for="(errorMessage,index) in errors.serial_id" :key="index">{{ errorMessage }}</ErrorMessage>
-                                                            </template>
+<!--                                                            <template v-if="errors.serial_id">-->
+<!--                                                                <ErrorMessage v-for="(errorMessage,index) in errors.serial_id" :key="index">{{ errorMessage }}</ErrorMessage>-->
+<!--                                                            </template>-->
 
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6"></div>
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="col-md-6"></div>-->
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="field-u-1" class="control-label">
@@ -938,7 +940,6 @@ export default {
                                                                 }" id="field-u-1"
                                                             />
                                                             </div>
-                                                            <div v-if="!$v.edit.name.alphaArabic" class="invalid-feedback">{{ $t('general.alphaArabic') }}</div>
                                                             <div v-if="!$v.edit.name.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.edit.name.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                                             <div v-if="!$v.edit.name.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.edit.name.$params.maxLength.max }} {{ $t('general.letters') }}</div>
                                                             <template v-if="errors.name">
@@ -963,7 +964,6 @@ export default {
                                                                 }"
                                                             />
                                                             </div>
-                                                            <div v-if="!$v.edit.title.alphaArabic" class="invalid-feedback">{{ $t('general.alphaArabic') }}</div>
                                                             <div v-if="!$v.edit.title.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.edit.title.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                                             <div v-if="!$v.edit.title.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.edit.title.$params.maxLength.max }} {{ $t('general.letters') }}</div>
                                                             <template v-if="errors.title">
@@ -975,8 +975,8 @@ export default {
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="field-u-2" class="control-label">
-                                                                {{ $t('general.Name_en') }}
                                                                 <span class="text-danger">*</span>
+                                                                {{ $t('general.Name_en') }}
                                                             </label>
                                                             <div dir="ltr">
                                                             <input
@@ -991,7 +991,6 @@ export default {
                                                             </div>
                                                             <div v-if="!$v.edit.name_e.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.edit.name_e.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                                             <div v-if="!$v.edit.name_e.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.edit.name_e.$params.maxLength.max }} {{ $t('general.letters') }}</div>
-                                                            <div v-if="!$v.edit.name_e.alphaEnglish" class="invalid-feedback">{{ $t('general.alphaEnglish') }}</div>
                                                             <template v-if="errors.name_e">
                                                                 <ErrorMessage v-for="(errorMessage,index) in errors.name_e" :key="index">{{ errorMessage }}</ErrorMessage>
                                                             </template>
@@ -1000,8 +999,8 @@ export default {
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="field-u-2" class="control-label">
-                                                                {{ $t('general.title_en') }}
                                                                 <span class="text-danger">*</span>
+                                                                {{ $t('general.title_en') }}
                                                             </label>
                                                             <div dir="ltr">
                                                             <input
@@ -1016,7 +1015,6 @@ export default {
                                                             </div>
                                                             <div v-if="!$v.edit.title_e.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.edit.title_e.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                                             <div v-if="!$v.edit.title_e.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.edit.title_e.$params.maxLength.max }} {{ $t('general.letters') }}</div>
-                                                            <div v-if="!$v.edit.title_e.alphaEnglish" class="invalid-feedback">{{ $t('general.alphaEnglish') }}</div>
                                                             <template v-if="errors.title_e">
                                                                 <ErrorMessage v-for="(errorMessage,index) in errors.title_e" :key="index">{{ errorMessage }}</ErrorMessage>
                                                             </template>

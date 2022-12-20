@@ -3,21 +3,26 @@
 namespace App\Http\Requests\Company;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request;
 
 class UpdateCompanyRequest extends FormRequest
 {
 
-    public function rules(Request $request)
+    public function authorize()
+    {
+        return true;
+    }
+    public function rules()
     {
         return [
-            "partner_id"  => "exists:partners,id",
+            "partner_id"  => [],
             "name"       => "string|max:100",
             "name_e"     => "string|max:100",
             "url"        => "string|max:200",
             "logo"       => "nullable".($request->hasFile('logo')? '|image':''),
             "address"    => "string|max:200",
-            "phone"      => "numeric|digits_between:8,16",
+            "phone"      => "numeric",
+            "phone_code"      => [],
+            "country_code"      => [],
             "cr"         => "string",
             "tax_id"     => "numeric|digits_between:1,10",
             "vat_no"     => "numeric|digits_between:1,10",
@@ -27,11 +32,35 @@ class UpdateCompanyRequest extends FormRequest
         ];
     }
 
-
-
-    public function authorize()
+    public function messages()
     {
-        return true;
-    }
+        return [
+            "parent_id.exists" => __("message.field not exists"),
+            "name.string" => __("message.field string must be string"),
+            "name.max" => __("message.field max character is 100"),
+            "name_e.string" => __("message.field string"),
+            "name_e.max" => __("message.field max character is 100"),
+            "url.url" => __("message.field invalid"),
+            "url.string" => __("message.field string must be string"),
+            "url.max" => __("message.field max character is 200"),
+            "address.string" => __("message.field string must be string"),
+            "address.max" => __("message.field max character is 200"),
+            "phone.numeric" => __("message.field must be numeric"),
+            "phone.digits_between" => __("message.field must be between 8 and 16 digits"),
+            "cr.string" => __("message.field string must be string"),
+            "tax_id.numeric" => __("message.field must be numeric"),
+            "tax_id.digits_between" => __("message.field must be between 1 and 10 digits"),
+            "vat_no.numeric" => __("message.field must be numeric"),
+            "vat_no.digits_between" => __("message.field must be between 1 and 10 digits"),
+            "email.email" => __("message.field invalid"),
+            "email.unique" => __("message.field unique"),
+            "website.string" => __("message.field string must be string"),
+            "website.max" => __("message.field max character is 200"),
+            "is_active.in" => __("message.field invalid"),
+            "media.array" => __("message.field array"),
+            "media.*.exists" => __("message.field not exists"),
+            "media.*.media" => __("message.field invalid"),
 
+        ];
+    }
 }

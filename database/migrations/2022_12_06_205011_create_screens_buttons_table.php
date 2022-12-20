@@ -4,8 +4,9 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateScreensButtonsTable extends Migration
+return new class extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -15,8 +16,8 @@ class CreateScreensButtonsTable extends Migration
     {
         Schema::create('screens_buttons', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('screen_id')->constrained('screens')->references("id");
-            $table->foreignId('button_id')->constrained('buttons')->references("id");
+            $table->foreignId('screen_id');
+            $table->foreignId('button_id');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -29,6 +30,6 @@ class CreateScreensButtonsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('screens_buttons');
+        Schema::dropIfExists('sys_screens_buttons');
     }
-}
+};

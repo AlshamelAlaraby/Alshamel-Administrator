@@ -15,16 +15,16 @@ class DatabaseSeeder extends Seeder
 
     public function run()
     {
-        $this->call([ModuleSeeder::class]);
-        $this->call([UserSeeder::class]);
-        $this->call([AdminSeeder::class]);
-        \App\Models\User::create([
+        // $this->call([ModuleSeeder::class]);
+        // $this->call([UserSeeder::class]);
+        // $this->call([AdminSeeder::class]);
+        \App\Models\Admin::create([
             'name' => 'admin',
             "email" => "mrehab9797@gmail.com",
             'password' => Hash::make(124578963),
         ]);
 
-        \App\Models\Partner::factory(100)->create();
-//        \App\Models\Company::factory(100)->create();
+        // \App\Models\Partner::factory(100)->create();
+        // \App\Models\Company::factory(100)->create();
     }
 }

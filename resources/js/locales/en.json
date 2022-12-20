@@ -1,5 +1,6 @@
 {
     "alshamel": "Alshamel",
+    "message.name already exists":"Name already exists",
     "login": {
         "loginIn": "Login In",
         "Rememberme": "Remember me",
@@ -19,6 +20,24 @@
         "ModulesTable": "Modules Table",
         "ScreensTable": "Screens Table",
         "ButtonsTable": "Buttons Table"
+    },
+    "DocumentType": {
+        "AddDocumentType": " Add Document Type",
+        "EditDocumentType": "Edit Document Type",
+        "DocumentType": "Document Type",
+        "DocumentTypesTable": "Document Types Table"
+    },
+    "screen_button": {
+        "AddScreenButton": " Add Screen Button",
+        "EditScreenButton": "Edit Screen Button",
+        "screen_button": "Screen Button",
+        "ScreenButtonsTable": "Screen Buttons Table"
+    },
+    "HotField": {
+        "AddHotField": " Add Hot Field",
+        "EditHotField": "Edit Hot Field",
+        "HotField": "Hot Field",
+        "HotFieldsTable": "Hot Fields Tables"
     },
     "partner": {
         "addpartner": "Add New Partner",
@@ -149,6 +168,15 @@
         },
         "module": {
             "text": "Module"
+        },
+        "screen_button": {
+            "text": "Screen Buttons"
+        },
+        "HotFields": {
+            "text": "Hot Fields"
+        },
+        "DocumentType": {
+            "text": "Document Types"
         },
         "buttons": {
             "text": "Buttons"
@@ -381,6 +409,17 @@
         }
     },
     "general": {
+        "Default": "Default",
+        "NonDefault": "Nondefault",
+        "Yes": "Yes",
+        "No": "No",
+        "TableName": "Table name",
+        "FieldName": "Field name",
+        "FieldTitle": "Field title (arabic)",
+        "FieldTitleEn": "Field title (english)",
+        "Visibility": "Visibility",
+        "Screen": "Screen",
+        "Button": "Button",
         "fieldIsRequired": "This field is required",
         "PleaseEnterValidEmail": "Please enter valid email.",
         "notDataFound": "Not Data Found",
@@ -441,6 +480,7 @@
         "edit": "Edit",
         "searchSetting": "Search Setting",
         "AddNewRecord": "Add New Record",
+        "Save": "Save",
         "Apply": "Apply",
         "addButton": "Add Button",
         "editButton": "Edit Button",

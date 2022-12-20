@@ -34,7 +34,12 @@ class ScreenRepository implements ScreenRepositoryInterface
 
         })->latest();
 
-        return ['data' => $models->paginate($request->per_page), 'paginate' => true];
+        if ($request->per_page) {
+            return ['data' => $models->paginate($request->per_page), 'paginate' => true];
+        } else {
+            return ['data' => $models->get(), 'paginate' => false];
+        }
+
 
     }
 

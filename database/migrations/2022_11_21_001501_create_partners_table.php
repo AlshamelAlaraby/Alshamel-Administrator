@@ -4,8 +4,9 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePartnersTable extends Migration
+return new class extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -15,8 +16,8 @@ class CreatePartnersTable extends Migration
     {
         Schema::create('partners', function (Blueprint $table) {
             $table->id();
-            $table->string("name" , 100)->comment("Name Arabic");
-            $table->string("name_e" , 100)->comment("Name English");
+            $table->string("name", 100)->comment("Name Arabic");
+            $table->string("name_e", 100)->comment("Name English");
             $table->string('is_active')->default(0);
             $table->string('email')->unique();
             $table->string('password');
@@ -35,4 +36,4 @@ class CreatePartnersTable extends Migration
     {
         Schema::dropIfExists('partners');
     }
-}
+};

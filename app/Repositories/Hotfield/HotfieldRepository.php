@@ -3,6 +3,7 @@
 namespace App\Repositories\Hotfield;
 
 use App\Models\Hotfield;
+use App\Models\UserSettingScreen;
 use Illuminate\Support\Facades\DB;
 class HotfieldRepository implements HotfieldRepositoryInterface
 {
@@ -18,11 +19,12 @@ class HotfieldRepository implements HotfieldRepositoryInterface
         $models = $this->model->where(function ($q) use ($request) {
 
             if ($request->search) {
-                $q->where('name', 'like', '%' . $request->search . '%')
-                    ->orWhere('name_e', 'like', '%' . $request->search . '%');
+                $q->where('table_name', 'like', '%' . $request->search . '%')
+                    ->orWhere('field_name', 'like', '%' . $request->search . '%')
+                    ->orWhere('field_title', 'like', '%' . $request->search . '%')
+                    ->orWhere('field_title_en', 'like', '%' . $request->search . '%');
             }
         })->latest();
-
         if ($request->per_page) {
             return ['data' => $models->paginate($request->per_page), 'paginate' => true];
         } else {
@@ -60,6 +62,34 @@ class HotfieldRepository implements HotfieldRepositoryInterface
         $this->forget($id);
         $model->delete();
     }
+
+    public function setting($request)
+    {
+        DB::transaction(function () use ($request) {
+            $screenSetting = UserSettingScreen::where('user_id',$request['user_id'])->where('screen_id',$request['screen_id'])->first();
+            $request['data_json'] =json_encode($request['data_json']);
+            if (!$screenSetting) {
+                UserSettingScreen::create($request);
+            } else {
+                $screenSetting->update($request);
+            }
+        });
+        return $this->successResponse([],__('Done'));
+    }
+
+
+    public function getSetting($user_id, $screen_id)
+    {
+        return  UserSettingScreen::where('user_id',$user_id)->where('screen_id',$screen_id)->first();
+    }
+
+
+
+    public function logs($id)
+    {
+        return $this->model->find($id)->activities()->orderBy('created_at', 'DESC')->get();
+    }
+
 
 
     private function forget($id)

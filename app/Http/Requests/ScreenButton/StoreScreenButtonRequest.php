@@ -26,6 +26,7 @@ class StoreScreenButtonRequest extends FormRequest
         return [
             "screen_id" => "required|exists:screens,id",
             "button_id" => "required|exists:buttons,id",
+            'buttons'=>[]
         ];
     }
 }

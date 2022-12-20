@@ -38,6 +38,8 @@ class UpdatePartnerRequest extends FormRequest
                 'required',
                 Rule::unique('partners', 'mobile_no')->ignore($this->route('id')),
             ],
+            "phone_code"      => [],
+            "country_code"      => [],
         ];
     }
 

@@ -1893,6 +1893,21 @@ var menuItems = [{
   icon: 'fe-monitor',
   link: '/screens'
 }, {
+  id: 5,
+  label: 'menuitems.screen_button.text',
+  icon: 'ri-eraser-line',
+  link: '/screen-button'
+}, {
+  id: 6,
+  label: 'menuitems.HotFields.text',
+  icon: 'ri-table-line',
+  link: '/hot-fields'
+}, {
+  id: 7,
+  label: 'menuitems.DocumentType.text',
+  icon: 'ri-stack-line',
+  link: '/document-types'
+}, {
   id: 1115,
   label: "menuitems.dashboard.text",
   icon: "ri-dashboard-line",

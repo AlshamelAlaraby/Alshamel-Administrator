@@ -1331,15 +1331,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_widgets_errorMessage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../components/widgets/errorMessage */ "./resources/js/components/widgets/errorMessage.vue");
 /* harmony import */ var _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../api/adminAxios */ "./resources/js/api/adminAxios.js");
 /* harmony import */ var vue_switches__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-switches */ "./node_modules/vue-switches/src/switches.vue");
-/* harmony import */ var _helper_alphaArabic__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../helper/alphaArabic */ "./resources/js/helper/alphaArabic.js");
-/* harmony import */ var _helper_alphaEnglish__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../helper/alphaEnglish */ "./resources/js/helper/alphaEnglish.js");
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _components_loader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../components/loader */ "./resources/js/components/loader.vue");
-/* harmony import */ var _helper_tableSort__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../helper/tableSort */ "./resources/js/helper/tableSort.js");
-
-
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _components_loader__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../components/loader */ "./resources/js/components/loader.vue");
+/* harmony import */ var _helper_tableSort__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../helper/tableSort */ "./resources/js/helper/tableSort.js");
 
 
 
@@ -1365,7 +1361,7 @@ __webpack_require__.r(__webpack_exports__);
     Layout: _layouts_main__WEBPACK_IMPORTED_MODULE_0__["default"],
     PageHeader: _components_Page_header__WEBPACK_IMPORTED_MODULE_1__["default"],
     Switches: vue_switches__WEBPACK_IMPORTED_MODULE_4__["default"],
-    loader: _components_loader__WEBPACK_IMPORTED_MODULE_8__["default"],
+    loader: _components_loader__WEBPACK_IMPORTED_MODULE_6__["default"],
     ErrorMessage: _components_widgets_errorMessage__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   data: function data() {
@@ -1384,16 +1380,14 @@ __webpack_require__.r(__webpack_exports__);
         password: '',
         repeatPassword: '',
         mobile_no: '',
-        is_active: null
+        is_active: 1
       },
       edit: {
         name: '',
         name_e: '',
         email: '',
-        password: '',
-        repeatPassword: '',
         mobile_no: '',
-        is_active: null
+        is_active: 1
       },
       setting: {
         name: true,
@@ -1415,74 +1409,61 @@ __webpack_require__.r(__webpack_exports__);
   validations: {
     create: {
       name: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.maxLength)(100),
-        alphaArabic: _helper_alphaArabic__WEBPACK_IMPORTED_MODULE_5__["default"]
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(100)
       },
       name_e: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.maxLength)(100),
-        alphaEnglish: _helper_alphaEnglish__WEBPACK_IMPORTED_MODULE_6__["default"]
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(100)
       },
       email: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.required,
-        email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.email,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.maxLength)(100)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
+        email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.email,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(100)
       },
       password: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.minLength)(8),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.maxLength)(16)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(8),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(16)
       },
       repeatPassword: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.required,
-        sameAs: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.sameAs)('password')
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
+        sameAs: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.sameAs)('password')
       },
       mobile_no: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.required,
-        integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.integer
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
+        integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.integer
       },
       is_active: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required
       }
     },
     edit: {
       name: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.maxLength)(100),
-        alphaArabic: _helper_alphaArabic__WEBPACK_IMPORTED_MODULE_5__["default"]
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(100)
       },
       name_e: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.maxLength)(100),
-        alphaEnglish: _helper_alphaEnglish__WEBPACK_IMPORTED_MODULE_6__["default"]
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(100)
       },
       email: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.required,
-        email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.email,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.maxLength)(100)
-      },
-      password: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.minLength)(8),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.maxLength)(16)
-      },
-      repeatPassword: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.required,
-        sameAs: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.sameAs)('password')
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
+        email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.email,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(100)
       },
       mobile_no: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.required,
-        integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.integer
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
+        integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.integer
       },
       is_active: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required
       }
     }
   },
@@ -1516,6 +1497,26 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     this.getData();
   },
+  updated: function updated() {
+    $(function () {
+      $(".englishInput").keypress(function (event) {
+        var ew = event.which;
+        if (ew == 32) return true;
+        if (48 <= ew && ew <= 57) return true;
+        if (65 <= ew && ew <= 90) return true;
+        if (97 <= ew && ew <= 122) return true;
+        return false;
+      });
+      $(".arabicInput").keypress(function (event) {
+        var ew = event.which;
+        if (ew == 32) return false;
+        if (48 <= ew && ew <= 57) return false;
+        if (65 <= ew && ew <= 90) return false;
+        if (97 <= ew && ew <= 122) return false;
+        return true;
+      });
+    });
+  },
   methods: {
     /**
      *  get Data Partner
@@ -1532,8 +1533,9 @@ __webpack_require__.r(__webpack_exports__);
         var l = res.data;
         _this3.partners = l.data;
         _this3.partnersPagination = l.pagination;
+        _this3.current_page = l.pagination.current_page;
       })["catch"](function (err) {
-        sweetalert2__WEBPACK_IMPORTED_MODULE_7___default().fire({
+        sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
           icon: 'error',
           title: "".concat(_this3.$t('general.Error')),
           text: "".concat(_this3.$t('general.Thereisanerrorinthesystem'))
@@ -1555,8 +1557,9 @@ __webpack_require__.r(__webpack_exports__);
           _this4.partners = l.data;
           _this4.current_page = l.pagination.current_page;
           _this4.partnersPagination = l.pagination;
+          _this4.current_page = l.pagination.current_page;
         })["catch"](function (err) {
-          sweetalert2__WEBPACK_IMPORTED_MODULE_7___default().fire({
+          sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
             icon: 'error',
             title: "".concat(_this4.$t('general.Error')),
             text: "".concat(_this4.$t('general.Thereisanerrorinthesystem'))
@@ -1571,7 +1574,7 @@ __webpack_require__.r(__webpack_exports__);
      */
     deletePartner: function deletePartner(id, index) {
       var _this5 = this;
-      sweetalert2__WEBPACK_IMPORTED_MODULE_7___default().fire({
+      sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
         title: "".concat(this.$t('general.Areyousure')),
         text: "".concat(this.$t('general.Youwontbeabletoreverthis')),
         type: "warning",
@@ -1587,7 +1590,7 @@ __webpack_require__.r(__webpack_exports__);
           _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"]["delete"]("/partners/".concat(id)).then(function (res) {
             _this5.checkAll = [];
             _this5.getData();
-            sweetalert2__WEBPACK_IMPORTED_MODULE_7___default().fire({
+            sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
               icon: 'success',
               title: "".concat(_this5.$t('general.Deleted')),
               text: "".concat(_this5.$t('general.Yourrowhasbeendeleted')),
@@ -1595,7 +1598,7 @@ __webpack_require__.r(__webpack_exports__);
               timer: 1500
             });
           })["catch"](function (err) {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_7___default().fire({
+            sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
               icon: 'error',
               title: "".concat(_this5.$t('general.Error')),
               text: "".concat(_this5.$t('general.Thereisanerrorinthesystem'))
@@ -1618,7 +1621,7 @@ __webpack_require__.r(__webpack_exports__);
         password: '',
         repeatPassword: '',
         mobile_no: '',
-        is_active: "active"
+        is_active: 1
       };
       this.$nextTick(function () {
         _this6.$v.$reset();
@@ -1638,7 +1641,7 @@ __webpack_require__.r(__webpack_exports__);
         password: '',
         repeatPassword: '',
         mobile_no: '',
-        is_active: "active"
+        is_active: 1
       };
       this.$nextTick(function () {
         _this7.$v.$reset();
@@ -1658,7 +1661,7 @@ __webpack_require__.r(__webpack_exports__);
         password: '',
         repeatPassword: '',
         mobile_no: '',
-        is_active: "active"
+        is_active: 1
       };
       this.$nextTick(function () {
         _this8.$v.$reset();
@@ -1677,7 +1680,7 @@ __webpack_require__.r(__webpack_exports__);
           _this9.getData();
           _this9.is_disabled = true;
           setTimeout(function () {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_7___default().fire({
+            sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
               icon: 'success',
               text: "".concat(_this9.$t('general.Addedsuccessfully')),
               showConfirmButton: false,
@@ -1688,7 +1691,7 @@ __webpack_require__.r(__webpack_exports__);
           if (err.response.data) {
             _this9.errors = err.response.data.errors;
           } else {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_7___default().fire({
+            sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
               icon: 'error',
               title: "".concat(_this9.$t('general.Error')),
               text: "".concat(_this9.$t('general.Thereisanerrorinthesystem'))
@@ -1714,7 +1717,7 @@ __webpack_require__.r(__webpack_exports__);
           _this10.$bvModal.hide("modal-edit-".concat(id));
           _this10.getData();
           setTimeout(function () {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_7___default().fire({
+            sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
               icon: 'success',
               text: "".concat(_this10.$t('general.Editsuccessfully')),
               showConfirmButton: false,
@@ -1725,7 +1728,7 @@ __webpack_require__.r(__webpack_exports__);
           if (err.response.data) {
             _this10.errors = err.response.data.errors;
           } else {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_7___default().fire({
+            sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
               icon: 'error',
               title: "".concat(_this10.$t('general.Error')),
               text: "".concat(_this10.$t('general.Thereisanerrorinthesystem'))
@@ -1745,10 +1748,8 @@ __webpack_require__.r(__webpack_exports__);
       });
       this.edit.name = Partner.name;
       this.edit.name_e = Partner.name_e;
-      this.edit.is_active = Partner.is_active;
+      this.edit.is_active = Partner.is_active == 1 ? 1 : 0;
       this.edit.email = Partner.email;
-      this.edit.password = Partner.password;
-      this.edit.repeatPassword = Partner.password;
       this.edit.mobile_no = Partner.mobile_no;
     },
     /**
@@ -1762,7 +1763,7 @@ __webpack_require__.r(__webpack_exports__);
         password: '',
         repeatPassword: '',
         mobile_no: '',
-        is_active: 'active'
+        is_active: 1
       };
       this.errors = {};
     },
@@ -1772,10 +1773,10 @@ __webpack_require__.r(__webpack_exports__);
      *  start  dynamicSortString
      */
     sortString: function sortString(value) {
-      return (0,_helper_tableSort__WEBPACK_IMPORTED_MODULE_9__.dynamicSortString)(value);
+      return (0,_helper_tableSort__WEBPACK_IMPORTED_MODULE_7__.dynamicSortString)(value);
     },
     sortNumber: function sortNumber() {
-      return (0,_helper_tableSort__WEBPACK_IMPORTED_MODULE_9__.dynamicSortNumber)(value);
+      return (0,_helper_tableSort__WEBPACK_IMPORTED_MODULE_7__.dynamicSortNumber)(value);
     },
     checkRow: function checkRow(id) {
       if (!this.checkAll.includes(id)) {
@@ -2335,6 +2336,21 @@ var menuItems = [{
   icon: 'fe-monitor',
   link: '/screens'
 }, {
+  id: 5,
+  label: 'menuitems.screen_button.text',
+  icon: 'ri-eraser-line',
+  link: '/screen-button'
+}, {
+  id: 6,
+  label: 'menuitems.HotFields.text',
+  icon: 'ri-table-line',
+  link: '/hot-fields'
+}, {
+  id: 7,
+  label: 'menuitems.DocumentType.text',
+  icon: 'ri-stack-line',
+  link: '/document-types'
+}, {
   id: 1115,
   label: "menuitems.dashboard.text",
   icon: "ri-dashboard-line",
@@ -2867,42 +2883,6 @@ var menuItems = [{
 
 /***/ }),
 
-/***/ "./resources/js/helper/alphaArabic.js":
-/*!********************************************!*\
-  !*** ./resources/js/helper/alphaArabic.js ***!
-  \********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(value) {
-  var re = /^[\u0621-\u064A ]+$/;
-  return re.test(value);
-}
-
-/***/ }),
-
-/***/ "./resources/js/helper/alphaEnglish.js":
-/*!*********************************************!*\
-  !*** ./resources/js/helper/alphaEnglish.js ***!
-  \*********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(value) {
-  var re = /^[a-zA-Z ]+$/;
-  return re.test(value);
-}
-
-/***/ }),
-
 /***/ "./resources/js/helper/tableSort.js":
 /*!******************************************!*\
   !*** ./resources/js/helper/tableSort.js ***!
@@ -3084,6 +3064,30 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\n.container-fluid {\n    padding: unset;\n    margin: unset;\n}\n.content-page {\n    padding: 70px 0 65px !important;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/pages/partner/index.vue?vue&type=style&index=0&lang=css&":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/pages/partner/index.vue?vue&type=style&index=0&lang=css& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-body {\r\n    padding: 2.25rem !important;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -3331,6 +3335,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_vertical_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/pages/partner/index.vue?vue&type=style&index=0&lang=css&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/pages/partner/index.vue?vue&type=style&index=0&lang=css& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./index.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/pages/partner/index.vue?vue&type=style&index=0&lang=css&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -7724,15 +7758,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _index_vue_vue_type_template_id_58613ede___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=58613ede& */ "./resources/js/views/pages/partner/index.vue?vue&type=template&id=58613ede&");
 /* harmony import */ var _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js& */ "./resources/js/views/pages/partner/index.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _index_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.vue?vue&type=style&index=0&lang=css& */ "./resources/js/views/pages/partner/index.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
+;
 
 
 /* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _index_vue_vue_type_template_id_58613ede___WEBPACK_IMPORTED_MODULE_0__.render,
   _index_vue_vue_type_template_id_58613ede___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
@@ -8038,6 +8074,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_vertical_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./vertical.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/layouts/vertical.vue?vue&type=style&index=0&lang=css&");
+
+
+/***/ }),
+
+/***/ "./resources/js/views/pages/partner/index.vue?vue&type=style&index=0&lang=css&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/views/pages/partner/index.vue?vue&type=style&index=0&lang=css& ***!
+  \*************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader/dist/cjs.js!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./index.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/pages/partner/index.vue?vue&type=style&index=0&lang=css&");
 
 
 /***/ }),
@@ -15165,7 +15214,7 @@ var render = function () {
                                       modifiers: { trim: true },
                                     },
                                   ],
-                                  staticClass: "form-control",
+                                  staticClass: "form-control arabicInput",
                                   class: {
                                     "is-invalid":
                                       _vm.$v.create.name.$error ||
@@ -15306,7 +15355,7 @@ var render = function () {
                                       modifiers: { trim: true },
                                     },
                                   ],
-                                  staticClass: "form-control",
+                                  staticClass: "form-control englishInput",
                                   class: {
                                     "is-invalid":
                                       _vm.$v.create.name_e.$error ||
@@ -15876,7 +15925,7 @@ var render = function () {
                                       staticClass: "d-inline-block",
                                       attrs: {
                                         name: "some-radios",
-                                        value: "active",
+                                        value: "1",
                                       },
                                       model: {
                                         value: _vm.$v.edit.is_active.$model,
@@ -15899,7 +15948,7 @@ var render = function () {
                                       staticClass: "d-inline-block m-1",
                                       attrs: {
                                         name: "some-radios",
-                                        value: "inactive",
+                                        value: "0",
                                       },
                                       model: {
                                         value: _vm.$v.edit.is_active.$model,
@@ -16703,7 +16752,7 @@ var render = function () {
                                                               },
                                                             ],
                                                             staticClass:
-                                                              "form-control",
+                                                              "form-control arabicInput",
                                                             class: {
                                                               "is-invalid":
                                                                 _vm.$v.edit.name
@@ -16932,7 +16981,7 @@ var render = function () {
                                                               },
                                                             ],
                                                             staticClass:
-                                                              "form-control",
+                                                              "form-control englishInput",
                                                             class: {
                                                               "is-invalid":
                                                                 _vm.$v.edit
@@ -17454,409 +17503,6 @@ var render = function () {
                                                         },
                                                         [
                                                           _c(
-                                                            "div",
-                                                            {
-                                                              staticClass:
-                                                                "d-flex justify-content-between align-items-center",
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "label",
-                                                                {
-                                                                  staticClass:
-                                                                    "control-label",
-                                                                  attrs: {
-                                                                    for: "field-5",
-                                                                  },
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    "\n                                                                " +
-                                                                      _vm._s(
-                                                                        _vm.$t(
-                                                                          "login.Password"
-                                                                        )
-                                                                      ) +
-                                                                      "\n                                                                "
-                                                                  ),
-                                                                  _c(
-                                                                    "span",
-                                                                    {
-                                                                      staticClass:
-                                                                        "text-danger",
-                                                                    },
-                                                                    [
-                                                                      _vm._v(
-                                                                        "*"
-                                                                      ),
-                                                                    ]
-                                                                  ),
-                                                                ]
-                                                              ),
-                                                              _vm._v(" "),
-                                                              _c("i", {
-                                                                class: [
-                                                                  "fas custom-eye",
-                                                                  !_vm.isEyeEdit
-                                                                    ? "fa-eye-slash"
-                                                                    : "fas fa-eye active",
-                                                                ],
-                                                                on: {
-                                                                  click:
-                                                                    function (
-                                                                      $event
-                                                                    ) {
-                                                                      _vm.isEyeEdit =
-                                                                        !_vm.isEyeEdit
-                                                                    },
-                                                                },
-                                                              }),
-                                                            ]
-                                                          ),
-                                                          _vm._v(" "),
-                                                          _c("input", {
-                                                            directives: [
-                                                              {
-                                                                name: "model",
-                                                                rawName:
-                                                                  "v-model.trim",
-                                                                value:
-                                                                  _vm.$v.edit
-                                                                    .password
-                                                                    .$model,
-                                                                expression:
-                                                                  "$v.edit.password.$model",
-                                                                modifiers: {
-                                                                  trim: true,
-                                                                },
-                                                              },
-                                                            ],
-                                                            staticClass:
-                                                              "form-control",
-                                                            class: {
-                                                              "is-invalid":
-                                                                _vm.$v.edit
-                                                                  .password
-                                                                  .$error ||
-                                                                _vm.errors
-                                                                  .password,
-                                                              "is-valid":
-                                                                !_vm.$v.edit
-                                                                  .password
-                                                                  .$invalid &&
-                                                                !_vm.errors
-                                                                  .password,
-                                                            },
-                                                            attrs: {
-                                                              type: !_vm.isEyeEdit
-                                                                ? "password"
-                                                                : "text",
-                                                              id: "edit-5",
-                                                            },
-                                                            domProps: {
-                                                              value:
-                                                                _vm.$v.edit
-                                                                  .password
-                                                                  .$model,
-                                                            },
-                                                            on: {
-                                                              input: function (
-                                                                $event
-                                                              ) {
-                                                                if (
-                                                                  $event.target
-                                                                    .composing
-                                                                ) {
-                                                                  return
-                                                                }
-                                                                _vm.$set(
-                                                                  _vm.$v.edit
-                                                                    .password,
-                                                                  "$model",
-                                                                  $event.target.value.trim()
-                                                                )
-                                                              },
-                                                              blur: function (
-                                                                $event
-                                                              ) {
-                                                                return _vm.$forceUpdate()
-                                                              },
-                                                            },
-                                                          }),
-                                                          _vm._v(" "),
-                                                          !_vm.$v.edit.password
-                                                            .minLength
-                                                            ? _c(
-                                                                "div",
-                                                                {
-                                                                  staticClass:
-                                                                    "invalid-feedback",
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    _vm._s(
-                                                                      _vm.$t(
-                                                                        "general.Itmustbeatleast"
-                                                                      )
-                                                                    ) +
-                                                                      " " +
-                                                                      _vm._s(
-                                                                        _vm.$v
-                                                                          .edit
-                                                                          .password
-                                                                          .$params
-                                                                          .minLength
-                                                                          .min
-                                                                      ) +
-                                                                      " " +
-                                                                      _vm._s(
-                                                                        _vm.$t(
-                                                                          "general.letters"
-                                                                        )
-                                                                      )
-                                                                  ),
-                                                                ]
-                                                              )
-                                                            : _vm._e(),
-                                                          _vm._v(" "),
-                                                          !_vm.$v.edit.password
-                                                            .maxLength
-                                                            ? _c(
-                                                                "div",
-                                                                {
-                                                                  staticClass:
-                                                                    "invalid-feedback",
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    _vm._s(
-                                                                      _vm.$t(
-                                                                        "general.Itmustbeatmost"
-                                                                      )
-                                                                    ) +
-                                                                      "  " +
-                                                                      _vm._s(
-                                                                        _vm.$v
-                                                                          .edit
-                                                                          .password
-                                                                          .$params
-                                                                          .maxLength
-                                                                          .max
-                                                                      ) +
-                                                                      " " +
-                                                                      _vm._s(
-                                                                        _vm.$t(
-                                                                          "general.letters"
-                                                                        )
-                                                                      )
-                                                                  ),
-                                                                ]
-                                                              )
-                                                            : _vm._e(),
-                                                          _vm._v(" "),
-                                                          _vm.errors.password
-                                                            ? _vm._l(
-                                                                _vm.errors
-                                                                  .password,
-                                                                function (
-                                                                  errorMessage,
-                                                                  index
-                                                                ) {
-                                                                  return _c(
-                                                                    "ErrorMessage",
-                                                                    {
-                                                                      key: index,
-                                                                    },
-                                                                    [
-                                                                      _vm._v(
-                                                                        _vm._s(
-                                                                          errorMessage
-                                                                        )
-                                                                      ),
-                                                                    ]
-                                                                  )
-                                                                }
-                                                              )
-                                                            : _vm._e(),
-                                                        ],
-                                                        2
-                                                      ),
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "div",
-                                                    { staticClass: "col-md-6" },
-                                                    [
-                                                      _c(
-                                                        "div",
-                                                        {
-                                                          staticClass:
-                                                            "form-group",
-                                                        },
-                                                        [
-                                                          _c(
-                                                            "label",
-                                                            {
-                                                              staticClass:
-                                                                "control-label",
-                                                              attrs: {
-                                                                for: "field-6",
-                                                              },
-                                                            },
-                                                            [
-                                                              _vm._v(
-                                                                "\n                                                            " +
-                                                                  _vm._s(
-                                                                    _vm.$t(
-                                                                      "general.repeatPassword"
-                                                                    )
-                                                                  ) +
-                                                                  "\n                                                            "
-                                                              ),
-                                                              _c(
-                                                                "span",
-                                                                {
-                                                                  staticClass:
-                                                                    "text-danger",
-                                                                },
-                                                                [_vm._v("*")]
-                                                              ),
-                                                            ]
-                                                          ),
-                                                          _vm._v(" "),
-                                                          _c("input", {
-                                                            directives: [
-                                                              {
-                                                                name: "model",
-                                                                rawName:
-                                                                  "v-model.trim",
-                                                                value:
-                                                                  _vm.$v.edit
-                                                                    .repeatPassword
-                                                                    .$model,
-                                                                expression:
-                                                                  "$v.edit.repeatPassword.$model",
-                                                                modifiers: {
-                                                                  trim: true,
-                                                                },
-                                                              },
-                                                            ],
-                                                            staticClass:
-                                                              "form-control",
-                                                            class: {
-                                                              "is-invalid":
-                                                                _vm.$v.edit
-                                                                  .repeatPassword
-                                                                  .$error ||
-                                                                _vm.errors
-                                                                  .repeatPassword,
-                                                              "is-valid":
-                                                                !_vm.$v.edit
-                                                                  .repeatPassword
-                                                                  .$invalid &&
-                                                                !_vm.errors
-                                                                  .repeatPassword,
-                                                            },
-                                                            attrs: {
-                                                              type: "password",
-                                                              id: "edit-6",
-                                                            },
-                                                            domProps: {
-                                                              value:
-                                                                _vm.$v.edit
-                                                                  .repeatPassword
-                                                                  .$model,
-                                                            },
-                                                            on: {
-                                                              input: function (
-                                                                $event
-                                                              ) {
-                                                                if (
-                                                                  $event.target
-                                                                    .composing
-                                                                ) {
-                                                                  return
-                                                                }
-                                                                _vm.$set(
-                                                                  _vm.$v.edit
-                                                                    .repeatPassword,
-                                                                  "$model",
-                                                                  $event.target.value.trim()
-                                                                )
-                                                              },
-                                                              blur: function (
-                                                                $event
-                                                              ) {
-                                                                return _vm.$forceUpdate()
-                                                              },
-                                                            },
-                                                          }),
-                                                          _vm._v(" "),
-                                                          !_vm.$v.edit
-                                                            .repeatPassword
-                                                            .sameAs
-                                                            ? _c(
-                                                                "div",
-                                                                {
-                                                                  staticClass:
-                                                                    "invalid-feedback",
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    _vm._s(
-                                                                      _vm.$t(
-                                                                        "general.samaAs"
-                                                                      )
-                                                                    ) + " "
-                                                                  ),
-                                                                ]
-                                                              )
-                                                            : _vm._e(),
-                                                          _vm._v(" "),
-                                                          _vm.errors
-                                                            .repeatPassword
-                                                            ? _vm._l(
-                                                                _vm.errors
-                                                                  .repeatPassword,
-                                                                function (
-                                                                  errorMessage,
-                                                                  index
-                                                                ) {
-                                                                  return _c(
-                                                                    "ErrorMessage",
-                                                                    {
-                                                                      key: index,
-                                                                    },
-                                                                    [
-                                                                      _vm._v(
-                                                                        _vm._s(
-                                                                          errorMessage
-                                                                        )
-                                                                      ),
-                                                                    ]
-                                                                  )
-                                                                }
-                                                              )
-                                                            : _vm._e(),
-                                                        ],
-                                                        2
-                                                      ),
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "div",
-                                                    { staticClass: "col-md-6" },
-                                                    [
-                                                      _c(
-                                                        "div",
-                                                        {
-                                                          staticClass:
-                                                            "form-group",
-                                                        },
-                                                        [
-                                                          _c(
                                                             "label",
                                                             {
                                                               staticClass:
@@ -17909,8 +17555,7 @@ var render = function () {
                                                                     "d-inline-block",
                                                                   attrs: {
                                                                     name: "some-radios",
-                                                                    value:
-                                                                      "active",
+                                                                    value: "1",
                                                                   },
                                                                   model: {
                                                                     value:
@@ -17952,8 +17597,7 @@ var render = function () {
                                                                     "d-inline-block m-1",
                                                                   attrs: {
                                                                     name: "some-radios",
-                                                                    value:
-                                                                      "inactive",
+                                                                    value: "0",
                                                                   },
                                                                   model: {
                                                                     value:
@@ -18062,50 +17706,8 @@ var render = function () {
                   ],
                   1
                 ),
-                _vm._v(" "),
-                _vm.partnersPagination
-                  ? [
-                      _c("pagination-laravel", {
-                        attrs: { data: _vm.partnersPagination, limit: 3 },
-                        on: { "pagination-change-page": _vm.getData },
-                        scopedSlots: _vm._u(
-                          [
-                            {
-                              key: "prev-nav",
-                              fn: function () {
-                                return [
-                                  _c("span", [
-                                    _vm._v(
-                                      "< " + _vm._s(_vm.$t("general.Previous"))
-                                    ),
-                                  ]),
-                                ]
-                              },
-                              proxy: true,
-                            },
-                            {
-                              key: "next-nav",
-                              fn: function () {
-                                return [
-                                  _c("span", [
-                                    _vm._v(
-                                      _vm._s(_vm.$t("general.Next")) + " >"
-                                    ),
-                                  ]),
-                                ]
-                              },
-                              proxy: true,
-                            },
-                          ],
-                          null,
-                          false,
-                          2213888939
-                        ),
-                      }),
-                    ]
-                  : _vm._e(),
               ],
-              2
+              1
             ),
           ]),
         ]),

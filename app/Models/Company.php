@@ -2,18 +2,17 @@
 
 namespace App\Models;
 
+use App\Traits\LogTrait;
+use App\Traits\MediaTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Storage;
 use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\CausesActivity;
-use Spatie\Activitylog\Traits\LogsActivity;
 
-class Company extends Model
+class Company extends Model implements \Spatie\MediaLibrary\HasMedia
+
 {
-    use HasFactory;
-    use SoftDeletes, LogsActivity, CausesActivity;
+    use HasFactory, SoftDeletes, LogTrait, MediaTrait;
 
     protected $guarded = [];
 
@@ -36,19 +35,13 @@ class Company extends Model
         return $this->hasMany(Store::class);
     }
 
-    public function getPhotoUrlAttribute()
-    {
-        return Storage::disk("companies")->url($this->logo);
-    }
-
     public function getActivitylogOptions(): LogOptions
     {
         $user = auth()->user()->id ?? "system";
 
         return \Spatie\Activitylog\LogOptions::defaults()
             ->logAll()
-            ->useLogName('Store')
+            ->useLogName('Company')
             ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName} by ($user)");
     }
-
 }
