@@ -33,7 +33,7 @@ class StoreWorkflowTreeRequest extends FormRequest
             'module_id'  => 'nullable',
             'screen_id'  => 'nullable',
             'id_sort'    => 'nullable',
-            // "media" => ["required", "exists:media,id", new \App\Rules\MediaRule()],
+            "media" => ["required", "exists:media,id", new \App\Rules\MediaRule()],
         ];
     }
 

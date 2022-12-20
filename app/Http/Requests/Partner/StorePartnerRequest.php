@@ -29,6 +29,8 @@ class StorePartnerRequest extends FormRequest
             'email'     => 'required|email|unique:partners,email',
             'password'  => 'required|min:8',
             'mobile_no' => 'nullable|unique:partners,mobile_no',
+            "phone_code"      => [],
+            "country_code"      => [],
             "is_active" => "nullable|in:active,inactive",
         ];
     }

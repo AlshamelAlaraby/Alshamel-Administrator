@@ -13,4 +13,12 @@ class ScreenButton extends Model
     protected $table = 'screens_buttons';
 
     protected $guarded = ["id"];
+
+
+    public function screens(){
+        return Screen::query ()->whereHas ('buttons')->with ('buttons')->get ();
+    }
+
+
+
 }
