@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\LogTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Module extends Model
 {
-    use HasFactory;
+    use HasFactory, LogTrait;
 
     protected $fillable = [
         'name',
@@ -16,7 +17,8 @@ class Module extends Model
         'is_active',
     ];
 
-    protected $hidden =['pivot'];
+    protected $table = 'sys_modules';
+    protected $hidden = ['pivot'];
 
 
     protected $casts = [
@@ -46,20 +48,14 @@ class Module extends Model
                 $q->orWhere('name_e', 'like', '%' . $request->name_e . '%');
             }
 
-            if ($request->parent_id) {
-                $q->where('parent_id', $request->parent_id);
-            }
 
-            if ($request->is_active) {
-                $q->where('is_active', $request->is_active);
-            }
         });
     }
     public function parent()
     {
         return $this->hasMany(Module::class, 'parent_id', 'id');
     }
-
+    
     public function children()
     {
         return $this->belongsTo(Module::class);
@@ -75,5 +71,4 @@ class Module extends Model
     {
         return static::where("parent_id", $this->id)->count() > 0;
     }
-
 }

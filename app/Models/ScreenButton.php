@@ -2,17 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\LogTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ScreenButton extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, LogTrait;
 
-    protected $table = 'screens_buttons';
+    protected $table = 'sys_screens_buttons';
 
-    protected $guarded = ["id"] ;
-
-
-
+    protected $guarded = ["id"];
 }
