@@ -16,8 +16,7 @@ class Module extends Model
         'parent_id',
         'is_active',
     ];
-
-    protected $table = 'sys_modules';
+    protected $table = 'modules';
     protected $hidden = ['pivot'];
 
 

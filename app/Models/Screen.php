@@ -10,7 +10,7 @@ class Screen extends Model
 {
     use SoftDeletes, LogTrait;
 
-    protected $table = 'sys_screens';
+    protected $table = 'screens';
     protected $fillable = [
         'name',
         'name_e',

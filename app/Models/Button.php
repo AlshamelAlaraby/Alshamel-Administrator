@@ -11,7 +11,7 @@ class Button extends Model implements \Spatie\MediaLibrary\HasMedia
     use SoftDeletes, MediaTrait;
 
     protected $guarded = [];
-    protected $table = 'sys_buttons';
+    protected $table = 'buttons';
 
     public function screens()
     {
