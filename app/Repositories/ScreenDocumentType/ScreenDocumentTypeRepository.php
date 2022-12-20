@@ -1,25 +1,34 @@
 <?php
 
-namespace App\Repositories\DocumentType;
+namespace App\Repositories\ScreenDocumentType;
 
-use App\Models\DocumentType;
+use App\Models\Partner;
+use App\Models\ScreenDocumentType;
 use App\Models\UserSettingScreen;
+use App\Traits\ApiResponser;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
-class DocumentTypeRepository implements DocumentTypeInterface
+class ScreenDocumentTypeRepository implements ScreenDocumentTypeRepositoryInterface
 {
 
-    public function __construct(private DocumentType $model){}
+    use ApiResponser;
+
+    private $model;
+    public function __construct(ScreenDocumentType $model)
+    {
+        $this->model = $model;
+
+    }
 
     public function all($request)
     {
-        $models = $this->model->filter($request)->orderBy($request->order ? $request->order : 'updated_at', $request->sort ? $request->sort : 'DESC');
+        $models = $this->model->where(function ($q) use ($request) {
+            $this->model->scopeFilter($q , $request);
+        })->orderBy($request->order ? $request->order : 'updated_at', $request->sort ? $request->sort : 'DESC');;
 
-        if ($request->per_page) {
-            return ['data' => $models->paginate($request->per_page), 'paginate' => true];
-        } else {
-            return ['data' => $models->get(), 'paginate' => false];
-        }
+        return ['data' => $models->paginate($request->per_page), 'paginate' => true];
+
     }
 
     public function find($id)
@@ -29,17 +38,23 @@ class DocumentTypeRepository implements DocumentTypeInterface
 
     public function create($request)
     {
+
         DB::transaction(function () use ($request) {
-            $this->model->create($request->all());
-            cacheForget("documentTypes");
+            $data = $request;
+            $this->model->create($data);
+            cacheForget("ScreenDocumentType");
         });
+
+        return $this->successResponse([],__('Done'));
     }
 
     public function update($request, $id)
     {
         DB::transaction(function () use ($id, $request) {
-            $this->model->where("id", $id)->update($request->all());
+            $data = $request;
+            $this->model->where("id", $id)->update($data);
             $this->forget($id);
+
         });
 
     }
@@ -51,16 +66,6 @@ class DocumentTypeRepository implements DocumentTypeInterface
         $model->delete();
     }
 
-    private function forget($id)
-    {
-        $keys = [
-            "documentTypes",
-            "documentTypes_" . $id,
-        ];
-        foreach ($keys as $key) {
-            cacheForget($key);
-        }
-    }
 
     public function setting($request)
     {
@@ -85,9 +90,20 @@ class DocumentTypeRepository implements DocumentTypeInterface
 
 
     public function logs($id)
-{
-    return $this->model->find($id)->activities()->orderBy('created_at', 'DESC')->get();
-}
+    {
+        return $this->model->find($id)->activities()->orderBy('created_at', 'DESC')->get();
+    }
 
 
+    private function forget($id)
+    {
+        $keys = [
+            "ScreenDocumentType",
+            "ScreenDocumentType_" . $id,
+        ];
+        foreach ($keys as $key) {
+            cacheForget($key);
+        }
+
+    }
 }

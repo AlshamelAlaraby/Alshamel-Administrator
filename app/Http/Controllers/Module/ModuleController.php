@@ -93,7 +93,23 @@ class ModuleController extends Controller
         $logs = $this->modelInterface->logs($id);
         return responseJson(200, 'success', $logs);
     }
-    public function addModuleToCompany(\App\Http\Requests\Module\AddCompanyToModuleRequest $request)
+    public function bulkDelete(Request $request){
+        foreach ($request->ids as $id){
+            $model = $this->repository->find($id);
+            $arr = [];
+            if ($model->have_children){
+                $arr[]=$id;
+                continue;
+            }
+            $this->repository->delete($id);
+        }
+        if (count ($arr) > 0){
+            return  responseJson(200, __('some items has relation cant delete'));
+        }
+        return  responseJson(200, __('Done'));
+    }
+
+    public function addModuleToCompany(\App\Http\Requests\Module\AddCompanyToModuleRequest$request)
     {
         $this->modelInterface->addModuleToCompany($request);
         return responseJson(200, 'success');
