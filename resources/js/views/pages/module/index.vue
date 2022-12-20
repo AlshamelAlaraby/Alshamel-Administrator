@@ -9,6 +9,9 @@ import ErrorMessage from "../../../components/widgets/errorMessage";
 import loader from "../../../components/loader";
 import alphaArabic  from "../../../helper/alphaArabic";
 import alphaEnglish  from "../../../helper/alphaEnglish";
+import {dynamicSortString}  from "../../../helper/tableSort";
+import Multiselect from "vue-multiselect";
+
 
 /**
  * Advanced Table component
@@ -23,22 +26,12 @@ export default {
         PageHeader,
         Switches,
         ErrorMessage,
-        loader
+        loader,
+        Multiselect
     },
     data() {
         return {
-            title: `module.module`,
-            items: [
-                {
-                    text: "alshamel",
-                    to: {name: "home"},
-                },
-                {
-                    text: `module.module`,
-                    active: true,
-                },
-            ],
-            per_page: 10,
+            per_page: 50,
             search: '',
             debounce: {},
             modulesPagination: {},
@@ -49,20 +42,30 @@ export default {
             create: {
                 name: '',
                 name_e: '',
-                parent_id: 0,
-                is_active: null,
+                parent_id: null,
+                is_active: 'active',
                 search: ''
             },
             edit: {
                 name: '',
                 name_e: '',
-                parent_id: 0,
-                is_active: null,
+                parent_id: null,
+                is_active: 'active',
                 search: ''
             },
+            setting: {
+                name: true,
+                name_e: true,
+                parent_id: true,
+                is_active: true
+            },
+            filterSetting: ['name', 'name_e'],
             errors: {},
-            dropDownSenders: [],
-            isButton: true
+            english: '',
+            isCheckAll: false,
+            checkAll: [],
+            is_disabled: false,
+            current_page: 1
         }
     },
     validations: {
@@ -93,25 +96,53 @@ export default {
                 this.getData();
             }, 400);
         },
-
+        /**
+         * watch check All table
+         */
+        isCheckAll(after,befour){
+            if(after){
+                this.modules.forEach(el => {
+                    if(!this.checkAll.includes(el.id)){
+                        this.checkAll.push(el.id);
+                    }
+                });
+            }else{
+                this.checkAll = [];
+            }
+        },
+        english(after,befour){
+            let ew = after[after.length - 1].charCodeAt();
+            if(ew == 32) {this.english = after;}
+            else {this.english = befour;}
+            if(48 <= ew && ew <= 57) {this.english = after;}
+            else {this.english = befour;}
+            if(65 <= ew && ew <= 90) {this.english =after;}
+            else {this.english = befour;}
+            if(97 <= ew && ew <= 122) {this.english = after;}
+            else {this.english = befour;}
+        }
     },
     mounted() {
         this.getData();
-        this.keyDropdown();
     },
     methods: {
         /**
          *  get Data module
          */
         getData(page = 1){
-
             this.isLoader = true;
 
-            adminApi.get(`/modules?page=${page}&per_page=${this.per_page}&search=${this.search}`)
+            let filter = '';
+            for (let i = 0; i > this.filterSetting.length; ++i) {
+                filter += `columns[${i}]=${this.filterSetting[i]}&`;
+            }
+
+            adminApi.get(`/modules?page=${page}&per_page=${this.per_page}&search=${this.search}&${filter}`)
                 .then((res) => {
                     let l = res.data;
                     this.modules = l.data;
                     this.modulesPagination = l.pagination;
+                    this.current_page = l.pagination.current_page;
                 })
                 .catch((err) => {
                     Swal.fire({
@@ -124,10 +155,37 @@ export default {
                     this.isLoader = false;
                 });
         },
+        getDataCurrentPage(){
+            if(this.current_page <= this.modulesPagination.last_page && this.current_page != this.modulesPagination.current_page && this.current_page){
+                this.isLoader = true;
+                let filter = '';
+                for (let i = 0; i > this.filterSetting.length; ++i) {
+                    filter += `columns[${i}]=${this.filterSetting[i]}&`;
+                }
+
+                adminApi.get(`/modules?page=${this.current_page}&per_page=${this.per_page}&search=${this.search}&${filter}`)
+                    .then((res) => {
+                        let l = res.data;
+                        this.modules = l.data;
+                        this.modulesPagination = l.pagination;
+                        this.current_page = l.pagination.current_page;
+                    })
+                    .catch((err) => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: `${this.$t('general.Error')}`,
+                            text: `${this.$t('general.Thereisanerrorinthesystem')}`,
+                        });
+                    })
+                    .finally(() => {
+                        this.isLoader = false;
+                    });
+            }
+        },
         /**
          *  delete module
          */
-        deleteModule(id,index) {
+        deleteModule(id) {
             Swal.fire({
                 title: `${this.$t('general.Areyousure')}`,
                 text: `${this.$t('general.Youwontbeabletoreverthis')}`,
@@ -145,7 +203,8 @@ export default {
 
                     adminApi.delete(`/modules/${id}`)
                         .then((res) => {
-                            this.modules.splice(index,1);
+                            this.getData();
+                            this.checkAll = [];
                             Swal.fire({
                                 icon: 'success',
                                 title: `${this.$t('general.Deleted')}`,
@@ -171,22 +230,29 @@ export default {
          *  reset Modal (create)
          */
         resetModalHidden(){
-            this.create =  {name: '', name_e: '', parent_id: 0, is_active: null};
+            this.create =  {name: '', name_e: '', parent_id: null, is_active: 'active'};
             this.$nextTick(() => { this.$v.$reset() });
             this.errors = {};
-            this.$bvModal.hide(`create`);
+            this.parents = [];
         },
         /**
          *  hidden Modal (create)
          */
-        resetModal(){
-            this.create =  {name: '', name_e: '', parent_id: 0, is_active: null};
+        async resetModal(){
+            await this.getParent();
+            this.create =  {name: '', name_e: '', parent_id: null, is_active: 'active'};
+            this.is_disabled = false;
             this.$nextTick(() => { this.$v.$reset() });
             this.errors = {};
         },
         /**
          *  create module
          */
+        resetForm(){
+            this.create =  {name: '', name_e: '', parent_id: null, is_active: 'active'};
+            this.is_disabled = false;
+            this.$nextTick(() => { this.$v.$reset() });
+        },
         AddSubmit(){
             this.$v.create.$touch();
 
@@ -195,10 +261,12 @@ export default {
             } else {
                 this.isLoader = true;
                 this.errors = {};
+                this.is_disabled = false;
+                if(!this.create.parent_id){this.create.parent_id = 0};
                 adminApi.post(`/modules`,this.create)
                     .then((res) => {
-                        this.$bvModal.hide(`create`);
                         this.getData();
+                        this.is_disabled = true;
                         setTimeout(() => {
                             Swal.fire({
                                 icon: 'success',
@@ -235,6 +303,7 @@ export default {
             } else {
                 this.isLoader = true;
                 this.errors = {};
+                if(!this.edit.parent_id){this.edit.parent_id = 0};
                 let {name,name_e,parent_id,is_active} = this.edit;
                 adminApi.put(`/modules/${id}`,{name,name_e,parent_id,is_active})
                     .then((res) => {
@@ -267,10 +336,10 @@ export default {
         /**
          *  get parent
          */
-        getParent(){
-            adminApi.get(`/modules?parent_id=${0}&is_active=active`)
+        async getParent(){
+            await adminApi.get(`/modules?parent_id=${0}&is_active=active`)
                 .then((res) => {
-                    this.dropDownSenders = res.data.data;
+                    this.parents = res.data.data;
                 })
                 .catch((err) => {
                     Swal.fire({
@@ -283,8 +352,9 @@ export default {
         /**
          *   show Modal (edit)
          */
-        resetModalEdit(id){
+        async resetModalEdit(id){
             let module = this.modules.find(e => id == e.id );
+            await this.getParent();
             this.edit.name = module.name;
             this.edit.name_e = module.name_e;
             this.edit.is_active = module.is_active;
@@ -299,201 +369,227 @@ export default {
             this.edit = {
                 name: '',
                 name_e: '',
-                parent_id: 0,
-                is_active: null
+                parent_id: null,
+                is_active: 'active'
             };
+            this.parents = [];
         },
+
         /**
-         *  start  dropdown Google
+         *  start  dynamicSortString
          */
-        searchSender(){
-            this.dropDownSenders = [];
-            this.create.parent_id = 0;
-            this.edit.parent_id = 0;
-            if(this.create.search || this.edit.search){
-                clearTimeout(this.debounce);
-                this.debounce = setTimeout(() => {
-                    this.getParent();
-                }, 400);
-            }else{
-                this.dropDownSenders = [];
-            }
-            this.isButton = false;
+        sortString(value){
+            return dynamicSortString(value);
         },
-
-        showSenderName(index){
-            let item = this.dropDownSenders[index];
-            this.create.parent_id = item.id;
-            this.create.search = (this.$i18n.locale == 'ar' ? item.name : item.name_e);
-            this.edit.parent_id = item.id;
-            this.edit.search = (this.$i18n.locale == 'ar' ? item.name : item.name_e);
-            this.isButton = true;
-            this.dropDownSenders = [];
-        },
-
-        senderHover(e){
-            let items = document.querySelectorAll('.sender-search .Sender');
-            items.forEach(e => e.classList.remove('active'));
-            e.target.classList.add('active');
-        },
-
-        keyDropdown(){
-            document.addEventListener('keyup',(e) => {
-                if(e.keyCode == 38){ //top arrow
-                    if(this.dropDownSenders.length > 0){
-                        let items = document.querySelectorAll('.sender-search .Sender');
-                        let isTrue = false;
-                        let index = null;
-                        items.forEach((e,i) => {
-                            if(e.classList.contains('active')) {
-                                isTrue = true;
-                                index = i;
-                            }
-                        });
-                        if(isTrue && index != 0){
-                            items[index].classList.remove('active');
-                            items[index - 1].classList.add('active');
-                        }else if(isTrue && index == 0){
-                            items[index].classList.remove('active');
-                            items[items.length - 1].classList.add('active');
-                        }
-                        if(!isTrue) items[0].classList.add('active');
-                    }else {
-                        this.dropDownSenders = [];
-                    }
-                };
-
-                if(e.keyCode == 40){ //down arrow
-                    if(this.dropDownSenders.length > 0){
-                        let items = document.querySelectorAll('.sender-search .Sender');
-                        let isTrue = false;
-                        let index = null;
-                        items.forEach((e,i) => {
-                            if(e.classList.contains('active')) {
-                                isTrue = true;
-                                index = i;
-                            }
-                        });
-                        if(isTrue && index != (items.length - 1)){
-                            items[index].classList.remove('active');
-                            items[index + 1].classList.add('active');
-                        }else if(isTrue && index == (items.length - 1)){
-                            items[index].classList.remove('active');
-                            items[0].classList.add('active');
-                        }
-                        if(!isTrue) items[items.length - 1].classList.add('active');
-                    }else {
-                        this.dropDownSenders = [];
-                    }
-                };
-
-                if(e.keyCode == 13){ //enter
-                    if(this.dropDownSenders.length > 0){
-                        let items = document.querySelectorAll('.sender-search .Sender');
-                        items.forEach((e,i) => {
-                            if(e.classList.contains('active')) this.showSenderName(i);
-                        });
-                    }else {
-                        this.dropDownSenders = [];
-                    }
-                    e.target.blur();
-                };
-            });
-
-            document.addEventListener('click',(e) => {
-                if(this.dropDownSenders.length > 0){
-                    if(e.target.classList.contains('Sender') || e.target.classList.contains('input-Sender')){
-                        this.isButton = false;
-                    }else {
-                        this.isButton = true;
-                        this.dropDownSenders = [];
-                    }
-                }else {
-                    this.isButton = true;
-                }
-            });
-        },
-
-        ClickDropdown(e){
-            if(this.dropDownSenders.length > 0){
-                if(e.target.classList.contains('Sender') || e.target.classList.contains('input-Sender')){
-                    this.isButton = false;
-                }else {
-                    this.isButton = true;
-                    this.dropDownSenders = [];
-                }
+        checkRow(id){
+            if(!this.checkAll.includes(id)) {
+                this.checkAll.push(id);
             }else {
-                this.isButton = true;
+                let index = this.checkAll.indexOf(id);
+                this.checkAll.splice(index,1);
             }
-        }
-        /**
-         *  end  dropdown Google
-         */
-
+        },
     },
 };
 </script>
 
 <template>
     <Layout>
-        <PageHeader :title="title" :items="items" />
+        <PageHeader />
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="row justify-content-between align-items-center mb-3">
+                        <div class="row justify-content-between align-items-center mb-2">
                             <h4 class="header-title"> {{ $t('module.ModulesTable') }}</h4>
+                            <div class="col-xs-10 col-md-9 col-lg-7" style="font-weight: 500">
 
-                            <b-button
-                                v-b-modal.create
-                                variant="success"
+                                <div class="d-inline-block" style="width: 22.2%;">
+                                    <!-- Basic dropdown -->
+                                    <b-dropdown variant="primary" :text="$t('general.searchSetting')" ref="dropdown" class="btn-block setting-search">
+                                        <b-form-checkbox v-model="filterSetting" value="name" class="mb-1">{{ $t('general.Name') }}</b-form-checkbox>
+                                        <b-form-checkbox v-model="filterSetting" value="name_e" class="mb-1">{{ $t('general.Name_en') }}</b-form-checkbox>
+                                    </b-dropdown>
+                                    <!-- Basic dropdown -->
+                                </div>
+
+                                <div class="d-inline-block position-relative" style="width: 77%;">
+                                    <span
+                                        :class="['search-custom position-absolute',$i18n.locale == 'ar'?'search-custom-ar':'']"
+                                    >
+                                        <i class="fe-search"></i>
+                                    </span>
+                                    <input
+                                        class="form-control"
+                                        style="display:block;width:93%;padding-top: 3px;"
+                                        type="text"
+                                        v-model.trim="search"
+                                        :placeholder="`${$t('general.Search')}...`"
+                                    >
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-between align-items-center mb-2 px-1">
+                            <div class="col-md-3 d-flex align-items-center mb-1 mb-xl-0">
+                                <b-button
+                                    v-b-modal.create
+                                    variant="primary"
+                                    class="btn-sm mx-1 font-weight-bold"
+                                >
+                                    {{ $t('general.Create') }}
+                                    <i class="fas fa-plus"></i>
+                                </b-button>
+                                <div class="d-inline-flex">
+                                    <button class="custom-btn-dowonload">
+                                        <i class="fas fa-file-download"></i>
+                                    </button>
+                                    <button class="custom-btn-dowonload">
+                                        <i class="fe-printer"></i>
+                                    </button>
+                                    <button
+                                        class="custom-btn-dowonload"
+                                        @click="$bvModal.show(`modal-edit-${checkAll[0]}`)"
+                                        v-if="checkAll.length == 1"
+                                    >
+                                        <i class="mdi mdi-square-edit-outline"></i>
+                                    </button>
+                                    <!-- start mult delete  -->
+                                    <button
+                                        class="custom-btn-dowonload"
+                                        v-if="checkAll.length > 1"
+                                        @click.prevent="deleteModule(checkAll)"
+                                    >
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                    <!-- end mult delete  -->
+                                    <!--  start one delete  -->
+                                    <button
+                                        class="custom-btn-dowonload"
+                                        v-if="checkAll.length == 1"
+                                        @click.prevent="deleteModule(checkAll)"
+                                    >
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                    <!--  end one delete  -->
+                                </div>
+                            </div>
+                            <div
+                                class="col-xs-10 col-md-9 col-lg-7 d-flex align-items-center  justify-content-end"
                             >
-                                {{ $t('general.Create') }}
-                            </b-button>
-
+                                <div>
+                                    <b-button
+                                        class="mx-1 custom-btn-background"
+                                    >
+                                        {{ $t('general.filter') }}
+                                        <i class="fas fa-filter"></i>
+                                    </b-button>
+                                    <b-button
+                                        class="mx-1 custom-btn-background"
+                                    >
+                                        {{ $t('general.group') }}
+                                        <i class="fe-menu"></i>
+                                    </b-button>
+                                    <!-- Basic dropdown -->
+                                    <b-dropdown variant="primary"
+                                                :html="`${$t('general.setting')} <i class='fe-settings'></i>`"
+                                                ref="dropdown" class="dropdown-custom-ali">
+                                        <b-form-checkbox v-model="setting.name" class="mb-1">{{
+                                                $t('general.Name')
+                                            }}
+                                        </b-form-checkbox>
+                                        <b-form-checkbox v-model="setting.name_e" class="mb-1">
+                                            {{ $t('general.Name_en') }}
+                                        </b-form-checkbox>
+                                        <b-form-checkbox v-model="setting.parent_id" class="mb-1">
+                                            {{ $t('general.IdParent') }}
+                                        </b-form-checkbox>
+                                        <b-form-checkbox v-model="setting.is_active" class="mb-1">
+                                            {{ $t('general.Status') }}
+                                        </b-form-checkbox>
+                                        <div class="d-flex justify-content-end">
+                                            <a href="javascript:void(0)" class="btn btn-primary btn-sm">Apply</a>
+                                        </div>
+                                    </b-dropdown>
+                                    <!-- Basic dropdown -->
+                                    <!-- start Pagination -->
+                                    <div class="d-inline-flex align-items-center pagination-custom">
+                                        <div class="d-inline-block" style="font-size:15px;">
+                                            {{ modulesPagination.from }}-{{ modulesPagination.to }} / {{ modulesPagination.total }}
+                                        </div>
+                                        <div class="d-inline-block">
+                                            <a
+                                                href="javascript:void(0)"
+                                                :style="{'pointer-events':modulesPagination.current_page == 1 ? 'none': ''}"
+                                                @click.prevent="getData(modulesPagination.current_page - 1)"
+                                            >
+                                                <span>&lt;</span>
+                                            </a>
+                                            <input
+                                                type="text"
+                                                @keyup.enter="getDataCurrentPage()"
+                                                v-model="current_page"
+                                                class="pagination-current-page"
+                                            />
+                                            <a
+                                                href="javascript:void(0)"
+                                                :style="{'pointer-events':modulesPagination.last_page == modulesPagination.current_page ? 'none': ''}"
+                                                @click.prevent="getData(modulesPagination.current_page + 1)"
+                                            >
+                                                <span>&gt;</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- end Pagination -->
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="row justify-content-between align-items-center mb-3">
-                            <div class="col-lg-3 col-6" style="font-weight: 500">
-                                {{ $t('general.Show') }}
-                                <select
-                                    class="custom-select custom-select-sm mr-sm-2"
-                                    v-model="per_page"
-                                    style="display: inline-block;width:auto"
-                                >
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                </select>
-                                {{ $t('general.entries') }}
-                            </div>
-                            <div class="col-lg-3 col-6" style="font-weight: 500">
-                                {{ $t('general.Search') }}:
-                                <input
-                                    class="form-control form-control-sm"
-                                    style="display: inline-block;width:auto"
-                                    type="text"
-                                    v-model.trim="search"
-                                    :placeholder="`${$t('general.Search')}...`"
-                                >
-                            </div>
-                        </div>
 
                         <!--  create   -->
                         <b-modal
                             id="create"
                             :title="$t('module.addmodule')"
                             title-class="font-18"
-                            body-class="p-4"
+                            body-class="p-4 "
                             :hide-footer="true"
+                            size="lg"
                             @show="resetModal"
                             @hidden="resetModalHidden"
                         >
-                            <form  @submit.stop.prevent="AddSubmit">
+                            <form>
+                                <div class="mb-3 d-flex justify-content-end">
+                                    <b-button
+                                        variant="success"
+                                        :disabled="!is_disabled"
+                                        @click.prevent="resetForm"
+                                        type="button" class="font-weight-bold px-2"
+                                    >
+                                        {{ $t('general.AddNewRecord') }}
+                                    </b-button>
+                                    <!-- Emulate built in modal footer ok and cancel button actions -->
+                                    <template v-if="!is_disabled">
+                                        <b-button  variant="success" type="button" class="mx-1" v-if="!isLoader" @click.prevent="AddSubmit">
+                                            {{ $t('general.Add') }}
+                                        </b-button>
+
+                                        <b-button variant="success" class="mx-1" disabled v-else>
+                                            <b-spinner small></b-spinner>
+                                            <span class="sr-only">{{ $t('login.Loading') }}...</span>
+                                        </b-button>
+                                    </template>
+
+                                    <b-button variant="danger" type="button" @click.prevent="$bvModal.hide(`create`)">
+                                        {{ $t('general.Cancel') }}
+                                    </b-button>
+                                </div>
                                 <div class="row">
                                     <div class="col-md-6 direction" dir="rtl">
                                         <div class="form-group">
-                                            <label for="field-1" class="control-label">{{ $t('general.Name') }}</label>
+                                            <label for="field-1" class="control-label">
+                                                {{ $t('general.Name') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input
                                                 type="text"
                                                 class="form-control"
@@ -502,10 +598,8 @@ export default {
                                                 'is-invalid':$v.create.name.$error || errors.name,
                                                 'is-valid':!$v.create.name.$invalid && !errors.name
                                             }"
-                                                :placeholder="$t('general.Name')" id="field-1"
+                                             id="field-1"
                                             />
-                                            <div class="valid-feedback" v-if="!errors.name">{{ $t('general.Looksgood') }}</div>
-                                            <div v-if="!$v.create.name.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                             <div v-if="!$v.create.name.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.name.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.name.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.name.$params.maxLength.max }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.name.alphaArabic" class="invalid-feedback">{{ $t('general.alphaArabic') }}</div>
@@ -516,19 +610,20 @@ export default {
                                     </div>
                                     <div class="col-md-6 direction-ltr" dir="ltr">
                                         <div class="form-group">
-                                            <label for="field-2" class="control-label">{{ $t('general.Name_en') }}</label>
+                                            <label for="field-2" class="control-label">
+                                                {{ $t('general.Name_en') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
                                             <input
                                                 type="text"
                                                 class="form-control"
-                                                v-model="$v.create.name_e.$model"
+                                                v-model="english"
                                                 :class="{
                                                 'is-invalid':$v.create.name_e.$error || errors.name_e,
                                                 'is-valid':!$v.create.name_e.$invalid && !errors.name_e
                                             }"
-                                                :placeholder="$t('general.Name_en')" id="field-2"
+                                                 id="field-2"
                                             />
-                                            <div class="valid-feedback" v-if="!errors.name_e">{{ $t('general.Looksgood') }}</div>
-                                            <div v-if="!$v.create.name_e.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                             <div v-if="!$v.create.name_e.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.name_e.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.name_e.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.name_e.$params.maxLength.max }} {{ $t('general.letters') }}</div>
                                             <div v-if="!$v.create.name_e.alphaEnglish" class="invalid-feedback">{{ $t('general.alphaEnglish') }}</div>
@@ -537,72 +632,44 @@ export default {
                                             </template>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 mt-1">
+                                    <div class="col-md-6 position-relative">
                                         <div class="form-group">
-                                            <label class="my-1 mr-2" for="inlineFormCustomSelectPref">{{ $t('general.Status') }}</label>
-                                            <select
-                                                class="custom-select my-1 mr-sm-2"
-                                                id="inlineFormCustomSelectPref"
-                                                v-model="$v.create.is_active.$model"
+                                            <label class="my-1 mr-2" >{{ $t('general.IdParent') }}</label>
+                                            <multiselect
+                                                v-model="create.parent_id"
+                                                :options="parents.map(type => type.id)"
+                                                :custom-label="opt => $i18n.locale ? parents.find(x => x.id == opt).name : parents.find(x => x.id == opt).name_e">
+                                            </multiselect>
+
+                                            <template v-if="errors.parent_id">
+                                                <ErrorMessage v-for="(errorMessage,index) in errors.parent_id" :key="index">{{ errorMessage }}</ErrorMessage>
+                                            </template>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class=" mr-2 mb-2" >
+                                                {{ $t('general.Status') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <b-form-group
                                                 :class="{
-                                                'is-invalid':$v.create.is_active.$error || errors.is_active,
-                                                'is-valid':!$v.create.is_active.$invalid && !errors.is_active
-                                            }"
-                                            >
-                                                <option value="" selected>{{ $t('general.Choose') }}...</option>
-                                                <option value="active">{{ $t('general.Active') }}</option>
-                                                <option value="inactive">{{ $t('general.Inactive') }}</option>
-                                            </select>
-                                            <div class="valid-feedback" v-if="!errors.is_active">{{ $t('general.Looksgood') }}</div>
-                                            <div v-if="!$v.create.is_active.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
+                                                    'is-invalid':$v.create.is_active.$error || errors.is_active,
+                                                    'is-valid':!$v.create.is_active.$invalid && !errors.is_active
+                                                    }"
+                                                >
+                                                <b-form-radio class="d-inline-block" v-model="$v.create.is_active.$model" name="some-radios" value="active">{{$t('general.Active')}}</b-form-radio>
+                                                <b-form-radio class="d-inline-block m-1" v-model="$v.create.is_active.$model" name="some-radios" value="inactive">{{$t('general.Inactive')}}</b-form-radio>
+                                            </b-form-group>
                                             <template v-if="errors.is_active">
-                                                <ErrorMessage v-for="(errorMessage,index) in errors.is_active" :key="index">{{ errorMessage }}</ErrorMessage>
+                                                <ErrorMessage
+                                                    v-for="(errorMessage,index) in errors.is_active"
+                                                    :key="index">{{ errorMessage }}
+                                                </ErrorMessage>
                                             </template>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 mt-1 position-relative">
-                                        <div class="form-group">
-                                            <label class="my-1 mr-2" >{{ $t('general.IdParent') }}</label>
-                                            <input
-                                                class="form-control input-Sender"
-                                                v-model.trim="create.search"
-                                                @input="searchSender"
-                                                @blur.prevent="ClickDropdown"
-                                                @focus="isButton = false"
-                                                :placeholder="$t('general.IdParent')" id="field-9"
-                                            />
-
-                                            <ul class="dropdown-search list-unstyled sender-search"
-                                                v-if="dropDownSenders.length > 0"
-                                            >
-                                                <li
-                                                    class="Sender"
-                                                    v-for="(dropDownSender,index) in dropDownSenders"
-                                                    :key="index"
-                                                    @click="showSenderName(index)"
-                                                    @mouseenter="senderHover"
-                                                >
-                                                    {{ `${dropDownSender.id}- ${dropDownSender.name}` }}
-                                                </li>
-                                            </ul>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mt-1 d-flex justify-content-end">
-                                    <!-- Emulate built in modal footer ok and cancel button actions -->
-                                    <b-button  variant="success" type="submit" class="mx-1" v-if="!isLoader && isButton">
-                                        {{ $t('general.Add') }}
-                                    </b-button>
-
-                                    <b-button variant="success" class="mx-1" disabled v-else>
-                                        <b-spinner small></b-spinner>
-                                        <span class="sr-only">{{ $t('login.Loading') }}...</span>
-                                    </b-button>
-
-                                    <b-button variant="secondary" type="button" @click.prevent="resetModalHidden">
-                                        {{ $t('general.Cancel') }}
-                                    </b-button>
                                 </div>
                             </form>
                         </b-modal>
@@ -618,26 +685,78 @@ export default {
                             <table class="table table-borderless table-hover table-centered m-0">
                                 <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>{{ $t('general.Name') }}</th>
-                                    <th>{{ $t('general.Name_en') }}</th>
-                                    <th>{{ $t('general.Status') }}</th>
-                                    <th>{{ $t('general.Action') }}</th>
+                                    <th scope="col" style="width: 0;">
+                                        <div class="form-check custom-control">
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox" v-model="isCheckAll"
+                                                style="width: 17px;height: 17px;"
+                                            >
+                                        </div>
+                                    </th>
+                                    <th v-if="setting.name">
+                                        <div class="d-flex justify-content-center">
+                                            <span>{{ $t('general.Name') }}</span>
+                                            <div class="arrow-sort">
+                                                <i class="fas fa-arrow-up" @click="modules.sort(sortString('name'))"></i>
+                                                <i class="fas fa-arrow-down" @click="modules.sort(sortString('-name'))"></i>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th v-if="setting.name_e">
+                                        <div class="d-flex justify-content-center">
+                                            <span>{{ $t('general.Name_en') }}</span>
+                                            <div class="arrow-sort">
+                                                <i class="fas fa-arrow-up" @click="modules.sort(sortString('name_e'))"></i>
+                                                <i class="fas fa-arrow-down" @click="modules.sort(sortString('-name_e'))"></i>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th v-if="setting.is_active">
+                                        <div class="d-flex justify-content-center">
+                                            <span>{{ $t('general.Status') }}</span>
+                                            <div class="arrow-sort">
+                                                <i class="fas fa-arrow-up" @click="modules.sort(sortString('name_e'))"></i>
+                                                <i class="fas fa-arrow-down" @click="modules.sort(sortString('-name_e'))"></i>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        {{ $t('general.Action') }}
+                                    </th>
+                                    <th><i class="fas fa-ellipsis-v"></i></th>
                                 </tr>
                                 </thead>
                                 <tbody v-if="modules.length > 0">
-                                <tr v-for="(data,index) in modules" :key="data.id">
-
-                                    <td>{{ 1 + index }}</td>
+                                  <tr
+                                      @click.capture="checkRow(data.id)"
+                                      @dblclick.prevent="$bvModal.show(`modal-edit-${data.id}`)"
+                                      v-for="(data,index) in modules"
+                                      :key="data.id"
+                                      class="body-tr-custom"
+                                  >
                                     <td>
+                                        <div class="form-check custom-control" style="min-height: 1.9em;">
+                                            <input
+                                                style="width: 17px;height: 17px;"
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                :value="data.id"
+                                                v-model="checkAll"
+                                            >
+                                        </div>
+                                    </td>
+                                    <td v-if="setting.name">
                                         <h5 class="m-0 font-weight-normal">{{ data.name }}</h5>
                                     </td>
-                                    <td>{{ data.name_e }}</td>
-                                    <td>
+                                    <td v-if="setting.name_e">
+                                        <h5 class="m-0 font-weight-normal">{{ data.name_e }}</h5>
+                                    </td>
+                                    <td v-if="setting.is_active">
                                         <span :class="[
                                             data.is_active == 'active' ?
-                                            'bg-soft-success text-success':
-                                            'bg-soft-danger  text-danger',
+                                            'text-success':
+                                            'text-danger',
                                             'badge'
                                             ]"
                                         >
@@ -645,19 +764,41 @@ export default {
                                         </span>
                                     </td>
                                     <td>
-                                        <a href="javascript:void(0);"
-                                           class="btn btn-xs btn-secondary custom-btn-1"
-                                           @click="$bvModal.show(`modal-edit-${data.id}`)"
-                                        >
-                                            <i class="mdi mdi-pencil"></i>
-                                        </a>
-                                        <a
-                                            href="javascript:void(0);"
-                                            class="btn btn-xs btn-danger custom-btn-1"
-                                            @click.prevent="deleteModule(data.id,index)"
-                                        >
-                                            <i class="fas fa-trash"></i>
-                                        </a>
+                                        <div class="btn-group">
+                                            <button
+                                                type="button"
+                                                class="btn btn-sm dropdown-toggle dropdown-coustom"
+                                                data-toggle="dropdown"
+                                                aria-expanded="false"
+                                            >
+                                                {{ $t('general.commands') }}
+                                                <i class="fas fa-angle-down"></i>
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-custom">
+                                                <a
+                                                    class="dropdown-item"
+                                                    href="#"
+                                                    @click="$bvModal.show(`modal-edit-${data.id}`)"
+                                                >
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center text-black"
+                                                    >
+                                                        <span>{{ $t('general.edit') }}</span>
+                                                        <i class="mdi mdi-square-edit-outline text-info"></i>
+                                                    </div>
+                                                </a>
+                                                <a
+                                                   class="dropdown-item text-black"
+                                                   href="#"
+                                                   @click.prevent="deleteModule(data.id)"
+                                                >
+                                                    <div class="d-flex justify-content-between align-items-center text-black">
+                                                        <span>{{ $t('general.delete') }}</span>
+                                                        <i class="fas fa-times text-danger"></i>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
 
                                         <!--  edit   -->
                                         <b-modal
@@ -665,16 +806,39 @@ export default {
                                             :title="$t('module.editmodule')"
                                             title-class="font-18"
                                             body-class="p-4"
+                                            size="lg"
                                             :ref="`edit-${data.id}`"
                                             :hide-footer="true"
                                             @show="resetModalEdit(data.id)"
                                             @hidden="resetModalHiddenEdit(data.id)"
                                         >
-                                            <form  @submit.stop.prevent="editSubmit(data.id)">
+                                            <form>
+                                                <div class="mb-3 d-flex justify-content-end">
+                                                    <!-- Emulate built in modal footer ok and cancel button actions -->
+                                                    <b-button  variant="success" type="submit" class="mx-1" v-if="!isLoader" @click.prevent="editSubmit(data.id)">
+                                                        {{ $t('general.Edit') }}
+                                                    </b-button>
+
+                                                    <b-button variant="success" class="mx-1" disabled v-else>
+                                                        <b-spinner small></b-spinner>
+                                                        <span class="sr-only">{{ $t('login.Loading') }}...</span>
+                                                    </b-button>
+
+                                                    <b-button
+                                                        variant="danger"
+                                                        type="button"
+                                                        @click.prevent="$bvModal.hide(`modal-edit-${data.id}`)"
+                                                    >
+                                                        {{ $t('general.Cancel') }}
+                                                    </b-button>
+                                                </div>
                                                 <div class="row">
                                                     <div class="col-md-6 direction" dir="rtl">
                                                         <div class="form-group">
-                                                            <label for="field-u-1" class="control-label">{{ $t('general.Name') }}</label>
+                                                            <label for="field-u-1" class="control-label">
+                                                                {{ $t('general.Name') }}
+                                                                <span class="text-danger">*</span>
+                                                            </label>
                                                             <input
                                                                 type="text"
                                                                 class="form-control"
@@ -685,9 +849,7 @@ export default {
                                                                 }"
                                                                 :placeholder="$t('general.Name')" id="field-u-1"
                                                             />
-                                                            <div class="valid-feedback" v-if="!errors.name">{{ $t('general.Looksgood') }}</div>
                                                             <div v-if="!$v.edit.name.alphaArabic" class="invalid-feedback">{{ $t('general.alphaArabic') }}</div>
-                                                            <div v-if="!$v.edit.name.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                                             <div v-if="!$v.edit.name.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.edit.name.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                                             <div v-if="!$v.edit.name.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.edit.name.$params.maxLength.max }} {{ $t('general.letters') }}</div>
                                                             <template v-if="errors.name">
@@ -697,7 +859,10 @@ export default {
                                                     </div>
                                                     <div class="col-md-6 direction-ltr" dir="ltr">
                                                         <div class="form-group">
-                                                            <label for="field-u-2" class="control-label">{{ $t('general.Name_en') }}</label>
+                                                            <label for="field-u-2" class="control-label">
+                                                                {{ $t('general.Name_en') }}
+                                                                <span class="text-danger">*</span>
+                                                            </label>
                                                             <input
                                                                 type="text"
                                                                 class="form-control"
@@ -708,8 +873,6 @@ export default {
                                                                 }"
                                                                 :placeholder="$t('general.Name_en')" id="field-u-2"
                                                             />
-                                                            <div class="valid-feedback" v-if="!errors.name_e">{{ $t('general.Looksgood') }}</div>
-                                                            <div v-if="!$v.edit.name_e.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                                             <div v-if="!$v.edit.name_e.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.edit.name_e.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                                             <div v-if="!$v.edit.name_e.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.edit.name_e.$params.maxLength.max }} {{ $t('general.letters') }}</div>
                                                             <div v-if="!$v.edit.name_e.alphaEnglish" class="invalid-feedback">{{ $t('general.alphaEnglish') }}</div>
@@ -718,108 +881,62 @@ export default {
                                                             </template>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6 mt-1">
+                                                    <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label class="my-1 mr-2" for="inlineFormCustomSelectPrefs">{{ $t('general.Status') }}</label>
-                                                            <select
-                                                                class="custom-select my-1 mr-sm-2"
-                                                                id="inlineFormCustomSelectPrefs"
-                                                                v-model="$v.edit.is_active.$model"
+                                                            <label class="my-1 mr-2" >{{ $t('general.IdParent') }}</label>
+                                                            <multiselect
+                                                                v-model="edit.parent_id"
+                                                                :options="parents.map(type => type.id)"
+                                                                :custom-label="opt => $i18n.locale ? parents.find(x => x.id == opt).name : parents.find(x => x.id == opt).name_e">
+                                                            </multiselect>
+
+                                                            <template v-if="errors.parent_id">
+                                                                <ErrorMessage v-for="(errorMessage,index) in errors.parent_id" :key="index">{{ errorMessage }}</ErrorMessage>
+                                                            </template>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class=" mr-2 mb-2" >
+                                                                {{ $t('general.Status') }}
+                                                                <span class="text-danger">*</span>
+                                                            </label>
+                                                            <b-form-group
                                                                 :class="{
-                                                                    'is-invalid':$v.edit.is_active.$error || errors.is_active,
-                                                                    'is-valid':!$v.edit.is_active.$invalid && !errors.is_active
+                                                                'is-invalid':$v.edit.is_active.$error || errors.is_active,
+                                                                'is-valid':!$v.edit.is_active.$invalid && !errors.is_active
                                                                 }"
-                                                                >
-                                                                <option value="0" selected>{{ $t('general.Choose') }}...</option>
-                                                                <option value="active">{{ $t('general.Active') }}</option>
-                                                                <option value="inactive">{{ $t('general.Inactive') }}</option>
-                                                            </select>
-                                                            <div class="valid-feedback" v-if="!errors.is_active">{{ $t('general.Looksgood') }}</div>
-                                                            <div v-if="!$v.edit.is_active.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
+                                                            >
+                                                                <b-form-radio class="d-inline-block" v-model="$v.edit.is_active.$model" name="some-radios" value="active">{{$t('general.Active')}}</b-form-radio>
+                                                                <b-form-radio class="d-inline-block m-1" v-model="$v.edit.is_active.$model" name="some-radios" value="inactive">{{$t('general.Inactive')}}</b-form-radio>
+                                                            </b-form-group>
                                                             <template v-if="errors.is_active">
-                                                                <ErrorMessage v-for="(errorMessage,index) in errors.is_active" :key="index">{{ errorMessage }}</ErrorMessage>
+                                                                <ErrorMessage
+                                                                    v-for="(errorMessage,index) in errors.is_active"
+                                                                    :key="index">{{ errorMessage }}
+                                                                </ErrorMessage>
                                                             </template>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6 mt-1">
-                                                        <div class="form-group">
-                                                            <label class="my-1 mr-2">{{ $t('general.IdParent') }}</label>
-                                                            <input
-                                                                class="form-control input-Sender"
-                                                                v-model.trim="edit.search"
-                                                                @input="searchSender"
-                                                                @blur.prevent="ClickDropdown"
-                                                                @focus="isButton = false"
-                                                                :placeholder="$t('general.IdParent')"
-                                                            />
-
-                                                            <ul class="dropdown-search list-unstyled sender-search"
-                                                                v-if="dropDownSenders.length > 0"
-                                                            >
-                                                                <li
-                                                                    class="Sender"
-                                                                    v-for="(dropDownSender,index) in dropDownSenders"
-                                                                    :key="index"
-                                                                    @click="showSenderName(index)"
-                                                                    @mouseenter="senderHover"
-                                                                >
-                                                                    {{ `${dropDownSender.id}- ${dropDownSender.name}` }}
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="mt-1 d-flex justify-content-end">
-                                                    <!-- Emulate built in modal footer ok and cancel button actions -->
-                                                    <b-button  variant="success" type="submit" class="mx-1" v-if="!isLoader && isButton">
-                                                        {{ $t('general.Edit') }}
-                                                    </b-button>
-
-                                                    <b-button variant="success" class="mx-1" disabled v-else>
-                                                        <b-spinner small></b-spinner>
-                                                        <span class="sr-only">{{ $t('login.Loading') }}...</span>
-                                                    </b-button>
-
-                                                    <b-button
-                                                        variant="secondary"
-                                                        type="button"
-                                                        @click.prevent="$bvModal.hide(`modal-edit-${data.id}`)"
-                                                    >
-                                                        {{ $t('general.Cancel') }}
-                                                    </b-button>
                                                 </div>
                                             </form>
                                         </b-modal>
                                         <!--  /edit   -->
                                     </td>
+                                    <td>
+                                        <i class="fe-info" style="font-size: 22px;"></i>
+                                    </td>
                                 </tr>
-
                                 </tbody>
                                 <tbody v-else>
                                 <tr>
-                                    <th class="text-center" colspan="5">{{ $t('general.notDataFound') }}</th>
+                                    <th class="text-center" colspan="6">{{ $t('general.notDataFound') }}</th>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
                         <!-- end .table-responsive-->
-
-                        <!-- start Pagination -->
-                        <template v-if="modulesPagination">
-                            <pagination-laravel
-                            :data="modulesPagination"
-                            @pagination-change-page="getData"
-                            :limit="3"
-                        >
-                            <template #prev-nav>
-                                <span>&lt; {{ $t('general.Previous') }}</span>
-                            </template>
-                            <template #next-nav>
-                                <span>{{ $t('general.Next') }} &gt;</span>
-                            </template>
-                        </pagination-laravel>
-                        </template>
-                        <!-- end Pagination -->
 
                     </div>
                 </div>

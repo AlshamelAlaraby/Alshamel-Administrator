@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\WorkflowTree;
 
+use App\Http\Resources\Partner\PartnerRelationResource;
+use App\Http\Resources\Screen\ScreenRelationResource;
 use App\Models\WorkflowTree;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -21,10 +23,10 @@ class WorkflowTreeResource extends JsonResource
             'name_e'     => $this->name_e,
             "is_active"  => $this->is_active == 1 ? WorkflowTree::ACTIVE : WorkflowTree::INACTIVE,
             'parent_id'  => $this->parent_id ,//== null ?null :optional($this->child)->name,
-            'partner_id' => $this->partner_id,
+            'partner'    => new PartnerRelationResource($this->partner),
             'company_id' => $this->company_id,
             'module_id'  => $this->module_id,
-            'screen_id'  => $this->screen_id,
+            'screen'  => new ScreenRelationResource($this->screen),
             'icon_url'   => $this->icon,
             'id_sort'    => $this->id_sort,
             'deleted_at' => $this->deleted_at,

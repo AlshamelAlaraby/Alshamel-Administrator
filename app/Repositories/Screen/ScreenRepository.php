@@ -2,21 +2,25 @@
 
 namespace App\Repositories\Screen;
 
+use App\Exceptions\NotFoundException;
 use App\Models\Screen;
 use Illuminate\Support\Facades\DB;
+
 class ScreenRepository implements ScreenRepositoryInterface
 {
 
-    private $model;
-    public function __construct(Screen $model)
-    {
-        $this->model = $model;
-    }
+    public function __construct(private Screen $model)
+    {}
 
     public function getAllScreens($request)
     {
         $models = $this->model->where(function ($q) use ($request) {
+            if ($request->search && $request->columns) {
+                foreach ($request->columns as $column) {
+                    $q->orWhere($column, 'like', '%' . $request->search . '%');
+                }
 
+            }
             if ($request->search) {
                 $q->where('name', 'like', '%' . $request->search . '%')
                     ->orWhere('name_e', 'like', '%' . $request->search . '%')
@@ -30,11 +34,8 @@ class ScreenRepository implements ScreenRepositoryInterface
 
         })->latest();
 
-        if ($request->per_page) {
-            return ['data' => $models->paginate($request->per_page), 'paginate' => true];
-        } else {
-            return ['data' => $models->get(), 'paginate' => false];
-        }
+        return ['data' => $models->paginate($request->per_page), 'paginate' => true];
+
     }
 
     public function find($id)
@@ -56,7 +57,6 @@ class ScreenRepository implements ScreenRepositoryInterface
         DB::transaction(function () use ($id, $request) {
             $this->model->where("id", $id)->update($request);
             $this->forget($id);
-
         });
 
     }
@@ -68,6 +68,27 @@ class ScreenRepository implements ScreenRepositoryInterface
         $model->delete();
     }
 
+    public function addScreenToDocumentType($request)
+    {
+        $screen = $this->model->find($request->screen_id);
+        if (!$screen) {
+            throw new NotFoundException();
+        }
+        $screen->documentTypes()->attach($request->documentType_id);
+    }
+
+    public function removeScreenFromDocumentType($screen_id, $documentType_id)
+    {
+        $screen = $this->model->find($screen_id);
+        if (!$screen) {
+            throw new NotFoundException();
+        }
+        $screen->documentTypes()->detach($documentType_id);
+    }
+    public function logs($id)
+    {
+        return $this->model->find($id)->activities()->orderBy('created_at', 'DESC')->get();
+    }
 
     private function forget($id)
     {
@@ -78,6 +99,5 @@ class ScreenRepository implements ScreenRepositoryInterface
         foreach ($keys as $key) {
             cacheForget($key);
         }
-
     }
 }

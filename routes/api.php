@@ -4,18 +4,25 @@ use App\Http\Controllers\Auth\CheckIfValidTokenController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Branch\BranchController;
+use App\Http\Controllers\Button\ButtonController;
 use App\Http\Controllers\Company\CompanyController;
+use App\Http\Controllers\DocumentType\DocumentTypeController;
 use App\Http\Controllers\Partner\PartnerController;
 use App\Http\Controllers\Screen\ScreenController;
 use App\Http\Controllers\Serial\SerialController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Store\StoreController;
 use App\Http\Controllers\Button\ButtonController;
+use App\Http\Controllers\CompanyModule\CompanyModuleController;
 use App\Http\Controllers\Helpfile\HelpfileController;
-use App\Http\Controllers\ScreenHelpfile\ScreenHelpfileController;
-use App\Http\Controllers\ScreenButton\ScreenButtonController;
 use App\Http\Controllers\hotfield\hotfieldController;
-
+use App\Http\Controllers\MainController;
+use App\Http\Controllers\Partner\PartnerController;
+use App\Http\Controllers\ScreenButton\ScreenButtonController;
+use App\Http\Controllers\ScreenHelpfile\ScreenHelpfileController;
+use App\Http\Controllers\Screen\ScreenController;
+use App\Http\Controllers\Store\StoreController;
+use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\WorkflowTree\WorkflowTreeController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,11 +37,16 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
+Route::controller(\App\Http\Controllers\MainController::class)->group(function () {
+    Route::put("/setting", "setting");
+    Route::get("/setting/{user_id}/{screen_id}", "getSetting");
+});
+
 Route::get('/users', [UserController::class, "index"]);
 
 /*
  * Auth
-*/
+ */
 
 Route::group(['prefix' => 'auth'], function () {
     Route::post('/login', [LoginController::class, "login"]);
@@ -48,38 +60,39 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
     Route::post('/check-token', [CheckIfValidTokenController::class, "checkIsValidToken"]);
 });
 
-    Route::group(['prefix' => 'companies'], function () {
-        Route::get('', [CompanyController::class, "index"])->name('companies.index');
-        Route::get('/{id}', [CompanyController::class, "show"])->name('companies.show');
-        Route::post('', [CompanyController::class, "store"])->name('companies.store');
-        Route::post('/{id}', [CompanyController::class, "update"])->name('companies.update');
-        Route::delete('/{id}', [CompanyController::class, "destroy"])->name('companies.delete');
+Route::group(['prefix' => 'companies'], function () {
+    Route::get('', [CompanyController::class, "index"])->name('companies.index');
+    Route::get('logs/{id}', [CompanyController::class, "logs"])->name('companies.logs');
+    Route::get('/{id}', [CompanyController::class, "show"])->name('companies.show');
+    Route::post('', [CompanyController::class, "store"])->name('companies.store');
+    Route::post('/{id}', [CompanyController::class, "update"])->name('companies.update');
+    Route::delete('/{id}', [CompanyController::class, "destroy"])->name('companies.delete');
+    Route::delete('/logs/{id}', [CompanyController::class, "logs"])->name('companies.logs');
+    Route::delete('/screen-setting', [CompanyController::class, "screenSetting"])->name('companies.screenSetting');
+    Route::delete('/get-screen-setting/{user_id}/{screen_id}', [CompanyController::class, "getScreenSetting"])->name('companies.getScreenSetting');
+});
+
+Route::post('/companyModules/{id}', [CompanyController::class, "companyModules"]);
+
+Route::group(['prefix' => 'stores'], function () {
+    Route::get('', [StoreController::class, "index"])->name('stores.index');
+    Route::get('/{id}', [StoreController::class, "show"])->name('stores.show');
+    Route::post('', [StoreController::class, "store"])->name('stores.store');
+    Route::post('/{id}', [StoreController::class, "update"])->name('stores.update');
+    Route::delete('/{id}', [StoreController::class, "destroy"])->name('stores.delete');
+});
+
+Route::group(['prefix' => 'modules'], function () {
+    Route::controller(\App\Http\Controllers\Module\ModuleController::class)->group(function () {
+        Route::get('/', 'all')->name('modules.index');
+        Route::get('/{id}', 'find');
+        Route::post('/', 'create')->name('modules.create');
+        Route::put('/{id}', 'update')->name('modules.update');
+        Route::delete('/{id}', 'delete')->name('modules.destroy');
+        Route::post('/company', 'addModuleToCompany')->name('modules.company.add');
+        Route::get('/{module_id}/company/{company_id}', 'removeModuleFromCompany')->name('modules.company.remove');
     });
-
-    Route::group(['prefix' => 'stores'], function () {
-        Route::get('', [StoreController::class, "index"])->name('stores.index');
-        Route::get('/{id}', [StoreController::class, "show"])->name('stores.show');
-        Route::post('', [StoreController::class, "store"])->name('stores.store');
-        Route::post('/{id}', [StoreController::class, "update"])->name('stores.update');
-        Route::delete('/{id}', [StoreController::class, "destroy"])->name('stores.delete');
-    });
-
-    Route::group(['prefix' => 'modules'], function () {
-        Route::controller(\App\Http\Controllers\Module\ModuleController::class)->group(function () {
-            Route::get('/', 'all')->name('modules.index');
-            Route::get('/{id}', 'find');
-            Route::post('/', 'create')->name('modules.create');
-            Route::put('/{id}', 'update')->name('modules.update');
-            Route::delete('/{id}', 'delete')->name('modules.destroy');
-            Route::post('/company', 'addModuleToCompany')->name('modules.company.add');
-            Route::delete('/{module_id}/company/{company_id}', 'removeModuleFromCompany')->name('modules.company.remove');
-
-
-        });
-    });
-
-
-
+});
 
 // api of Partners
 Route::group(['prefix' => 'partners'], function () {
@@ -89,8 +102,19 @@ Route::group(['prefix' => 'partners'], function () {
         Route::post('/', 'store')->name('partners.store');
         Route::put('/{id}', 'update')->name('partners.update');
         Route::delete('/{id}', 'delete')->name('partners.destroy');
+        Route::post('/companies', 'companies');
+        Route::post('/screen-setting', 'screenSetting')->name('partners.screenSetting');
+        Route::get('/get-screen-setting/{user_id}/{screen_id}', 'getScreenSetting')->name('partners.getScreenSetting');
+        Route::post('/login', 'login');
     });
 });
+
+// api for screen setting
+Route::controller(MainController::class)->group(function () {
+    Route::post("/setting", "setting");
+    Route::get("/setting/{user_id}/{screen_id}", "getSetting");
+});
+
 
 // api of screens
 Route::group(['prefix' => 'screens'], function () {
@@ -104,6 +128,19 @@ Route::group(['prefix' => 'screens'], function () {
 });
 
 
+// api of company_modules
+Route::group(['prefix' => 'company-modules'], function () {
+    Route::controller(CompanyModuleController::class)->group(function () {
+        Route::get('/', 'all')->name('company_modules.index');
+        Route::get('/{id}', 'find');
+        Route::post('/', 'store')->name('company_modules.store');
+        Route::put('/{id}', 'update')->name('company_modules.update');
+        Route::delete('/{id}', 'delete')->name('company_modules.destroy');
+        Route::get('logs/{id}', 'logs')->name('company_modules.logs');
+
+
+    });
+});
 // api of helpfiles
 Route::group(['prefix' => 'helpfiles'], function () {
     Route::controller(HelpfileController::class)->group(function () {
@@ -148,7 +185,6 @@ Route::group(['prefix' => 'hotfields'], function () {
     });
 });
 
-
 // api of WorkflowTree
 Route::group(['prefix' => 'workflow-trees'], function () {
     Route::controller(WorkflowTreeController::class)->group(function () {
@@ -157,6 +193,7 @@ Route::group(['prefix' => 'workflow-trees'], function () {
         Route::post('/', 'store')->name('WorkflowTree.store');
         Route::put('/{id}', 'update')->name('WorkflowTree.update');
         Route::delete('/{id}', 'delete')->name('WorkflowTree.destroy');
+        Route::get('logs/{id}', 'logs')->name('WorkflowTree.logs');
     });
 });
 
@@ -172,14 +209,32 @@ Route::group(['prefix' => 'workflow-trees'], function () {
 //     });
 
 // api op serials
-    Route::group(['prefix' => 'buttons'], function () {
-        Route::controller(ButtonController::class)->group(function () {
-            Route::get('/', 'all')->name('buttons.index');
-            Route::get('/{id}', 'find');
-            Route::post('/', 'store')->name('buttons.store');
-            Route::post('/{id}', 'update')->name('buttons.update');
-            Route::delete('/{id}', 'delete')->name('buttons.destroy');
-        });
+Route::group(['prefix' => 'buttons'], function () {
+    Route::controller(ButtonController::class)->group(function () {
+        Route::get('/', 'all')->name('buttons.index');
+        Route::get('/{id}', 'find');
+        Route::post('/', 'store')->name('buttons.store');
+        Route::post('/{id}', 'update')->name('buttons.update');
+        Route::delete('/{id}', 'delete')->name('buttons.destroy');
     });
+});
 
-    Route::resource('branches', BranchController::class)->except('create', 'edit');
+Route::resource('branches', BranchController::class)->except('create', 'edit');
+
+Route::group(['prefix' => 'document-type'], function () {
+    Route::controller(DocumentTypeController::class)->group(function () {
+        Route::get('/', 'all')->name('modules.index');
+        Route::get('/{id}', 'find');
+        Route::post('/', 'create')->name('modules.create');
+        Route::put('/{id}', 'update')->name('modules.update');
+        Route::delete('/{id}', 'delete')->name('modules.destroy');
+    });
+});
+
+Route::group(['prefix' => 'screenDocumentType'], function () {
+    Route::post('/add', [ScreenController::class, 'addScreenToDocumentType']);
+    Route::delete('/remove/{screen_id}/{documentType_id}', [ScreenController::class, 'removeScreenFromDocumentType']);
+    Route::get('logs/{id}', [ScreenController::class, 'logs'])->name('screenDocumentType.logs');
+});
+
+Route::get ('everything_about_the_company/{company_id}',[WorkflowTreeController::class,'everything_about_the_company']);
