@@ -1650,6 +1650,7 @@ var imgValid = function imgValid(value) {
         var l = res.data;
         _this3.companies = l.data;
         _this3.companiesPagination = l.pagination;
+        _this3.current_page = l.pagination.current_page;
       })["catch"](function (err) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
           icon: 'error',
@@ -1672,6 +1673,7 @@ var imgValid = function imgValid(value) {
           var l = res.data;
           _this4.companies = l.data;
           _this4.companiesPagination = l.pagination;
+          _this4.current_page = l.pagination.current_page;
           _this4.current_page = l.pagination.current_page;
         })["catch"](function (err) {
           sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
@@ -15460,7 +15462,6 @@ var render = function () {
                       title: _vm.$t("company.addcompany"),
                       "title-class": "font-18",
                       "dialog-class": "modal-full-width",
-                      "body-class": "p-4",
                       "hide-footer": true,
                     },
                     on: { show: _vm.resetModal, hidden: _vm.resetModalHidden },
@@ -18387,7 +18388,7 @@ var render = function () {
                               ]
                             ),
                             _vm._v(" "),
-                            _vm.setting.name_e
+                            _vm.setting.name
                               ? _c("th", [
                                   _vm._v(_vm._s(_vm.$t("general.Name"))),
                                 ])
@@ -18489,8 +18490,7 @@ var render = function () {
                                     key: data.id,
                                     staticClass: "body-tr-custom",
                                     on: {
-                                      click: function ($event) {
-                                        $event.preventDefault()
+                                      "!click": function ($event) {
                                         return _vm.checkRow(data.id)
                                       },
                                       dblclick: function ($event) {
@@ -18804,8 +18804,8 @@ var render = function () {
                                                 "company.editcompany"
                                               ),
                                               "title-class": "font-18",
-                                              "body-class": "p-4",
-                                              size: "lg",
+                                              "dialog-class":
+                                                "modal-full-width",
                                               "hide-footer": true,
                                             },
                                             on: {

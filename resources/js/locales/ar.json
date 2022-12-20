@@ -402,74 +402,6 @@
         }
       }
     }
-<<<<<<< HEAD
-    }
-    }
-    },
-    "general": {
-        "fieldIsRequired": "هذا الحقل مطلوب .",
-        "PleaseEnterValidEmail": "الرجاء إدخال بريد إلكتروني صحيح .",
-        "notDataFound": "لا يوجد بيانات .",
-        "Create": "اضافه",
-        "Action": "الاجراءات",
-        "Status": "الحاله",
-        "Date": "التاريخ",
-        "Active": "نشط",
-        "Inactive": "غير نشط",
-        "Name": "الاسم(عربي)",
-        "Name_en": "الاسم(انجليزي)",
-        "Areyousure": "هل انت متاكد ؟",
-        "Youwontbeabletoreverthis": "لن تتمكن من التراجع عن هذا!",
-        "Yesdeleteit": "نعم ، احذفها!",
-        "Nocancel": "لا ، إلغاء!",
-        "Error": "خطأ",
-        "Deleted": "تم الحذف",
-        "Thereisanerrorinthesystem": "يوجد خطا في النظام!",
-        "Yourrowhasbeendeleted": "تم حذف صفك .",
-        "Previous": "السابق",
-        "Next": "التالي",
-        "Looksgood": "تبدو جيده !",
-        "Itmustbeatleast": "يجب ان يكون علي الاقل",
-        "letters": "احرف",
-        "Itmustbeatmost": "يجب ان يكون علي الاكثر",
-        "Choose": "اختار",
-        "Add": "اضافه",
-        "Edit": "تعديل",
-        "Cancel": "إلغاء",
-        "IdParent": "الاب",
-        "Addedsuccessfully": "تم الاضافه بنجاح !",
-        "Editsuccessfully": "تم التعديل بنجاح !",
-        "samaAs": "يجب أن تكون كلمات المرور متطابقة.",
-        "repeatPassword": "اعاده الرقم السري",
-        "mobile_no": "رقم التليفون",
-        "Search": "بحث",
-        "Show": "عرض ",
-        "entries": "ادخالات",
-        "Itmustbeyourlink": "يجب أن يكون لنك",
-        "fieldIsInteger": "هذا يجب ان يكون رقم",
-        "taxnumber": "رقم ضريبي",
-        "Valueaddedregistrationnumber": "رقم تسجيل القيمة المضافة",
-        "CommercialRecord": "سجل التجاري",
-        "companysystempath": "مسار نظام الشركة",
-        "website": "لنك الموقع",
-        "address": "العنوان",
-        "Dropfileshereorclicktoupload": "إسقاط الملفات هنا أو انقر للتحميل.",
-        "fieldIsImage": "هذا الحقل يجب ان يكون الصوره .",
-        "ItmustbeyourImage": "يجب ان يكون امتداد الصور (jpeg,png,gif,jpg)",
-        "alphaArabic": "هذا الحقل يجب ان يكون باللغه العربيه.",
-        "alphaEnglish": "هذا الحقل يجب ان يكون باللغه الانجليزيه.",
-        "filter": "فلتر",
-        "group": "جروب",
-        "setting": "اعدادات",
-        "commands": "الاوامر",
-        "delete": "حذف",
-        "edit": "تعديل",
-        "searchSetting": "إعداد البحث",
-        "AddNewRecord": "أضف سجل جديد",
-        "Save": "حفظ"
-    }
-}
-=======
   },
   "general": {
     "Default":"افتراضي",
@@ -545,7 +477,7 @@
     "delete": "حذف",
     "edit": "تعديل",
     "searchSetting": "إعداد البحث",
-    "AddNewRecord": "أضف سجل جديد"
+    "AddNewRecord": "أضف سجل جديد",
+    "Save": "حفظ"
   }
 }
->>>>>>> dev-test

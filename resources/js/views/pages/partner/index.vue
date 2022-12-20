@@ -4,8 +4,6 @@ import PageHeader from "../../../components/Page-header";
 import ErrorMessage from "../../../components/widgets/errorMessage";
 import adminApi from "../../../api/adminAxios";
 import Switches from "vue-switches";
-import alphaArabic  from "../../../helper/alphaArabic";
-import alphaEnglish  from "../../../helper/alphaEnglish";
 import { required, minLength, maxLength ,integer,email, sameAs} from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
 import loader from "../../../components/loader";
@@ -49,8 +47,6 @@ export default {
                 name: '',
                 name_e: '',
                 email: '',
-                password:'',
-                repeatPassword:'',
                 mobile_no:'',
                 is_active: null
             },
@@ -73,8 +69,8 @@ export default {
     },
     validations: {
         create: {
-            name: {required,minLength: minLength(3),maxLength: maxLength(100),alphaArabic},
-            name_e: {required,minLength: minLength(3),maxLength: maxLength(100),alphaEnglish},
+            name: {required,minLength: minLength(3),maxLength: maxLength(100)},
+            name_e: {required,minLength: minLength(3),maxLength: maxLength(100)},
             email: {required,email,minLength: minLength(3),maxLength: maxLength(100)},
             password: {required,minLength: minLength(8),maxLength: maxLength(16)},
             repeatPassword: {required,sameAs: sameAs('password')},
@@ -82,11 +78,9 @@ export default {
             is_active: {required}
         },
         edit: {
-            name: {required,minLength: minLength(3),maxLength: maxLength(100),alphaArabic},
-            name_e: {required,minLength: minLength(3),maxLength: maxLength(100), alphaEnglish},
+            name: {required,minLength: minLength(3),maxLength: maxLength(100)},
+            name_e: {required,minLength: minLength(3),maxLength: maxLength(100)},
             email: {required,email,minLength: minLength(3),maxLength: maxLength(100)},
-            password: {required,minLength: minLength(8),maxLength: maxLength(16)},
-            repeatPassword: {required,sameAs: sameAs('password')},
             mobile_no: {required,integer},
             is_active: {required}
         },
@@ -119,6 +113,34 @@ export default {
     mounted() {
         this.getData();
     },
+    updated(){
+        $(function(){
+            $(".englishInput").keypress(function(event){
+                var ew = event.which;
+                if(ew == 32)
+                    return true;
+                if(48 <= ew && ew <= 57)
+                    return true;
+                if(65 <= ew && ew <= 90)
+                    return true;
+                if(97 <= ew && ew <= 122)
+                    return true;
+                return false;
+            });
+            $(".arabicInput").keypress(function(event){
+                var ew = event.which;
+                if(ew == 32)
+                    return false;
+                if(48 <= ew && ew <= 57)
+                    return false;
+                if(65 <= ew && ew <= 90)
+                    return false;
+                if(97 <= ew && ew <= 122)
+                    return false;
+                return true;
+            });
+        });
+    },
     methods: {
         /**
          *  get Data Partner
@@ -136,6 +158,7 @@ export default {
                     let l = res.data;
                     this.partners = l.data;
                     this.partnersPagination = l.pagination;
+                    this.current_page = l.pagination.current_page;
                 })
                 .catch((err) => {
                     Swal.fire({
@@ -162,6 +185,7 @@ export default {
                         this.partners = l.data;
                         this.current_page = l.pagination.current_page;
                         this.partnersPagination = l.pagination;
+                        this.current_page = l.pagination.current_page;
                     })
                     .catch((err) => {
                         Swal.fire({
@@ -224,7 +248,7 @@ export default {
          *  reset Modal (create)
          */
         resetModalHidden(){
-            this.create =  {name: '', name_e: '', email: '', password:'', repeatPassword:'', mobile_no:'', is_active: "active"};
+            this.create =  {name: '', name_e: '', email: '', password:'', repeatPassword:'', mobile_no:'', is_active: 1};
             this.$nextTick(() => { this.$v.$reset() });
             this.$bvModal.hide(`create`);
             this.errors = {};
@@ -233,7 +257,7 @@ export default {
          *  hidden Modal (create)
          */
         resetModal(){
-            this.create =  {name: '', name_e: '', email: '', password:'', repeatPassword:'', mobile_no:'', is_active: "active"};
+            this.create =  {name: '', name_e: '', email: '', password:'', repeatPassword:'', mobile_no:'', is_active: 1};
             this.$nextTick(() => { this.$v.$reset() });
             this.errors = {};
             this.is_disabled = false;
@@ -242,7 +266,7 @@ export default {
          *  create Partner
          */
         resetForm(){
-            this.create =  {name: '', name_e: '', email: '', password:'', repeatPassword:'', mobile_no:'', is_active: "active"};
+            this.create =  {name: '', name_e: '', email: '', password:'', repeatPassword:'', mobile_no:'', is_active: 1};
             this.$nextTick(() => { this.$v.$reset() });
             this.is_disabled = false;
         },
@@ -329,17 +353,15 @@ export default {
             let Partner = this.partners.find(e => id == e.id );
             this.edit.name = Partner.name;
             this.edit.name_e = Partner.name_e;
-            this.edit.is_active = Partner.is_active;
+            this.edit.is_active = Partner.is_active == 1 ? 1: 0;
             this.edit.email = Partner.email;
-            this.edit.password = Partner.password;
-            this.edit.repeatPassword = Partner.password;
             this.edit.mobile_no = Partner.mobile_no;
         },
         /**
          *  hidden Modal (edit)
          */
         resetModalHiddenEdit(){
-            this.edit = {name: '', name_e: '', email: '', password:'', repeatPassword:'', mobile_no:'', is_active: 'active'};
+            this.edit = {name: '', name_e: '', email: '', password:'', repeatPassword:'', mobile_no:'', is_active: 1};
             this.errors = {};
         },
         updatePhone(e){
@@ -572,7 +594,7 @@ export default {
                                             </label>
                                             <input
                                                 type="text"
-                                                class="form-control"
+                                                class="form-control arabicInput"
                                                 v-model.trim="$v.create.name.$model"
                                                 :class="{
                                                 'is-invalid':$v.create.name.$error || errors.name,
@@ -596,7 +618,7 @@ export default {
                                             </label>
                                             <input
                                                 type="text"
-                                                class="form-control"
+                                                class="form-control englishInput"
                                                 v-model.trim="$v.create.name_e.$model"
                                                 :class="{
                                                 'is-invalid':$v.create.name_e.$error || errors.name_e,
@@ -718,8 +740,8 @@ export default {
                                                                 'is-valid':!$v.edit.is_active.$invalid && !errors.is_active
                                                                 }"
                                             >
-                                                <b-form-radio class="d-inline-block" v-model="$v.edit.is_active.$model" name="some-radios" value="active">{{$t('general.Active')}}</b-form-radio>
-                                                <b-form-radio class="d-inline-block m-1" v-model="$v.edit.is_active.$model" name="some-radios" value="inactive">{{$t('general.Inactive')}}</b-form-radio>
+                                                <b-form-radio class="d-inline-block" v-model="$v.edit.is_active.$model" name="some-radios" value="1">{{$t('general.Active')}}</b-form-radio>
+                                                <b-form-radio class="d-inline-block m-1" v-model="$v.edit.is_active.$model" name="some-radios" value="0">{{$t('general.Inactive')}}</b-form-radio>
                                             </b-form-group>
                                             <template v-if="errors.is_active">
                                                 <ErrorMessage
@@ -906,7 +928,7 @@ export default {
                                                             </label>
                                                             <input
                                                                 type="text"
-                                                                class="form-control"
+                                                                class="form-control arabicInput"
                                                                 v-model.trim="$v.edit.name.$model"
                                                                 :class="{
                                                                     'is-invalid':$v.edit.name.$error || errors.name,
@@ -930,7 +952,7 @@ export default {
                                                             </label>
                                                             <input
                                                                 type="text"
-                                                                class="form-control"
+                                                                class="form-control englishInput"
                                                                 v-model.trim="$v.edit.name_e.$model"
                                                                 :class="{
                                                                     'is-invalid':$v.edit.name_e.$error || errors.name_e,
@@ -991,57 +1013,6 @@ export default {
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <div class="d-flex justify-content-between align-items-center">
-                                                                <label for="field-5" class="control-label">
-                                                                    {{ $t('login.Password') }}
-                                                                    <span class="text-danger">*</span>
-                                                                </label>
-                                                                <i
-                                                                    :class="['fas custom-eye',!isEyeEdit ?'fa-eye-slash': 'fas fa-eye active']"
-                                                                    @click="isEyeEdit = !isEyeEdit"
-                                                                ></i>
-                                                            </div>
-                                                            <input
-                                                                :type="!isEyeEdit?'password':'text'"
-                                                                class="form-control"
-                                                                v-model.trim="$v.edit.password.$model"
-                                                                :class="{
-                                                                    'is-invalid':$v.edit.password.$error || errors.password,
-                                                                    'is-valid':!$v.edit.password.$invalid && !errors.password
-                                                                }"
-                                                                id="edit-5"
-                                                            />
-                                                            <div v-if="!$v.edit.password.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.edit.password.$params.minLength.min }} {{ $t('general.letters') }}</div>
-                                                            <div v-if="!$v.edit.password.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.edit.password.$params.maxLength.max }} {{ $t('general.letters') }}</div>
-                                                            <template v-if="errors.password">
-                                                                <ErrorMessage v-for="(errorMessage,index) in errors.password" :key="index">{{ errorMessage }}</ErrorMessage>
-                                                            </template>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="field-6" class="control-label">
-                                                                {{ $t('general.repeatPassword') }}
-                                                                <span class="text-danger">*</span>
-                                                            </label>
-                                                            <input
-                                                                type="password"
-                                                                class="form-control"
-                                                                v-model.trim="$v.edit.repeatPassword.$model"
-                                                                :class="{
-                                                                    'is-invalid':$v.edit.repeatPassword.$error || errors.repeatPassword,
-                                                                    'is-valid':!$v.edit.repeatPassword.$invalid && !errors.repeatPassword
-                                                                }"
-                                                                id="edit-6"
-                                                            />
-                                                            <div v-if="!$v.edit.repeatPassword.sameAs" class="invalid-feedback">{{ $t('general.samaAs') }} </div>
-                                                            <template v-if="errors.repeatPassword">
-                                                                <ErrorMessage v-for="(errorMessage,index) in errors.repeatPassword" :key="index">{{ errorMessage }}</ErrorMessage>
-                                                            </template>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
                                                             <label class=" mr-2 mb-2" >
                                                                 {{ $t('general.Status') }}
                                                                 <span class="text-danger">*</span>
@@ -1052,8 +1023,8 @@ export default {
                                                                 'is-valid':!$v.edit.is_active.$invalid && !errors.is_active
                                                                 }"
                                                             >
-                                                                <b-form-radio class="d-inline-block" v-model="$v.edit.is_active.$model" name="some-radios" value="active">{{$t('general.Active')}}</b-form-radio>
-                                                                <b-form-radio class="d-inline-block m-1" v-model="$v.edit.is_active.$model" name="some-radios" value="inactive">{{$t('general.Inactive')}}</b-form-radio>
+                                                                <b-form-radio class="d-inline-block" v-model="$v.edit.is_active.$model" name="some-radios" value="1">{{$t('general.Active')}}</b-form-radio>
+                                                                <b-form-radio class="d-inline-block m-1" v-model="$v.edit.is_active.$model" name="some-radios" value="0">{{$t('general.Inactive')}}</b-form-radio>
                                                             </b-form-group>
                                                             <template v-if="errors.is_active">
                                                                 <ErrorMessage
@@ -1082,26 +1053,15 @@ export default {
                         </div>
                         <!-- end .table-responsive-->
 
-                        <!-- start Pagination -->
-                        <template v-if="partnersPagination">
-                            <pagination-laravel
-                                :data="partnersPagination"
-                                @pagination-change-page="getData"
-                                :limit="3"
-                            >
-                                <template #prev-nav>
-                                    <span>&lt; {{ $t('general.Previous') }}</span>
-                                </template>
-                                <template #next-nav>
-                                    <span>{{ $t('general.Next') }} &gt;</span>
-                                </template>
-                            </pagination-laravel>
-                        </template>
-                        <!-- end Pagination -->
-
                     </div>
                 </div>
             </div>
         </div>
     </Layout>
 </template>
+
+<style>
+.modal-body {
+    padding: 2.25rem !important;
+}
+</style>

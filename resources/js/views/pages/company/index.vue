@@ -207,6 +207,7 @@ export default {
                     let l = res.data;
                     this.companies = l.data;
                     this.companiesPagination = l.pagination;
+                    this.current_page = l.pagination.current_page;
                 })
                 .catch((err) => {
                     Swal.fire({
@@ -232,6 +233,7 @@ export default {
                         let l = res.data;
                         this.companies = l.data;
                         this.companiesPagination = l.pagination;
+                        this.current_page = l.pagination.current_page;
                         this.current_page = l.pagination.current_page;
                     })
                     .catch((err) => {
@@ -906,7 +908,6 @@ export default {
                             :title="$t('company.addcompany')"
                             title-class="font-18"
                             dialog-class="modal-full-width"
-                            body-class="p-4"
                             :hide-footer="true"
                             @show="resetModal"
                             @hidden="resetModalHidden"
@@ -935,112 +936,11 @@ export default {
                                                     {{ $t('general.Save') }}
                                                 </b-button>
 
-<<<<<<< HEAD
                                                 <b-button variant="success" class="mx-1" disabled v-else>
                                                     <b-spinner small></b-spinner>
                                                     <span class="sr-only">{{ $t('login.Loading') }}...</span>
                                                 </b-button>
-=======
-                                            <div v-if="!$v.create.partner_id.integer" class="invalid-feedback">{{ $t('general.fieldIsInteger') }}</div>
-                                            <template v-if="errors.partner_id">
-                                                <ErrorMessage v-for="(errorMessage,index) in errors.partner_id" :key="index">{{ errorMessage }}</ErrorMessage>
-                                            </template>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="field-10" class="control-label">
-                                                {{ $t('general.companysystempath') }}
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <input
-                                                type="url"
-                                                class="form-control"
-                                                v-model.number="$v.create.url.$model"
-                                                :class="{
-                                                'is-invalid':$v.create.url.$error || errors.url,
-                                                'is-valid':!$v.create.url.$invalid && !errors.url
-                                            }"
-                                                :placeholder="$t('general.companysystempath')" id="field-10"
-                                            />
-                                            <div v-if="!$v.create.url.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.url.$params.minLength.min }} {{ $t('general.letters') }}</div>
-                                            <div v-if="!$v.create.url.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.url.$params.maxLength.max }} {{ $t('general.letters') }}</div>
-                                            <div v-if="!$v.create.url.url" class="invalid-feedback">{{ $t('general.Itmustbeyourlink') }}</div>
-                                            <template v-if="errors.url">
-                                                <ErrorMessage v-for="(errorMessage,index) in errors.url" :key="index">{{ errorMessage }}</ErrorMessage>
-                                            </template>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="field-11" class="control-label">
-                                                {{ $t('general.website') }}
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <input
-                                                type="url"
-                                                class="form-control"
-                                                v-model.number="$v.create.website.$model"
-                                                :class="{
-                                                'is-invalid':$v.create.website.$error || errors.website,
-                                                'is-valid':!$v.create.website.$invalid && !errors.website
-                                            }"
-                                                :placeholder="$t('general.website')" id="field-11"
-                                            />
-                                            <div v-if="!$v.create.website.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.website.$params.minLength.min }} {{ $t('general.letters') }}</div>
-                                            <div v-if="!$v.create.website.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.website.$params.maxLength.max }} {{ $t('general.letters') }}</div>
-                                            <div v-if="!$v.create.website.url" class="invalid-feedback">{{ $t('general.Itmustbeyourlink') }}</div>
-                                            <template v-if="errors.website">
-                                                <ErrorMessage v-for="(errorMessage,index) in errors.website" :key="index">{{ errorMessage }}</ErrorMessage>
-                                            </template>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="field-12" class="control-label">
-                                                {{ $t('general.address') }}
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <input
-                                                type="text"
-                                                class="form-control"
-                                                v-model.number="$v.create.address.$model"
-                                                :class="{
-                                                'is-invalid':$v.create.address.$error || errors.address,
-                                                'is-valid':!$v.create.address.$invalid && !errors.address
-                                            }"
-                                                :placeholder="$t('general.address')" id="field-12"
-                                            />
-                                            <div v-if="!$v.create.address.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.address.$params.minLength.min }} {{ $t('general.letters') }}</div>
-                                            <div v-if="!$v.create.address.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.address.$params.maxLength.max }} {{ $t('general.letters') }}</div>
-                                            <template v-if="errors.address">
-                                                <ErrorMessage v-for="(errorMessage,index) in errors.address" :key="index">{{ errorMessage }}</ErrorMessage>
-                                            </template>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="inlineFormCustomSelectPref">
-                                                {{ $t('general.Status') }}
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <select
-                                                class="custom-select"
-                                                id="inlineFormCustomSelectPref"
-                                                v-model="$v.create.is_active.$model"
-                                                :class="{
-                                                'is-invalid':$v.create.is_active.$error || errors.is_active,
-                                                'is-valid':!$v.create.is_active.$invalid && !errors.is_active
-                                            }"
-                                            >
-                                                <option value="" selected>{{ $t('general.Choose') }}...</option>
-                                                <option value="active">{{ $t('general.Active') }}</option>
-                                                <option value="inactive">{{ $t('general.Inactive') }}</option>
-                                            </select>
-                                            
-                                            <template v-if="errors.is_active">
-                                                <ErrorMessage v-for="(errorMessage,index) in errors.is_active" :key="index">{{ errorMessage }}</ErrorMessage>
->>>>>>> dev-test
+
                                             </template>
 
                                             <b-button variant="danger" class="font-weight-bold" type="button" @click.prevent="resetModalHidden">
@@ -1446,7 +1346,7 @@ export default {
                                             >
                                         </div>
                                     </th>
-                                    <th v-if="setting.name_e">{{ $t('general.Name') }}</th>
+                                    <th v-if="setting.name">{{ $t('general.Name') }}</th>
                                     <th v-if="setting.name_e">{{ $t('general.Name_en') }}</th>
                                     <th v-if="setting.email">{{ $t('login.Emailaddress') }}</th>
                                     <th v-if="setting.partner_id">{{ $t('partner.partner') }}</th>
@@ -1464,7 +1364,7 @@ export default {
                                 </thead>
                                 <tbody v-if="companies.length > 0">
                                 <tr
-                                    @click.prevent="checkRow(data.id)"
+                                    @click.capture="checkRow(data.id)"
                                     @dblclick.prevent="$bvModal.show(`modal-edit-${data.id}`)"
                                     v-for="(data,index) in companies"
                                     :key="data.id"
@@ -1547,9 +1447,8 @@ export default {
                                             :id="`modal-edit-${data.id}`"
                                             :title="$t('company.editcompany')"
                                             title-class="font-18"
-                                            body-class="p-4"
-                                            size="lg"
                                             :ref="`edit-${data.id}`"
+                                            dialog-class="modal-full-width"
                                             :hide-footer="true"
                                             @show="resetModalEdit(data.id)"
                                             @hidden="resetModalHiddenEdit(data.id)"

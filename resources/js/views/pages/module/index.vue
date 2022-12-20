@@ -7,8 +7,6 @@ import { required, minLength, maxLength, integer } from "vuelidate/lib/validator
 import Swal from "sweetalert2";
 import ErrorMessage from "../../../components/widgets/errorMessage";
 import loader from "../../../components/loader";
-import alphaArabic from "../../../helper/alphaArabic";
-import alphaEnglish from "../../../helper/alphaEnglish";
 import { dynamicSortString } from "../../../helper/tableSort";
 import Multiselect from "vue-multiselect";
 import Templates from "../email/templates.vue";
@@ -29,6 +27,25 @@ export default {
     loader,
     Multiselect,
     Templates,
+  },
+  updated() {
+    $(".englishInput").keypress(function (event) {
+      var ew = event.which;
+      if (ew == 32) return true;
+      if (48 <= ew && ew <= 57) return true;
+      if (65 <= ew && ew <= 90) return true;
+      if (97 <= ew && ew <= 122) return true;
+      return false;
+    });
+    $(".arabicInput").keypress(function (event) {
+      var ew = event.which;
+      console.log(ew);
+      if (ew == 32) return false;
+      if (48 <= ew && ew <= 57) return false;
+      if (65 <= ew && ew <= 90) return false;
+      if (97 <= ew && ew <= 122) return false;
+      return true;
+    });
   },
   data() {
     return {
@@ -58,7 +75,6 @@ export default {
       setting: {
         name: true,
         name_e: true,
-        parent_id: true,
         is_active: true,
       },
       filterSetting: ["name", "name_e"],
@@ -71,116 +87,20 @@ export default {
   },
   validations: {
     create: {
-      name: { required, minLength: minLength(3), maxLength: maxLength(100), alphaArabic },
+      name: { required, minLength: minLength(3), maxLength: maxLength(100) },
       name_e: {
         required,
         minLength: minLength(3),
         maxLength: maxLength(100),
-        alphaEnglish,
       },
       is_active: { required },
     },
-<<<<<<< HEAD
-    data() {
-        return {
-            per_page: 50,
-            search: '',
-            debounce: {},
-            modulesPagination: {},
-            modules: [],
-            parents: [],
-            enabled3: false,
-            isLoader: false,
-            create: {
-                name: '',
-                name_e: '',
-                parent_id: null,
-                is_active: 'active',
-                search: ''
-            },
-            edit: {
-                name: '',
-                name_e: '',
-                parent_id: null,
-                is_active: 'active',
-                search: ''
-            },
-            setting: {
-                name: true,
-                name_e: true,
-                parent_id: true,
-                is_active: true
-            },
-            filterSetting: ['name', 'name_e'],
-            errors: {},
-            english: '',
-            isCheckAll: false,
-            checkAll: [],
-            is_disabled: false,
-            current_page: 1
-        }
-    },
-    validations: {
-        create: {
-            name: {required,minLength: minLength(3),maxLength: maxLength(100),alphaArabic},
-            name_e: {required,minLength: minLength(3),maxLength: maxLength(100),alphaEnglish},
-            is_active: {required}
-        },
-        edit: {
-            name: {required,minLength: minLength(3),maxLength: maxLength(100),alphaArabic},
-            name_e: {required,minLength: minLength(3),maxLength: maxLength(100),alphaEnglish},
-            is_active: {required}
-        },
-    },
-    watch: {
-        /**
-         * watch per_page
-         */
-        per_page(after,befour){
-            this.getData();
-        },
-        /**
-         * watch search
-         */
-        search(after,befour){
-            clearTimeout(this.debounce);
-            this.debounce = setTimeout(() => {
-                this.getData();
-            }, 400);
-        },
-        /**
-         * watch check All table
-         */
-        isCheckAll(after,befour){
-            if(after){
-                this.modules.forEach(el => {
-                    if(!this.checkAll.includes(el.id)){
-                        this.checkAll.push(el.id);
-                    }
-                });
-            }else{
-                this.checkAll = [];
-            }
-        },
-        english(after,befour){
-            let ew = after[after.length - 1].charCodeAt();
-            if(ew == 32) {this.english = after;}
-            else {this.english = befour;}
-            if(48 <= ew && ew <= 57) {this.english = after;}
-            else {this.english = befour;}
-            if(65 <= ew && ew <= 90) {this.english =after;}
-            else {this.english = befour;}
-            if(97 <= ew && ew <= 122) {this.english = after;}
-            else {this.english = befour;}
-        }
-=======
     edit: {
-      name: { required, minLength: minLength(3), maxLength: maxLength(100), alphaArabic },
+      name: { required, minLength: minLength(3), maxLength: maxLength(100) },
       name_e: {
         required,
         minLength: minLength(3),
         maxLength: maxLength(100),
-        alphaEnglish,
       },
       is_active: { required },
     },
@@ -191,7 +111,6 @@ export default {
      */
     per_page(after, befour) {
       this.getData();
->>>>>>> dev-test
     },
     /**
      * watch search
@@ -281,38 +200,6 @@ export default {
               title: `${this.$t("general.Error")}`,
               text: `${this.$t("general.Thereisanerrorinthesystem")}`,
             });
-<<<<<<< HEAD
-        },
-        /**
-         *  reset Modal (create)
-         */
-        resetModalHidden(){
-            this.create =  {name: '', name_e: '', parent_id: null, is_active: 'active'};
-            this.$nextTick(() => { this.$v.$reset() });
-            this.errors = {};
-            this.parents = [];
-        },
-        /**
-         *  hidden Modal (create)
-         */
-        async resetModal(){
-            await this.getParent();
-            this.create =  {name: '', name_e: '', parent_id: null, is_active: 'active'};
-            this.is_disabled = false;
-            this.$nextTick(() => { this.$v.$reset() });
-            this.errors = {};
-        },
-        /**
-         *  create module
-         */
-        resetForm(){
-            this.create =  {name: '', name_e: '', parent_id: null, is_active: 'active'};
-            this.is_disabled = false;
-            this.$nextTick(() => { this.$v.$reset() });
-        },
-        AddSubmit(){
-            this.$v.create.$touch();
-=======
           })
           .finally(() => {
             this.isLoader = false;
@@ -336,7 +223,6 @@ export default {
       }).then((result) => {
         if (result.value) {
           this.isLoader = true;
->>>>>>> dev-test
 
           adminApi
             .delete(`/modules/${id}`)
@@ -478,9 +364,6 @@ export default {
                 text: `${this.$t("general.Thereisanerrorinthesystem")}`,
               });
             }
-<<<<<<< HEAD
-        },
-=======
           })
           .finally(() => {
             this.isLoader = false;
@@ -596,7 +479,6 @@ export default {
         }
       });
       return rootNodes;
->>>>>>> dev-test
     },
     getRootNodesAfterCollapse(parentNode, secondParentNode, children) {
       let rootNodes = [...this.rootNodes];
@@ -759,16 +641,13 @@ export default {
                     <b-form-checkbox v-model="setting.name_e" class="mb-1">
                       {{ $t("general.Name_en") }}
                     </b-form-checkbox>
-                    <b-form-checkbox v-model="setting.parent_id" class="mb-1">
-                      {{ $t("general.IdParent") }}
-                    </b-form-checkbox>
                     <b-form-checkbox v-model="setting.is_active" class="mb-1">
                       {{ $t("general.Status") }}
                     </b-form-checkbox>
                     <div class="d-flex justify-content-end">
-                      <a href="javascript:void(0)" class="btn btn-primary btn-sm"
-                        >Apply</a
-                      >
+                      <a href="javascript:void(0)" class="btn btn-primary btn-sm">{{
+                        $t("general.Apply")
+                      }}</a>
                     </div>
                   </b-dropdown>
                   <!-- Basic dropdown -->
@@ -832,30 +711,30 @@ export default {
                     :disabled="!is_disabled"
                     @click.prevent="resetForm"
                     type="button"
-                    class="font-weight-bold px-2"
+                    :class="['font-weight-bold px-2', is_disabled ? 'mx-2' : '']"
                   >
                     {{ $t("general.AddNewRecord") }}
                   </b-button>
-                  <!-- Emulate built in modal footer ok and cancel button actions -->
-                  <b-button
-                    variant="success"
-                    type="submit"
-                    class="mx-1"
-                    v-if="!isLoader && !is_disabled"
-                    @click.prevent="AddSubmit"
-                  >
-                    {{ $t("general.Add") }}
-                  </b-button>
+                  <template v-if="!is_disabled">
+                    <b-button
+                      variant="success"
+                      type="submit"
+                      class="mx-1"
+                      v-if="!isLoader"
+                      @click.prevent="AddSubmit"
+                    >
+                      {{ $t("general.Add") }}
+                    </b-button>
 
-                  <b-button variant="success" class="mx-1" disabled v-else>
-                    <b-spinner small></b-spinner>
-                    <span class="sr-only">{{ $t("login.Loading") }}...</span>
-                  </b-button>
-
+                    <b-button variant="success" class="mx-1" disabled v-else>
+                      <b-spinner small></b-spinner>
+                      <span class="sr-only">{{ $t("login.Loading") }}...</span>
+                    </b-button>
+                  </template>
                   <b-button
+                    @click.prevent="$bvModal.hide(`create`)"
                     variant="danger"
                     type="button"
-                    @click.prevent="resetModalHidden"
                   >
                     {{ $t("general.Cancel") }}
                   </b-button>
@@ -945,7 +824,7 @@ export default {
                           </label>
                           <input
                             type="text"
-                            class="form-control"
+                            class="form-control arabicInput"
                             v-model="$v.create.name.$model"
                             :class="{
                               'is-invalid': $v.create.name.$error || errors.name,
@@ -962,12 +841,6 @@ export default {
                             {{ $t("general.Itmustbeatmost") }}
                             {{ $v.create.name.$params.maxLength.max }}
                             {{ $t("general.letters") }}
-                          </div>
-                          <div
-                            v-if="!$v.create.name.alphaArabic"
-                            class="invalid-feedback"
-                          >
-                            {{ $t("general.alphaArabic") }}
                           </div>
                           <template v-if="errors.name">
                             <ErrorMessage
@@ -986,7 +859,7 @@ export default {
                           </label>
                           <input
                             type="text"
-                            class="form-control"
+                            class="form-control englishInput"
                             v-model="$v.create.name_e.$model"
                             :class="{
                               'is-invalid': $v.create.name_e.$error || errors.name_e,
@@ -1009,12 +882,6 @@ export default {
                             {{ $t("general.Itmustbeatmost") }}
                             {{ $v.create.name_e.$params.maxLength.max }}
                             {{ $t("general.letters") }}
-                          </div>
-                          <div
-                            v-if="!$v.create.name_e.alphaEnglish"
-                            class="invalid-feedback"
-                          >
-                            {{ $t("general.alphaEnglish") }}
                           </div>
                           <template v-if="errors.name_e">
                             <ErrorMessage
@@ -1243,93 +1110,6 @@ export default {
                               {{ $t("general.Edit") }}
                             </b-button>
 
-<<<<<<< HEAD
-                        <!--  create   -->
-                        <b-modal
-                            id="create"
-                            :title="$t('module.addmodule')"
-                            title-class="font-18"
-                            body-class="p-4 "
-                            :hide-footer="true"
-                            size="lg"
-                            @show="resetModal"
-                            @hidden="resetModalHidden"
-                        >
-                            <form>
-                                <div class="mb-3 d-flex justify-content-end">
-                                    <b-button
-                                        variant="success"
-                                        :disabled="!is_disabled"
-                                        @click.prevent="resetForm"
-                                        type="button" class="font-weight-bold px-2"
-                                    >
-                                        {{ $t('general.AddNewRecord') }}
-                                    </b-button>
-                                    <!-- Emulate built in modal footer ok and cancel button actions -->
-                                    <template v-if="!is_disabled">
-                                        <b-button  variant="success" type="button" class="mx-1" v-if="!isLoader" @click.prevent="AddSubmit">
-                                            {{ $t('general.Add') }}
-                                        </b-button>
-
-                                        <b-button variant="success" class="mx-1" disabled v-else>
-                                            <b-spinner small></b-spinner>
-                                            <span class="sr-only">{{ $t('login.Loading') }}...</span>
-                                        </b-button>
-                                    </template>
-
-                                    <b-button variant="danger" type="button" @click.prevent="$bvModal.hide(`create`)">
-                                        {{ $t('general.Cancel') }}
-                                    </b-button>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 direction" dir="rtl">
-                                        <div class="form-group">
-                                            <label for="field-1" class="control-label">
-                                                {{ $t('general.Name') }}
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <input
-                                                type="text"
-                                                class="form-control"
-                                                v-model="$v.create.name.$model"
-                                                :class="{
-                                                'is-invalid':$v.create.name.$error || errors.name,
-                                                'is-valid':!$v.create.name.$invalid && !errors.name
-                                            }"
-                                             id="field-1"
-                                            />
-                                            <div v-if="!$v.create.name.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.name.$params.minLength.min }} {{ $t('general.letters') }}</div>
-                                            <div v-if="!$v.create.name.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.name.$params.maxLength.max }} {{ $t('general.letters') }}</div>
-                                            <div v-if="!$v.create.name.alphaArabic" class="invalid-feedback">{{ $t('general.alphaArabic') }}</div>
-                                            <template v-if="errors.name">
-                                                <ErrorMessage v-for="(errorMessage,index) in errors.name" :key="index">{{ errorMessage }}</ErrorMessage>
-                                            </template>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 direction-ltr" dir="ltr">
-                                        <div class="form-group">
-                                            <label for="field-2" class="control-label">
-                                                {{ $t('general.Name_en') }}
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <input
-                                                type="text"
-                                                class="form-control"
-                                                v-model="english"
-                                                :class="{
-                                                'is-invalid':$v.create.name_e.$error || errors.name_e,
-                                                'is-valid':!$v.create.name_e.$invalid && !errors.name_e
-                                            }"
-                                                 id="field-2"
-                                            />
-                                            <div v-if="!$v.create.name_e.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.name_e.$params.minLength.min }} {{ $t('general.letters') }}</div>
-                                            <div v-if="!$v.create.name_e.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.name_e.$params.maxLength.max }} {{ $t('general.letters') }}</div>
-                                            <div v-if="!$v.create.name_e.alphaEnglish" class="invalid-feedback">{{ $t('general.alphaEnglish') }}</div>
-                                            <template v-if="errors.name_e">
-                                                <ErrorMessage v-for="(errorMessage,index) in errors.name_e" :key="index">{{ errorMessage }}</ErrorMessage>
-                                            </template>
-                                        </div>
-=======
                             <b-button variant="success" class="mx-1" disabled v-else>
                               <b-spinner small></b-spinner>
                               <span class="sr-only">{{ $t("login.Loading") }}...</span>
@@ -1450,7 +1230,7 @@ export default {
                                     </label>
                                     <input
                                       type="text"
-                                      class="form-control"
+                                      class="form-control arabicInput"
                                       v-model="$v.edit.name.$model"
                                       :class="{
                                         'is-invalid': $v.edit.name.$error || errors.name,
@@ -1461,19 +1241,12 @@ export default {
                                       id="field-u-1"
                                     />
                                     <div
-                                      v-if="!$v.edit.name.alphaArabic"
-                                      class="invalid-feedback"
-                                    >
-                                      {{ $t("general.alphaArabic") }}
-                                    </div>
-                                    <div
                                       v-if="!$v.edit.name.minLength"
                                       class="invalid-feedback"
                                     >
                                       {{ $t("general.Itmustbeatleast") }}
                                       {{ $v.edit.name.$params.minLength.min }}
                                       {{ $t("general.letters") }}
->>>>>>> dev-test
                                     </div>
                                     <div
                                       v-if="!$v.edit.name.maxLength"
@@ -1500,7 +1273,7 @@ export default {
                                     </label>
                                     <input
                                       type="text"
-                                      class="form-control"
+                                      class="form-control englishInput"
                                       v-model="$v.edit.name_e.$model"
                                       :class="{
                                         'is-invalid':
@@ -1526,12 +1299,6 @@ export default {
                                       {{ $t("general.Itmustbeatmost") }}
                                       {{ $v.edit.name_e.$params.maxLength.max }}
                                       {{ $t("general.letters") }}
-                                    </div>
-                                    <div
-                                      v-if="!$v.edit.name_e.alphaEnglish"
-                                      class="invalid-feedback"
-                                    >
-                                      {{ $t("general.alphaEnglish") }}
                                     </div>
                                     <template v-if="errors.name_e">
                                       <ErrorMessage
