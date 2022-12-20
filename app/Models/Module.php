@@ -25,12 +25,37 @@ class Module extends Model
         'is_active' => 'App\Enums\IsActive',
     ];
 
+    protected $appends = ["haveChildren"];
+     /**
+     * this method used to make filter of query
+     * @param Query  $query
+     * @param $request
+     * @return $query
+     */
+    public function scopeFilter($query,$request)
+    {
+        return $query->where(function ($q) use ($request) {
+            if ($request->search) {
+                $q->where('name', 'like', '%' . $request->search . '%');
+                $q->orWhere('name_e', 'like', '%' . $request->search . '%');
+            }
 
+            if ($request->name) {
+                $q->orWhere('name', 'like', '%' . $request->name . '%');
+            }
+
+            if ($request->name_e) {
+                $q->orWhere('name_e', 'like', '%' . $request->name_e . '%');
+            }
+
+
+        });
+    }
     public function parent()
     {
         return $this->hasMany(Module::class, 'parent_id', 'id');
     }
-
+    
     public function children()
     {
         return $this->belongsTo(Module::class);

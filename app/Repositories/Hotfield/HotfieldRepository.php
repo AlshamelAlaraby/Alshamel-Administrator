@@ -22,7 +22,6 @@ class HotfieldRepository implements HotfieldRepositoryInterface
                     ->orWhere('name_e', 'like', '%' . $request->search . '%');
             }
         })->latest();
-
         if ($request->per_page) {
             return ['data' => $models->paginate($request->per_page), 'paginate' => true];
         } else {
