@@ -25,7 +25,7 @@
         "partnersTable": "Partners Table"
     },
     "company": {
-        "addcompany": "New Add Company",
+        "addcompany": "Add New Company",
         "editcompany": "Edit Company",
         "company": "Company",
         "companysTable": "Companies Table",
@@ -435,6 +435,7 @@
           "delete": "Delete",
           "edit": "Edit",
           "searchSetting": "Search Setting",
-          "AddNewRecord": "Add New Record"
+          "AddNewRecord": "Add New Record",
+          "Save": "Save"
     }
 }
