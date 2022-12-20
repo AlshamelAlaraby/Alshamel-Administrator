@@ -111,6 +111,22 @@ class PartnerController extends ResponseController
         }
     }
 
+    public function bulkDelete(Request $request){
+        foreach ($request->ids as $id){
+            $model = $this->repository->find($id);
+            $arr = [];
+            if ($model->hasChildren()){
+                $arr[]=$id;
+                continue;
+            }
+            $this->repository->delete($id);
+        }
+        if (count ($arr) > 0){
+            return  responseJson(200, __('some items has relation cant delete'));
+        }
+        return  responseJson(200, __('Done'));
+    }
+
 
     public function screenSetting(Request $request)
     {
