@@ -61,6 +61,13 @@ class Partner extends Authenticatable
         return $this->hasOne(Company::class);
     }
 
+    public function hasChildren(){
+        if ($this->companies ()->count () > 0){
+            return true;
+        }
+        return false;
+    }
+
     public function scopeFilter($query, $request)
     {
         return $query->where(function ($q) use ($request) {
