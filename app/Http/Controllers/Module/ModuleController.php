@@ -13,7 +13,7 @@ use Mockery\Exception;
 
 class ModuleController extends Controller
 {
-    public function __construct(private \App\Repositories\Module\ModuleInterface$modelInterface)
+    public function __construct(private \App\Repositories\Module\ModuleInterface $modelInterface)
     {
         $this->modelInterface = $modelInterface;
     }
@@ -78,7 +78,16 @@ class ModuleController extends Controller
         return responseJson(200, 'success');
     }
 
-    public function addModuleToCompany(\App\Http\Requests\Module\AddCompanyToModuleRequest$request)
+    public function logs($id)
+    {
+        $model = $this->modelInterface->find($id);
+        if (!$model) {
+            return responseJson(404, __('message.data not found'));
+        }
+        $logs = $this->modelInterface->logs($id);
+        return responseJson(200, 'success', $logs);
+    }
+    public function addModuleToCompany(\App\Http\Requests\Module\AddCompanyToModuleRequest $request)
     {
         $this->modelInterface->addModuleToCompany($request);
         return responseJson(200, 'success');
@@ -90,27 +99,4 @@ class ModuleController extends Controller
         $this->modelInterface->removeModuleFromCompany($module_id, $company_id);
         return responseJson(200, 'success');
     }
-
-    public function screenSetting(Request $request)
-    {
-        try {
-            return responseJson(200 , __('Done') , $this->modelInterface->setting($request->all()));
-        } catch (Exception $exception) {
-            return  responseJson( $exception->getCode() , $exception->getMessage());
-        }
-    }
-
-    public function getScreenSetting($user_id , $screen_id)
-    {
-        try{
-            $screenSetting = $this->modelInterface->getSetting($user_id , $screen_id);
-            if (!$screenSetting) {
-                return responseJson( 404 , __('message.data not found'));
-            }
-            return responseJson( 200 , __('Done'), new ScreenSettingResource($screenSetting));
-        } catch (Exception $exception) {
-            return  responseJson( $exception->getCode() , $exception->getMessage());
-        }
-    }
-
 }

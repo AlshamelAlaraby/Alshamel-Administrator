@@ -14,14 +14,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('partners', function (Blueprint $table) {
+
+        Schema::create('sys_screens', function (Blueprint $table) {
             $table->id();
-            $table->string("name", 100)->comment("Name Arabic");
-            $table->string("name_e", 100)->comment("Name English");
-            $table->string('is_active')->default(0);
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('mobile_no')->nullable();
+            $table->string("name", 100)->unique()->comment("Name Arabic");
+            $table->string("name_e", 100)->unique()->comment("Name English");
+            $table->string("title", 100)->unique()->comment("title Arabic");
+            $table->string("title_e", 100)->unique()->comment("title English");
+            $table->unsignedBigInteger('serial_id')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('partners');
+        Schema::dropIfExists('sys_screens');
     }
 };

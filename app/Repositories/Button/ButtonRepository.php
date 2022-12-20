@@ -4,13 +4,15 @@ namespace App\Repositories\Button;
 
 use App\Models\Button;
 use Illuminate\Support\Facades\DB;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+
 class ButtonRepository implements ButtonRepositoryInterface
 {
 
-    private $model;
-    public function __construct(Button $model)
+    public function __construct(private Button $model, private Media $media)
     {
         $this->model = $model;
+        $this->media = $media;
     }
 
     public function getAllButtons($request)
@@ -19,9 +21,14 @@ class ButtonRepository implements ButtonRepositoryInterface
 
             if ($request->search) {
                 $q->where('name', 'like', '%' . $request->search . '%')
-                  ->orWhere('name_e', 'like', '%' . $request->search . '%');
+                    ->orWhere('name_e', 'like', '%' . $request->search . '%');
             }
 
+            if ($request->search && $request->columns) {
+                foreach ($request->columns as $column) {
+                    $q->orWhere($column, 'like', '%' . $request->search . '%');
+                }
+            }
         })->latest();
 
         if ($request->per_page) {
@@ -39,35 +46,34 @@ class ButtonRepository implements ButtonRepositoryInterface
     public function create($request)
     {
         DB::transaction(function () use ($request) {
-            if (isset($request['icon'] )) {
-                $request['icon'] = uploadFile($request['icon'], config('paths.BUTTON_PATH'));
-            }
-            $this->model->create($request);
+
+            $model = $this->model->create($request);
+            $this->media::where('id', $request->media)->update([
+                'model_id' => $model->id,
+                'model_type' => get_class($this->model),
+            ]);
             cacheForget("Buttons");
         });
+    }
+    public function logs($id)
+    {
+        return $this->model->find($id)->activities()->orderBy('created_at', 'DESC')->get();
     }
 
     public function update($request, $id)
     {
         DB::transaction(function () use ($id, $request) {
-           $resource =  $this->model->where("id", $id)->update($request);
-           $model = $this->model->find($id);
-            if(isset($request['icon'])){
-                if($model->icon){
-                    $path = $model->icon? public_path($model->icon) : null;
-                    if(file_exists($path)){
-                        unlink($path);
-                    }
-                }
-                $request['icon'] = uploadFile($request['icon'], config('paths.BUTTON_PATH'));
-            }
-
+            $model = $this->model->find($id);
             $model->update($request);
-
-
+            if ($request->media) {
+                $this->media::where('id', $model->media[0]->id)->delete();
+                $this->media::where('id', $request->media)->update([
+                    'model_id' => $model->id,
+                    'model_type' => get_class($this->model),
+                ]);
+            }
             $this->forget($id);
         });
-
     }
 
     public function delete($id)
@@ -87,6 +93,5 @@ class ButtonRepository implements ButtonRepositoryInterface
         foreach ($keys as $key) {
             cacheForget($key);
         }
-
     }
 }

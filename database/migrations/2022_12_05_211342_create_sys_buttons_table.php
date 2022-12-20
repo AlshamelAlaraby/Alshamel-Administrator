@@ -4,8 +4,9 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateModulesTable extends Migration
+return new class extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -13,12 +14,11 @@ class CreateModulesTable extends Migration
      */
     public function up()
     {
-        Schema::create('modules', function (Blueprint $table) {
+        Schema::create('sys_buttons', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->string('name_e')->unique();
-            $table->unsignedBigInteger('parent_id')->default(0);
-            $table->string('is_active')->default('inactive');
+            $table->string("name", 100)->comment("Name Arabic");
+            $table->string("name_e", 100)->comment("Name English");
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateModulesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('modules');
+        Schema::dropIfExists('sys_buttons');
     }
-}
+};

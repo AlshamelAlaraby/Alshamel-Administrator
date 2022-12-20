@@ -24,8 +24,8 @@ class StoreScreenButtonRequest extends FormRequest
     public function rules()
     {
         return [
-            "screen_id" => "required|exists:screens,id",
-            "button_id" => "required|exists:buttons,id",
+            "screen_id" => "required|exists:sys_screens,id",
+            "button_id" => "required|exists:sys_buttons,id",
         ];
     }
 }

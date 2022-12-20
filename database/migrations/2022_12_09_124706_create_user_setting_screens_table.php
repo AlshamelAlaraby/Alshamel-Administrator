@@ -16,7 +16,7 @@ class CreateUserSettingScreensTable extends Migration
         Schema::create('user_setting_screens', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->foreignId('screen_id')->constrained('screens')->references("id");
+            $table->foreignId('screen_id');
             $table->json('data_json');
             $table->timestamps();
         });

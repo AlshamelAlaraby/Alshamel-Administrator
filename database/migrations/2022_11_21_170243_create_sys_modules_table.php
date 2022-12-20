@@ -4,8 +4,10 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateScreensHelpfilesTable extends Migration
+return new class extends Migration
 {
+
+
     /**
      * Run the migrations.
      *
@@ -13,11 +15,12 @@ class CreateScreensHelpfilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('screens_helpfiles', function (Blueprint $table) {
+        Schema::create('sys_modules', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('screen_id');
-            $table->foreignId('helpfile_id');
-            $table->softDeletes();
+            $table->string('name')->unique();
+            $table->string('name_e')->unique();
+            $table->unsignedBigInteger('parent_id')->default(0);
+            $table->string('is_active')->default('inactive');
             $table->timestamps();
         });
     }
@@ -29,6 +32,6 @@ class CreateScreensHelpfilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('screen_helpfiles');
+        Schema::dropIfExists('sys_modules');
     }
-}
+};
