@@ -1676,6 +1676,12 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         this.isLoader = true;
         this.errors = {};
+        if (!this.create.name_e) {
+          this.create.name_e = this.create.name;
+        }
+        if (!this.create.name) {
+          this.create.name = this.create.name_e;
+        }
         _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/partners", this.create).then(function (res) {
           _this9.getData();
           _this9.is_disabled = true;
@@ -2325,6 +2331,11 @@ var menuItems = [{
   label: 'menuitems.module.text',
   icon: 'fab fa-medium-m',
   link: '/module'
+}, {
+  id: 4874387,
+  label: 'menuitems.companyModule.text',
+  icon: 'fab fa-medium-m',
+  link: '/company-module'
 }, {
   id: 5,
   label: 'menuitems.screen_button.text',

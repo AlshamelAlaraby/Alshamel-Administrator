@@ -23,6 +23,12 @@ export const menuItems = [
         link: '/module'
     },
     {
+        id: 4874387,
+        label: 'menuitems.companyModule.text',
+        icon: 'fab fa-medium-m',
+        link: '/company-module'
+    },
+    {
         id: 5,
         label: 'menuitems.screen_button.text',
         icon: 'ri-eraser-line',

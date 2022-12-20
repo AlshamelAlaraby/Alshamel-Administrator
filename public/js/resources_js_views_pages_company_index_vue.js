@@ -1814,22 +1814,13 @@ var imgValid = function imgValid(value) {
       } else {
         this.isLoader = true;
         this.errors = {};
-        var formDate = new FormData();
-        formDate.append('name', this.create.name);
-        formDate.append('name_e', this.create.name_e);
-        formDate.append('email', this.create.email);
-        formDate.append('phone', this.create.phone);
-        formDate.append('tax_id', this.create.tax_id);
-        formDate.append('partner_id', this.create.partner_id);
-        formDate.append('logo', this.create.logo);
-        formDate.append('website', this.create.website);
-        formDate.append('cr', this.create.cr);
-        formDate.append('url', this.create.url);
-        formDate.append('address', this.create.address);
-        formDate.append('is_active', this.create.is_active);
-        formDate.append('vat_no', this.create.vat_no);
-        _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/companies", formDate).then(function (res) {
-          _this9.$bvModal.hide("create");
+        if (!this.create.name) {
+          this.create.name = this.create.name_e;
+        }
+        if (!this.create.name_e) {
+          this.create.name_e = this.create.name;
+        }
+        _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/companies", this.create).then(function (res) {
           _this9.getData();
           setTimeout(function () {
             sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
@@ -1865,22 +1856,7 @@ var imgValid = function imgValid(value) {
       } else {
         this.isLoader = true;
         this.errors = {};
-        var formDate = new FormData();
-        formDate.append('name', this.edit.name);
-        formDate.append('name_e', this.edit.name_e);
-        formDate.append('email', this.edit.email);
-        formDate.append('phone', this.edit.phone);
-        formDate.append('tax_id', this.edit.tax_id);
-        formDate.append('partner_id', this.edit.partner_id);
-        formDate.append('logo', this.edit.logo);
-        formDate.append('website', this.edit.website);
-        formDate.append('cr', this.edit.cr);
-        formDate.append('url', this.edit.url);
-        formDate.append('address', this.edit.address);
-        formDate.append('is_active', this.edit.is_active);
-        formDate.append('vat_no', this.edit.vat_no);
-        formDate.append('_method', 'PUT');
-        _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/companies/".concat(id), formDate).then(function (res) {
+        _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/companies/".concat(id), this.edit).then(function (res) {
           _this10.getData();
           _this10.$bvModal.hide("modal-edit-".concat(id));
           setTimeout(function () {
@@ -1929,6 +1905,7 @@ var imgValid = function imgValid(value) {
       var company = this.companies.find(function (e) {
         return id == e.id;
       });
+      this.company_id = company.id;
       this.edit.name = company.name;
       this.edit.name_e = company.name_e;
       this.edit.is_active = company.is_active;
@@ -1980,8 +1957,14 @@ var imgValid = function imgValid(value) {
     /**
      *  start  dynamicSortString
      */
+    /**
+     *  start  dynamicSortString
+     */
     sortString: function sortString(value) {
       return (0,_helper_tableSort__WEBPACK_IMPORTED_MODULE_8__.dynamicSortString)(value);
+    },
+    sortNumber: function sortNumber(value) {
+      return (0,_helper_tableSort__WEBPACK_IMPORTED_MODULE_8__.dynamicSortNumber)(value);
     },
     checkRow: function checkRow(id) {
       if (!this.checkAll.includes(id)) {
@@ -2026,7 +2009,7 @@ var imgValid = function imgValid(value) {
             res.data.data.forEach(function (e) {
               return new_media.push(e.id);
             });
-            _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].put("/countries/".concat(_this12.country_id), {
+            _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].put("/companies/".concat(_this12.company_id), {
               old_media: old_media,
               'media': new_media
             }).then(function (res) {
@@ -2673,6 +2656,11 @@ var menuItems = [{
   label: 'menuitems.module.text',
   icon: 'fab fa-medium-m',
   link: '/module'
+}, {
+  id: 4874387,
+  label: 'menuitems.companyModule.text',
+  icon: 'fab fa-medium-m',
+  link: '/company-module'
 }, {
   id: 5,
   label: 'menuitems.screen_button.text',
@@ -3444,10 +3432,10 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.container-fluid {\n    padding: uns
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/pages/company/index.vue?vue&type=style&index=0&lang=css&":
-/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/pages/company/index.vue?vue&type=style&index=0&lang=css& ***!
-  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/pages/company/index.vue?vue&type=style&index=0&scope=true&lang=css&":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/pages/company/index.vue?vue&type=style&index=0&scope=true&lang=css& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3688,10 +3676,10 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/pages/company/index.vue?vue&type=style&index=0&lang=css&":
-/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/pages/company/index.vue?vue&type=style&index=0&lang=css& ***!
-  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/pages/company/index.vue?vue&type=style&index=0&scope=true&lang=css&":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/pages/company/index.vue?vue&type=style&index=0&scope=true&lang=css& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3701,7 +3689,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./index.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/pages/company/index.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_scope_true_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./index.vue?vue&type=style&index=0&scope=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/pages/company/index.vue?vue&type=style&index=0&scope=true&lang=css&");
 
             
 
@@ -3710,11 +3698,11 @@ var options = {};
 options.insert = "head";
 options.singleton = false;
 
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"], options);
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_scope_true_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"], options);
 
 
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_scope_true_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -7930,7 +7918,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _index_vue_vue_type_template_id_03416206___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=03416206& */ "./resources/js/views/pages/company/index.vue?vue&type=template&id=03416206&");
 /* harmony import */ var _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js& */ "./resources/js/views/pages/company/index.vue?vue&type=script&lang=js&");
-/* harmony import */ var _index_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.vue?vue&type=style&index=0&lang=css& */ "./resources/js/views/pages/company/index.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _index_vue_vue_type_style_index_0_scope_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.vue?vue&type=style&index=0&scope=true&lang=css& */ "./resources/js/views/pages/company/index.vue?vue&type=style&index=0&scope=true&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -8237,15 +8225,15 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/views/pages/company/index.vue?vue&type=style&index=0&lang=css&":
-/*!*************************************************************************************!*\
-  !*** ./resources/js/views/pages/company/index.vue?vue&type=style&index=0&lang=css& ***!
-  \*************************************************************************************/
+/***/ "./resources/js/views/pages/company/index.vue?vue&type=style&index=0&scope=true&lang=css&":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/views/pages/company/index.vue?vue&type=style&index=0&scope=true&lang=css& ***!
+  \************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader/dist/cjs.js!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./index.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/pages/company/index.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_scope_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader/dist/cjs.js!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./index.vue?vue&type=style&index=0&scope=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/pages/company/index.vue?vue&type=style&index=0&scope=true&lang=css&");
 
 
 /***/ }),
@@ -15949,26 +15937,6 @@ var render = function () {
                                                         )
                                                       : _vm._e(),
                                                     _vm._v(" "),
-                                                    !_vm.$v.create.name
-                                                      .alphaArabic
-                                                      ? _c(
-                                                          "div",
-                                                          {
-                                                            staticClass:
-                                                              "invalid-feedback",
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              _vm._s(
-                                                                _vm.$t(
-                                                                  "general.alphaArabic"
-                                                                )
-                                                              )
-                                                            ),
-                                                          ]
-                                                        )
-                                                      : _vm._e(),
-                                                    _vm._v(" "),
                                                     _vm.errors.name
                                                       ? _vm._l(
                                                           _vm.errors.name,
@@ -18390,19 +18358,128 @@ var render = function () {
                             _vm._v(" "),
                             _vm.setting.name
                               ? _c("th", [
-                                  _vm._v(_vm._s(_vm.$t("general.Name"))),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "d-flex justify-content-center",
+                                    },
+                                    [
+                                      _c("span", [
+                                        _vm._v(_vm._s(_vm.$t("general.Name"))),
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "arrow-sort" }, [
+                                        _c("i", {
+                                          staticClass: "fas fa-arrow-up",
+                                          on: {
+                                            click: function ($event) {
+                                              _vm.companies.sort(
+                                                _vm.sortString("name")
+                                              )
+                                            },
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("i", {
+                                          staticClass: "fas fa-arrow-down",
+                                          on: {
+                                            click: function ($event) {
+                                              _vm.companies.sort(
+                                                _vm.sortString("-name")
+                                              )
+                                            },
+                                          },
+                                        }),
+                                      ]),
+                                    ]
+                                  ),
                                 ])
                               : _vm._e(),
                             _vm._v(" "),
                             _vm.setting.name_e
                               ? _c("th", [
-                                  _vm._v(_vm._s(_vm.$t("general.Name_en"))),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "d-flex justify-content-center",
+                                    },
+                                    [
+                                      _c("span", [
+                                        _vm._v(
+                                          _vm._s(_vm.$t("general.Name_en"))
+                                        ),
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "arrow-sort" }, [
+                                        _c("i", {
+                                          staticClass: "fas fa-arrow-up",
+                                          on: {
+                                            click: function ($event) {
+                                              _vm.companies.sort(
+                                                _vm.sortString("name_e")
+                                              )
+                                            },
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("i", {
+                                          staticClass: "fas fa-arrow-down",
+                                          on: {
+                                            click: function ($event) {
+                                              _vm.companies.sort(
+                                                _vm.sortString("-name_e")
+                                              )
+                                            },
+                                          },
+                                        }),
+                                      ]),
+                                    ]
+                                  ),
                                 ])
                               : _vm._e(),
                             _vm._v(" "),
                             _vm.setting.email
                               ? _c("th", [
-                                  _vm._v(_vm._s(_vm.$t("login.Emailaddress"))),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "d-flex justify-content-center",
+                                    },
+                                    [
+                                      _c("span", [
+                                        _vm._v(
+                                          _vm._s(_vm.$t("login.Emailaddress"))
+                                        ),
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "arrow-sort" }, [
+                                        _c("i", {
+                                          staticClass: "fas fa-arrow-up",
+                                          on: {
+                                            click: function ($event) {
+                                              _vm.companies.sort(
+                                                _vm.sortString("email")
+                                              )
+                                            },
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("i", {
+                                          staticClass: "fas fa-arrow-down",
+                                          on: {
+                                            click: function ($event) {
+                                              _vm.companies.sort(
+                                                _vm.sortString("-email")
+                                              )
+                                            },
+                                          },
+                                        }),
+                                      ]),
+                                    ]
+                                  ),
                                 ])
                               : _vm._e(),
                             _vm._v(" "),
@@ -18414,39 +18491,223 @@ var render = function () {
                             _vm._v(" "),
                             _vm.setting.phone
                               ? _c("th", [
-                                  _vm._v(_vm._s(_vm.$t("general.mobile_no"))),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "d-flex justify-content-center",
+                                    },
+                                    [
+                                      _c("span", [
+                                        _vm._v(
+                                          _vm._s(_vm.$t("general.mobile_no"))
+                                        ),
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "arrow-sort" }, [
+                                        _c("i", {
+                                          staticClass: "fas fa-arrow-up",
+                                          on: {
+                                            click: function ($event) {
+                                              _vm.companies.sort(
+                                                _vm.sortNumber("phone")
+                                              )
+                                            },
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("i", {
+                                          staticClass: "fas fa-arrow-down",
+                                          on: {
+                                            click: function ($event) {
+                                              _vm.companies.sort(
+                                                _vm.sortNumber("-phone")
+                                              )
+                                            },
+                                          },
+                                        }),
+                                      ]),
+                                    ]
+                                  ),
                                 ])
                               : _vm._e(),
                             _vm._v(" "),
                             _vm.setting.vat_no
                               ? _c("th", [
-                                  _vm._v(
-                                    _vm._s(
-                                      _vm.$t(
-                                        "general.Valueaddedregistrationnumber"
-                                      )
-                                    )
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "d-flex justify-content-center",
+                                    },
+                                    [
+                                      _c("span", [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.$t(
+                                              "general.Valueaddedregistrationnumber"
+                                            )
+                                          )
+                                        ),
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "arrow-sort" }, [
+                                        _c("i", {
+                                          staticClass: "fas fa-arrow-up",
+                                          on: {
+                                            click: function ($event) {
+                                              _vm.companies.sort(
+                                                _vm.sortNumber("vat_no")
+                                              )
+                                            },
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("i", {
+                                          staticClass: "fas fa-arrow-down",
+                                          on: {
+                                            click: function ($event) {
+                                              _vm.companies.sort(
+                                                _vm.sortNumber("-vat_no")
+                                              )
+                                            },
+                                          },
+                                        }),
+                                      ]),
+                                    ]
                                   ),
                                 ])
                               : _vm._e(),
                             _vm._v(" "),
                             _vm.setting.cr
                               ? _c("th", [
-                                  _vm._v(
-                                    _vm._s(_vm.$t("general.CommercialRecord"))
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "d-flex justify-content-center",
+                                    },
+                                    [
+                                      _c("span", [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.$t("general.CommercialRecord")
+                                          )
+                                        ),
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "arrow-sort" }, [
+                                        _c("i", {
+                                          staticClass: "fas fa-arrow-up",
+                                          on: {
+                                            click: function ($event) {
+                                              _vm.companies.sort(
+                                                _vm.sortNumber("cr")
+                                              )
+                                            },
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("i", {
+                                          staticClass: "fas fa-arrow-down",
+                                          on: {
+                                            click: function ($event) {
+                                              _vm.companies.sort(
+                                                _vm.sortNumber("-cr")
+                                              )
+                                            },
+                                          },
+                                        }),
+                                      ]),
+                                    ]
                                   ),
                                 ])
                               : _vm._e(),
                             _vm._v(" "),
                             _vm.setting.tax_id
                               ? _c("th", [
-                                  _vm._v(_vm._s(_vm.$t("general.taxnumber"))),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "d-flex justify-content-center",
+                                    },
+                                    [
+                                      _c("span", [
+                                        _vm._v(
+                                          _vm._s(_vm.$t("general.taxnumber"))
+                                        ),
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "arrow-sort" }, [
+                                        _c("i", {
+                                          staticClass: "fas fa-arrow-up",
+                                          on: {
+                                            click: function ($event) {
+                                              _vm.companies.sort(
+                                                _vm.sortNumber("tax_id")
+                                              )
+                                            },
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("i", {
+                                          staticClass: "fas fa-arrow-down",
+                                          on: {
+                                            click: function ($event) {
+                                              _vm.companies.sort(
+                                                _vm.sortNumber("-tax_id")
+                                              )
+                                            },
+                                          },
+                                        }),
+                                      ]),
+                                    ]
+                                  ),
                                 ])
                               : _vm._e(),
                             _vm._v(" "),
                             _vm.setting.address
                               ? _c("th", [
-                                  _vm._v(_vm._s(_vm.$t("general.address"))),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "d-flex justify-content-center",
+                                    },
+                                    [
+                                      _c("span", [
+                                        _vm._v(
+                                          " " +
+                                            _vm._s(_vm.$t("general.address"))
+                                        ),
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "arrow-sort" }, [
+                                        _c("i", {
+                                          staticClass: "fas fa-arrow-up",
+                                          on: {
+                                            click: function ($event) {
+                                              _vm.companies.sort(
+                                                _vm.sortString("address")
+                                              )
+                                            },
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("i", {
+                                          staticClass: "fas fa-arrow-down",
+                                          on: {
+                                            click: function ($event) {
+                                              _vm.companies.sort(
+                                                _vm.sortString("-address")
+                                              )
+                                            },
+                                          },
+                                        }),
+                                      ]),
+                                    ]
+                                  ),
                                 ])
                               : _vm._e(),
                             _vm._v(" "),
@@ -18458,9 +18719,7 @@ var render = function () {
                             _vm._v(" "),
                             _vm.setting.url
                               ? _c("th", [
-                                  _vm._v(
-                                    _vm._s(_vm.$t("general.companysystempath"))
-                                  ),
+                                  _vm._v(_vm._s(_vm.$t("general.url"))),
                                 ])
                               : _vm._e(),
                             _vm._v(" "),
@@ -18573,63 +18832,116 @@ var render = function () {
                                     _vm._v(" "),
                                     _vm.setting.name
                                       ? _c("td", [
-                                          _c(
-                                            "h5",
-                                            {
-                                              staticClass:
-                                                "m-0 font-weight-normal",
-                                            },
-                                            [_vm._v(_vm._s(data.name))]
+                                          _vm._v(
+                                            "\n                                    " +
+                                              _vm._s(data.name) +
+                                              "\n                                "
                                           ),
                                         ])
                                       : _vm._e(),
                                     _vm._v(" "),
                                     _vm.setting.name_e
-                                      ? _c("td", [_vm._v(_vm._s(data.name_e))])
+                                      ? _c("td", [
+                                          _vm._v(
+                                            "\n                                    " +
+                                              _vm._s(data.name_e) +
+                                              "\n                                "
+                                          ),
+                                        ])
                                       : _vm._e(),
                                     _vm._v(" "),
                                     _vm.setting.email
-                                      ? _c("td", [_vm._v(_vm._s(data.email))])
+                                      ? _c("td", [
+                                          _vm._v(
+                                            "\n                                    " +
+                                              _vm._s(data.email) +
+                                              "\n                                "
+                                          ),
+                                        ])
                                       : _vm._e(),
                                     _vm._v(" "),
                                     _vm.setting.partner_id
                                       ? _c("td", [
                                           _vm._v(
-                                            _vm._s(
-                                              _vm.$i18n.locale == "ar"
-                                                ? data.partner.name
-                                                : data.partner.name_e
-                                            )
+                                            "\n                                    " +
+                                              _vm._s(
+                                                _vm.$i18n.locale == "ar"
+                                                  ? data.partner.name
+                                                  : data.partner.name_e
+                                              ) +
+                                              "\n                                "
                                           ),
                                         ])
                                       : _vm._e(),
                                     _vm._v(" "),
                                     _vm.setting.phone
-                                      ? _c("td", [_vm._v(_vm._s(data.phone))])
+                                      ? _c("td", [
+                                          _vm._v(
+                                            "\n                                     " +
+                                              _vm._s(data.phone) +
+                                              "\n                                "
+                                          ),
+                                        ])
                                       : _vm._e(),
                                     _vm._v(" "),
                                     _vm.setting.vat_no
-                                      ? _c("td", [_vm._v(_vm._s(data.vat_no))])
+                                      ? _c("td", [
+                                          _vm._v(
+                                            "\n                                    " +
+                                              _vm._s(data.vat_no) +
+                                              "\n                                "
+                                          ),
+                                        ])
                                       : _vm._e(),
                                     _vm._v(" "),
                                     _vm.setting.cr
-                                      ? _c("td", [_vm._v(_vm._s(data.cr))])
+                                      ? _c("td", [
+                                          _vm._v(
+                                            "\n                                    " +
+                                              _vm._s(data.cr) +
+                                              "\n                                "
+                                          ),
+                                        ])
                                       : _vm._e(),
                                     _vm._v(" "),
                                     _vm.setting.tax_id
-                                      ? _c("td", [_vm._v(_vm._s(data.tax_id))])
+                                      ? _c("td", [
+                                          _vm._v(
+                                            "\n                                     " +
+                                              _vm._s(data.tax_id) +
+                                              "\n                                "
+                                          ),
+                                        ])
                                       : _vm._e(),
                                     _vm._v(" "),
                                     _vm.setting.address
-                                      ? _c("td", [_vm._v(_vm._s(data.address))])
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    _vm.setting.phone
-                                      ? _c("td", [_vm._v(_vm._s(data.phone))])
+                                      ? _c("td", [
+                                          _vm._v(
+                                            "\n                                    " +
+                                              _vm._s(data.address) +
+                                              "\n                                "
+                                          ),
+                                        ])
                                       : _vm._e(),
                                     _vm._v(" "),
                                     _vm.setting.website
-                                      ? _c("td", [_vm._v(_vm._s(data.website))])
+                                      ? _c("td", [
+                                          _vm._v(
+                                            "\n                                    " +
+                                              _vm._s(data.website) +
+                                              "\n                                "
+                                          ),
+                                        ])
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _vm.setting.url
+                                      ? _c("td", [
+                                          _vm._v(
+                                            "\n                                    " +
+                                              _vm._s(data.url) +
+                                              "\n                                "
+                                          ),
+                                        ])
                                       : _vm._e(),
                                     _vm._v(" "),
                                     _vm.setting.is_active

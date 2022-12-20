@@ -160,6 +160,12 @@
       }
     }
   },
+  "companyModule": {
+    "add": "اضافه الشركه جديد",
+    "edit": "تعديل",
+    "companyModule": "موديول الشركات",
+    "table": "جدول موديول الشركات"
+  },
   "menuitems": {
     "navigation": {
       "text": "التنقل"
@@ -181,6 +187,9 @@
     },
     "partner": {
       "text": "الشركاء"
+    },
+    "companyModule": {
+        "text": "موديول الشركات"
     },
     "dashboard": {
       "text": "لوحة القيادة",

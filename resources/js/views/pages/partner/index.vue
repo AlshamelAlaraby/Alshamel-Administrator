@@ -278,6 +278,9 @@ export default {
             } else {
                 this.isLoader = true;
                 this.errors = {};
+                if(!this.create.name_e){ this.create.name_e = this.create.name}
+                if(!this.create.name){ this.create.name = this.create.name_e}
+
                 adminApi.post(`/partners`,this.create)
                     .then((res) => {
                         this.getData();
@@ -1059,12 +1062,11 @@ export default {
         </div>
     </Layout>
 </template>
-<<<<<<< HEAD
 
 <style>
 .modal-body {
     padding: 2.25rem !important;
 }
 </style>
-=======
->>>>>>> dev-test
+
+

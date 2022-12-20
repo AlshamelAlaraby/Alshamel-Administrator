@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 import loader from "../../../components/loader";
 import alphaArabic  from "../../../helper/alphaArabic";
 import alphaEnglish  from "../../../helper/alphaEnglish";
-import {dynamicSortString} from "../../../helper/tableSort";
+import {dynamicSortNumber, dynamicSortString} from "../../../helper/tableSort";
 import Multiselect from "vue-multiselect";
 
 /**
@@ -371,24 +371,12 @@ export default {
             } else {
                 this.isLoader = true;
                 this.errors = {};
-                let formDate = new FormData();
-                formDate.append('name',this.create.name);
-                formDate.append('name_e',this.create.name_e);
-                formDate.append('email',this.create.email);
-                formDate.append('phone',this.create.phone);
-                formDate.append('tax_id',this.create.tax_id);
-                formDate.append('partner_id',this.create.partner_id);
-                formDate.append('logo',this.create.logo);
-                formDate.append('website',this.create.website);
-                formDate.append('cr',this.create.cr);
-                formDate.append('url',this.create.url);
-                formDate.append('address',this.create.address);
-                formDate.append('is_active',this.create.is_active);
-                formDate.append('vat_no',this.create.vat_no);
+                if(!this.create.name){ this.create.name = this.create.name_e}
+                if(!this.create.name_e){ this.create.name_e = this.create.name}
 
-                adminApi.post(`/companies`,formDate)
+                adminApi.post(`/companies`,this.create)
                     .then((res) => {
-                        this.$bvModal.hide(`create`);
+
                         this.getData();
                         setTimeout(() => {
                             Swal.fire({
@@ -426,23 +414,7 @@ export default {
                 this.isLoader = true;
                 this.errors = {};
 
-                let formDate = new FormData();
-                formDate.append('name',this.edit.name);
-                formDate.append('name_e',this.edit.name_e);
-                formDate.append('email',this.edit.email);
-                formDate.append('phone',this.edit.phone);
-                formDate.append('tax_id',this.edit.tax_id);
-                formDate.append('partner_id',this.edit.partner_id);
-                formDate.append('logo',this.edit.logo);
-                formDate.append('website',this.edit.website);
-                formDate.append('cr',this.edit.cr);
-                formDate.append('url',this.edit.url);
-                formDate.append('address',this.edit.address);
-                formDate.append('is_active',this.edit.is_active);
-                formDate.append('vat_no',this.edit.vat_no);
-                formDate.append('_method','PUT');
-
-                adminApi.post(`/companies/${id}`,formDate)
+                adminApi.post(`/companies/${id}`, this.edit)
                     .then((res) => {
                         this.getData();
                         this.$bvModal.hide(`modal-edit-${id}`);
@@ -492,6 +464,7 @@ export default {
          */
         resetModalEdit(id){
             let company = this.companies.find(e => id == e.id );
+            this.company_id = company.id;
             this.edit.name = company.name;
             this.edit.name_e = company.name_e;
             this.edit.is_active = company.is_active;
@@ -547,8 +520,14 @@ export default {
         /**
          *  start  dynamicSortString
          */
+        /**
+         *  start  dynamicSortString
+         */
         sortString(value){
             return dynamicSortString(value);
+        },
+        sortNumber(value){
+            return dynamicSortNumber(value);
         },
         checkRow(id){
             if(!this.checkAll.includes(id)) {
@@ -585,7 +564,7 @@ export default {
                             let new_media = [];
                             res.data.data.forEach(e => new_media.push(e.id));
 
-                            adminApi.put(`/countries/${this.country_id}`,{old_media,'media':new_media})
+                            adminApi.put(`/companies/${this.company_id}`,{old_media,'media':new_media})
                                 .then((res) => {
                                     this.images = res.data.data.media;
                                     this.showPhoto = this.images[this.images.length - 1].webp;
@@ -984,14 +963,13 @@ export default {
                                                                     class="form-control arabicInput"
                                                                     v-model.trim="$v.create.name.$model"
                                                                     :class="{
-                                                        'is-invalid':$v.create.name.$error || errors.name,
-                                                        'is-valid':!$v.create.name.$invalid && !errors.name
-                                                    }"
+                                                                        'is-invalid':$v.create.name.$error || errors.name,
+                                                                        'is-valid':!$v.create.name.$invalid && !errors.name
+                                                                    }"
                                                                     id="field-1"
                                                                 />
                                                                 <div v-if="!$v.create.name.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.name.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                                                 <div v-if="!$v.create.name.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.name.$params.maxLength.max }} {{ $t('general.letters') }}</div>
-                                                                <div v-if="!$v.create.name.alphaArabic" class="invalid-feedback">{{ $t('general.alphaArabic') }}</div>
                                                                 <template v-if="errors.name">
                                                                     <ErrorMessage v-for="(errorMessage,index) in errors.name" :key="index">{{ errorMessage }}</ErrorMessage>
                                                                 </template>
@@ -1346,17 +1324,81 @@ export default {
                                             >
                                         </div>
                                     </th>
-                                    <th v-if="setting.name">{{ $t('general.Name') }}</th>
-                                    <th v-if="setting.name_e">{{ $t('general.Name_en') }}</th>
-                                    <th v-if="setting.email">{{ $t('login.Emailaddress') }}</th>
+                                    <th v-if="setting.name">
+                                        <div class="d-flex justify-content-center">
+                                            <span>{{ $t('general.Name') }}</span>
+                                            <div class="arrow-sort">
+                                                <i class="fas fa-arrow-up" @click="companies.sort(sortString('name'))"></i>
+                                                <i class="fas fa-arrow-down" @click="companies.sort(sortString('-name'))"></i>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th v-if="setting.name_e">
+                                        <div class="d-flex justify-content-center">
+                                            <span>{{ $t('general.Name_en') }}</span>
+                                            <div class="arrow-sort">
+                                                <i class="fas fa-arrow-up" @click="companies.sort(sortString('name_e'))"></i>
+                                                <i class="fas fa-arrow-down" @click="companies.sort(sortString('-name_e'))"></i>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th v-if="setting.email">
+                                        <div class="d-flex justify-content-center">
+                                            <span>{{ $t('login.Emailaddress') }}</span>
+                                            <div class="arrow-sort">
+                                                <i class="fas fa-arrow-up" @click="companies.sort(sortString('email'))"></i>
+                                                <i class="fas fa-arrow-down" @click="companies.sort(sortString('-email'))"></i>
+                                            </div>
+                                        </div>
+                                    </th>
                                     <th v-if="setting.partner_id">{{ $t('partner.partner') }}</th>
-                                    <th v-if="setting.phone">{{ $t('general.mobile_no') }}</th>
-                                    <th v-if="setting.vat_no">{{ $t('general.Valueaddedregistrationnumber') }}</th>
-                                    <th v-if="setting.cr">{{ $t('general.CommercialRecord') }}</th>
-                                    <th v-if="setting.tax_id">{{ $t('general.taxnumber') }}</th>
-                                    <th v-if="setting.address">{{ $t('general.address') }}</th>
+                                    <th v-if="setting.phone">
+                                        <div class="d-flex justify-content-center">
+                                            <span>{{ $t('general.mobile_no') }}</span>
+                                            <div class="arrow-sort">
+                                                <i class="fas fa-arrow-up" @click="companies.sort(sortNumber('phone'))"></i>
+                                                <i class="fas fa-arrow-down" @click="companies.sort(sortNumber('-phone'))"></i>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th v-if="setting.vat_no">
+                                        <div class="d-flex justify-content-center">
+                                            <span>{{ $t('general.Valueaddedregistrationnumber') }}</span>
+                                            <div class="arrow-sort">
+                                                <i class="fas fa-arrow-up" @click="companies.sort(sortNumber('vat_no'))"></i>
+                                                <i class="fas fa-arrow-down" @click="companies.sort(sortNumber('-vat_no'))"></i>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th v-if="setting.cr">
+                                        <div class="d-flex justify-content-center">
+                                            <span>{{ $t('general.CommercialRecord') }}</span>
+                                            <div class="arrow-sort">
+                                                <i class="fas fa-arrow-up" @click="companies.sort(sortNumber('cr'))"></i>
+                                                <i class="fas fa-arrow-down" @click="companies.sort(sortNumber('-cr'))"></i>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th v-if="setting.tax_id">
+                                        <div class="d-flex justify-content-center">
+                                            <span>{{ $t('general.taxnumber') }}</span>
+                                            <div class="arrow-sort">
+                                                <i class="fas fa-arrow-up" @click="companies.sort(sortNumber('tax_id'))"></i>
+                                                <i class="fas fa-arrow-down" @click="companies.sort(sortNumber('-tax_id'))"></i>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th v-if="setting.address">
+                                        <div class="d-flex justify-content-center">
+                                            <span> {{ $t('general.address') }}</span>
+                                            <div class="arrow-sort">
+                                                <i class="fas fa-arrow-up" @click="companies.sort(sortString('address'))"></i>
+                                                <i class="fas fa-arrow-down" @click="companies.sort(sortString('-address'))"></i>
+                                            </div>
+                                        </div>
+                                    </th>
                                     <th v-if="setting.website">{{ $t('general.website') }}</th>
-                                    <th v-if="setting.url">{{ $t('general.companysystempath') }}</th>
+                                    <th v-if="setting.url">{{ $t('general.url') }}</th>
                                     <th v-if="setting.is_active">{{ $t('general.Status') }}</th>
                                     <th>{{ $t('general.Action') }}</th>
                                     <th><i class="fas fa-ellipsis-v"></i></th>
@@ -1382,18 +1424,38 @@ export default {
                                         </div>
                                     </td>
                                     <td v-if="setting.name">
-                                        <h5 class="m-0 font-weight-normal">{{ data.name }}</h5>
+                                        {{ data.name }}
                                     </td>
-                                    <td v-if="setting.name_e">{{ data.name_e }}</td>
-                                    <td v-if="setting.email">{{ data.email }}</td>
-                                    <td v-if="setting.partner_id">{{ $i18n.locale == 'ar'? data.partner.name : data.partner.name_e}}</td>
-                                    <td v-if="setting.phone">{{ data.phone }}</td>
-                                    <td v-if="setting.vat_no">{{ data.vat_no }}</td>
-                                    <td v-if="setting.cr">{{ data.cr }}</td>
-                                    <td v-if="setting.tax_id">{{ data.tax_id }}</td>
-                                    <td v-if="setting.address">{{ data.address }}</td>
-                                    <td v-if="setting.phone">{{ data.phone }}</td>
-                                    <td v-if="setting.website">{{ data.website }}</td>
+                                    <td v-if="setting.name_e">
+                                        {{ data.name_e }}
+                                    </td>
+                                    <td v-if="setting.email">
+                                        {{ data.email }}
+                                    </td>
+                                    <td v-if="setting.partner_id">
+                                        {{ $i18n.locale == 'ar'? data.partner.name : data.partner.name_e}}
+                                    </td>
+                                    <td v-if="setting.phone">
+                                         {{ data.phone }}
+                                    </td>
+                                    <td v-if="setting.vat_no">
+                                        {{ data.vat_no }}
+                                    </td>
+                                    <td v-if="setting.cr">
+                                        {{ data.cr }}
+                                    </td>
+                                    <td v-if="setting.tax_id">
+                                         {{ data.tax_id }}
+                                    </td>
+                                    <td v-if="setting.address">
+                                        {{ data.address }}
+                                    </td>
+                                    <td v-if="setting.website">
+                                        {{ data.website }}
+                                    </td>
+                                    <td v-if="setting.url">
+                                        {{ data.url }}
+                                    </td>
                                     <td v-if="setting.is_active">
                                         <span :class="[
                                             data.is_active == 'active' ?
@@ -1888,8 +1950,7 @@ export default {
     </Layout>
 </template>
 
-<<<<<<< HEAD
-<style>
+<style scope>
 .dropdown .dropdown-menu {
     padding: 5px 10px !important;
     overflow-y: scroll;
