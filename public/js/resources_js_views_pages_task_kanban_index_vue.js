@@ -1850,6 +1850,16 @@ var menuItems = [{
   icon: 'fab fa-medium-m',
   link: '/module'
 }, {
+  id: 112205,
+  label: 'menuitems.buttons.text',
+  icon: 'ri-markup-line',
+  link: '/buttons'
+}, {
+  id: 112206,
+  label: 'general.screens',
+  icon: 'fe-monitor',
+  link: '/screens'
+}, {
   id: 1115,
   label: "menuitems.dashboard.text",
   icon: "ri-dashboard-line",

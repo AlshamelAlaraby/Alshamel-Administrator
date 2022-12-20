@@ -21,7 +21,7 @@ class ScreenResource extends JsonResource
             'name_e'     => $this->name_e,
             'title'      => $this->title,
             'title_e'    => $this->title_e,
-            'serial_id ' => $this->serial_id == null ? 'no serial' :$this->serial_id, //optional( $this->serial)->name,
+            'serial_id' => $this->serial_id == null ? '' :$this->serial_id, //optional( $this->serial)->name,
             'deleted_at' => $this->deleted_at,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

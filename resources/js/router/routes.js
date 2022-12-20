@@ -4,12 +4,16 @@ import login from "./routeChild/login";
 import company from "./routeChild/company";
 import module from "./routeChild/module";
 import partner from "./routeChild/partner";
+import buttons from "./routeChild/buttons";
+import screens from "./routeChild/screens";
 
 export default [
     ...login,
     ...company,
     ...module,
     ...partner,
+    ...buttons,
+    ...screens,
 
     //**********************************************
     {
