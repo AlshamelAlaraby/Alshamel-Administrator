@@ -32,8 +32,8 @@ class StoreWorkflowTreeRequest extends FormRequest
             'company_id' => 'required',
             'module_id'  => 'required',
             'screen_id'  => 'required',
-            'icon_url'   => 'nullable|image|mimes:jpeg,jpg,png,svg',
             'id_sort'    => 'nullable',
+            "media" => ["required", "exists:media,id", new \App\Rules\MediaRule()],
         ];
     }
 

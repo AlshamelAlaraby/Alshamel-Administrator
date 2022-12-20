@@ -4,9 +4,9 @@ use App\Http\Controllers\Auth\CheckIfValidTokenController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Branch\BranchController;
-use App\Http\Controllers\Button\ButtonController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\DocumentType\DocumentTypeController;
+use App\Http\Controllers\Button\ButtonController;
 use App\Http\Controllers\Partner\PartnerController;
 use App\Http\Controllers\Screen\ScreenController;
 use App\Http\Controllers\Serial\SerialController;
@@ -79,6 +79,9 @@ Route::group(['prefix' => 'stores'], function () {
 Route::group(['prefix' => 'modules'], function () {
     Route::controller(\App\Http\Controllers\Module\ModuleController::class)->group(function () {
         Route::get('/', 'all')->name('modules.index');
+        Route::get('/root-nodes', 'getRootNodes')->name('modules.root-nodes');
+        Route::get('/child-nodes/{parentId}', 'getChildNodes')->name('modules.child-nodes');
+        Route::get('logs/{id}', 'logs')->name('modules.logs');
         Route::get('/{id}', 'find');
         Route::post('/', 'create')->name('modules.create');
         Route::put('/{id}', 'update')->name('modules.update');
@@ -105,6 +108,7 @@ Route::group(['prefix' => 'partners'], function () {
 
 // api for screen setting
 Route::controller(MainController::class)->group(function () {
+    Route::post("/media", "media");
     Route::post("/setting", "setting");
     Route::get("/setting/{user_id}/{screen_id}", "getSetting");
 });
@@ -114,6 +118,7 @@ Route::controller(MainController::class)->group(function () {
 Route::group(['prefix' => 'screens'], function () {
     Route::controller(ScreenController::class)->group(function () {
         Route::get('/', 'all')->name('screens.index');
+        Route::get("logs/{id}", "logs")->name("screens.logs");
         Route::get('/{id}', 'find');
         Route::post('/', 'store')->name('screens.store');
         Route::put('/{id}', 'update')->name('screens.update');
@@ -161,6 +166,7 @@ Route::group(['prefix' => 'screen-helpfile'], function () {
 Route::group(['prefix' => 'screen-button'], function () {
     Route::controller(ScreenButtonController::class)->group(function () {
         Route::get('/', 'all')->name('screenbutton.index');
+        Route::get("/logs/{id}", "logs")->name("screenbutton.logs");
         Route::get('/{id}', 'find');
         Route::post('/', 'store')->name('screenbutton.store');
         Route::post('/{id}', 'update')->name('screenbutton.update');
@@ -206,6 +212,7 @@ Route::group(['prefix' => 'workflow-trees'], function () {
 Route::group(['prefix' => 'buttons'], function () {
     Route::controller(ButtonController::class)->group(function () {
         Route::get('/', 'all')->name('buttons.index');
+        Route::get("/logs/{id}", "logs")->name("buttons.logs");
         Route::get('/{id}', 'find');
         Route::post('/', 'store')->name('buttons.store');
         Route::post('/{id}', 'update')->name('buttons.update');
@@ -217,11 +224,20 @@ Route::resource('branches', BranchController::class)->except('create', 'edit');
 
 Route::group(['prefix' => 'document-type'], function () {
     Route::controller(DocumentTypeController::class)->group(function () {
+<<<<<<< HEAD
         Route::get('/', 'all')->name('document.index');
         Route::get('/{id}', 'find');
         Route::post('/', 'create')->name('document.create');
         Route::put('/{id}', 'update')->name('document.update');
         Route::delete('/{id}', 'delete')->name('document.destroy');
+=======
+       /* Route::get('/', 'all')->name('modules.index');
+        Route::get("/logs/{id}", "logs")->name("modules.logs");
+        Route::get('/{id}', 'find');
+        Route::post('/', 'create')->name('modules.create');
+        Route::put('/{id}', 'update')->name('modules.update');
+        Route::delete('/{id}', 'delete')->name('modules.destroy');*/
+>>>>>>> dev-test
     });
 });
 

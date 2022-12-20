@@ -18,8 +18,6 @@ class CreateScreenDocumentTypesTable extends Migration
             $table->foreignId('screen_id');
             $table->foreignId('document_type_id');
             $table->timestamps();
-            $table->foreign('screen_id')->references('id')->on('screens');
-            $table->foreign('document_type_id')->references('id')->on('document_types');
         });
     }
 

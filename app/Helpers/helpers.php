@@ -60,15 +60,22 @@ function cacheForget($key)
 
 
 /**
-     * upload file from request
-     * @param $file File -> file from request
-     * @param $path String -> the path of folder of the file
-     */
-    function uploadFile($file, $path)
-    {
-        $realName = $file->getClientOriginalName();
-        $filename = $file->hashName();
-        $file->move($path, $filename);
-        $fullpath =  $path . $filename;
-        return $fullpath;
-    }
+ * upload file from request
+ * @param $file File -> file from request
+ * @param $path String -> the path of folder of the file
+ */
+function uploadFile($file, $path)
+{
+    $realName = $file->getClientOriginalName();
+    $filename = $file->hashName();
+    $file->move($path, $filename);
+    $fullpath =  $path . $filename;
+    return $fullpath;
+}
+
+
+
+function uploadImage($id, array $value)
+{
+    \Spatie\MediaLibrary\MediaCollections\Models\Media::where('id', $id)->update($value);
+}
