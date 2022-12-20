@@ -1,5 +1,6 @@
 {
   "alshamel": "Alshamel",
+  "message.name already exists":"Name already exists",
   "login": {
     "loginIn": "Login In",
     "Rememberme": "Remember me",
@@ -403,16 +404,16 @@
     }
   },
   "general": {
-    "Default":"Default",
-    "NonDefault":"Nondefault",
-    "Yes":"Yes",
-    "No":"No",
-    "Apply":"Apply",
-    "TableName":"Table name",
-    "FieldName":"Field name",
-    "FieldTitle":"Field title (arabic)",
-    "FieldTitleEn":"Field title (english)",
-    "Visibility":"Visibility",
+    "Default": "Default",
+    "NonDefault": "Nondefault",
+    "Yes": "Yes",
+    "No": "No",
+    "Apply": "Apply",
+    "TableName": "Table name",
+    "FieldName": "Field name",
+    "FieldTitle": "Field title (arabic)",
+    "FieldTitleEn": "Field title (english)",
+    "Visibility": "Visibility",
     "Screen": "Screen",
     "Button": "Button",
     "fieldIsRequired": "This field is required",
