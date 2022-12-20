@@ -331,8 +331,12 @@ export default {
     },
     AddSubmit() {
       if (this.create.field_title || this.create.field_title_en) {
-        this.create.field_title = this.create.field_title ? this.create.field_title : this.create.field_title_en;
-        this.create.field_title_en = this.create.field_title_en ? this.create.field_title_en : this.create.field_title;
+        this.create.field_title = this.create.field_title
+          ? this.create.field_title
+          : this.create.field_title_en;
+        this.create.field_title_en = this.create.field_title_en
+          ? this.create.field_title_en
+          : this.create.field_title;
       }
       this.$v.create.$touch();
       if (this.$v.create.$invalid) {
@@ -379,8 +383,12 @@ export default {
      */
     editSubmit(id) {
       if (this.edit.field_title || this.edit.field_title_en) {
-        this.edit.field_title = this.edit.field_title ? this.edit.field_title : this.edit.field_title_en;
-        this.edit.field_title_en = this.edit.field_title_en ? this.edit.field_title_en : this.edit.field_title;
+        this.edit.field_title = this.edit.field_title
+          ? this.edit.field_title
+          : this.edit.field_title_en;
+        this.edit.field_title_en = this.edit.field_title_en
+          ? this.edit.field_title_en
+          : this.edit.field_title;
       }
       this.$v.edit.$touch();
       if (this.$v.edit.$invalid) {

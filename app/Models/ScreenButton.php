@@ -10,7 +10,7 @@ class ScreenButton extends Model
 {
     use SoftDeletes, LogTrait;
 
-    protected $table = 'sys_screens_buttons';
+    protected $table = 'screens_buttons';
 
     protected $guarded = ["id"];
 }

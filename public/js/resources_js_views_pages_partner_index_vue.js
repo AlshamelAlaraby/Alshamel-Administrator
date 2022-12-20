@@ -1380,14 +1380,14 @@ __webpack_require__.r(__webpack_exports__);
         password: '',
         repeatPassword: '',
         mobile_no: '',
-        is_active: null
+        is_active: 1
       },
       edit: {
         name: '',
         name_e: '',
         email: '',
         mobile_no: '',
-        is_active: null
+        is_active: 1
       },
       setting: {
         name: true,

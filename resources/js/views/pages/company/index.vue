@@ -1888,6 +1888,7 @@ export default {
     </Layout>
 </template>
 
+<<<<<<< HEAD
 <style>
 .dropdown .dropdown-menu {
     padding: 5px 10px !important;

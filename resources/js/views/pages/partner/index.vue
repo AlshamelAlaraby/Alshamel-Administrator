@@ -41,14 +41,14 @@ export default {
                 password:'',
                 repeatPassword:'',
                 mobile_no:'',
-                is_active: null
+                is_active: 1
             },
             edit: {
                 name: '',
                 name_e: '',
                 email: '',
                 mobile_no:'',
-                is_active: null
+                is_active: 1
             },
             setting: {
                 name: true,
@@ -1059,9 +1059,12 @@ export default {
         </div>
     </Layout>
 </template>
+<<<<<<< HEAD
 
 <style>
 .modal-body {
     padding: 2.25rem !important;
 }
 </style>
+=======
+>>>>>>> dev-test

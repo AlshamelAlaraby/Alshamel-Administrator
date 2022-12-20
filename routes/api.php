@@ -4,20 +4,19 @@ use App\Http\Controllers\Auth\CheckIfValidTokenController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Branch\BranchController;
+use App\Http\Controllers\Button\ButtonController;
+use App\Http\Controllers\CompanyModule\CompanyModuleController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\DocumentType\DocumentTypeController;
-use App\Http\Controllers\Button\ButtonController;
-use App\Http\Controllers\Partner\PartnerController;
-use App\Http\Controllers\Screen\ScreenController;
-use App\Http\Controllers\Serial\SerialController;
-use App\Http\Controllers\User\UserController;
-use App\Http\Controllers\Store\StoreController;
-use App\Http\Controllers\CompanyModule\CompanyModuleController;
 use App\Http\Controllers\Helpfile\HelpfileController;
 use App\Http\Controllers\hotfield\hotfieldController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\Partner\PartnerController;
 use App\Http\Controllers\ScreenButton\ScreenButtonController;
 use App\Http\Controllers\ScreenHelpfile\ScreenHelpfileController;
+use App\Http\Controllers\Screen\ScreenController;
+use App\Http\Controllers\Store\StoreController;
+use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\WorkflowTree\WorkflowTreeController;
 use Illuminate\Support\Facades\Route;
 
@@ -56,14 +55,14 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
 });
 
 Route::group(['prefix' => 'companies'], function () {
-    Route::get('', [CompanyController::class, "index"])->name('companies.index');
-    Route::get('logs/{id}', [CompanyController::class, "logs"])->name('companies.logs');
-    Route::get('/{id}', [CompanyController::class, "show"])->name('companies.show');
-    Route::post('', [CompanyController::class, "store"])->name('companies.store');
-    Route::post('/{id}', [CompanyController::class, "update"])->name('companies.update');
-    Route::delete('/{id}', [CompanyController::class, "destroy"])->name('companies.delete');
-    Route::delete('/screen-setting', [CompanyController::class, "screenSetting"])->name('companies.screenSetting');
-    Route::delete('/get-screen-setting/{user_id}/{screen_id}', [CompanyController::class, "getScreenSetting"])->name('companies.getScreenSetting');
+    Route::controller(\App\Http\Controllers\Company\CompanyController::class)->group(function () {
+        Route::get('/', 'all')->name('companies.index');
+        Route::get('logs/{id}', 'logs')->name('companies.logs');
+        Route::get('/{id}', 'find');
+        Route::post('/', 'create')->name('companies.create');
+        Route::put('/{id}', 'update')->name('companies.update');
+        Route::delete('/{id}', 'delete')->name('companies.destroy');
+    });
 });
 
 Route::post('/companyModules/{id}', [CompanyController::class, "companyModules"]);
@@ -113,7 +112,6 @@ Route::controller(MainController::class)->group(function () {
     Route::get("/setting/{user_id}/{screen_id}", "getSetting");
 });
 
-
 // api of screens
 Route::group(['prefix' => 'screens'], function () {
     Route::controller(ScreenController::class)->group(function () {
@@ -126,7 +124,6 @@ Route::group(['prefix' => 'screens'], function () {
     });
 });
 
-
 // api of company_modules
 Route::group(['prefix' => 'company-modules'], function () {
     Route::controller(CompanyModuleController::class)->group(function () {
@@ -136,8 +133,6 @@ Route::group(['prefix' => 'company-modules'], function () {
         Route::put('/{id}', 'update')->name('company_modules.update');
         Route::delete('/{id}', 'delete')->name('company_modules.destroy');
         Route::get('logs/{id}', 'logs')->name('company_modules.logs');
-
-
     });
 });
 // api of helpfiles
@@ -225,6 +220,7 @@ Route::resource('branches', BranchController::class)->except('create', 'edit');
 Route::group(['prefix' => 'document-type'], function () {
     Route::controller(DocumentTypeController::class)->group(function () {
 <<<<<<< HEAD
+<<<<<<< HEAD
         Route::get('/', 'all')->name('document.index');
         Route::get('/{id}', 'find');
         Route::post('/', 'create')->name('document.create');
@@ -238,6 +234,14 @@ Route::group(['prefix' => 'document-type'], function () {
         Route::put('/{id}', 'update')->name('modules.update');
         Route::delete('/{id}', 'delete')->name('modules.destroy');*/
 >>>>>>> dev-test
+=======
+        /* Route::get('/', 'all')->name('modules.index');
+    Route::get("/logs/{id}", "logs")->name("modules.logs");
+    Route::get('/{id}', 'find');
+    Route::post('/', 'create')->name('modules.create');
+    Route::put('/{id}', 'update')->name('modules.update');
+    Route::delete('/{id}', 'delete')->name('modules.destroy');*/
+>>>>>>> dev-test
     });
 });
 
@@ -247,4 +251,4 @@ Route::group(['prefix' => 'screenDocumentType'], function () {
     Route::get('logs/{id}', [ScreenController::class, 'logs'])->name('screenDocumentType.logs');
 });
 
-Route::get ('everything_about_the_company/{company_id}',[WorkflowTreeController::class,'everything_about_the_company']);
+Route::get('everything_about_the_company/{company_id}', [WorkflowTreeController::class, 'everything_about_the_company']);

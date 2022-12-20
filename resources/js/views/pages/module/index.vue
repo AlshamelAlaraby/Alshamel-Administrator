@@ -284,6 +284,10 @@ export default {
       });
     },
     AddSubmit() {
+      if (this.create.name || this.create.name_e) {
+        this.create.name = this.create.name ? this.create.name : this.create.name_e;
+        this.create.name_e = this.create.name_e ? this.create.name_e : this.create.name;
+      }
       this.$v.create.$touch();
       if (this.$v.create.$invalid) {
         return;
@@ -329,8 +333,11 @@ export default {
      *  edit module
      */
     editSubmit(id) {
+      if (this.edit.name || this.edit.name_e) {
+        this.edit.name = this.edit.name ? this.edit.name : this.edit.name_e;
+        this.edit.name_e = this.edit.name_e ? this.edit.name_e : this.edit.name;
+      }
       this.$v.edit.$touch();
-
       if (this.$v.edit.$invalid) {
         return;
       } else {
@@ -797,16 +804,7 @@ export default {
                               class="nested"
                             >
                               <li v-for="child in childNode.children" :key="child.id">
-                                <span>
-                                  <span
-                                    @click="setCreateParentId(child)"
-                                    :class="{
-                                      active: child.id == create.parent_id,
-                                    }"
-                                  >
-                                    {{ $i18n.locale == "ar" ? child.name : child.name_e }}
-                                  </span>
-                                </span>
+                                {{ $i18n.locale == "ar" ? child.name : child.name_e }}
                               </li>
                             </ul>
                           </li>
@@ -846,7 +844,7 @@ export default {
                             <ErrorMessage
                               v-for="(errorMessage, index) in errors.name"
                               :key="index"
-                              >{{ errorMessage }}</ErrorMessage
+                              >{{ $t(errorMessage) }}</ErrorMessage
                             >
                           </template>
                         </div>
@@ -887,7 +885,7 @@ export default {
                             <ErrorMessage
                               v-for="(errorMessage, index) in errors.name_e"
                               :key="index"
-                              >{{ errorMessage }}</ErrorMessage
+                              >{{ $t(errorMessage) }}</ErrorMessage
                             >
                           </template>
                         </div>
@@ -925,7 +923,7 @@ export default {
                             <ErrorMessage
                               v-for="(errorMessage, index) in errors.is_active"
                               :key="index"
-                              >{{ errorMessage }}
+                              >{{ $t(errorMessage) }}
                             </ErrorMessage>
                           </template>
                         </div>
@@ -1260,7 +1258,7 @@ export default {
                                       <ErrorMessage
                                         v-for="(errorMessage, index) in errors.name"
                                         :key="index"
-                                        >{{ errorMessage }}</ErrorMessage
+                                        >{{ $t(errorMessage) }}</ErrorMessage
                                       >
                                     </template>
                                   </div>
@@ -1304,7 +1302,7 @@ export default {
                                       <ErrorMessage
                                         v-for="(errorMessage, index) in errors.name_e"
                                         :key="index"
-                                        >{{ errorMessage }}</ErrorMessage
+                                        >{{ $t(errorMessage) }}</ErrorMessage
                                       >
                                     </template>
                                   </div>
@@ -1343,7 +1341,7 @@ export default {
                                       <ErrorMessage
                                         v-for="(errorMessage, index) in errors.is_active"
                                         :key="index"
-                                        >{{ errorMessage }}
+                                        >{{ $t(errorMessage) }}
                                       </ErrorMessage>
                                     </template>
                                   </div>

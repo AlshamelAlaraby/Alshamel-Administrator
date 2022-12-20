@@ -1712,6 +1712,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     AddSubmit: function AddSubmit() {
       var _this9 = this;
+      if (this.create.name || this.create.name_e) {
+        this.create.name = this.create.name ? this.create.name : this.create.name_e;
+        this.create.name_e = this.create.name_e ? this.create.name_e : this.create.name;
+      }
       this.$v.create.$touch();
       if (this.$v.create.$invalid) {
         return;
@@ -1754,6 +1758,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      */
     editSubmit: function editSubmit(id) {
       var _this10 = this;
+      if (this.edit.name || this.edit.name_e) {
+        this.edit.name = this.edit.name ? this.edit.name : this.edit.name_e;
+        this.edit.name_e = this.edit.name_e ? this.edit.name_e : this.edit.name;
+      }
       this.$v.edit.$touch();
       if (this.$v.edit.$invalid) {
         return;
@@ -15597,44 +15605,17 @@ var render = function () {
                                                             "li",
                                                             { key: child.id },
                                                             [
-                                                              _c("span", [
-                                                                _c(
-                                                                  "span",
-                                                                  {
-                                                                    class: {
-                                                                      active:
-                                                                        child.id ==
-                                                                        _vm
-                                                                          .create
-                                                                          .parent_id,
-                                                                    },
-                                                                    on: {
-                                                                      click:
-                                                                        function (
-                                                                          $event
-                                                                        ) {
-                                                                          return _vm.setCreateParentId(
-                                                                            child
-                                                                          )
-                                                                        },
-                                                                    },
-                                                                  },
-                                                                  [
-                                                                    _vm._v(
-                                                                      "\n                                  " +
-                                                                        _vm._s(
-                                                                          _vm
-                                                                            .$i18n
-                                                                            .locale ==
-                                                                            "ar"
-                                                                            ? child.name
-                                                                            : child.name_e
-                                                                        ) +
-                                                                        "\n                                "
-                                                                    ),
-                                                                  ]
-                                                                ),
-                                                              ]),
+                                                              _vm._v(
+                                                                "\n                              " +
+                                                                  _vm._s(
+                                                                    _vm.$i18n
+                                                                      .locale ==
+                                                                      "ar"
+                                                                      ? child.name
+                                                                      : child.name_e
+                                                                  ) +
+                                                                  "\n                            "
+                                                              ),
                                                             ]
                                                           )
                                                         }
@@ -15786,7 +15767,11 @@ var render = function () {
                                             return _c(
                                               "ErrorMessage",
                                               { key: index },
-                                              [_vm._v(_vm._s(errorMessage))]
+                                              [
+                                                _vm._v(
+                                                  _vm._s(_vm.$t(errorMessage))
+                                                ),
+                                              ]
                                             )
                                           }
                                         )
@@ -15925,7 +15910,11 @@ var render = function () {
                                             return _c(
                                               "ErrorMessage",
                                               { key: index },
-                                              [_vm._v(_vm._s(errorMessage))]
+                                              [
+                                                _vm._v(
+                                                  _vm._s(_vm.$t(errorMessage))
+                                                ),
+                                              ]
                                             )
                                           }
                                         )
@@ -16035,7 +16024,7 @@ var render = function () {
                                             { key: index },
                                             [
                                               _vm._v(
-                                                _vm._s(errorMessage) +
+                                                _vm._s(_vm.$t(errorMessage)) +
                                                   "\n                          "
                                               ),
                                             ]
@@ -17200,7 +17189,9 @@ var render = function () {
                                                                             [
                                                                               _vm._v(
                                                                                 _vm._s(
-                                                                                  errorMessage
+                                                                                  _vm.$t(
+                                                                                    errorMessage
+                                                                                  )
                                                                                 )
                                                                               ),
                                                                             ]
@@ -17439,7 +17430,9 @@ var render = function () {
                                                                             [
                                                                               _vm._v(
                                                                                 _vm._s(
-                                                                                  errorMessage
+                                                                                  _vm.$t(
+                                                                                    errorMessage
+                                                                                  )
                                                                                 )
                                                                               ),
                                                                             ]
@@ -17639,7 +17632,9 @@ var render = function () {
                                                                             [
                                                                               _vm._v(
                                                                                 _vm._s(
-                                                                                  errorMessage
+                                                                                  _vm.$t(
+                                                                                    errorMessage
+                                                                                  )
                                                                                 ) +
                                                                                   "\n                                    "
                                                                               ),
