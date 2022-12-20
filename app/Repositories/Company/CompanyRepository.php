@@ -3,28 +3,24 @@
 
 namespace App\Repositories\Company;
 
-
-use App\Http\Resources\Company\CompanyResource;
 use App\Models\Company;
 use App\Models\UserSettingScreen;
 use App\Traits\ApiResponser;
-use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
-
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class CompanyRepository implements CompanyRepositoryInterface
 {
     use ApiResponser;
 
     public $model;
-    public function __construct(Company $model){
+    public function __construct(Company $model, Media $media)
+    {
         $this->model = $model;
+        $this->media = $media;
     }
 
-    public function getAllCompanies ($request)
+    public function getAllCompanies($request)
     {
         $models = $this->model->filter($request)->orderBy($request->order ? $request->order : 'updated_at', $request->sort ? $request->sort : 'DESC');
 
@@ -35,40 +31,81 @@ class CompanyRepository implements CompanyRepositoryInterface
         }
     }
 
-    public function create($request){
-        if (isset($request['logo'])) {
-            $request['logo']->store('companies');
-            $request['logo'] = storage_path('app/companies'). '/' .$request['logo']->hashName();
-        }
+    public function create($request)
+    {
+
 
         DB::transaction(function () use ($request) {
-            $this->model->create($request);
+            $model =  $this->model->create($request);
+
+            if ($request->media) {
+                foreach ($request->media as $media) {
+                    $this->media::where('id', $media)->update([
+                        'model_id' => $model->id,
+                        'model_type' => get_class($this->model),
+                    ]);
+                }
+            }
             cacheForget("company");
         });
 
-        return $this->successResponse([],__('created'));
+        return $this->successResponse([], __('created'));
     }
 
-    public function show($id){
+    public function show($id)
+    {
         return $this->model->find($id);
     }
 
-    public function update($data,$id){
-        if (request()->hasFile('logo')) {
-            Storage::disk('companies')->delete($this->model->find($id)['logo']);
-            $data['logo']->store('companies');
-            $data['logo'] = storage_path('app/companies'). '/' .$data['logo']->hashName();
-        }
+    public function update($request, $id)
+    {
 
-        DB::transaction(function () use ($id,$data) {
-            $this->model->find($id)->update($data);
+        DB::transaction(function () use ($id, $request) {
+            $model = $this->model->find($id)->update($request);
+            if ($request->media && !$request->old_media) { // if there is new media and no old media
+                $model->clearMediaCollection('media');
+                foreach ($request->media as $media) {
+                    uploadImage($media, [
+                        'model_id' => $model->id,
+                        'model_type' => get_class($this->model),
+                    ]);
+                }
+            }
+
+            if ($request->old_media && !$request->media) { // if there is old media and no new media
+                $model->media->whereNotIn('id', $request->old_media)->each(function (Media $media) {
+                    $media->delete();
+                });
+            }
+
+            if ($request->old_media && $request->media) { // if there is old media and new media
+                $model->media->whereNotIn('id', $request->old_media)->each(function (Media $media) {
+                    $media->delete();
+                });
+                foreach ($request->media as $image) {
+                    uploadImage($image, [
+                        'model_id' => $model->id,
+                        'model_type' => get_class($this->model),
+                    ]);
+                }
+            }
+
+
+            if (!$request->old_media && !$request->media) { // if this is no old media and new media
+                $model->clearMediaCollection('media');
+            }
+
+            if ($request->is_default == 1) {
+                $this->model->where('id', '!=', $id)->update(['is_default' => 0]);
+            }
             $this->forget($id);
         });
 
-        return $this->successResponse([],__('created'));
+        return $this->successResponse([], __('created'));
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
 
         $model = $this->model->find($id);
         $this->forget($id);
@@ -79,8 +116,8 @@ class CompanyRepository implements CompanyRepositoryInterface
     public function setting($request)
     {
         DB::transaction(function () use ($request) {
-            $screenSetting = UserSettingScreen::where('user_id',$request['user_id'])->where('screen_id',$request['screen_id'])->first();
-            $request['data_json'] =json_encode($request['data_json']);
+            $screenSetting = UserSettingScreen::where('user_id', $request['user_id'])->where('screen_id', $request['screen_id'])->first();
+            $request['data_json'] = json_encode($request['data_json']);
             if (!$screenSetting) {
                 UserSettingScreen::create($request);
             } else {
@@ -91,7 +128,7 @@ class CompanyRepository implements CompanyRepositoryInterface
 
     public function getSetting($user_id, $screen_id)
     {
-        return  UserSettingScreen::where('user_id',$user_id)->where('screen_id',$screen_id)->first();
+        return  UserSettingScreen::where('user_id', $user_id)->where('screen_id', $screen_id)->first();
     }
 
     public function companyModules($request)
@@ -112,7 +149,5 @@ class CompanyRepository implements CompanyRepositoryInterface
         foreach ($keys as $key) {
             cacheForget($key);
         }
-
     }
-
 }

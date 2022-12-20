@@ -25,13 +25,13 @@ class Module extends Model
     ];
 
     protected $appends = ["haveChildren"];
-     /**
+    /**
      * this method used to make filter of query
      * @param Query  $query
      * @param $request
      * @return $query
      */
-    public function scopeFilter($query,$request)
+    public function scopeFilter($query, $request)
     {
         return $query->where(function ($q) use ($request) {
             if ($request->search) {
@@ -46,15 +46,13 @@ class Module extends Model
             if ($request->name_e) {
                 $q->orWhere('name_e', 'like', '%' . $request->name_e . '%');
             }
-
-
         });
     }
     public function parent()
     {
         return $this->hasMany(Module::class, 'parent_id', 'id');
     }
-    
+
     public function children()
     {
         return $this->belongsTo(Module::class);
