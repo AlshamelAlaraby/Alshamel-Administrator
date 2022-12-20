@@ -23,7 +23,7 @@ return new class extends Migration
             $table->unsignedBigInteger('partner_id')->nullable();
             $table->unsignedBigInteger('company_id')->nullable();
             $table->unsignedBigInteger('module_id')->nullable();
-            $table->unsignedBigInteger('screen_id')->nullable();
+            $table->unsignedBigInteger('screen_id')->nullable();//opt
             $table->string('icon_url')->nullable();
             $table->integer('id_sort')->nullable();
             $table->softDeletes();
