@@ -2,23 +2,22 @@
 
 namespace App\Repositories\Module;
 
-use App\Models\UserSettingScreen;
 use Illuminate\Support\Facades\DB;
 
 class ModuleRepository implements ModuleInterface
 {
 
-    public function __construct(private \App\Models\Module$model)
+    public function __construct(private \App\Models\Module $model)
     {
         $this->model = $model;
-
     }
 
     public function all($request)
     {
         $models = $this->model->where(function ($q) use ($request) {
-            $this->model->scopeFilter($q , $request);
+            $this->model->scopeFilter($q, $request);
         })->orderBy($request->order ? $request->order : 'updated_at', $request->sort ? $request->sort : 'DESC');
+        $models = $this->model->filter($request)->orderBy($request->order ? $request->order : 'updated_at', $request->sort ? $request->sort : 'DESC');
 
         if ($request->per_page) {
             return ['data' => $models->paginate($request->per_page), 'paginate' => true];
@@ -26,7 +25,14 @@ class ModuleRepository implements ModuleInterface
             return ['data' => $models->get(), 'paginate' => false];
         }
     }
-
+    public function getRootNodes()
+    {
+        return $this->model->where("parent_id", 0)->get();
+    }
+    public function getChildNodes($parentId)
+    {
+        return $this->model->where("parent_id", $parentId)->get();
+    }
     public function find($id)
     {
         return $this->model->find($id);
@@ -46,7 +52,6 @@ class ModuleRepository implements ModuleInterface
             $this->model->where("id", $id)->update($request->all());
             $this->forget($id);
         });
-
     }
 
     public function delete($id)
@@ -69,12 +74,11 @@ class ModuleRepository implements ModuleInterface
     {
         $this->model->find($module_id)->companies()->detach($company_id);
     }
-
-    public function setting($request)
+    public function logs($id)
     {
         DB::transaction(function () use ($request) {
-            $screenSetting = UserSettingScreen::where('user_id',$request['user_id'])->where('screen_id',$request['screen_id'])->first();
-            $request['data_json'] =json_encode($request['data_json']);
+            $screenSetting = UserSettingScreen::where('user_id', $request['user_id'])->where('screen_id', $request['screen_id'])->first();
+            $request['data_json'] = json_encode($request['data_json']);
             if (!$screenSetting) {
                 UserSettingScreen::create($request);
             } else {
@@ -86,7 +90,8 @@ class ModuleRepository implements ModuleInterface
 
     public function getSetting($user_id, $screen_id)
     {
-        return  UserSettingScreen::where('user_id',$user_id)->where('screen_id',$screen_id)->first();
+        return  UserSettingScreen::where('user_id', $user_id)->where('screen_id', $screen_id)->first();
+        return $this->model->find($id)->activities()->orderBy('created_at', 'DESC')->get();
     }
 
     private function forget($id)
@@ -98,7 +103,5 @@ class ModuleRepository implements ModuleInterface
         foreach ($keys as $key) {
             cacheForget($key);
         }
-
     }
-
 }

@@ -4,25 +4,20 @@ use App\Http\Controllers\Auth\CheckIfValidTokenController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Branch\BranchController;
-use App\Http\Controllers\Button\ButtonController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\DocumentType\DocumentTypeController;
+use App\Http\Controllers\Button\ButtonController;
 use App\Http\Controllers\Partner\PartnerController;
 use App\Http\Controllers\Screen\ScreenController;
 use App\Http\Controllers\Serial\SerialController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Store\StoreController;
-use App\Http\Controllers\Button\ButtonController;
 use App\Http\Controllers\CompanyModule\CompanyModuleController;
 use App\Http\Controllers\Helpfile\HelpfileController;
 use App\Http\Controllers\hotfield\hotfieldController;
 use App\Http\Controllers\MainController;
-use App\Http\Controllers\Partner\PartnerController;
 use App\Http\Controllers\ScreenButton\ScreenButtonController;
 use App\Http\Controllers\ScreenHelpfile\ScreenHelpfileController;
-use App\Http\Controllers\Screen\ScreenController;
-use App\Http\Controllers\Store\StoreController;
-use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\WorkflowTree\WorkflowTreeController;
 use Illuminate\Support\Facades\Route;
 
@@ -67,7 +62,6 @@ Route::group(['prefix' => 'companies'], function () {
     Route::post('', [CompanyController::class, "store"])->name('companies.store');
     Route::post('/{id}', [CompanyController::class, "update"])->name('companies.update');
     Route::delete('/{id}', [CompanyController::class, "destroy"])->name('companies.delete');
-    Route::delete('/logs/{id}', [CompanyController::class, "logs"])->name('companies.logs');
     Route::delete('/screen-setting', [CompanyController::class, "screenSetting"])->name('companies.screenSetting');
     Route::delete('/get-screen-setting/{user_id}/{screen_id}', [CompanyController::class, "getScreenSetting"])->name('companies.getScreenSetting');
 });
@@ -85,6 +79,9 @@ Route::group(['prefix' => 'stores'], function () {
 Route::group(['prefix' => 'modules'], function () {
     Route::controller(\App\Http\Controllers\Module\ModuleController::class)->group(function () {
         Route::get('/', 'all')->name('modules.index');
+        Route::get('/root-nodes', 'getRootNodes')->name('modules.root-nodes');
+        Route::get('/child-nodes/{parentId}', 'getChildNodes')->name('modules.child-nodes');
+        Route::get('logs/{id}', 'logs')->name('modules.logs');
         Route::get('/{id}', 'find');
         Route::post('/', 'create')->name('modules.create');
         Route::put('/{id}', 'update')->name('modules.update');
@@ -111,6 +108,7 @@ Route::group(['prefix' => 'partners'], function () {
 
 // api for screen setting
 Route::controller(MainController::class)->group(function () {
+    Route::post("/media", "media");
     Route::post("/setting", "setting");
     Route::get("/setting/{user_id}/{screen_id}", "getSetting");
 });
@@ -120,6 +118,7 @@ Route::controller(MainController::class)->group(function () {
 Route::group(['prefix' => 'screens'], function () {
     Route::controller(ScreenController::class)->group(function () {
         Route::get('/', 'all')->name('screens.index');
+        Route::get("logs/{id}", "logs")->name("screens.logs");
         Route::get('/{id}', 'find');
         Route::post('/', 'store')->name('screens.store');
         Route::put('/{id}', 'update')->name('screens.update');
@@ -167,6 +166,7 @@ Route::group(['prefix' => 'screen-helpfile'], function () {
 Route::group(['prefix' => 'screen-button'], function () {
     Route::controller(ScreenButtonController::class)->group(function () {
         Route::get('/', 'all')->name('screenbutton.index');
+        Route::get("/logs/{id}", "logs")->name("screenbutton.logs");
         Route::get('/{id}', 'find');
         Route::post('/', 'store')->name('screenbutton.store');
         Route::post('/{id}', 'update')->name('screenbutton.update');
@@ -212,6 +212,7 @@ Route::group(['prefix' => 'workflow-trees'], function () {
 Route::group(['prefix' => 'buttons'], function () {
     Route::controller(ButtonController::class)->group(function () {
         Route::get('/', 'all')->name('buttons.index');
+        Route::get("/logs/{id}", "logs")->name("buttons.logs");
         Route::get('/{id}', 'find');
         Route::post('/', 'store')->name('buttons.store');
         Route::post('/{id}', 'update')->name('buttons.update');
@@ -223,11 +224,12 @@ Route::resource('branches', BranchController::class)->except('create', 'edit');
 
 Route::group(['prefix' => 'document-type'], function () {
     Route::controller(DocumentTypeController::class)->group(function () {
-        Route::get('/', 'all')->name('modules.index');
+       /* Route::get('/', 'all')->name('modules.index');
+        Route::get("/logs/{id}", "logs")->name("modules.logs");
         Route::get('/{id}', 'find');
         Route::post('/', 'create')->name('modules.create');
         Route::put('/{id}', 'update')->name('modules.update');
-        Route::delete('/{id}', 'delete')->name('modules.destroy');
+        Route::delete('/{id}', 'delete')->name('modules.destroy');*/
     });
 });
 

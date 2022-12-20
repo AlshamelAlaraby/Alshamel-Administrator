@@ -25,8 +25,8 @@ class UpdateScreenButtonRequest extends FormRequest
     public function rules(Request $request)
     {
         return [
-            "screen_id" => "exists:screens,id",
-            "button_id" => "exists:buttons,id",
+            "screen_id" => "exists:sys_screens,id",
+            "button_id" => "exists:sys_buttons,id",
         ];
     }
 }

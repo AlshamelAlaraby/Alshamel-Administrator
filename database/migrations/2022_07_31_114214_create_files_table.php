@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateButtonsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateButtonsTable extends Migration
      */
     public function up()
     {
-        Schema::create('buttons', function (Blueprint $table) {
+        Schema::create('files', function (Blueprint $table) {
             $table->id();
-            $table->string("name" , 100)->comment("Name Arabic");
-            $table->string("name_e" , 100)->comment("Name English");
-            $table->string("icon" , 200)->comment("No icon, othewise the path of icon");
-            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -30,6 +26,6 @@ class CreateButtonsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('buttons');
+        Schema::dropIfExists('files');
     }
-}
+};

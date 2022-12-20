@@ -5,7 +5,7 @@ namespace App\Repositories\WorkflowTree;
 interface WorkflowTreeRepositoryInterface
 {
 
-    public function getAllWorkflowTrees($request);
+    public function all($request);
 
     public function logs($id);
 
