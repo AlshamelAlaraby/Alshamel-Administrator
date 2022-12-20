@@ -64,6 +64,7 @@ Route::group(['prefix' => 'companies'], function () {
     Route::delete('/logs/{id}', [CompanyController::class, "logs"])->name('companies.logs');
     Route::delete('/screen-setting', [CompanyController::class, "screenSetting"])->name('companies.screenSetting');
     Route::delete('/get-screen-setting/{user_id}/{screen_id}', [CompanyController::class, "getScreenSetting"])->name('companies.getScreenSetting');
+    Route::post ('bulk-delete',[CompanyController::class,'bulkDelete']);
 });
 
 Route::post('/companyModules/{id}', [CompanyController::class, "companyModules"]);
@@ -74,6 +75,7 @@ Route::group(['prefix' => 'stores'], function () {
     Route::post('', [StoreController::class, "store"])->name('stores.store');
     Route::post('/{id}', [StoreController::class, "update"])->name('stores.update');
     Route::delete('/{id}', [StoreController::class, "destroy"])->name('stores.delete');
+    Route::post ('bulk-delete',[StoreController::class,'bulkDelete']);
 });
 
 Route::group(['prefix' => 'modules'], function () {
@@ -85,6 +87,7 @@ Route::group(['prefix' => 'modules'], function () {
         Route::delete('/{id}', 'delete')->name('modules.destroy');
         Route::post('/company', 'addModuleToCompany')->name('modules.company.add');
         Route::get('/{module_id}/company/{company_id}', 'removeModuleFromCompany')->name('modules.company.remove');
+        Route::post ('bulk-delete','bulkDelete');
     });
 });
 
@@ -100,6 +103,7 @@ Route::group(['prefix' => 'partners'], function () {
         Route::post('/screen-setting', 'screenSetting')->name('partners.screenSetting');
         Route::get('/get-screen-setting/{user_id}/{screen_id}', 'getScreenSetting')->name('partners.getScreenSetting');
         Route::post('/login', 'login');
+        Route::post ('bulk-delete','bulkDelete');
     });
 });
 
@@ -116,6 +120,7 @@ Route::group(['prefix' => 'screens'], function () {
         Route::post('/', 'store')->name('screens.store');
         Route::put('/{id}', 'update')->name('screens.update');
         Route::delete('/{id}', 'delete')->name('screens.destroy');
+        Route::post ('bulk-delete','bulkDelete');
     });
 });
 
@@ -127,6 +132,7 @@ Route::group(['prefix' => 'helpfiles'], function () {
         Route::post('/', 'store')->name('helpfiles.store');
         Route::post('/{id}', 'update')->name('helpfiles.update');
         Route::delete('/{id}', 'delete')->name('helpfiles.destroy');
+        Route::post ('bulk-delete','bulkDelete');
     });
 });
 
@@ -138,6 +144,7 @@ Route::group(['prefix' => 'screen-helpfile'], function () {
         Route::post('/', 'store')->name('screenhelpfile.store');
         Route::post('/{id}', 'update')->name('screenhelpfile.update');
         Route::delete('/{id}', 'delete')->name('screenhelpfile.destroy');
+        Route::post ('bulk-delete','bulkDelete');
     });
 });
 
@@ -150,6 +157,7 @@ Route::group(['prefix' => 'screen-button'], function () {
         Route::post('/', 'store')->name('screenbutton.store');
         Route::post('/{id}', 'update')->name('screenbutton.update');
         Route::delete('/{id}', 'delete')->name('screenbutton.destroy');
+        Route::post ('bulk-delete','bulkDelete');
     });
 });
 
@@ -162,6 +170,7 @@ Route::group(['prefix' => 'hotfields'], function () {
         Route::post('/', 'store')->name('hotfield.store');
         Route::post('/{id}', 'update')->name('hotfield.update');
         Route::delete('/{id}', 'delete')->name('hotfield.destroy');
+        Route::post ('bulk-delete','bulkDelete');
     });
 });
 
@@ -174,6 +183,7 @@ Route::group(['prefix' => 'workflow-trees'], function () {
         Route::put('/{id}', 'update')->name('WorkflowTree.update');
         Route::delete('/{id}', 'delete')->name('WorkflowTree.destroy');
         Route::get('logs/{id}', 'logs')->name('WorkflowTree.logs');
+        Route::post ('bulk-delete','bulkDelete');
     });
 });
 
@@ -196,6 +206,7 @@ Route::group(['prefix' => 'buttons'], function () {
         Route::post('/', 'store')->name('buttons.store');
         Route::post('/{id}', 'update')->name('buttons.update');
         Route::delete('/{id}', 'delete')->name('buttons.destroy');
+        Route::post ('bulk-delete','bulkDelete');
     });
 });
 
@@ -209,6 +220,7 @@ Route::group(['prefix' => 'document-type'], function () {
         Route::put('/{id}', 'update')->name('modules.update');
         Route::delete('/{id}', 'delete')->name('modules.destroy');
         Route::get('logs/{id}', 'logs');
+        Route::post ('bulk-delete','bulkDelete');
     });
 });
 
@@ -224,4 +236,5 @@ Route::group(['prefix' => 'screenDocumentType'], function () {
 Route::get ('everything_about_the_company/{company_id}',[WorkflowTreeController::class,'everything_about_the_company']);
 Route::resource ('screen-document-type',ScreenDocumentTypeController::class)->except('create', 'edit');
 Route::get('screen-document-type/logs/{id}', [ScreenDocumentTypeController::class,'logs']);
+Route::post ('screen-document-type/bulk-delete',[ScreenDocumentTypeController::class, 'bulkDelete']);
 //----------------------------------------------------------------------------------------------
