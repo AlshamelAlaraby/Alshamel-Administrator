@@ -219,12 +219,29 @@ Route::resource('branches', BranchController::class)->except('create', 'edit');
 
 Route::group(['prefix' => 'document-type'], function () {
     Route::controller(DocumentTypeController::class)->group(function () {
+<<<<<<< HEAD
+<<<<<<< HEAD
+        Route::get('/', 'all')->name('document.index');
+        Route::get('/{id}', 'find');
+        Route::post('/', 'create')->name('document.create');
+        Route::put('/{id}', 'update')->name('document.update');
+        Route::delete('/{id}', 'delete')->name('document.destroy');
+=======
+       /* Route::get('/', 'all')->name('modules.index');
+        Route::get("/logs/{id}", "logs")->name("modules.logs");
+        Route::get('/{id}', 'find');
+        Route::post('/', 'create')->name('modules.create');
+        Route::put('/{id}', 'update')->name('modules.update');
+        Route::delete('/{id}', 'delete')->name('modules.destroy');*/
+>>>>>>> dev-test
+=======
         /* Route::get('/', 'all')->name('modules.index');
     Route::get("/logs/{id}", "logs")->name("modules.logs");
     Route::get('/{id}', 'find');
     Route::post('/', 'create')->name('modules.create');
     Route::put('/{id}', 'update')->name('modules.update');
     Route::delete('/{id}', 'delete')->name('modules.destroy');*/
+>>>>>>> dev-test
     });
 });
 

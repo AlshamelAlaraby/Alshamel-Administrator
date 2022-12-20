@@ -478,6 +478,7 @@
     "delete": "حذف",
     "edit": "تعديل",
     "searchSetting": "إعداد البحث",
-    "AddNewRecord": "أضف سجل جديد"
+    "AddNewRecord": "أضف سجل جديد",
+    "Save": "حفظ"
   }
 }
