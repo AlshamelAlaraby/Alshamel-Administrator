@@ -46,7 +46,13 @@ class ModuleController extends Controller
 
         return responseJson(200, 'success', ModuleResource::collection($models['data']), $models['paginate'] ? getPaginates($models['data']) : null);
     }
+    public function getRootNodes(){
+        return $this->modelInterface->getRootNodes();
+    }
 
+    public function getChildNodes($parentId){
+        return $this->modelInterface->getChildNodes($parentId);
+    }
     public function create(StoreModuleRequest $request)
     {
         $model = $this->modelInterface->create($request);

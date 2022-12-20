@@ -4,14 +4,8 @@ use App\Http\Controllers\Auth\CheckIfValidTokenController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Branch\BranchController;
-use App\Http\Controllers\Button\ButtonController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\DocumentType\DocumentTypeController;
-use App\Http\Controllers\Partner\PartnerController;
-use App\Http\Controllers\Screen\ScreenController;
-use App\Http\Controllers\Serial\SerialController;
-use App\Http\Controllers\User\UserController;
-use App\Http\Controllers\Store\StoreController;
 use App\Http\Controllers\Button\ButtonController;
 use App\Http\Controllers\CompanyModule\CompanyModuleController;
 use App\Http\Controllers\Helpfile\HelpfileController;
@@ -85,6 +79,8 @@ Route::group(['prefix' => 'stores'], function () {
 Route::group(['prefix' => 'modules'], function () {
     Route::controller(\App\Http\Controllers\Module\ModuleController::class)->group(function () {
         Route::get('/', 'all')->name('modules.index');
+        Route::get('/root-nodes', 'getRootNodes')->name('modules.root-nodes');
+        Route::get('/child-nodes/{parentId}', 'getChildNodes')->name('modules.child-nodes');
         Route::get('/{id}', 'find');
         Route::post('/', 'create')->name('modules.create');
         Route::put('/{id}', 'update')->name('modules.update');
