@@ -1,5 +1,5 @@
 {
-  "message.name already exists":"الاسم موجود مسبقا",
+  "message.name already exists": "الاسم موجود مسبقا",
   "alshamel": "الشامل",
   "login": {
     "loginIn": "تسجيل الدخول",
@@ -19,6 +19,12 @@
     "ModulesTable": "جدول الموديول",
     "module": "موديول"
   },
+  "Workflow": {
+    "AddWorkflow": "اضافة شجرة سير العمل",
+    "EditWorkflow": "تعديل شجرة سير العمل",
+    "Workflow": "سير العمل",
+    "WorkflowsTable": "جدول سير العمل"
+  },
   "DocumentType": {
     "AddDocumentType": "اضافة نوع المستند",
     "EditDocumentType": "تعديل نوع المستند",
@@ -36,7 +42,7 @@
     "EditScreenButton": "تعديل زر الشاشة",
     "ScreenButtonsTable": "جدول ازرار الشاشة",
     "screen_button": "زر الشاشة"
-},
+  },
   "partner": {
     "addpartner": "اضافه شريك جديد",
     "editpartner": "تعديل الشريك ",
@@ -166,6 +172,9 @@
     },
     "module": {
       "text": "موديول"
+    },
+    "Workflow": {
+      "text": "شجرة سير العمل"
     },
     "screen_button": {
       "text": "زر الشاشة"
@@ -405,16 +414,16 @@
     }
   },
   "general": {
-    "Default":"افتراضي",
-    "NonDefault":"غير افتراضي",
-    "Yes":"نعم",
-    "No":"لا",
-    "Apply":"تطبيق",
-    "TableName":"اسم الجدول",
-    "FieldName":"اسم الحقل",
-    "FieldTitle":"عنوان الحقل (عربي)",
-    "FieldTitleEn":"عنوان الحقل (انجليزي)",
-    "Visibility":"الرؤية",
+    "Default": "افتراضي",
+    "NonDefault": "غير افتراضي",
+    "Yes": "نعم",
+    "No": "لا",
+    "Apply": "تطبيق",
+    "TableName": "اسم الجدول",
+    "FieldName": "اسم الحقل",
+    "FieldTitle": "عنوان الحقل (عربي)",
+    "FieldTitleEn": "عنوان الحقل (انجليزي)",
+    "Visibility": "الرؤية",
     "Screen": "الشاشة",
     "Button": "الزر",
     "fieldIsRequired": "هذا الحقل مطلوب .",

@@ -32,7 +32,7 @@ class UpdateWorkflowTreeRequest extends FormRequest
             'partner_id' => 'required',
             'company_id' => 'required',
             'module_id'  => 'required',
-            'screen_id'  => 'required',
+            'screen_id'  => 'nullable',
             "media" => ["exists:media,id", new \App\Rules\MediaRule()],
             'id_sort'    => 'nullable',
         ];

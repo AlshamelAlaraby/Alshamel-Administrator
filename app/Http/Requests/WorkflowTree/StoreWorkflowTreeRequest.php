@@ -26,14 +26,14 @@ class StoreWorkflowTreeRequest extends FormRequest
         return [
             'name'       => 'required|string|max:255',
             'name_e'     => 'required|string|max:255',
-            'is_active'  => 'nullable|in:0,1',
+            'is_active'  => 'nullable',
             'parent_id'  => 'nullable',
-            'partner_id' => 'required',
-            'company_id' => 'required',
-            'module_id'  => 'required',
-            'screen_id'  => 'required',
+            'partner_id' => 'nullable',
+            'company_id' => 'nullable',
+            'module_id'  => 'nullable',
+            'screen_id'  => 'nullable',
             'id_sort'    => 'nullable',
-            "media" => ["required", "exists:media,id", new \App\Rules\MediaRule()],
+            // "media" => ["required", "exists:media,id", new \App\Rules\MediaRule()],
         ];
     }
 

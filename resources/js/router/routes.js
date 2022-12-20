@@ -6,12 +6,14 @@ import module from "./routeChild/module";
 import screenButton from "./routeChild/screen-button";
 import partner from "./routeChild/partner";
 import hotField from "./routeChild/hot-field";
+import workflow from "./routeChild/workflow";
 import documentType from "./routeChild/document-type";
 
 export default [
     ...login,
     ...company,
     ...module,
+    ...workflow,
     ...hotField,
     ...documentType,
     ...screenButton,
