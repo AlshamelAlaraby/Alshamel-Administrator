@@ -125,6 +125,13 @@ class CompanyController extends Controller
         }
     }
 
+    public function bulkDelete(Request $request){
+        foreach ($request->ids as $id){
+            $this->repository->destroy($id);
+        }
+        return  responseJson(200, __('Done'));
+    }
+
     public function screenSetting(Request $request)
     {
         try {

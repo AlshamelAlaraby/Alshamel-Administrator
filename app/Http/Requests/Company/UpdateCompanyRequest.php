@@ -18,6 +18,8 @@ class UpdateCompanyRequest extends FormRequest
             "logo"       => "nullable".($request->hasFile('logo')? '|image':''),
             "address"    => "string|max:200",
             "phone"      => "numeric",
+            "phone_code"      => [],
+            "country_code"      => [],
             "cr"         => "string",
             "tax_id"     => "numeric|digits_between:1,10",
             "vat_no"     => "numeric|digits_between:1,10",

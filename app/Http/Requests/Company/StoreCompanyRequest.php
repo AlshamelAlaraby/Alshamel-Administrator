@@ -20,6 +20,8 @@ class StoreCompanyRequest extends FormRequest
             "logo"       => "required",
             "address"    => "required|string|max:200",
             "phone"      => "required",
+            "phone_code"      => [],
+            "country_code"      => [],
             "cr"         => "required|string",
             "tax_id"     => "required|numeric|digits_between:1,10",
             "vat_no"     => "required|numeric|digits_between:1,10",

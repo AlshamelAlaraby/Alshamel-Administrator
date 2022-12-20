@@ -106,4 +106,11 @@ class ScreenButtonController extends Controller
             return responseJson( $exception->getCode() , $exception->getMessage());
         }
     }
+
+    public function bulkDelete(Request $request){
+        foreach ($request->ids as $id){
+            $this->repository->delete($id);
+        }
+        return  responseJson(200, __('Done'));
+    }
 }
