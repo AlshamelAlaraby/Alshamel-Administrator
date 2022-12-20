@@ -1170,7 +1170,7 @@ export default {
                                                 <option value="active">{{ $t('general.Active') }}</option>
                                                 <option value="inactive">{{ $t('general.Inactive') }}</option>
                                             </select>
-                                            
+
                                             <template v-if="errors.is_active">
                                                 <ErrorMessage v-for="(errorMessage,index) in errors.is_active" :key="index">{{ errorMessage }}</ErrorMessage>
                                             </template>
@@ -1847,3 +1847,7 @@ export default {
         </div>
     </Layout>
 </template>
+
+
+
+
