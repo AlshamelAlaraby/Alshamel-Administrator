@@ -27,7 +27,6 @@ class ButtonController extends Controller
     {
         if (count($_GET) == 0) {
             $models = cacheGet('Buttons');
-
             if (!$models) {
                 $models = $this->repository->getAllButtons($request);
                 cachePut('Buttons', $models);
@@ -70,7 +69,9 @@ class ButtonController extends Controller
 
     public function store(StoreButtonRequest $request)
     {
-        return responseJson(200, __('Done'), $this->repository->create($request->validated()));
+        $model = $this->repository->create($request);
+        $model->refresh();
+        return responseJson(200, __('Done'), new ButtonResource($model));
     }
 
 
@@ -81,9 +82,9 @@ class ButtonController extends Controller
         if (!$model) {
             return responseJson(404, __('message.data not found'));
         }
-        $model = $this->repository->update($request->validated(), $id);
-
-        return  responseJson(200, __('Done'));
+        $this->repository->update($request, $id);
+        $model->refresh();
+        return  responseJson(200, __('Done'), new ButtonResource($model));
     }
 
 

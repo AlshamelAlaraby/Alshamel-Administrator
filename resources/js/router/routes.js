@@ -9,6 +9,7 @@ import buttons from "./routeChild/buttons";
 import screens from "./routeChild/screens";
 import hotField from "./routeChild/hot-field";
 import documentType from "./routeChild/document-type";
+import companyModule from "./routeChild/company-model";
 
 
 export default [
@@ -21,6 +22,7 @@ export default [
     ...partner,
     ...buttons,
     ...screens,
+    ...companyModule,
 
     //**********************************************
     {

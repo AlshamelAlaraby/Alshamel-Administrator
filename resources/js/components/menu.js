@@ -23,7 +23,6 @@ export const menuItems = [
         link: '/module'
     },
     {
-
         id: 112205,
         label: 'menuitems.buttons.text',
         icon: 'ri-markup-line',
@@ -34,6 +33,12 @@ export const menuItems = [
         label: 'general.screens',
         icon: 'fe-monitor',
         link: '/screens'
+    },
+    {
+        id: 4874387,
+        label: 'menuitems.companyModule.text',
+        icon: 'fab fa-medium-m',
+        link: '/company-module'
     },
     {
         id: 5,

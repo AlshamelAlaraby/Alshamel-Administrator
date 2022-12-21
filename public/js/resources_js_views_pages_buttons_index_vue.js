@@ -1494,7 +1494,7 @@ __webpack_require__.r(__webpack_exports__);
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       this.isLoader = true;
       var filter = '';
-      for (var i = 0; i > this.filterSetting.length; ++i) {
+      for (var i = 0; i < this.filterSetting.length; ++i) {
         filter += "columns[".concat(i, "]=").concat(this.filterSetting[i], "&");
       }
       _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/buttons?page=".concat(page, "&per_page=").concat(this.per_page, "&search=").concat(this.search, "&").concat(filter)).then(function (res) {
@@ -1518,7 +1518,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.current_page <= this.buttonsPagination.last_page && this.current_page != this.buttonsPagination.current_page && this.current_page) {
         this.isLoader = true;
         var filter = '';
-        for (var i = 0; i > this.filterSetting.length; ++i) {
+        for (var i = 0; i < this.filterSetting.length; ++i) {
           filter += "columns[".concat(i, "]=").concat(this.filterSetting[i], "&");
         }
         _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/buttons?page=".concat(page, "&per_page=").concat(this.per_page, "&search=").concat(this.search, "&").concat(filter)).then(function (res) {
@@ -1681,9 +1681,11 @@ __webpack_require__.r(__webpack_exports__);
     editSubmit: function editSubmit(id) {
       var _this10 = this;
       this.$v.edit.$touch();
-      this.images.forEach(function (e) {
-        _this10.edit.old_media.push(e.id);
-      });
+      if (this.images.length > 0) {
+        this.images.forEach(function (e) {
+          _this10.edit.old_media.push(e.id);
+        });
+      }
       if (this.$v.edit.$invalid) {
         return;
       } else {
@@ -1738,14 +1740,15 @@ __webpack_require__.r(__webpack_exports__);
      *   show Modal (edit)
      */
     resetModalEdit: function resetModalEdit(id) {
+      var _country$media;
       var country = this.buttons.find(function (e) {
         return id == e.id;
       });
       this.button_id = id;
       this.edit.name = country.name;
       this.edit.name_e = country.name_e;
-      this.images = country.media;
-      this.showPhoto = this.images[this.images.length - 1].webp;
+      this.images = (_country$media = country.media) !== null && _country$media !== void 0 ? _country$media : [];
+      this.showPhoto = this.images.length > 0 ? this.images[this.images.length - 1].webp : './images/img-1.png';
       this.errors = {};
     },
     /**
@@ -1914,8 +1917,9 @@ __webpack_require__.r(__webpack_exports__);
       _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].put("/buttons/".concat(this.button_id), {
         old_media: old_media
       }).then(function (res) {
-        _this13.images = res.data.data.media;
-        _this13.showPhoto = _this13.images[_this13.images.length - 1].webp;
+        var _res$data$data$media;
+        _this13.images = (_res$data$data$media = res.data.data.media) !== null && _res$data$data$media !== void 0 ? _res$data$data$media : [];
+        _this13.showPhoto = _this13.images.length > 0 ? _this13.images[_this13.images.length - 1].webp : './images/img-1.png';
       })["catch"](function (err) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
           icon: 'error',
@@ -2476,6 +2480,11 @@ var menuItems = [{
   label: 'general.screens',
   icon: 'fe-monitor',
   link: '/screens'
+}, {
+  id: 4874387,
+  label: 'menuitems.companyModule.text',
+  icon: 'fab fa-medium-m',
+  link: '/company-module'
 }, {
   id: 5,
   label: 'menuitems.screen_button.text',
@@ -3228,7 +3237,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-dialog .card {\r\n    margin: 0 !important;\n}\n.modal-body {\r\n    padding: 0 !important;\n}\n.modal-dialog .card-body {\r\n    padding: 1.5rem 1.5rem 0 1.5rem !important;\n}\n.nav-bordered{\r\n    border: unset !important;\n}\n.nav {\r\n    background-color: #dff0fe;\n}\n.tab-content {\r\n    padding: 70px 60px 40px;\r\n    min-height: 300px;\r\n    background-color: #f5f5f5;\r\n    position: relative;\n}\n.nav-tabs .nav-link {\r\n    border: 1px solid #b7b7b7 !important;\r\n    background-color: #d7e5f2;\r\n    border-bottom: 0 !important;\r\n    margin-bottom: 1px;\n}\n.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {\r\n    color: #000;\r\n    background-color: hsl(0deg 0% 96%);\r\n    border-bottom: 0 !important;\n}\n.img-thumbnail {\r\n    max-height: 400px !important;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-dialog .card {\n    margin: 0 !important;\n}\n.modal-body {\n    padding: 0 !important;\n}\n.modal-dialog .card-body {\n    padding: 1.5rem 1.5rem 0 1.5rem !important;\n}\n.nav-bordered{\n    border: unset !important;\n}\n.nav {\n    background-color: #dff0fe;\n}\n.tab-content {\n    padding: 70px 60px 40px;\n    min-height: 300px;\n    background-color: #f5f5f5;\n    position: relative;\n}\n.nav-tabs .nav-link {\n    border: 1px solid #b7b7b7 !important;\n    background-color: #d7e5f2;\n    border-bottom: 0 !important;\n    margin-bottom: 1px;\n}\n.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {\n    color: #000;\n    background-color: hsl(0deg 0% 96%);\n    border-bottom: 0 !important;\n}\n.img-thumbnail {\n    max-height: 400px !important;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

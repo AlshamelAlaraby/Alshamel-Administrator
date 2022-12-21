@@ -143,7 +143,7 @@ export default {
             this.isLoader = true;
 
             let filter = '';
-            for (let i = 0; i > this.filterSetting.length; ++i) {
+            for (let i = 0; i < this.filterSetting.length; ++i) {
                 filter += `columns[${i}]=${this.filterSetting[i]}&`;
             }
 
@@ -169,10 +169,9 @@ export default {
             if (this.current_page <= this.buttonsPagination.last_page && this.current_page != this.buttonsPagination.current_page && this.current_page) {
                 this.isLoader = true;
                 let filter = '';
-                for (let i = 0; i > this.filterSetting.length; ++i) {
+                for (let i = 0; i < this.filterSetting.length; ++i) {
                     filter += `columns[${i}]=${this.filterSetting[i]}&`;
                 }
-
                 adminApi.get(`/buttons?page=${page}&per_page=${this.per_page}&search=${this.search}&${filter}`)
                     .then((res) => {
                         let l = res.data;
@@ -338,7 +337,9 @@ export default {
          */
         editSubmit(id) {
             this.$v.edit.$touch();
-            this.images.forEach(e => {this.edit.old_media.push(e.id);});
+           if (this.images.length > 0){
+               this.images.forEach(e => {this.edit.old_media.push(e.id);});
+           }
             if (this.$v.edit.$invalid) {
                 return;
             } else {
@@ -404,8 +405,8 @@ export default {
             this.button_id = id;
             this.edit.name = country.name;
             this.edit.name_e = country.name_e;
-            this.images = country.media;
-            this.showPhoto = this.images[this.images.length - 1].webp;
+            this.images = country.media ?? [];
+            this.showPhoto = this.images.length > 0 ? this.images[this.images.length - 1].webp : './images/img-1.png';
             this.errors = {};
         },
         /**
@@ -564,8 +565,8 @@ export default {
             });
             adminApi.put(`/buttons/${this.button_id}`,{old_media})
                 .then((res) => {
-                    this.images = res.data.data.media;
-                    this.showPhoto = this.images[this.images.length - 1].webp;
+                    this.images =  res.data.data.media ?? [];
+                    this.showPhoto = this.images.length > 0 ? this.images[this.images.length - 1].webp : './images/img-1.png';
                 })
                 .catch(err => {
                     Swal.fire({

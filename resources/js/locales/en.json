@@ -1,3 +1,4 @@
+
 {
     "alshamel": "Alshamel",
     "message.name already exists":"Name already exists",
@@ -491,6 +492,9 @@
         "title_en": "Title (english)",
         "addScreen": "Add Screen",
         "editScreen": "Edit Screen",
-        "serial": "Serial"
+        "serial": "Serial",
+        "allowed_users_no": "Allowed Users No",
+        "startDate": "Start Date",
+        "endDate": "End Date"
     }
 }

@@ -1,3 +1,4 @@
+
 {
     "message.name already exists":"الاسم موجود مسبقا",
     "alshamel": "الشامل",
@@ -490,6 +491,9 @@
         "title_en": "العنوان(انجليزي)",
         "addScreen": "اضافة شاشة",
         "editScreen": "تعديل الشاشة",
-        "serial": "السريال"
+        "serial": "السريال",
+        "allowed_users_no": "عدد المستخدمين المسموح لهم",
+        "startDate": "وقت البدايه",
+        "endDate": "وقت النهايه"
     }
 }
