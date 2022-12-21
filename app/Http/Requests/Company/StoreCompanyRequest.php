@@ -29,12 +29,8 @@ class StoreCompanyRequest extends FormRequest
             "email"      => "required|email|unique:companies,email",
             "website"    => "required|string|max:200",
             "is_active"  => "in:active,inactive",
-            "media" => "nullable|array",
-            "media.*" => ["nullable", "exists:media,id", new \App\Rules\MediaRule()],
         ];
     }
-
-
 
     public function messages()
     {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Button;
 
 use App\Http\Controllers\Controller;
+use App\Models\Button;
 use Illuminate\Http\Request;
 use Mockery\Exception;
 use App\Repositories\Button\ButtonRepositoryInterface;
@@ -69,7 +70,6 @@ class ButtonController extends Controller
 
     public function store(StoreButtonRequest $request)
     {
-
         return responseJson(200, __('Done'), $this->repository->create($request->validated()));
     }
 
