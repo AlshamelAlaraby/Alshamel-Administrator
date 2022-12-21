@@ -22,10 +22,7 @@ class PartnerResource extends JsonResource
             'name_e' => $this->name_e,
             "is_active"  => $this->is_active,
             'email' => $this->email,
-            'password' => $this->password,
             'mobile_no' => $this->mobile_no,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
             "companies" => CompanyResource::collection($this->whenLoaded('companies')),
         ];
     }
