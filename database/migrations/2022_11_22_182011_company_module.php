@@ -19,7 +19,7 @@ class CompanyModule extends Migration
             $table->unsignedBigInteger('module_id');
             $table->bigInteger('allowed_users_no');
             $table->date("start_date");
-            $table->date("end_date");
+            $table->date("end_date")->nullable();
             $table->timestamps();
         });
     }
