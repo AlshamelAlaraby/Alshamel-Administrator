@@ -41,8 +41,8 @@ export default {
             companies: [],
             modules: [],
             create: {
-                company_id: '',
-                module_id: '',
+                company_id: null,
+                module_id: null,
                 allowed_users_no: '',
                 start_date:  null,
                 end_date: null,
@@ -50,8 +50,8 @@ export default {
                 custom_date_end: null
             },
             edit: {
-                company_id: '',
-                module_id: '',
+                company_id: null,
+                module_id: null,
                 allowed_users_no: '',
                 start_date:  null,
                 end_date: null,
@@ -255,8 +255,8 @@ export default {
          */
         resetModalHidden(){
             this.create =  {
-                company_id: '',
-                module_id: '',
+                company_id: null,
+                module_id: null,
                 allowed_users_no: '',
                 start_date:  null,
                 end_date: null,
@@ -273,9 +273,11 @@ export default {
          *  hidden Modal (create)
          */
         async resetModal(){
+            await this.getCompany();
+            await this.getModule();
             this.create =  {
-                company_id: '',
-                module_id: '',
+                company_id: null,
+                module_id: null,
                 allowed_users_no: '',
                 start_date:  formatDateTime(this.create.custom_date_start),
                 end_date: null,
@@ -285,15 +287,13 @@ export default {
             this.$nextTick(() => { this.$v.$reset() });
             this.errors = {};
             this.is_disabled = false;
-            this.companies = [];
-            this.modules = [];
-            await this.getCompany();
-            await this.getModule();
         },
         /**
          *  create companyModule
          */
-        resetForm(){
+        async resetForm(){
+            await this.getCompany();
+            await this.getModule();
             this.create =  {
                 company_id: '',
                 module_id: '',
@@ -305,8 +305,6 @@ export default {
             };
             this.$nextTick(() => { this.$v.$reset() });
             this.is_disabled = false;
-            this.companies = [];
-            this.modules = [];
         },
         AddSubmit(){
             this.$v.create.$touch();
@@ -390,6 +388,8 @@ export default {
          */
         async resetModalEdit(id){
             let companyModule = this.companyModules.find(e => id == e.id );
+            await this.getCompany();
+            await this.getModule();
             this.edit.company_id = companyModule.company.id;
             this.edit.module_id = companyModule.module.id;
             this.edit.allowed_users_no = companyModule.allowed_users_no;
@@ -397,8 +397,6 @@ export default {
             this.edit.custom_date_end = new Date(companyModule.end_date);
             this.edit.start_date = formatDateTime(companyModule.start_date);
             this.edit.end_date = formatDateTime(companyModule.end_date);
-            await this.getCompany();
-            await this.getModule();
         },
         /**
          *  hidden Modal (edit)
@@ -454,45 +452,45 @@ export default {
             }
         },
         formatDate(value){return formatDateOnly(value);},
-    },
-    async getCompany(){
-        this.isLoader = true;
+        async getCompany(){
+            this.isLoader = true;
 
-        await adminApi.get(`/companies?is_active=active`)
-            .then((res) => {
-                let l = res.data;
-                this.companies = l.data;
-            })
-            .catch((err) => {
-                Swal.fire({
-                    icon: 'error',
-                    title: `${this.$t('general.Error')}`,
-                    text: `${this.$t('general.Thereisanerrorinthesystem')}`,
+            await adminApi.get(`/companies`)
+                .then((res) => {
+                    let l = res.data;
+                    this.companies = l.data;
+                })
+                .catch((err) => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: `${this.$t('general.Error')}`,
+                        text: `${this.$t('general.Thereisanerrorinthesystem')}`,
+                    });
+                })
+                .finally(() => {
+                    this.isLoader = false;
                 });
-            })
-            .finally(() => {
-                this.isLoader = false;
-            });
-    },
-    async getModule(){
-        this.isLoader = true;
+        },
+        async getModule(){
+            this.isLoader = true;
 
-        await adminApi.get(`/modules?is_active=active`)
-            .then((res) => {
-                let l = res.data;
-                this.companies = l.data;
-            })
-            .catch((err) => {
-                Swal.fire({
-                    icon: 'error',
-                    title: `${this.$t('general.Error')}`,
-                    text: `${this.$t('general.Thereisanerrorinthesystem')}`,
+            await adminApi.get(`/modules`)
+                .then((res) => {
+                    let l = res.data;
+                    this.modules = l.data;
+                })
+                .catch((err) => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: `${this.$t('general.Error')}`,
+                        text: `${this.$t('general.Thereisanerrorinthesystem')}`,
+                    });
+                })
+                .finally(() => {
+                    this.isLoader = false;
                 });
-            })
-            .finally(() => {
-                this.isLoader = false;
-            });
-    }
+        }
+    },
 };
 </script>
 
@@ -668,7 +666,7 @@ export default {
                                         variant="success"
                                         :disabled="!is_disabled"
                                         @click.prevent="resetForm"
-                                        type="button" :class="['font-weight-bold px-2',!is_disabled? '':'mb-2']"
+                                        type="button" :class="['font-weight-bold px-2',!is_disabled? '':'mx-2']"
                                     >
                                         {{ $t('general.AddNewRecord') }}
                                     </b-button>
@@ -730,7 +728,7 @@ export default {
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <input
-                                                type="text"
+                                                type="number"
                                                 class="form-control "
                                                 v-model.trim="$v.create.allowed_users_no.$model"
                                                 :class="{
@@ -979,13 +977,13 @@ export default {
                                                                 <span class="text-danger">*</span>
                                                             </label>
                                                             <input
-                                                                type="text"
+                                                                type="number"
                                                                 class="form-control "
                                                                 v-model.trim="$v.edit.allowed_users_no.$model"
                                                                 :class="{
-                                                    'is-invalid':$v.edit.allowed_users_no.$error || errors.allowed_users_no,
-                                                    'is-valid':!$v.edit.allowed_users_no.$invalid && !errors.allowed_users_no
-                                                }"
+                                                                    'is-invalid':$v.edit.allowed_users_no.$error || errors.allowed_users_no,
+                                                                    'is-valid':!$v.edit.allowed_users_no.$invalid && !errors.allowed_users_no
+                                                                }"
                                                             />
                                                             <template v-if="errors.allowed_users_no">
                                                                 <ErrorMessage v-for="(errorMessage,index) in errors.allowed_users_no" :key="index">{{ errorMessage }}</ErrorMessage>
@@ -999,13 +997,13 @@ export default {
                                                                 <span class="text-danger">*</span>
                                                             </label>
                                                             <date-picker
-                                                                v-model="create.custom_date_start"
+                                                                v-model="edit.custom_date_start"
                                                                 type="datetime"
-                                                                :default-value="create.custom_date_start"
+                                                                :default-value="edit.custom_date_start"
                                                                 @change="start_date"
                                                                 confirm
                                                             ></date-picker>
-                                                            <div v-if="!$v.create.start_date.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
+                                                            <div v-if="!$v.edit.start_date.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                                             <template v-if="errors.start_date">
                                                                 <ErrorMessage v-for="(errorMessage,index) in errors.start_date" :key="index">{{ errorMessage }}</ErrorMessage>
                                                             </template>
@@ -1018,12 +1016,12 @@ export default {
                                                                 <span class="text-danger">*</span>
                                                             </label>
                                                             <date-picker
-                                                                v-model="create.custom_date_end"
+                                                                v-model="edit.custom_date_end"
                                                                 type="datetime"
                                                                 @change="end_date"
                                                                 confirm
                                                             ></date-picker>
-                                                            <div v-if="!$v.create.end_date.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
+                                                            <div v-if="!$v.edit.end_date.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                                             <template v-if="errors.end_date">
                                                                 <ErrorMessage v-for="(errorMessage,index) in errors.end_date" :key="index">{{ errorMessage }}</ErrorMessage>
                                                             </template>

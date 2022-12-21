@@ -1389,8 +1389,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       companies: [],
       modules: [],
       create: {
-        company_id: '',
-        module_id: '',
+        company_id: null,
+        module_id: null,
         allowed_users_no: '',
         start_date: null,
         end_date: null,
@@ -1398,8 +1398,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         custom_date_end: null
       },
       edit: {
-        company_id: '',
-        module_id: '',
+        company_id: null,
+        module_id: null,
         allowed_users_no: '',
         start_date: null,
         end_date: null,
@@ -1613,8 +1613,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     resetModalHidden: function resetModalHidden() {
       var _this6 = this;
       this.create = {
-        company_id: '',
-        module_id: '',
+        company_id: null,
+        module_id: null,
         allowed_users_no: '',
         start_date: null,
         end_date: null,
@@ -1639,9 +1639,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                _context.next = 2;
+                return _this7.getCompany();
+              case 2:
+                _context.next = 4;
+                return _this7.getModule();
+              case 4:
                 _this7.create = {
-                  company_id: '',
-                  module_id: '',
+                  company_id: null,
+                  module_id: null,
                   allowed_users_no: '',
                   start_date: (0,_helper_startDate__WEBPACK_IMPORTED_MODULE_8__.formatDateTime)(_this7.create.custom_date_start),
                   end_date: null,
@@ -1653,14 +1659,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
                 _this7.errors = {};
                 _this7.is_disabled = false;
-                _this7.companies = [];
-                _this7.modules = [];
-                _context.next = 8;
-                return _this7.getCompany();
               case 8:
-                _context.next = 10;
-                return _this7.getModule();
-              case 10:
               case "end":
                 return _context.stop();
             }
@@ -1673,21 +1672,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      */
     resetForm: function resetForm() {
       var _this8 = this;
-      this.create = {
-        company_id: '',
-        module_id: '',
-        allowed_users_no: '',
-        start_date: null,
-        end_date: null,
-        custom_date_start: new Date(),
-        custom_date_end: null
-      };
-      this.$nextTick(function () {
-        _this8.$v.$reset();
-      });
-      this.is_disabled = false;
-      this.companies = [];
-      this.modules = [];
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return _this8.getCompany();
+              case 2:
+                _context2.next = 4;
+                return _this8.getModule();
+              case 4:
+                _this8.create = {
+                  company_id: '',
+                  module_id: '',
+                  allowed_users_no: '',
+                  start_date: null,
+                  end_date: null,
+                  custom_date_start: new Date(),
+                  custom_date_end: null
+                };
+                _this8.$nextTick(function () {
+                  _this8.$v.$reset();
+                });
+                _this8.is_disabled = false;
+              case 7:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
     },
     AddSubmit: function AddSubmit() {
       var _this9 = this;
@@ -1765,15 +1780,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      */
     resetModalEdit: function resetModalEdit(id) {
       var _this11 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         var companyModule;
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 companyModule = _this11.companyModules.find(function (e) {
                   return id == e.id;
                 });
+                _context3.next = 3;
+                return _this11.getCompany();
+              case 3:
+                _context3.next = 5;
+                return _this11.getModule();
+              case 5:
                 _this11.edit.company_id = companyModule.company.id;
                 _this11.edit.module_id = companyModule.module.id;
                 _this11.edit.allowed_users_no = companyModule.allowed_users_no;
@@ -1781,17 +1802,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this11.edit.custom_date_end = new Date(companyModule.end_date);
                 _this11.edit.start_date = (0,_helper_startDate__WEBPACK_IMPORTED_MODULE_8__.formatDateTime)(companyModule.start_date);
                 _this11.edit.end_date = (0,_helper_startDate__WEBPACK_IMPORTED_MODULE_8__.formatDateTime)(companyModule.end_date);
-                _context2.next = 10;
-                return _this11.getCompany();
-              case 10:
-                _context2.next = 12;
-                return _this11.getModule();
               case 12:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2);
+        }, _callee3);
       }))();
     },
     /**
@@ -1851,65 +1867,65 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     formatDate: function formatDate(value) {
       return (0,_helper_startDate__WEBPACK_IMPORTED_MODULE_8__.formatDateOnly)(value);
+    },
+    getCompany: function getCompany() {
+      var _this12 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _this12.isLoader = true;
+                _context4.next = 3;
+                return _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].get("/companies").then(function (res) {
+                  var l = res.data;
+                  _this12.companies = l.data;
+                })["catch"](function (err) {
+                  sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
+                    icon: 'error',
+                    title: "".concat(_this12.$t('general.Error')),
+                    text: "".concat(_this12.$t('general.Thereisanerrorinthesystem'))
+                  });
+                })["finally"](function () {
+                  _this12.isLoader = false;
+                });
+              case 3:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
+    },
+    getModule: function getModule() {
+      var _this13 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
+        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _this13.isLoader = true;
+                _context5.next = 3;
+                return _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].get("/modules").then(function (res) {
+                  var l = res.data;
+                  _this13.modules = l.data;
+                })["catch"](function (err) {
+                  sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
+                    icon: 'error',
+                    title: "".concat(_this13.$t('general.Error')),
+                    text: "".concat(_this13.$t('general.Thereisanerrorinthesystem'))
+                  });
+                })["finally"](function () {
+                  _this13.isLoader = false;
+                });
+              case 3:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }))();
     }
-  },
-  getCompany: function getCompany() {
-    var _this12 = this;
-    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-      return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-        while (1) {
-          switch (_context3.prev = _context3.next) {
-            case 0:
-              _this12.isLoader = true;
-              _context3.next = 3;
-              return _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].get("/companies?is_active=active").then(function (res) {
-                var l = res.data;
-                _this12.companies = l.data;
-              })["catch"](function (err) {
-                sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
-                  icon: 'error',
-                  title: "".concat(_this12.$t('general.Error')),
-                  text: "".concat(_this12.$t('general.Thereisanerrorinthesystem'))
-                });
-              })["finally"](function () {
-                _this12.isLoader = false;
-              });
-            case 3:
-            case "end":
-              return _context3.stop();
-          }
-        }
-      }, _callee3);
-    }))();
-  },
-  getModule: function getModule() {
-    var _this13 = this;
-    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-      return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-        while (1) {
-          switch (_context4.prev = _context4.next) {
-            case 0:
-              _this13.isLoader = true;
-              _context4.next = 3;
-              return _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].get("/modules?is_active=active").then(function (res) {
-                var l = res.data;
-                _this13.companies = l.data;
-              })["catch"](function (err) {
-                sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
-                  icon: 'error',
-                  title: "".concat(_this13.$t('general.Error')),
-                  text: "".concat(_this13.$t('general.Thereisanerrorinthesystem'))
-                });
-              })["finally"](function () {
-                _this13.isLoader = false;
-              });
-            case 3:
-            case "end":
-              return _context4.stop();
-          }
-        }
-      }, _callee4);
-    }))();
   }
 });
 
@@ -3233,7 +3249,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-body {\r\n    padding: 2.25rem !important;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-body {\n    padding: 2.25rem !important;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15946,7 +15962,7 @@ var render = function () {
                             {
                               class: [
                                 "font-weight-bold px-2",
-                                !_vm.is_disabled ? "" : "mb-2",
+                                !_vm.is_disabled ? "" : "mx-2",
                               ],
                               attrs: {
                                 variant: "success",
@@ -16235,7 +16251,7 @@ var render = function () {
                                     !_vm.$v.create.allowed_users_no.$invalid &&
                                     !_vm.errors.allowed_users_no,
                                 },
-                                attrs: { type: "text" },
+                                attrs: { type: "number" },
                                 domProps: {
                                   value: _vm.$v.create.allowed_users_no.$model,
                                 },
@@ -17470,7 +17486,7 @@ var render = function () {
                                                                     .allowed_users_no,
                                                               },
                                                               attrs: {
-                                                                type: "text",
+                                                                type: "number",
                                                               },
                                                               domProps: {
                                                                 value:
@@ -17582,7 +17598,7 @@ var render = function () {
                                                               attrs: {
                                                                 type: "datetime",
                                                                 "default-value":
-                                                                  _vm.create
+                                                                  _vm.edit
                                                                     .custom_date_start,
                                                                 confirm: "",
                                                               },
@@ -17592,24 +17608,24 @@ var render = function () {
                                                               },
                                                               model: {
                                                                 value:
-                                                                  _vm.create
+                                                                  _vm.edit
                                                                     .custom_date_start,
                                                                 callback:
                                                                   function (
                                                                     $$v
                                                                   ) {
                                                                     _vm.$set(
-                                                                      _vm.create,
+                                                                      _vm.edit,
                                                                       "custom_date_start",
                                                                       $$v
                                                                     )
                                                                   },
                                                                 expression:
-                                                                  "create.custom_date_start",
+                                                                  "edit.custom_date_start",
                                                               },
                                                             }),
                                                             _vm._v(" "),
-                                                            !_vm.$v.create
+                                                            !_vm.$v.edit
                                                               .start_date
                                                               .required
                                                               ? _c(
@@ -17713,24 +17729,24 @@ var render = function () {
                                                               },
                                                               model: {
                                                                 value:
-                                                                  _vm.create
+                                                                  _vm.edit
                                                                     .custom_date_end,
                                                                 callback:
                                                                   function (
                                                                     $$v
                                                                   ) {
                                                                     _vm.$set(
-                                                                      _vm.create,
+                                                                      _vm.edit,
                                                                       "custom_date_end",
                                                                       $$v
                                                                     )
                                                                   },
                                                                 expression:
-                                                                  "create.custom_date_end",
+                                                                  "edit.custom_date_end",
                                                               },
                                                             }),
                                                             _vm._v(" "),
-                                                            !_vm.$v.create
+                                                            !_vm.$v.edit
                                                               .end_date.required
                                                               ? _c(
                                                                   "div",

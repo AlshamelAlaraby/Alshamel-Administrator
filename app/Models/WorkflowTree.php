@@ -8,14 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class WorkflowTree extends Model implements \Spatie\MediaLibrary\HasMedia
-
 {
     use SoftDeletes, LogTrait, MediaTrait;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     protected $table = 'workflow_trees';
 =======
 >>>>>>> origin/mostafa-2
+=======
+
+    protected $table = 'workflow_trees';
+
+>>>>>>> dev-test
     protected $fillable = [
         'name',
         'name_e',

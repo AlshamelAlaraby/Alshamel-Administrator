@@ -8,7 +8,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class CompanyRepository implements CompanyInterface
 {
 
-    public function __construct(private \App\Models\Company $model, private \Spatie\MediaLibrary\MediaCollections\Models\Media $media)
+    public function __construct(private \App\Models\Company$model, private \Spatie\MediaLibrary\MediaCollections\Models\Media$media)
     {
         $this->model = $model;
         $this->media = $media;
@@ -44,7 +44,7 @@ class CompanyRepository implements CompanyInterface
                     ]);
                 }
             }
-            cacheForget("countries");
+            cacheForget("companies");
             return $model;
         });
     }
@@ -82,7 +82,6 @@ class CompanyRepository implements CompanyInterface
                 }
             }
 
-
             if (!$request->old_media && !$request->media) { // if this is no old media and new media
                 $model->clearMediaCollection('media');
             }
@@ -108,8 +107,8 @@ class CompanyRepository implements CompanyInterface
     private function forget($id)
     {
         $keys = [
-            "countries",
-            "countries_" . $id,
+            "companies",
+            "companies_" . $id,
         ];
         foreach ($keys as $key) {
             cacheForget($key);

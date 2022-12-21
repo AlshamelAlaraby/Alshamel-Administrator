@@ -450,7 +450,7 @@ export default {
          *  get parent
          */
         async getPartner(){
-            await adminApi.get(`/partners?is_active=active`)
+            await adminApi.get(`/partners`)
                 .then((res) => {
                     let l = res.data;
                     this.partners = l.data;

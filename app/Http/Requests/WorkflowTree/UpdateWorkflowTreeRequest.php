@@ -46,7 +46,7 @@ class UpdateWorkflowTreeRequest extends FormRequest
             'required' => __('message.field is required'),
             'unique' => __('message.field already exists'),
             'is_active.in' => __('message.status must be active or inactive'),
-            
+
         ];
     }
 }

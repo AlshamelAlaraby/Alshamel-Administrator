@@ -15,6 +15,7 @@ class StoreCompanyRequest extends FormRequest
     {
         return [
 <<<<<<< HEAD
+<<<<<<< HEAD
             "partner_id"  => "required",
             "name"       => "required|string|max:100",
             "name_e"     => "required|string|max:100",
@@ -31,6 +32,8 @@ class StoreCompanyRequest extends FormRequest
             "website"    => "required|string|max:200",
             "is_active"  => "in:active,inactive",
 =======
+=======
+>>>>>>> dev-test
             "partner_id" => "required|exists:partners,id",
             "name" => "required|string|max:100",
             "name_e" => "required|string|max:100",
@@ -43,7 +46,10 @@ class StoreCompanyRequest extends FormRequest
             "email" => "required|email|unique:companies,email",
             "website" => "required|string|max:200",
             "is_active" => "in:active,inactive",
+<<<<<<< HEAD
 >>>>>>> origin/mostafa-2
+=======
+>>>>>>> dev-test
             "media" => "nullable|array",
             "media.*" => ["nullable", "exists:media,id", new \App\Rules\MediaRule()],
         ];
