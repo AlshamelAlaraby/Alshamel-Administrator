@@ -2,9 +2,9 @@
 
 namespace App\Http\Resources\WorkflowTree;
 
+use App\Http\Resources\FileResource;
 use App\Http\Resources\Partner\PartnerRelationResource;
 use App\Http\Resources\Screen\ScreenRelationResource;
-use App\Models\WorkflowTree;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class WorkflowTreeResource extends JsonResource
@@ -18,18 +18,18 @@ class WorkflowTreeResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'         =>$this->id,
-            'name'       => $this->name,
-            'name_e'     => $this->name_e,
-            "is_active"  => $this->is_active == 1 ? WorkflowTree::ACTIVE : WorkflowTree::INACTIVE,
-            'parent_id'  => $this->parent_id ,//== null ?null :optional($this->child)->name,
-            'partner'    => new PartnerRelationResource($this->partner),
+            'id' => $this->id,
+            'name' => $this->name,
+            'name_e' => $this->name_e,
+            "is_active" => $this->is_active,
+            'parent_id' => $this->parent_id, //== null ?null :optional($this->child)->name,
+            'partner' => new PartnerRelationResource($this->partner),
             'company_id' => $this->company_id,
-            'module_id'  => $this->module_id,
-            'screen'  => new ScreenRelationResource($this->screen),
-            'icon_url'   => $this->icon,
-            'id_sort'    => $this->id_sort,
-            'deleted_at' => $this->deleted_at,
+            'module_id' => $this->module_id,
+            'screen' => new ScreenRelationResource($this->screen),
+            'icon_url' => $this->icon,
+            'id_sort' => $this->id_sort,
+            "media" => isset($this->files) ? FileResource::collection($this->files) : null,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

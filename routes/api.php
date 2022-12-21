@@ -56,13 +56,12 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
 });
 
 Route::group(['prefix' => 'companies'], function () {
-    Route::get('/', [CompanyController::class, "index"])->name('companies.index');
+    Route::get('/', [CompanyController::class, "all"])->name('companies.index');
     Route::get('logs/{id}', [CompanyController::class, "logs"])->name('companies.logs');
-    Route::get('/{id}', [CompanyController::class, "show"])->name('companies.show');
-    Route::post('/', [CompanyController::class, "store"])->name('companies.store');
+    Route::get('/{id}', [CompanyController::class, "find"])->name('companies.show');
+    Route::post('/', [CompanyController::class, "create"])->name('companies.store');
     Route::post('/{id}', [CompanyController::class, "update"])->name('companies.update');
     Route::delete('/{id}', [CompanyController::class, "destroy"])->name('companies.delete');
-    Route::delete('/logs/{id}', [CompanyController::class, "logs"])->name('companies.logs');
     Route::delete('/screen-setting', [CompanyController::class, "screenSetting"])->name('companies.screenSetting');
     Route::delete('/get-screen-setting/{user_id}/{screen_id}', [CompanyController::class, "getScreenSetting"])->name('companies.getScreenSetting');
     Route::post ('bulk-delete',[CompanyController::class,'bulkDelete']);
@@ -235,12 +234,12 @@ Route::resource('branches', BranchController::class)->except('create', 'edit');
 
 Route::group(['prefix' => 'document-type'], function () {
     Route::controller(DocumentTypeController::class)->group(function () {
-        Route::get('/', 'all')->name('modules.index');
+        Route::get('/', 'all')->name('document.index');
         Route::get('/{id}', 'find');
-        Route::post('/', 'create')->name('modules.create');
-        Route::put('/{id}', 'update')->name('modules.update');
-        Route::delete('/{id}', 'delete')->name('modules.destroy');
-        Route::get('logs/{id}', 'logs');
+        Route::post('/', 'create')->name('document.create');
+        Route::put('/{id}', 'update')->name('document.update');
+        Route::delete('/{id}', 'delete')->name('document.destroy');
+        Route::get("/logs/{id}", "logs")->name("document.logs");
         Route::post ('bulk-delete','bulkDelete');
     });
 });

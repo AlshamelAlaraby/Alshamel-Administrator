@@ -29,7 +29,7 @@ class UpdateCompanyModuleRequest extends FormRequest
             'module_id'         => 'required',
             "allowed_users_no"  => "required",
             "start_date"        => "required",
-            "end_date"          => "required",
+            "end_date"          => "",
 
         ];
     }

@@ -19,7 +19,6 @@ class CreateCompaniesTable extends Migration
             $table->string("name" , 100)->comment("Name Arabic");
             $table->string("name_e" , 100)->comment("Name English");
             $table->string("url" , 200)->comment("مسار نظام الشركة");
-            $table->string("logo" , 200)->comment("مسار شعار الشركة");
             $table->string("address" , 200);
             $table->string("phone" , 20);
             $table->string("cr")->comment("سجل تجاري");
