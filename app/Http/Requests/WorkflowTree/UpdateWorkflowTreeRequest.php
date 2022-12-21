@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\WorkflowTree;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateWorkflowTreeRequest extends FormRequest
 {
@@ -25,10 +25,10 @@ class UpdateWorkflowTreeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'       => 'required|string|max:255',
-            'name_e'     => 'required|string|max:255',
-            'is_active'  => 'nullable|in:0,1',
-            'parent_id'  => 'nullable',
+            'name' => 'required|string|max:255',
+            'name_e' => 'required|string|max:255',
+            'is_active' => 'nullable|in:0,1',
+            'parent_id' => 'nullable',
             'partner_id' => 'required',
             'company_id' => 'required',
             'module_id'  => 'required',
@@ -41,9 +41,10 @@ class UpdateWorkflowTreeRequest extends FormRequest
     public function messages()
     {
         return [
-            'required'      => __('message.field is required'),
-            'unique'        => __('message.field already exists'),
-            'is_active.in'  => __('message.status must be active or inactive'),
+            'required' => __('message.field is required'),
+            'unique' => __('message.field already exists'),
+            'is_active.in' => __('message.status must be active or inactive'),
+
         ];
     }
 }

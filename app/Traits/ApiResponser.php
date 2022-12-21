@@ -2,8 +2,6 @@
 
 namespace App\Traits;
 
-use Illuminate\Support\Facades\Validator;
-
 trait ApiResponser
 {
     protected function successResponse($data, $message = null, $code = 200)

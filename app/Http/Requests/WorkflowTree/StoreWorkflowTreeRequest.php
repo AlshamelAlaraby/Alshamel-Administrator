@@ -40,9 +40,9 @@ class StoreWorkflowTreeRequest extends FormRequest
     public function messages()
     {
         return [
-            'required'      => __('message.field is required'),
-            'unique'        => __('message.field already exists'),
-            'is_active.in'  => __('message.status must be active or inactive'),
+            'required' => __('message.field is required'),
+            'unique' => __('message.field already exists'),
+            'is_active.in' => __('message.status must be active or inactive'),
         ];
     }
 }

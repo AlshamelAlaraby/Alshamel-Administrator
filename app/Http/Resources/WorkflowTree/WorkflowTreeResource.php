@@ -2,9 +2,9 @@
 
 namespace App\Http\Resources\WorkflowTree;
 
+use App\Http\Resources\FileResource;
 use App\Http\Resources\Partner\PartnerRelationResource;
 use App\Http\Resources\Screen\ScreenRelationResource;
-use App\Models\WorkflowTree;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class WorkflowTreeResource extends JsonResource
