@@ -15,7 +15,7 @@ import Multiselect from "vue-multiselect";
  * Advanced Table component
  */
 export default {
-    page: { 
+    page: {
         title: "Screens",
         meta: [{ name: "description", content: 'Screen' }],
     },
