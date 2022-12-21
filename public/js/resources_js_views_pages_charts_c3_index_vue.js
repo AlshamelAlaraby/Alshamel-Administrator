@@ -1909,6 +1909,11 @@ var menuItems = [{
   icon: 'ri-stack-line',
   link: '/document-types'
 }, {
+  id: 8,
+  label: 'menuitems.Workflow.text',
+  icon: 'ri-share-line',
+  link: '/workflows'
+}, {
   id: 1115,
   label: "menuitems.dashboard.text",
   icon: "ri-dashboard-line",
