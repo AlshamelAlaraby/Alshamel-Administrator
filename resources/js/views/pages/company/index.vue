@@ -178,9 +178,8 @@ export default {
             });
             $(".arabicInput").keypress(function(event){
                 var ew = event.which;
-                console.log(event);
                 if(ew == 32)
-                    return false;
+                    return true;
                 if(48 <= ew && ew <= 57)
                     return false;
                 if(65 <= ew && ew <= 90)
