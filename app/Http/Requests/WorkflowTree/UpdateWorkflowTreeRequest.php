@@ -35,7 +35,7 @@ class UpdateWorkflowTreeRequest extends FormRequest
             'screen_id' => 'required',
             "media" => "nullable|array",
             "media.*" => ["exists:media,id", new \App\Rules\MediaRule()],
-            'old_media.*' => ['exists:media,id', new \App\Rules\MediaRule("App\Models\Company")],
+            'old_media.*' => ['exists:media,id', new \App\Rules\MediaRule("App\Models\WorkFlowTree")],
             'id_sort' => 'nullable',
         ];
     }

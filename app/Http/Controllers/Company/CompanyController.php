@@ -53,18 +53,14 @@ class CompanyController extends Controller
 
     public function update(UpdateCompanyRequest $request, $id)
     {
+
         $model = $this->modelInterface->find($id);
-        if (!$model)
+        if (!$model) {
             return responseJson(404, __('message.data not found'));
-        try {
-            $model = $this->repository->show($id);
-            if (!$model) {
-                return responseJson(404, __('message.data not found'));
-            }
-            return $this->repository->update($request->validated(), $id);
-        } catch (\Exception $exception) {
-            return responseJson($exception->getCode(), $exception->getMessage());
         }
+        $this->modelInterface->update($request, $id);
+        $model->refresh();
+        return responseJson(200, 'success', new CompanyResource($model));
 
     }
 

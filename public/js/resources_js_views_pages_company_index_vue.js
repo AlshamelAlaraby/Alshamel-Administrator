@@ -1412,7 +1412,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         website: '',
         phone_code: '',
         country_code: '',
-        is_active: null
+        is_active: null,
+        old_media: []
       },
       errors: {},
       isCheckAll: false,
@@ -1618,6 +1619,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
       $(".arabicInput").keypress(function (event) {
         var ew = event.which;
+        console.log(event);
         if (ew == 32) return false;
         if (48 <= ew && ew <= 57) return false;
         if (65 <= ew && ew <= 90) return false;
@@ -1863,6 +1865,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     editSubmit: function editSubmit(id, index) {
       var _this10 = this;
       this.$v.edit.$touch();
+      if (this.images) this.images.forEach(function (e) {
+        _this10.edit.old_media.push(e.id);
+      });
       if (this.$v.edit.$invalid && !this.isVaildPhone) {
         return;
       } else {
@@ -1929,6 +1934,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     resetModalEdit: function resetModalEdit(id) {
       var _this12 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+        var _company$media;
         var company;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) {
@@ -1956,8 +1962,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this12.edit.vat_no = company.vat_no;
                 _this12.edit.phone = company.phone;
                 _this12.errors = {};
-                _this12.edit.file = company.logo;
-              case 20:
+                _this12.images = (_company$media = company.media) !== null && _company$media !== void 0 ? _company$media : [];
+                if (_this12.images.length > 0) _this12.showPhoto = _this12.images[_this12.images.length - 1].webp;
+              case 21:
               case "end":
                 return _context3.stop();
             }
@@ -1983,7 +1990,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         website: '',
         phone_code: '',
         country_code: '',
-        is_active: 'active'
+        is_active: 'active',
+        old_media: []
       };
       this.errors = {};
       this.company_id = null;
@@ -2049,14 +2057,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           formDate.append('media[0]', this.media);
           _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/media", formDate).then(function (res) {
             var old_media = [];
-            _this13.images.forEach(function (e) {
+            if (_this13.images) _this13.images.forEach(function (e) {
               return old_media.push(e.id);
             });
             var new_media = [];
             res.data.data.forEach(function (e) {
               return new_media.push(e.id);
             });
-            _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].put("/companies/".concat(_this13.company_id), {
+            _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/companies/".concat(_this13.company_id), {
               old_media: old_media,
               'media': new_media
             }).then(function (res) {
@@ -2108,7 +2116,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 res.data.data.forEach(function (e) {
                   return new_media.push(e.id);
                 });
-                _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].put("/companies/".concat(_this13.company_id), {
+                _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/companies/".concat(_this13.company_id), {
                   old_media: old_media,
                   'media': new_media
                 }).then(function (res) {
@@ -2148,11 +2156,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           old_media.push(e.id);
         }
       });
-      _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].put("/companies/".concat(this.company_id), {
+      _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/companies/".concat(this.company_id), {
         old_media: old_media
       }).then(function (res) {
-        _this14.images = res.data.data.media;
-        _this14.showPhoto = _this14.images[_this14.images.length - 1].webp;
+        var _res$data$data$media;
+        _this14.images = (_res$data$data$media = res.data.data.media) !== null && _res$data$data$media !== void 0 ? _res$data$data$media : [];
+        if (_this14.images.length) {
+          _this14.showPhoto = _this14.images[_this14.images.length - 1].webp;
+        }
       })["catch"](function (err) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
           icon: 'error',
@@ -3460,7 +3471,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.dropdown .dropdown-menu {\r\n    padding: 5px 10px !important;\r\n    overflow-y: scroll;\r\n    height: 400px;\n}\n.modal-dialog .card {\r\n    margin: 0 !important;\n}\n.modal-body.paddingUnset {\r\n    padding: 0 !important;\n}\n.modal-dialog .card-body {\r\n    padding: 1.5rem 1.5rem 0 1.5rem !important;\n}\n.nav-bordered{\r\n    border: unset !important;\n}\n.nav {\r\n    background-color: #dff0fe;\n}\n.tab-content {\r\n    padding: 70px 60px 40px;\r\n    min-height: 300px;\r\n    background-color: #f5f5f5;\r\n    position: relative;\n}\n.nav-tabs .nav-link {\r\n    border: 1px solid #b7b7b7 !important;\r\n    background-color: #d7e5f2;\r\n    border-bottom: 0 !important;\r\n    margin-bottom: 1px;\n}\n.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {\r\n    color: #000;\r\n    background-color: hsl(0deg 0% 96%);\r\n    border-bottom: 0 !important;\n}\n.img-thumbnail {\r\n    max-height: 400px !important;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.dropdown .dropdown-menu {\n    padding: 5px 10px !important;\n    overflow-y: scroll;\n    height: 400px;\n}\n.modal-dialog .card {\n    margin: 0 !important;\n}\n.modal-body.paddingUnset {\n    padding: 0 !important;\n}\n.modal-dialog .card-body {\n    padding: 1.5rem 1.5rem 0 1.5rem !important;\n}\n.nav-bordered{\n    border: unset !important;\n}\n.nav {\n    background-color: #dff0fe;\n}\n.tab-content {\n    padding: 70px 60px 40px;\n    min-height: 300px;\n    background-color: #f5f5f5;\n    position: relative;\n}\n.nav-tabs .nav-link {\n    border: 1px solid #b7b7b7 !important;\n    background-color: #d7e5f2;\n    border-bottom: 0 !important;\n    margin-bottom: 1px;\n}\n.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {\n    color: #000;\n    background-color: hsl(0deg 0% 96%);\n    border-bottom: 0 !important;\n}\n.img-thumbnail {\n    max-height: 400px !important;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -19129,18 +19140,6 @@ var render = function () {
                                           [
                                             _c(
                                               "form",
-                                              {
-                                                on: {
-                                                  submit: function ($event) {
-                                                    $event.stopPropagation()
-                                                    $event.preventDefault()
-                                                    return _vm.editSubmit(
-                                                      data.id,
-                                                      index
-                                                    )
-                                                  },
-                                                },
-                                              },
                                               [
                                                 _c(
                                                   "div",
@@ -19170,9 +19169,9 @@ var render = function () {
                                                                       $event
                                                                     ) {
                                                                       $event.preventDefault()
-                                                                      return _vm.AddSubmit.apply(
-                                                                        null,
-                                                                        arguments
+                                                                      return _vm.editSubmit(
+                                                                        data.id,
+                                                                        index
                                                                       )
                                                                     },
                                                                 },

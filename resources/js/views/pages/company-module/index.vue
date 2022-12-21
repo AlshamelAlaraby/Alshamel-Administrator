@@ -81,14 +81,14 @@ export default {
             module_id: {required,integer},
             allowed_users_no: {required,integer},
             start_date: {required},
-            end_date: {required},
+            end_date: {},
         },
         edit: {
             company_id: {required,integer},
             module_id: {required,integer},
             allowed_users_no: {required,integer},
             start_date: {required},
-            end_date: {required},
+            end_date: {},
         },
     },
     watch: {
@@ -298,7 +298,7 @@ export default {
                 company_id: '',
                 module_id: '',
                 allowed_users_no: '',
-                start_date:  null,
+                start_date:  formatDateTime(new Date()),
                 end_date: null,
                 custom_date_start: new Date(),
                 custom_date_end: null
@@ -772,7 +772,6 @@ export default {
                                                 @change="end_date"
                                                 confirm
                                             ></date-picker>
-                                            <div v-if="!$v.create.end_date.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                             <template v-if="errors.end_date">
                                                 <ErrorMessage v-for="(errorMessage,index) in errors.end_date" :key="index">{{ errorMessage }}</ErrorMessage>
                                             </template>
@@ -1021,7 +1020,6 @@ export default {
                                                                 @change="end_date"
                                                                 confirm
                                                             ></date-picker>
-                                                            <div v-if="!$v.edit.end_date.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
                                                             <template v-if="errors.end_date">
                                                                 <ErrorMessage v-for="(errorMessage,index) in errors.end_date" :key="index">{{ errorMessage }}</ErrorMessage>
                                                             </template>

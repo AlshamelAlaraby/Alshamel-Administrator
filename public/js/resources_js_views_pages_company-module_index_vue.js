@@ -1440,9 +1440,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       start_date: {
         required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_11__.required
       },
-      end_date: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_11__.required
-      }
+      end_date: {}
     },
     edit: {
       company_id: {
@@ -1460,9 +1458,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       start_date: {
         required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_11__.required
       },
-      end_date: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_11__.required
-      }
+      end_date: {}
     }
   },
   watch: {
@@ -1687,7 +1683,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   company_id: '',
                   module_id: '',
                   allowed_users_no: '',
-                  start_date: null,
+                  start_date: (0,_helper_startDate__WEBPACK_IMPORTED_MODULE_8__.formatDateTime)(new Date()),
                   end_date: null,
                   custom_date_start: new Date(),
                   custom_date_end: null
@@ -3249,7 +3245,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-body {\r\n    padding: 2.25rem !important;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-body {\n    padding: 2.25rem !important;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -16384,20 +16380,6 @@ var render = function () {
                                 },
                               }),
                               _vm._v(" "),
-                              !_vm.$v.create.end_date.required
-                                ? _c(
-                                    "div",
-                                    { staticClass: "invalid-feedback" },
-                                    [
-                                      _vm._v(
-                                        _vm._s(
-                                          _vm.$t("general.fieldIsRequired")
-                                        )
-                                      ),
-                                    ]
-                                  )
-                                : _vm._e(),
-                              _vm._v(" "),
                               _vm.errors.end_date
                                 ? _vm._l(
                                     _vm.errors.end_date,
@@ -17745,26 +17727,6 @@ var render = function () {
                                                                   "edit.custom_date_end",
                                                               },
                                                             }),
-                                                            _vm._v(" "),
-                                                            !_vm.$v.edit
-                                                              .end_date.required
-                                                              ? _c(
-                                                                  "div",
-                                                                  {
-                                                                    staticClass:
-                                                                      "invalid-feedback",
-                                                                  },
-                                                                  [
-                                                                    _vm._v(
-                                                                      _vm._s(
-                                                                        _vm.$t(
-                                                                          "general.fieldIsRequired"
-                                                                        )
-                                                                      )
-                                                                    ),
-                                                                  ]
-                                                                )
-                                                              : _vm._e(),
                                                             _vm._v(" "),
                                                             _vm.errors.end_date
                                                               ? _vm._l(

@@ -67,7 +67,8 @@ export default {
                 website: '',
                 phone_code:'',
                 country_code:'',
-                is_active: null
+                is_active: null,
+                old_media: []
             },
             errors: {},
             isCheckAll: false,
@@ -177,6 +178,7 @@ export default {
             });
             $(".arabicInput").keypress(function(event){
                 var ew = event.which;
+                console.log(event);
                 if(ew == 32)
                     return false;
                 if(48 <= ew && ew <= 57)
@@ -412,6 +414,7 @@ export default {
          */
         editSubmit(id,index){
             this.$v.edit.$touch();
+            if(this.images) this.images.forEach(e => {this.edit.old_media.push(e.id);});
             if (this.$v.edit.$invalid && !this.isVaildPhone) {
                 return;
             } else {
@@ -485,7 +488,8 @@ export default {
             this.edit.vat_no = company.vat_no;
             this.edit.phone = company.phone;
             this.errors = {};
-            this.edit.file = company.logo;
+            this.images = company.media ?? [];
+            if(this.images.length > 0) this.showPhoto = this.images[this.images.length - 1].webp;
         },
         /**
          *  hidden Modal (edit)
@@ -506,6 +510,7 @@ export default {
                 phone_code:'',
                 country_code:'',
                 is_active: 'active',
+                old_media: []
             };
             this.errors = {};
             this.company_id = null;
@@ -566,11 +571,11 @@ export default {
                     adminApi.post(`/media`, formDate)
                         .then((res) => {
                             let old_media = [];
-                            this.images.forEach(e => old_media.push(e.id));
+                            if(this.images) this.images.forEach(e => old_media.push(e.id));
                             let new_media = [];
                             res.data.data.forEach(e => new_media.push(e.id));
 
-                            adminApi.put(`/companies/${this.company_id}`,{old_media,'media':new_media})
+                            adminApi.post(`/companies/${this.company_id}`,{old_media,'media':new_media})
                                 .then((res) => {
                                     this.images = res.data.data.media;
                                     this.showPhoto = this.images[this.images.length - 1].webp;
@@ -621,7 +626,7 @@ export default {
                                     let new_media = [];
                                     res.data.data.forEach(e => new_media.push(e.id));
 
-                                    adminApi.put(`/companies/${this.company_id}`,{old_media,'media':new_media})
+                                    adminApi.post(`/companies/${this.company_id}`,{old_media,'media':new_media})
                                         .then((res) => {
                                             this.images = res.data.data.media;
                                             this.showPhoto = this.images[this.images.length - 1].webp;
@@ -661,10 +666,12 @@ export default {
                     old_media.push(e.id);
                 }
             });
-            adminApi.put(`/companies/${this.company_id}`,{old_media})
+            adminApi.post(`/companies/${this.company_id}`,{old_media})
                 .then((res) => {
-                    this.images = res.data.data.media;
-                    this.showPhoto = this.images[this.images.length - 1].webp;
+                    this.images = res.data.data.media ?? [];
+                    if(this.images.length){
+                        this.showPhoto = this.images[this.images.length - 1].webp;
+                    }
                 })
                 .catch(err => {
                     Swal.fire({
@@ -1522,7 +1529,7 @@ export default {
                                             @show="resetModalEdit(data.id)"
                                             @hidden="resetModalHiddenEdit(data.id)"
                                         >
-                                            <form  @submit.stop.prevent="editSubmit(data.id,index)">
+                                            <form>
 
                                                 <div class="card-body">
                                                     <div class="mt-1 d-flex justify-content-end">
@@ -1532,7 +1539,7 @@ export default {
                                                             variant="success"
                                                             type="button" class="mx-1 font-weight-bold px-3"
                                                             v-if="!isLoader"
-                                                            @click.prevent="AddSubmit"
+                                                            @click.prevent="editSubmit(data.id,index)"
                                                         >
                                                             {{ $t('general.Save') }}
                                                         </b-button>
@@ -1992,6 +1999,3 @@ export default {
     max-height: 400px !important;
 }
 </style>
-
-
-
