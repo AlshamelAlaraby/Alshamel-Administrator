@@ -36,4 +36,5 @@ class StoreCompanyRequest extends FormRequest
         return true;
     }
 
+
 }
