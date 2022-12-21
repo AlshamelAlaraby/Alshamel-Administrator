@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Button;
 
+use App\Http\Resources\FileResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ButtonResource extends JsonResource
@@ -15,11 +16,13 @@ class ButtonResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'         => $this->id      ,
-            'name'       => $this->name    ,
-            'name_e'     => $this->name_e  ,
-            'icon'       => $this->iconUrl ,
-            'screen'     => $this->screens  ,
+            'id' => $this->id,
+            'name' => $this->name,
+            'name_e' => $this->name_e,
+            'media' => new FileResource($this->files[0]),
+            'screen' => $this->screens,
+            "created_at" => $this->created_at,
+            "updated_at" => $this->updated_at
         ];
     }
 }

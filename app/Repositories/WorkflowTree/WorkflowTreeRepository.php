@@ -30,13 +30,15 @@ class WorkflowTreeRepository implements WorkflowTreeRepositoryInterface
     public function create($request)
     {
         DB::transaction(function () use ($request) {
-            $model =  $this->model->create($request);
-
-            $this->media::where('id', $request->media)->update([
-                'model_id' => $model->id,
-                'model_type' => get_class($this->model),
-            ]);
-
+            $model = $this->model->create($request);
+            if ($request->media) {
+                foreach ($request->media as $media) {
+                    $this->media::where('id', $media)->update([
+                        'model_id' => $model->id,
+                        'model_type' => get_class($this->model),
+                    ]);
+                }
+            }
             cacheForget("work_flow_trees");
         });
     }
@@ -45,12 +47,36 @@ class WorkflowTreeRepository implements WorkflowTreeRepositoryInterface
     {
         DB::transaction(function () use ($id, $request) {
             $model = $this->model->where("id", $id)->first();
-            if ($request->media) {
-                $this->media::where('id', $model->media[0]->id)->delete();
-                $this->media::where('id', $request->media)->update([
-                    'model_id' => $model->id,
-                    'model_type' => get_class($this->model),
-                ]);
+            if ($request->media && !$request->old_media) { // if there is new media and no old media
+                $model->clearMediaCollection('media');
+                foreach ($request->media as $media) {
+                    uploadImage($media, [
+                        'model_id' => $model->id,
+                        'model_type' => get_class($this->model),
+                    ]);
+                }
+            }
+
+            if ($request->old_media && !$request->media) { // if there is old media and no new media
+                $model->media->whereNotIn('id', $request->old_media)->each(function (Media $media) {
+                    $media->delete();
+                });
+            }
+
+            if ($request->old_media && $request->media) { // if there is old media and new media
+                $model->media->whereNotIn('id', $request->old_media)->each(function (Media $media) {
+                    $media->delete();
+                });
+                foreach ($request->media as $image) {
+                    uploadImage($image, [
+                        'model_id' => $model->id,
+                        'model_type' => get_class($this->model),
+                    ]);
+                }
+            }
+
+            if (!$request->old_media && !$request->media) { // if this is no old media and new media
+                $model->clearMediaCollection('media');
             }
             $model->update($request);
 
@@ -69,8 +95,6 @@ class WorkflowTreeRepository implements WorkflowTreeRepositoryInterface
     {
         return $this->model->find($id)->activities()->orderBy('created_at', 'DESC')->get();
     }
-
-
 
     private function forget($id)
     {

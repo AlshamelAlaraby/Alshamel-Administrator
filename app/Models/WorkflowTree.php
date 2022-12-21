@@ -4,15 +4,18 @@ namespace App\Models;
 
 use App\Traits\LogTrait;
 use App\Traits\MediaTrait;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class WorkflowTree extends Model implements \Spatie\MediaLibrary\HasMedia
+
 {
     use SoftDeletes, LogTrait, MediaTrait;
 
+<<<<<<< HEAD
     protected $table = 'workflow_trees';
+=======
+>>>>>>> origin/mostafa-2
     protected $fillable = [
         'name',
         'name_e',
@@ -25,7 +28,6 @@ class WorkflowTree extends Model implements \Spatie\MediaLibrary\HasMedia
         'id_sort',
     ];
 
-
     /**
      * return child of this parent
      */
@@ -34,9 +36,9 @@ class WorkflowTree extends Model implements \Spatie\MediaLibrary\HasMedia
         return $this->belongsTo(WorkflowTree::class, 'parent_id', 'id');
     }
 
-
-    public function parent(){
-        return $this->belongsTo(WorkflowTree::class , 'parent_id' , 'id');
+    public function parent()
+    {
+        return $this->belongsTo(WorkflowTree::class, 'parent_id', 'id');
     }
 
     /**
@@ -63,7 +65,8 @@ class WorkflowTree extends Model implements \Spatie\MediaLibrary\HasMedia
         return $this->belongsTo(Module::class);
     }
 
-    public function module(){
+    public function module()
+    {
         return $this->belongsTo(Module::class);
     }
 

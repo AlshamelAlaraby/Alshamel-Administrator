@@ -14,6 +14,7 @@ class StoreCompanyRequest extends FormRequest
     public function rules()
     {
         return [
+<<<<<<< HEAD
             "partner_id"  => "required",
             "name"       => "required|string|max:100",
             "name_e"     => "required|string|max:100",
@@ -29,12 +30,24 @@ class StoreCompanyRequest extends FormRequest
             "email"      => "required|email|unique:companies,email",
             "website"    => "required|string|max:200",
             "is_active"  => "in:active,inactive",
+=======
+            "partner_id" => "required|exists:partners,id",
+            "name" => "required|string|max:100",
+            "name_e" => "required|string|max:100",
+            "url" => "required|url|string|max:200",
+            "address" => "required|string|max:200",
+            "phone" => "required|numeric|digits_between:8,16",
+            "cr" => "required|string",
+            "tax_id" => "required|numeric|digits_between:1,10",
+            "vat_no" => "required|numeric|digits_between:1,10",
+            "email" => "required|email|unique:companies,email",
+            "website" => "required|string|max:200",
+            "is_active" => "in:active,inactive",
+>>>>>>> origin/mostafa-2
             "media" => "nullable|array",
             "media.*" => ["nullable", "exists:media,id", new \App\Rules\MediaRule()],
         ];
     }
-
-
 
     public function messages()
     {
