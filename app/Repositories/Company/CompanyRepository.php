@@ -53,7 +53,7 @@ class CompanyRepository implements CompanyInterface
     {
         DB::transaction(function () use ($id, $request) {
             $model = $this->model->find($id);
-            $model->update($request->except(["media"]));
+            $model->update($request->except(["media",'old_media']));
             if ($request->media && !$request->old_media) { // if there is new media and no old media
                 $model->clearMediaCollection('media');
                 foreach ($request->media as $media) {

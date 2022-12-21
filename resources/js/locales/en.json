@@ -50,6 +50,12 @@
     "companysTable": "Companies Table",
     "LogoFileUpload": "Logo File Upload"
   },
+  "companyModule": {
+    "add": "Add New Company Modules",
+    "edit": "Edit Company Modules",
+    "companyModule": "Company Modules",
+    "table": "Company Modules Table"
+  },
   "navbar": {
     "search": {
       "text": "Search..."
@@ -182,6 +188,9 @@
         "partner": {
             "text": "Partner"
         },
+          "companyModule": {
+              "text": "company Module"
+          },
         "dashboard": {
             "text": "Dashboards",
             "badge": "3",
@@ -479,6 +488,10 @@
     "edit": "Edit",
     "searchSetting": "Search Setting",
     "AddNewRecord": "Add New Record",
-    "Save": "Save"
+    "Save": "Save",
+    "DataEntry": "Data Entry",
+    "allowed_users_no": "Allowed Users No",
+    "startDate": "Start Date",
+    "endDate": "End Date"
   }
 }
