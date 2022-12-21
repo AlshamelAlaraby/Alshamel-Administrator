@@ -18,7 +18,6 @@ class UpdateCompanyRequest extends FormRequest
             "name"       => "string|max:100",
             "name_e"     => "string|max:100",
             "url"        => "string|max:200",
-            "logo"       => "nullable".($request->hasFile('logo')? '|image':''),
             "address"    => "string|max:200",
             "phone"      => "numeric",
             "phone_code"      => [],
