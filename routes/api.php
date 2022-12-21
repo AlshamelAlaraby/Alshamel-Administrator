@@ -226,7 +226,7 @@ Route::group(['prefix' => 'buttons'], function () {
         Route::get("/logs/{id}", "logs")->name("buttons.logs");
         Route::get('/{id}', 'find');
         Route::post('/', 'store')->name('buttons.store');
-        Route::post('/{id}', 'update')->name('buttons.update');
+        Route::put('/{id}', 'update')->name('buttons.update');
         Route::delete('/{id}', 'delete')->name('buttons.destroy');
         Route::post ('bulk-delete','bulkDelete');
     });
