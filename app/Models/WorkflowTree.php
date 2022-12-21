@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class WorkflowTree extends Model implements \Spatie\MediaLibrary\HasMedia
-
 {
     use SoftDeletes, LogTrait, MediaTrait;
 
