@@ -12,7 +12,6 @@ class WorkflowTree extends Model implements \Spatie\MediaLibrary\HasMedia
 {
     use SoftDeletes, LogTrait, MediaTrait;
 
-    protected $table = 'sys_workflow_trees';
     protected $fillable = [
         'name',
         'name_e',
