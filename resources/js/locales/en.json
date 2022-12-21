@@ -413,6 +413,12 @@
     }
   },
   "general": {
+    "IdSort":"Id sort",
+    "Partner":"Partner",
+    "Company":"Company",
+    "Module":"Module",
+    "DataEntry":"Data Entry",
+    "ImageUploads":"Image Uploads",
     "Default": "Default",
     "NonDefault": "Nondefault",
     "Yes": "Yes",

@@ -414,8 +414,14 @@
     }
   },
   "general": {
+    "IdSort":"معرف الترتيب",
+    "Partner":"الشريك",
+    "Company":"الشركة",
+    "Module":"الوحدة",
     "Default": "افتراضي",
     "NonDefault": "غير افتراضي",
+    "ImageUploads":"تحميل الصور",
+    "DataEntry":"ادخال البيانات",
     "Yes": "نعم",
     "No": "لا",
     "Apply": "تطبيق",

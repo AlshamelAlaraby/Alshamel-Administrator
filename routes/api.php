@@ -198,6 +198,8 @@ Route::group(['prefix' => 'hotfields'], function () {
 Route::group(['prefix' => 'workflow-trees'], function () {
     Route::controller(WorkflowTreeController::class)->group(function () {
         Route::get('/', 'all')->name('WorkflowTree.index');
+        Route::get('/root-nodes', 'getRootNodes')->name('workflow.root-nodes');
+        Route::get('/child-nodes/{parentId}', 'getChildNodes')->name('workflow.child-nodes');
         Route::get('/{id}', 'find');
         Route::post('/', 'store')->name('WorkflowTree.store');
         Route::put('/{id}', 'update')->name('WorkflowTree.update');

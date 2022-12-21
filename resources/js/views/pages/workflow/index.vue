@@ -3,11 +3,12 @@ import Layout from "../../layouts/main";
 import PageHeader from "../../../components/Page-header";
 import adminApi from "../../../api/adminAxios";
 import Switches from "vue-switches";
-import { required, minLength, maxLength, integer, alpha } from "vuelidate/lib/validators";
+import { required, minLength, maxLength } from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
 import ErrorMessage from "../../../components/widgets/errorMessage";
 import loader from "../../../components/loader";
 import { dynamicSortString } from "../../../helper/tableSort";
+import Multiselect from "vue-multiselect";
 
 /**
  * Advanced Table component
@@ -24,6 +25,7 @@ export default {
     Switches,
     ErrorMessage,
     loader,
+    Multiselect,
   },
   data() {
     return {
@@ -31,6 +33,7 @@ export default {
       search: "",
       debounce: {},
       workflowsPagination: {},
+      rootNodes: [],
       workflows: [],
       partners: [],
       companies: [],
@@ -42,10 +45,12 @@ export default {
         name_e: "",
         name: "",
         name_e: "",
+        parent_id: null,
         partner_id: null,
         company_id: null,
         module_id: null,
         screen_id: null,
+        parent_id: null,
         id_sort: null,
         media: [],
         is_active: "active",
@@ -53,11 +58,13 @@ export default {
       edit: {
         name: "",
         name_e: "",
+        parent_id: null,
         partner_id: null,
         company_id: null,
         module_id: null,
         screen_id: null,
         id_sort: null,
+        parent_id: null,
         is_active: "active",
         old_media: [],
       },
@@ -81,25 +88,16 @@ export default {
         is_active: true,
       },
       idDelete: null,
-      filterSetting: [
-        "name",
-        "name_e",
-        "partner_id",
-        "company_id",
-        "module_id",
-        "screen_id",
-        "id_sort",
-        "is_active",
-      ],
+      filterSetting: ["name", "name_e"],
     };
   },
   validations: {
     create: {
       name: { required, minLength: minLength(2), maxLength: maxLength(100) },
       name_e: { required, minLength: minLength(2), maxLength: maxLength(100) },
-    //   partner_id: { required },
-    //   company_id: { required },
-    //   module_id: { required },
+      partner_id: { required },
+      company_id: { required },
+      module_id: { required },
       is_active: { required },
       media: {},
     },
@@ -144,6 +142,7 @@ export default {
       }
     },
   },
+
   mounted() {
     this.getData();
   },
@@ -292,6 +291,7 @@ export default {
         name: "",
         name_e: "",
         partner_id: null,
+        parent_id: null,
         company_id: null,
         module_id: null,
         screen_id: null,
@@ -305,16 +305,26 @@ export default {
       this.images = [];
       this.workflow_id = null;
       this.errors = {};
-      this.$bvModal.hide(`create`);
+      this.partners = [];
+      this.companies = [];
+      this.modules = [];
+      this.screens = [];
+      this.rootNodes = [];
     },
     /**
      *  hidden Modal (create)
      */
-    resetModal() {
+    async resetModal() {
+      await this.getRootNodes();
+      await this.getPartners();
+      await this.getCompanies();
+      await this.getModules();
+      await this.getScreens();
       this.create = {
         name: "",
         name_e: "",
         partner_id: null,
+        parent_id: null,
         company_id: null,
         module_id: null,
         screen_id: null,
@@ -337,6 +347,7 @@ export default {
       this.create = {
         name: "",
         name_e: "",
+        parent_id: null,
         partner_id: null,
         company_id: null,
         module_id: null,
@@ -360,9 +371,10 @@ export default {
       }
       this.$v.create.$touch();
 
-      if (this.$v.create.$invalid) {
-        return;
-      } else {
+      // if (this.$v.create.$invalid) {
+      //   return;
+      // }
+      if (true) {
         this.isLoader = true;
         this.errors = {};
 
@@ -463,11 +475,17 @@ export default {
     /**
      *   show Modal (edit)
      */
-    resetModalEdit(id) {
+    async resetModalEdit(id) {
+      await this.getRootNodes();
+      await this.getPartners();
+      await this.getCompanies();
+      await this.getModules();
+      await this.getScreens();
       let workflow = this.workflows.find((e) => id == e.id);
       this.workflow_id = id;
       this.edit.name = workflow.name;
       this.edit.name_e = workflow.name_e;
+      this.edit.parent_id = workflow.parent_id;
       this.edit.partner_id = workflow.partner_id;
       this.edit.company_id = workflow.company_id;
       this.edit.module_id = workflow.module_id;
@@ -486,16 +504,188 @@ export default {
         name: "",
         name_e: "",
         partner_id: null,
+        parent_id: null,
         company_id: null,
         module_id: null,
         screen_id: null,
         id_sort: null,
-
         is_active: "active",
         old_media: [],
       };
       this.workflow_id = null;
       this.images = [];
+      this.partners = [];
+      this.companies = [];
+      this.modules = [];
+      this.screens = [];
+      this.rootNodes = [];
+    },
+    /**
+     *  get screens
+     */
+    async getPartners() {
+      await adminApi
+        .get(`/partners`)
+        .then((res) => {
+          this.partners = res.data.data;
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: `${this.$t("general.Error")}`,
+            text: `${this.$t("general.Thereisanerrorinthesystem")}`,
+          });
+        });
+    },
+    async getCompanies() {
+      await adminApi
+        .get(`/companies`)
+        .then((res) => {
+          this.companies = res.data.data;
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: `${this.$t("general.Error")}`,
+            text: `${this.$t("general.Thereisanerrorinthesystem")}`,
+          });
+        });
+    },
+    async getModules() {
+      await adminApi
+        .get(`/modules`)
+        .then((res) => {
+          this.modules = res.data.data;
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: `${this.$t("general.Error")}`,
+            text: `${this.$t("general.Thereisanerrorinthesystem")}`,
+          });
+        });
+    },
+    async getScreens() {
+      await adminApi
+        .get(`/screens`)
+        .then((res) => {
+          this.screens = res.data.data;
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: `${this.$t("general.Error")}`,
+            text: `${this.$t("general.Thereisanerrorinthesystem")}`,
+          });
+        });
+    },
+    async getRootNodes() {
+      await adminApi
+        .get(`/workflow-trees/root-nodes`)
+        .then((res) => {
+          console.log(this.rootNodes);
+          this.rootNodes = res.data;
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: `${this.$t("general.Error")}`,
+            text: `${this.$t("general.Thereisanerrorinthesystem")}`,
+          });
+        });
+    },
+    getFirstLevelChildNodes(node) {
+      if (!node.collapsed) {
+        adminApi
+          .get(`/workflow-trees/child-nodes/${node.id}`)
+          .then((res) => {
+            this.rootNodes = this.getUpdatedRootNodes(node, res.data);
+          })
+          .catch((err) => {
+            Swal.fire({
+              icon: "error",
+              title: `${this.$t("general.Error")}`,
+              text: `${this.$t("general.Thereisanerrorinthesystem")}`,
+            });
+          });
+      } else {
+        this.rootNodes = this.getUpdatedRootNodes(node);
+      }
+    },
+    getSecondLevelChildNodes(rootNode, parentNode) {
+      if (!parentNode.collapsed) {
+        adminApi
+          .get(`/workflow-trees/child-nodes/${parentNode.id}`)
+          .then((res) => {
+            this.rootNodes = this.getRootNodesAfterCollapse(
+              rootNode,
+              parentNode,
+              res.data
+            );
+          })
+          .catch((err) => {
+            Swal.fire({
+              icon: "error",
+              title: `${this.$t("general.Error")}`,
+              text: `${this.$t("general.Thereisanerrorinthesystem")}`,
+            });
+          });
+      } else {
+        this.rootNodes = this.getRootNodesAfterCollapse(rootNode, parentNode);
+      }
+    },
+    getUpdatedRootNodes(parentNode, children) {
+      let rootNodes = [...this.rootNodes];
+      rootNodes.forEach((node, index) => {
+        if (node.id == parentNode.id) {
+          if (parentNode.collapsed) {
+            rootNodes[index].children = [];
+            rootNodes[index].collapsed = false;
+          } else {
+            rootNodes[index].children = children;
+            rootNodes[index].collapsed = true;
+          }
+          return;
+        }
+      });
+      return rootNodes;
+    },
+    getRootNodesAfterCollapse(parentNode, secondParentNode, children) {
+      let rootNodes = [...this.rootNodes];
+      rootNodes.forEach((_parentNode, parentIndex) => {
+        if (_parentNode.id == parentNode.id) {
+          if (_parentNode.children && _parentNode.children.length) {
+            _parentNode.children.forEach((child, index) => {
+              if (child.id == secondParentNode.id) {
+                if (secondParentNode.collapsed) {
+                  rootNodes[parentIndex].children[index].children = [];
+                  rootNodes[parentIndex].children[index].collapsed = false;
+                } else {
+                  rootNodes[parentIndex].children[index].children = children;
+                  rootNodes[parentIndex].children[index].collapsed = true;
+                }
+                return;
+              }
+            });
+            return;
+          }
+        }
+      });
+      return rootNodes;
+    },
+    setCreateParentId(node) {
+      if (this.create.parent_id != node.id) {
+        this.create.parent_id = node.id;
+      } else {
+        this.create.parent_id = null;
+      }
+    },
+    setUpdateParentId(node) {
+      if (this.edit.parent_id != node.id) {
+        this.edit.parent_id = node.id;
+      } else {
+        this.edit.parent_id = null;
+      }
     },
     /**
      *  start  dynamicSortString
@@ -699,34 +889,6 @@ export default {
                     <b-form-checkbox v-model="filterSetting" value="name_e" class="mb-1">
                       {{ $t("general.Name_en") }}
                     </b-form-checkbox>
-                    <b-form-checkbox
-                      v-model="filterSetting"
-                      value="partner_id"
-                      class="mb-1"
-                    >
-                      {{ $t("general.Partner") }}
-                    </b-form-checkbox>
-                    <b-form-checkbox
-                      v-model="filterSetting"
-                      value="company_id"
-                      class="mb-1"
-                    >
-                      {{ $t("general.Company") }}
-                    </b-form-checkbox>
-                    <b-form-checkbox
-                      v-model="filterSetting"
-                      value="module_id"
-                      class="mb-1"
-                    >
-                      {{ $t("general.Module") }}
-                    </b-form-checkbox>
-                    <b-form-checkbox
-                      v-model="filterSetting"
-                      value="screen_id"
-                      class="mb-1"
-                    >
-                      {{ $t("general.Screen") }}
-                    </b-form-checkbox>
                   </b-dropdown>
                   <!-- Basic dropdown -->
                 </div>
@@ -842,7 +1004,7 @@ export default {
                       </b-form-checkbox>
                       <div class="d-flex justify-content-end">
                         <a href="javascript:void(0)" class="btn btn-primary btn-sm"
-                          >Apply</a
+                          >{{$t("general.Apply")}}</a
                         >
                       </div>
                     </b-dropdown>
@@ -940,7 +1102,7 @@ export default {
                         variant="danger"
                         class="font-weight-bold"
                         type="button"
-                        @click.prevent="resetModalHidden"
+                        @click.prevent="$bvModal.hide(`create`)"
                       >
                         {{ $t("general.Cancel") }}
                       </b-button>
@@ -949,7 +1111,85 @@ export default {
                   <b-tabs nav-class="nav-tabs nav-bordered">
                     <b-tab :title="$t('general.DataEntry')" active>
                       <div class="row">
-                        <div class="col-md-7">
+                        <div class="myUl-workflow col-md-6" :class="$i18n.locale == 'ar' ? 'rtl' : 'ltr'">
+                          <ul id="myUL">
+                            <li v-for="node in rootNodes" :key="node.id">
+                              <span>
+                                <i
+                                  @click="getFirstLevelChildNodes(node)"
+                                  v-if="node.haveChildren"
+                                  :class="
+                                    node.collapsed
+                                      ? 'fa fa-caret-down'
+                                      : $i18n.locale == 'ar'
+                                      ? 'fa fa-caret-left'
+                                      : 'fa fa-caret-right'
+                                  "
+                                ></i>
+                                <span
+                                  @click="setCreateParentId(node)"
+                                  :class="{
+                                    'without-children': !node.haveChildren,
+                                    active: node.id == create.parent_id,
+                                  }"
+                                >
+                                  {{ $i18n.locale == "ar" ? node.name : node.name_e }}
+                                </span>
+                              </span>
+                              <ul
+                                v-if="node.children && node.children.length"
+                                class="nested"
+                              >
+                                <li
+                                  v-for="childNode in node.children"
+                                  :key="childNode.id"
+                                >
+                                  <span>
+                                    <i
+                                      @click="getSecondLevelChildNodes(node, childNode)"
+                                      v-if="childNode.haveChildren"
+                                      :class="
+                                        childNode.collapsed
+                                          ? 'fa fa-caret-down'
+                                          : $i18n.locale == 'ar'
+                                          ? 'fa fa-caret-left'
+                                          : 'fa fa-caret-right'
+                                      "
+                                    >
+                                    </i>
+                                    <span
+                                      @click="setCreateParentId(childNode)"
+                                      :class="{
+                                        'without-children': !childNode.haveChildren,
+                                        active: childNode.id == create.parent_id,
+                                      }"
+                                    >
+                                      {{
+                                        $i18n.locale == "ar"
+                                          ? childNode.name
+                                          : childNode.name_e
+                                      }}
+                                    </span>
+                                  </span>
+                                  <ul
+                                    v-if="childNode.children && childNode.children.length"
+                                    class="nested"
+                                  >
+                                    <li
+                                      v-for="child in childNode.children"
+                                      :key="child.id"
+                                    >
+                                      {{
+                                        $i18n.locale == "ar" ? child.name : child.name_e
+                                      }}
+                                    </li>
+                                  </ul>
+                                </li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="col-md-6">
                           <div class="row">
                             <div class="col-md-6">
                               <div class="form-group">
@@ -1045,7 +1285,130 @@ export default {
                                 </template>
                               </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6 position-relative">
+                              <div class="form-group">
+                                <label class="my-1 mr-2">{{
+                                  $t("general.Partner")
+                                }}</label>
+                                <span class="text-danger">*</span>
+
+                                <multiselect
+                                  v-model="create.partner_id"
+                                  :options="partners.map((type) => type.id)"
+                                  :custom-label="
+                                    (opt) =>
+                                      $i18n.locale == 'ar'
+                                        ? partners.find((x) => x.id == opt).name
+                                        : partners.find((x) => x.id == opt).name_e
+                                  "
+                                  :class="{
+                                    'is-invalid':
+                                      $v.create.partner_id.$error || errors.partner_id,
+                                  }"
+                                >
+                                </multiselect>
+                                <div
+                                  v-if="!$v.create.partner_id.required"
+                                  class="invalid-feedback"
+                                >
+                                  {{ $t("general.fieldIsRequired") }}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-6 position-relative">
+                              <div class="form-group">
+                                <label class="my-1 mr-2"
+                                  >{{ $t("general.Company") }}
+                                  <span class="text-danger">*</span>
+                                </label>
+                                <multiselect
+                                  v-model="create.company_id"
+                                  :options="companies.map((type) => type.id)"
+                                  :custom-label="
+                                    (opt) =>
+                                      $i18n.locale == 'ar'
+                                        ? companies.find((x) => x.id == opt).name
+                                        : companies.find((x) => x.id == opt).name_e
+                                  "
+                                  :class="{
+                                    'is-invalid':
+                                      $v.create.company_id.$error || errors.company_id,
+                                  }"
+                                >
+                                </multiselect>
+                                <div
+                                  v-if="!$v.create.company_id.required"
+                                  class="invalid-feedback"
+                                >
+                                  {{ $t("general.fieldIsRequired") }}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-6 position-relative">
+                              <div class="form-group">
+                                <label class="my-1 mr-2"
+                                  >{{ $t("general.Module") }}
+                                  <span class="text-danger">*</span>
+                                </label>
+                                <multiselect
+                                  v-model="create.module_id"
+                                  :options="modules.map((type) => type.id)"
+                                  :class="{
+                                    'is-invalid':
+                                      $v.create.module_id.$error || errors.module_id,
+                                  }"
+                                  :custom-label="
+                                    (opt) =>
+                                      $i18n.locale == 'ar'
+                                        ? modules.find((x) => x.id == opt).name
+                                        : modules.find((x) => x.id == opt).name_e
+                                  "
+                                >
+                                </multiselect>
+                                <div
+                                  v-if="!$v.create.module_id.required"
+                                  class="invalid-feedback"
+                                >
+                                  {{ $t("general.fieldIsRequired") }}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-6 position-relative">
+                              <div class="form-group">
+                                <label class="my-1 mr-2">{{
+                                  $t("general.Screen")
+                                }}</label>
+                                <multiselect
+                                  v-model="create.screen_id"
+                                  :options="screens.map((type) => type.id)"
+                                  :custom-label="
+                                    (opt) =>
+                                      $i18n.locale == 'ar'
+                                        ? screens.find((x) => x.id == opt).name
+                                        : screens.find((x) => x.id == opt).name_e
+                                  "
+                                >
+                                </multiselect>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="field-2" class="control-label">
+                                  {{ $t("general.IdSort") }}
+                                </label>
+                                <div>
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    data-create="2"
+                                    @keypress.enter="moveInput('input', 'create', 3)"
+                                    v-model="create.id_sort"
+                                    id="field-2"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
                               <div class="form-group">
                                 <label class="mr-2">
                                   {{ $t("general.Status") }}
@@ -1262,11 +1625,11 @@ export default {
                         <div class="arrow-sort">
                           <i
                             class="fas fa-arrow-up"
-                            @click="workflows.sort(sortString('partner_id'))"
+                            @click="workflows.sort(sortString($i18n.locale='ar'?'name':'name_e'))"
                           ></i>
                           <i
                             class="fas fa-arrow-down"
-                            @click="workflows.sort(sortString('-partner_id'))"
+                            @click="workflows.sort(sortString($i18n.locale='ar'?'-name':'-name_e'))"
                           ></i>
                         </div>
                       </div>
@@ -1277,48 +1640,48 @@ export default {
                         <div class="arrow-sort">
                           <i
                             class="fas fa-arrow-up"
-                            @click="workflows.sort(sortString('company_id'))"
+                            @click="workflows.sort($i18n.locale='ar'?'name':'name_e')"
                           ></i>
                           <i
                             class="fas fa-arrow-down"
-                            @click="workflows.sort(sortString('-company_id'))"
+                            @click="workflows.sort($i18n.locale='ar'?'-name':'-name_e')"
                           ></i>
                         </div>
                       </div>
                     </th>
                     <th v-if="setting.module_id">
                       <div class="d-flex justify-content-center">
-                        <span>{{ $t("general.Company") }}</span>
+                        <span>{{ $t("general.Module") }}</span>
                         <div class="arrow-sort">
                           <i
                             class="fas fa-arrow-up"
-                            @click="workflows.sort(sortString('module_id'))"
+                            @click="workflows.sort($i18n.locale='ar'?'name':'name_e')"
                           ></i>
                           <i
                             class="fas fa-arrow-down"
-                            @click="workflows.sort(sortString('-module_id'))"
+                            @click="workflows.sort($i18n.locale='ar'?'-name':'-name_e')"
                           ></i>
                         </div>
                       </div>
                     </th>
                     <th v-if="setting.screen_id">
                       <div class="d-flex justify-content-center">
-                        <span>{{ $t("general.Company") }}</span>
+                        <span>{{ $t("general.Screen") }}</span>
                         <div class="arrow-sort">
                           <i
                             class="fas fa-arrow-up"
-                            @click="workflows.sort(sortString('screen_id'))"
+                            @click="workflows.sort(sortString($i18n.locale='ar'?'name':'name_e'))"
                           ></i>
                           <i
                             class="fas fa-arrow-down"
-                            @click="workflows.sort(sortString('-screen_id'))"
+                            @click="workflows.sort(sortString($i18n.locale='ar'?'-name':'-name_e'))"
                           ></i>
                         </div>
                       </div>
                     </th>
                     <th v-if="setting.id_sort">
                       <div class="d-flex justify-content-center">
-                        <span>{{ $t("general.Company") }}</span>
+                        <span>{{ $t("general.IdSort") }}</span>
                         <div class="arrow-sort">
                           <i
                             class="fas fa-arrow-up"
@@ -1378,19 +1741,27 @@ export default {
                       <h5 class="m-0 font-weight-normal">{{ data.name_e }}</h5>
                     </td>
                     <td v-if="setting.partner_id">
-                      <h5 class="m-0 font-weight-normal">{{ data.partner_id }}</h5>
+                      <h5 class="m-0 font-weight-normal">
+                        {{ $i18n.locale=='ar'?data.partner.name:data.partner.name_e }}
+                      </h5>
                     </td>
                     <td v-if="setting.company_id">
-                      <h5 class="m-0 font-weight-normal">{{ data.company_id}}</h5>
+                      <h5 class="m-0 font-weight-normal">
+                           <!-- {{ $i18n.locale=='ar'?data.company.name:data.company.name_e }} -->
+                      </h5>
                     </td>
                     <td v-if="setting.module_id">
-                      <h5 class="m-0 font-weight-normal">{{ data.module_id}}</h5>
+                      <h5 class="m-0 font-weight-normal">
+                        {{ $i18n.locale=='ar'?data.module.name:data.module.name_e }}
+                      </h5>
                     </td>
                     <td v-if="setting.screen_id">
-                      <h5 class="m-0 font-weight-normal">{{ data.screen_id}}</h5>
+                      <h5 v-if="data.screen" class="m-0 font-weight-normal">
+                        {{ $i18n.locale=='ar'?data.screen.name:data.screen.name_e }}
+                      </h5>
                     </td>
                     <td v-if="setting.id_sort">
-                      <h5 class="m-0 font-weight-normal">{{ data.id_sort}}</h5>
+                      <h5 class="m-0 font-weight-normal">{{ data.id_sort }}</h5>
                     </td>
                     <td v-if="setting.is_active">
                       <span
@@ -1489,11 +1860,98 @@ export default {
                           <b-tabs nav-class="nav-tabs nav-bordered">
                             <b-tab :title="$t('general.DataEntry')" active>
                               <div class="row">
-                                <div class="col-md-7">
+                                <div :class="$i18n.locale == 'ar' ? 'rtl' : 'ltr'" class="myUl-workflow col-md-6" >
+                                  <ul id="myUL">
+                                    <li v-for="node in rootNodes" :key="node.id">
+                                      <span>
+                                        <i
+                                          @click="getFirstLevelChildNodes(node)"
+                                          v-if="node.haveChildren"
+                                          :class="
+                                            node.collapsed
+                                              ? 'fa fa-caret-down'
+                                              : $i18n.locale == 'ar'
+                                              ? 'fa fa-caret-left'
+                                              : 'fa fa-caret-right'
+                                          "
+                                        ></i>
+                                        <span
+                                          @click="setUpdateParentId(node)"
+                                          :class="{
+                                            'without-children': !node.haveChildren,
+                                            active: node.id == edit.parent_id,
+                                          }"
+                                        >
+                                          {{
+                                            $i18n.locale == "ar" ? node.name : node.name_e
+                                          }}
+                                        </span>
+                                      </span>
+                                      <ul
+                                        v-if="node.children && node.children.length"
+                                        class="nested"
+                                      >
+                                        <li
+                                          v-for="childNode in node.children"
+                                          :key="childNode.id"
+                                        >
+                                          <span>
+                                            <i
+                                              @click="
+                                                getSecondLevelChildNodes(node, childNode)
+                                              "
+                                              v-if="childNode.haveChildren"
+                                              :class="
+                                                childNode.collapsed
+                                                  ? 'fa fa-caret-down'
+                                                  : $i18n.locale == 'ar'
+                                                  ? 'fa fa-caret-left'
+                                                  : 'fa fa-caret-right'
+                                              "
+                                            >
+                                            </i>
+                                            <span
+                                              @click="setUpdateParentId(childNode)"
+                                              :class="{
+                                                'without-children': !childNode.haveChildren,
+                                                active: childNode.id == edit.parent_id,
+                                              }"
+                                            >
+                                              {{
+                                                $i18n.locale == "ar"
+                                                  ? childNode.name
+                                                  : childNode.name_e
+                                              }}
+                                            </span>
+                                          </span>
+                                          <ul
+                                            v-if="
+                                              childNode.children &&
+                                              childNode.children.length
+                                            "
+                                            class="nested"
+                                          >
+                                            <li
+                                              v-for="child in childNode.children"
+                                              :key="child.id"
+                                            >
+                                              {{
+                                                $i18n.locale == "ar"
+                                                  ? child.name
+                                                  : child.name_e
+                                              }}
+                                            </li>
+                                          </ul>
+                                        </li>
+                                      </ul>
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div class="col-md-6">
                                   <div class="row">
                                     <div class="col-md-6">
                                       <div class="form-group">
-                                        <label for="edit-1" class="control-label">
+                                        <label for="field-1" class="control-label">
                                           {{ $t("general.Name") }}
                                           <span class="text-danger">*</span>
                                         </label>
@@ -1501,9 +1959,9 @@ export default {
                                           <input
                                             type="text"
                                             class="form-control arabicInput"
-                                            data-edit="1"
+                                            data-create="1"
                                             @keypress.enter="
-                                              moveInput('input', 'edit', 2)
+                                              moveInput('input', 'create', 2)
                                             "
                                             v-model="$v.edit.name.$model"
                                             :class="{
@@ -1512,7 +1970,7 @@ export default {
                                               'is-valid':
                                                 !$v.edit.name.$invalid && !errors.name,
                                             }"
-                                            id="edit-1"
+                                            id="field-1"
                                           />
                                         </div>
                                         <div
@@ -1520,7 +1978,7 @@ export default {
                                           class="invalid-feedback"
                                         >
                                           {{ $t("general.Itmustbeatleast") }}
-                                          {{ $v.create.name.$params.minLength.min }}
+                                          {{ $v.edit.name.$params.minLength.min }}
                                           {{ $t("general.letters") }}
                                         </div>
                                         <div
@@ -1531,12 +1989,7 @@ export default {
                                           {{ $v.edit.name.$params.maxLength.max }}
                                           {{ $t("general.letters") }}
                                         </div>
-                                        <div
-                                          v-if="!$v.edit.name.alphaArabic"
-                                          class="invalid-feedback"
-                                        >
-                                          {{ $t("general.alphaArabic") }}
-                                        </div>
+
                                         <template v-if="errors.name">
                                           <ErrorMessage
                                             v-for="(errorMessage, index) in errors.name"
@@ -1548,7 +2001,7 @@ export default {
                                     </div>
                                     <div class="col-md-6">
                                       <div class="form-group">
-                                        <label for="edit-2" class="control-label">
+                                        <label for="field-2" class="control-label">
                                           {{ $t("general.Name_en") }}
                                           <span class="text-danger">*</span>
                                         </label>
@@ -1556,9 +2009,9 @@ export default {
                                           <input
                                             type="text"
                                             class="form-control englishInput"
-                                            data-edit="2"
+                                            data-create="2"
                                             @keypress.enter="
-                                              moveInput('input', 'edit', 3)
+                                              moveInput('input', 'create', 3)
                                             "
                                             v-model="$v.edit.name_e.$model"
                                             :class="{
@@ -1568,7 +2021,7 @@ export default {
                                                 !$v.edit.name_e.$invalid &&
                                                 !errors.name_e,
                                             }"
-                                            id="edit-2"
+                                            id="field-2"
                                           />
                                         </div>
                                         <div
@@ -1587,12 +2040,6 @@ export default {
                                           {{ $v.edit.name_e.$params.maxLength.max }}
                                           {{ $t("general.letters") }}
                                         </div>
-                                        <div
-                                          v-if="!$v.edit.name_e.alphaEnglish"
-                                          class="invalid-feedback"
-                                        >
-                                          {{ $t("general.alphaEnglish") }}
-                                        </div>
                                         <template v-if="errors.name_e">
                                           <ErrorMessage
                                             v-for="(errorMessage, index) in errors.name_e"
@@ -1602,7 +2049,136 @@ export default {
                                         </template>
                                       </div>
                                     </div>
-                                     <div class="col-md-12">
+                                    <div class="col-md-6 position-relative">
+                                      <div class="form-group">
+                                        <label class="my-1 mr-2">{{
+                                          $t("general.Partner")
+                                        }}</label>
+                                        <span class="text-danger">*</span>
+
+                                        <multiselect
+                                          v-model="edit.partner_id"
+                                          :options="partners.map((type) => type.id)"
+                                          :custom-label="
+                                            (opt) =>
+                                              $i18n.locale == 'ar'
+                                                ? partners.find((x) => x.id == opt).name
+                                                : partners.find((x) => x.id == opt).name_e
+                                          "
+                                          :class="{
+                                            'is-invalid':
+                                              $v.edit.partner_id.$error ||
+                                              errors.partner_id,
+                                          }"
+                                        >
+                                        </multiselect>
+                                        <div
+                                          v-if="!$v.edit.partner_id.required"
+                                          class="invalid-feedback"
+                                        >
+                                          {{ $t("general.fieldIsRequired") }}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6 position-relative">
+                                      <div class="form-group">
+                                        <label class="my-1 mr-2"
+                                          >{{ $t("general.Company") }}
+                                          <span class="text-danger">*</span>
+                                        </label>
+                                        <multiselect
+                                          v-model="edit.company_id"
+                                          :options="companies.map((type) => type.id)"
+                                          :custom-label="
+                                            (opt) =>
+                                              $i18n.locale == 'ar'
+                                                ? companies.find((x) => x.id == opt).name
+                                                : companies.find((x) => x.id == opt)
+                                                    .name_e
+                                          "
+                                          :class="{
+                                            'is-invalid':
+                                              $v.edit.company_id.$error ||
+                                              errors.company_id,
+                                          }"
+                                        >
+                                        </multiselect>
+                                        <div
+                                          v-if="!$v.edit.company_id.required"
+                                          class="invalid-feedback"
+                                        >
+                                          {{ $t("general.fieldIsRequired") }}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6 position-relative">
+                                      <div class="form-group">
+                                        <label class="my-1 mr-2"
+                                          >{{ $t("general.Module") }}
+                                          <span class="text-danger">*</span>
+                                        </label>
+                                        <multiselect
+                                          v-model="edit.module_id"
+                                          :options="modules.map((type) => type.id)"
+                                          :class="{
+                                            'is-invalid':
+                                              $v.edit.module_id.$error ||
+                                              errors.module_id,
+                                          }"
+                                          :custom-label="
+                                            (opt) =>
+                                              $i18n.locale == 'ar'
+                                                ? modules.find((x) => x.id == opt).name
+                                                : modules.find((x) => x.id == opt).name_e
+                                          "
+                                        >
+                                        </multiselect>
+                                        <div
+                                          v-if="!$v.edit.module_id.required"
+                                          class="invalid-feedback"
+                                        >
+                                          {{ $t("general.fieldIsRequired") }}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6 position-relative">
+                                      <div class="form-group">
+                                        <label class="my-1 mr-2">{{
+                                          $t("general.Screen")
+                                        }}</label>
+                                        <multiselect
+                                          v-model="edit.screen_id"
+                                          :options="screens.map((type) => type.id)"
+                                          :custom-label="
+                                            (opt) =>
+                                              $i18n.locale == 'ar'
+                                                ? screens.find((x) => x.id == opt).name
+                                                : screens.find((x) => x.id == opt).name_e
+                                          "
+                                        >
+                                        </multiselect>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <label for="field-2" class="control-label">
+                                          {{ $t("general.IdSort") }}
+                                        </label>
+                                        <div>
+                                          <input
+                                            type="number"
+                                            class="form-control"
+                                            data-create="2"
+                                            @keypress.enter="
+                                              moveInput('input', 'create', 3)
+                                            "
+                                            v-model="edit.id_sort"
+                                            id="field-2"
+                                          />
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6">
                                       <div class="form-group">
                                         <label class="mr-2">
                                           {{ $t("general.Status") }}
@@ -1796,7 +2372,52 @@ export default {
   </Layout>
 </template>
 
-<style>
+<style lang="scss">
+.myUl-workflow {
+  ul,
+  #myUL {
+    list-style-type: none;
+  }
+  #myUL {
+    margin: 0;
+    padding: 0;
+    span {
+      i {
+        font-size: 20px;
+        position: relative;
+        top: 3px;
+        color: black;
+      }
+      span:hover,
+      i:hover {
+        cursor: pointer;
+      }
+    }
+  }
+  .nested {
+    display: block;
+  }
+  .active {
+    color: #1abc9c;
+  }
+  &.rtl {
+    #myUL {
+      .without-children {
+        padding-right: 10px;
+      }
+      .nested {
+        padding-right: 40px;
+      }
+    }
+  }
+  &.ltr {
+    #myUL {
+      .without-children {
+        padding-left: 10px;
+      }
+    }
+  }
+}
 .modal-dialog .card {
   margin: 0 !important;
 }

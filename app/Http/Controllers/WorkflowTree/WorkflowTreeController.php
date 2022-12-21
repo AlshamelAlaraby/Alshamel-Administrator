@@ -54,7 +54,12 @@ class WorkflowTreeController extends ResponseController
         }
         return responseJson(200, __('Done'), new WorkflowTreeResource($model),);
     }
-
+    public function getRootNodes(){
+        return $this->repository->getRootNodes();
+    }
+    public function getChildNodes($parentId){
+        return $this->repository->getChildNodes($parentId);
+    }
     public function  everything_about_the_company($id){
         $company = Company::query ()->find ($id);
         if (!$company){
