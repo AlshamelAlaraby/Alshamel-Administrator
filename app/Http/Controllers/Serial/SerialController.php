@@ -98,4 +98,11 @@ class SerialController extends ResponseController
             return $this->errorResponse($exception->getMessage(), $exception->getCode());
         }
     }
+
+    public function bulkDelete(Request $request){
+        foreach ($request->ids as $id){
+            $this->repository->delete($id);
+        }
+        return  responseJson(200, __('Done'));
+    }
 }

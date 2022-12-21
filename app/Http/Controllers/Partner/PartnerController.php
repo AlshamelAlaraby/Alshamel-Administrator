@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Partner;
 
+use App\Http\Controllers\Controller;
+use App\Http\Resources\WorkflowTree\WorkflowTreeResource1;
 use Mockery\Exception;
 use App\Models\Partner;
 use Illuminate\Http\Request;
@@ -10,14 +12,13 @@ use Illuminate\Support\Facades\Hash;
 use App\Exceptions\NotFoundException;
 use App\Http\Resources\Log\LogResource;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Controllers\ResponseController;
 use App\Http\Resources\Partner\PartnerResource;
 use App\Http\Requests\Partner\StorePartnerRequest;
 use App\Http\Requests\Partner\UpdatePartnerRequest;
 use App\Repositories\Partner\PartnerRepositoryInterface;
 use App\Http\Resources\ScreenSetting\ScreenSettingResource;
 
-class PartnerController extends ResponseController
+class PartnerController extends Controller
 {
 
     protected $repository;
@@ -110,6 +111,22 @@ class PartnerController extends ResponseController
         }
     }
 
+    public function bulkDelete(Request $request){
+        foreach ($request->ids as $id){
+            $model = $this->repository->find($id);
+            $arr = [];
+            if ($model->hasChildren()){
+                $arr[]=$id;
+                continue;
+            }
+            $this->repository->delete($id);
+        }
+        if (count ($arr) > 0){
+            return  responseJson(200, __('some items has relation cant delete'));
+        }
+        return  responseJson(200, __('Done'));
+    }
+
 
 
     public function screenSetting(Request $request)
@@ -153,7 +170,7 @@ class PartnerController extends ResponseController
         $authUser = new PartnerResource(Auth::guard('partner')->user());
         $success['token'] = $authUser->createToken('sanctumPartner')->plainTextToken;
         $success['partner'] = $authUser;
-        $success['companies.modules'] = $authUser->load('companies.modules');
+        $success['companies'] = $authUser->everything_about_the_company();
         return responseJson(200, 'Login Successfully', $success);
     }
 }

@@ -14,21 +14,21 @@ class UpdateCompanyRequest extends FormRequest
     public function rules()
     {
         return [
-            "partner_id" => "nullable|exists:partners,id",
-            "name" => "nullable|string|max:100",
-            "name_e" => "nullable|string|max:100",
-            "url" => "nullable|url|string|max:200",
-            "address" => "nullable|string|max:200",
-            "phone" => "nullable|numeric|digits_between:8,16",
-            "cr" => "nullable|string",
-            "tax_id" => "nullable|numeric|digits_between:1,10",
-            "vat_no" => "nullable|numeric|digits_between:1,10",
-            "email" => "nullable|email|unique:companies,email," . $this->id,
-            "website" => "nullable|string|max:200",
-            "is_active" => "in:active,inactive",
-            "media" => "nullable|array",
-            "media.*" => ["exists:media,id", new \App\Rules\MediaRule()],
-            'old_media.*' => ['exists:media,id', new \App\Rules\MediaRule("App\Models\Company")],
+            "partner_id"  => [],
+            "name"       => "string|max:100",
+            "name_e"     => "string|max:100",
+            "url"        => "string|max:200",
+            "logo"       => "nullable".($request->hasFile('logo')? '|image':''),
+            "address"    => "string|max:200",
+            "phone"      => "numeric",
+            "phone_code"      => [],
+            "country_code"      => [],
+            "cr"         => "string",
+            "tax_id"     => "numeric|digits_between:1,10",
+            "vat_no"     => "numeric|digits_between:1,10",
+            "email"      => "email|unique:companies,email,".$request->id,
+            "website"    => "string|max:200",
+            "is_active"  => "in:active,inactive",
         ];
     }
 

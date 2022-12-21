@@ -18,6 +18,10 @@ use App\Repositories\Hotfield\HotfieldRepository;
 use App\Repositories\Hotfield\HotfieldRepositoryInterface;
 use App\Repositories\Module\ModuleInterface;
 use App\Repositories\Module\ModuleRepository;
+use App\Repositories\ScreenDocumentType\ScreenDocumentTypeRepository;
+use App\Repositories\ScreenDocumentType\ScreenDocumentTypeRepositoryInterface;
+use App\Repositories\User\UserRepository;
+use App\Repositories\User\UserRepositoryInterface;
 use App\Repositories\Partner\PartnerRepository;
 use App\Repositories\Partner\PartnerRepositoryInterface;
 use App\Repositories\ScreenButton\ScreenButtonRepository;
@@ -30,8 +34,7 @@ use App\Repositories\Serial\SerialRepository;
 use App\Repositories\Serial\SerialRepositoryInterface;
 use App\Repositories\Store\StoreRepository;
 use App\Repositories\Store\StoreRepositoryInterface;
-use App\Repositories\User\UserRepository;
-use App\Repositories\User\UserRepositoryInterface;
+
 use App\Repositories\WorkflowTree\WorkflowTreeRepository;
 use App\Repositories\WorkflowTree\WorkflowTreeRepositoryInterface;
 use Illuminate\Support\Facades\Schema;
@@ -62,6 +65,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(DocumentTypeInterface::class, DocumentTypeRepository::class);
         $this->app->bind(ScreenButtonRepositoryInterface::class, ScreenButtonRepository::class);
         $this->app->bind(HotfieldRepositoryInterface::class, HotfieldRepository::class);
+        $this->app->bind(ScreenDocumentTypeRepositoryInterface::class, ScreenDocumentTypeRepository::class);
+
     }
 
     /**

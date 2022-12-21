@@ -6,8 +6,6 @@ import adminApi from "../../../api/adminAxios";
 import { required, minLength, maxLength ,integer,email, sameAs ,url} from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
 import loader from "../../../components/loader";
-import alphaArabic  from "../../../helper/alphaArabic";
-import alphaEnglish  from "../../../helper/alphaEnglish";
 import {dynamicSortNumber, dynamicSortString} from "../../../helper/tableSort";
 import Multiselect from "vue-multiselect";
 
@@ -16,7 +14,6 @@ import Multiselect from "vue-multiselect";
  */
 
 // start validation image/png
-const imgValid = (value) => ['image/png','image/jpg','image/jpeg','image/gif'].includes(value);
 
 export default {
     page: {
@@ -52,6 +49,8 @@ export default {
                 cr:'',
                 address:'',
                 website: '',
+                phone_code:'',
+                country_code:'',
                 is_active: null,
             },
             edit: {
@@ -66,6 +65,8 @@ export default {
                 cr:'',
                 address:'',
                 website: '',
+                phone_code:'',
+                country_code:'',
                 is_active: null
             },
             errors: {},
@@ -75,6 +76,7 @@ export default {
             images: [],
             media: {},
             company_id: null,
+            isVaildPhone: false,
             saveImageName: [],
             showPhoto: './images/img-1.png',
             setting: {
@@ -97,8 +99,8 @@ export default {
     },
     validations: {
         create: {
-            name: {required,minLength: minLength(3),maxLength: maxLength(100),alphaArabic},
-            name_e: {required,minLength: minLength(3),maxLength: maxLength(100),alphaEnglish},
+            name: {required,minLength: minLength(3),maxLength: maxLength(100)},
+            name_e: {required,minLength: minLength(3),maxLength: maxLength(100)},
             email: {required,email,minLength: minLength(3),maxLength: maxLength(100)},
             phone: {required,integer},
             tax_id: {required,minLength: minLength(1),maxLength: maxLength(10),integer},
@@ -107,14 +109,12 @@ export default {
             website: {required,url,minLength: minLength(10),maxLength: maxLength(200)},
             cr: {required,minLength: minLength(3),maxLength: maxLength(100)},
             address: {required,minLength: minLength(10),maxLength: maxLength(200)},
-            logo: {required},
             partner_id: {required,integer},
             is_active: {required},
-            type: {imgValid}
         },
         edit: {
-            name: {required,minLength: minLength(3),maxLength: maxLength(100),alphaArabic},
-            name_e: {required,minLength: minLength(3),maxLength: maxLength(100),alphaEnglish},
+            name: {required,minLength: minLength(3),maxLength: maxLength(100)},
+            name_e: {required,minLength: minLength(3),maxLength: maxLength(100)},
             email: {required,email,minLength: minLength(3),maxLength: maxLength(100)},
             phone: {required,integer},
             tax_id: {required,minLength: minLength(1),maxLength: maxLength(10),integer},
@@ -123,7 +123,6 @@ export default {
             website: {required,url,minLength: minLength(10),maxLength: maxLength(200)},
             cr: {required,minLength: minLength(3),maxLength: maxLength(100)},
             address: {required,minLength: minLength(10),maxLength: maxLength(200)},
-            logo: {},
             partner_id: {required,integer},
             is_active: {required}
         },
@@ -303,15 +302,14 @@ export default {
                 partner_id: null,
                 url:'',
                 phone:'',
-                search: "",
                 tax_id: null,
                 vat_no: null,
                 cr:'',
-                logo:{},
                 address:'',
                 website: '',
+                phone_code:'',
+                country_code:'',
                 is_active: null,
-                type: ''
             };
             this.$nextTick(() => { this.$v.$reset() });
             this.errors = {};
@@ -323,7 +321,8 @@ export default {
         /**
          *  hidden Modal (create)
          */
-        resetModal(){
+        async resetModal(){
+            await this.getPartner();
             this.create =  {
                 name: '',
                 name_e: '',
@@ -336,6 +335,8 @@ export default {
                 cr:'',
                 address:'',
                 website: '',
+                phone_code:'',
+                country_code:'',
                 is_active: null,
             };
             this.$nextTick(() => { this.$v.$reset() });
@@ -358,15 +359,18 @@ export default {
                 cr:'',
                 address:'',
                 website: '',
-                is_active: null,
+                phone_code:'',
+                country_code:'',
+                is_active: 'active',
             };
             this.$nextTick(() => { this.$v.$reset() });
             this.company_id = null;
+            this.isVaildPhone = false;
         },
         AddSubmit(){
             this.$v.create.$touch();
 
-            if (this.$v.create.$invalid) {
+            if (this.$v.create.$invalid && !this.isVaildPhone) {
                 return;
             } else {
                 this.isLoader = true;
@@ -376,7 +380,7 @@ export default {
 
                 adminApi.post(`/companies`,this.create)
                     .then((res) => {
-
+                        this.company_id = res.data.data.id;
                         this.getData();
                         setTimeout(() => {
                             Swal.fire({
@@ -408,7 +412,7 @@ export default {
          */
         editSubmit(id,index){
             this.$v.edit.$touch();
-            if (this.$v.edit.$invalid) {
+            if (this.$v.edit.$invalid && !this.isVaildPhone) {
                 return;
             } else {
                 this.isLoader = true;
@@ -445,11 +449,11 @@ export default {
         /**
          *  get parent
          */
-        getPartner(){
-            adminApi.get(`/partners?per_page=${this.per_page}&search=${this.search}&is_active=active`)
+        async getPartner(){
+            await adminApi.get(`/partners?is_active=active`)
                 .then((res) => {
                     let l = res.data;
-                    this.dropDownSenders = l.data;
+                    this.partners = l.data;
                 })
                 .catch((err) => {
                     Swal.fire({
@@ -462,8 +466,11 @@ export default {
         /**
          *   show Modal (edit)
          */
-        resetModalEdit(id){
+        async resetModalEdit(id){
             let company = this.companies.find(e => id == e.id );
+            await this.getPartner();
+            this.company_id = company.id;
+            this.isVaildPhone = false;
             this.company_id = company.id;
             this.edit.name = company.name;
             this.edit.name_e = company.name_e;
@@ -472,13 +479,11 @@ export default {
             this.edit.address = company.address;
             this.edit.cr = company.cr;
             this.edit.partner_id = company.partner.id;
-            this.edit.search = this.$i18n.locale == 'ar'? company.partner.name : company.partner.name_e;
             this.edit.tax_id = company.tax_id;
             this.edit.url = company.url;
             this.edit.website = company.website;
             this.edit.vat_no = company.vat_no;
             this.edit.phone = company.phone;
-            this.dropDownSenders = [];
             this.errors = {};
             this.edit.file = company.logo;
         },
@@ -496,14 +501,11 @@ export default {
                 tax_id: null,
                 vat_no: null,
                 cr:'',
-                logo:{},
                 address:'',
                 website: '',
-                is_active: null,
-                type: '',
-                search: "",
-                file: '',
-                isImage: true
+                phone_code:'',
+                country_code:'',
+                is_active: 'active',
             };
             this.errors = {};
             this.company_id = null;
@@ -512,10 +514,14 @@ export default {
          *  update phone
          */
         updatePhone(e){
-
+            this.create.phone_code = e.countryCallingCode;
+            this.create.country_code = e.countryCode;
+            this.isVaildPhone = e.isValid;
         },
         updatePhoneEdit(e){
-
+            this.edit.phone_code = e.countryCallingCode;
+            this.edit.country_code = e.countryCode;
+            this.isVaildPhone = e.isValid;
         },
         /**
          *  start  dynamicSortString
@@ -615,7 +621,7 @@ export default {
                                     let new_media = [];
                                     res.data.data.forEach(e => new_media.push(e.id));
 
-                                    adminApi.put(`/countries/${this.country_id}`,{old_media,'media':new_media})
+                                    adminApi.put(`/companies/${this.company_id}`,{old_media,'media':new_media})
                                         .then((res) => {
                                             this.images = res.data.data.media;
                                             this.showPhoto = this.images[this.images.length - 1].webp;
@@ -655,7 +661,7 @@ export default {
                     old_media.push(e.id);
                 }
             });
-            adminApi.put(`/countries/${this.country_id}`,{old_media})
+            adminApi.put(`/companies/${this.company_id}`,{old_media})
                 .then((res) => {
                     this.images = res.data.data.media;
                     this.showPhoto = this.images[this.images.length - 1].webp;
@@ -887,6 +893,7 @@ export default {
                             :title="$t('company.addcompany')"
                             title-class="font-18"
                             dialog-class="modal-full-width"
+                            body-class="paddingUnset"
                             :hide-footer="true"
                             @show="resetModal"
                             @hidden="resetModalHidden"
@@ -986,14 +993,13 @@ export default {
                                                                     class="form-control englishInput"
                                                                     v-model.trim="$v.create.name_e.$model"
                                                                     :class="{
-                                                    'is-invalid':$v.create.name_e.$error || errors.name_e,
-                                                    'is-valid':!$v.create.name_e.$invalid && !errors.name_e
-                                                }"
+                                                                        'is-invalid':$v.create.name_e.$error || errors.name_e,
+                                                                        'is-valid':!$v.create.name_e.$invalid && !errors.name_e
+                                                                    }"
                                                                     id="field-2"
                                                                 />
                                                                 <div v-if="!$v.create.name_e.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.name_e.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                                                 <div v-if="!$v.create.name_e.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.name_e.$params.maxLength.max }} {{ $t('general.letters') }}</div>
-                                                                <div v-if="!$v.create.name_e.alphaEnglish" class="invalid-feedback">{{ $t('general.alphaEnglish') }}</div>
                                                                 <template v-if="errors.name_e">
                                                                     <ErrorMessage v-for="(errorMessage,index) in errors.name_e" :key="index">{{ errorMessage }}</ErrorMessage>
                                                                 </template>
@@ -1222,7 +1228,7 @@ export default {
                                                     type="file"
                                                     id="uploadImageCreate"
                                                     @change.prevent="onImageChanged"
-                                                    class="input-file-upload position-absolute"
+                                                    class="input-file-upload position-absolute d-none"
                                                 >
                                                 <div class="col-md-8 my-1">
                                                     <!-- file upload -->
@@ -1511,6 +1517,7 @@ export default {
                                             title-class="font-18"
                                             :ref="`edit-${data.id}`"
                                             dialog-class="modal-full-width"
+                                            body-class="paddingUnset"
                                             :hide-footer="true"
                                             @show="resetModalEdit(data.id)"
                                             @hidden="resetModalHiddenEdit(data.id)"
@@ -1520,30 +1527,21 @@ export default {
                                                 <div class="card-body">
                                                     <div class="mt-1 d-flex justify-content-end">
                                                         <!-- Emulate built in modal footer ok and cancel button actions -->
+
                                                         <b-button
                                                             variant="success"
-                                                            :disabled="!company_id"
-                                                            @click.prevent="resetForm"
-                                                            type="button" :class="['font-weight-bold px-2',company_id?'mx-2': '']"
+                                                            type="button" class="mx-1 font-weight-bold px-3"
+                                                            v-if="!isLoader"
+                                                            @click.prevent="AddSubmit"
                                                         >
-                                                            {{ $t('general.AddNewRecord') }}
+                                                            {{ $t('general.Save') }}
                                                         </b-button>
 
-                                                        <template v-if="!company_id">
-                                                            <b-button
-                                                                variant="success"
-                                                                type="button" class="mx-1 font-weight-bold px-3"
-                                                                v-if="!isLoader"
-                                                                @click.prevent="AddSubmit"
-                                                            >
-                                                                {{ $t('general.Save') }}
-                                                            </b-button>
+                                                        <b-button variant="success" class="mx-1" disabled v-else>
+                                                            <b-spinner small></b-spinner>
+                                                            <span class="sr-only">{{ $t('login.Loading') }}...</span>
+                                                        </b-button>
 
-                                                            <b-button variant="success" class="mx-1" disabled v-else>
-                                                                <b-spinner small></b-spinner>
-                                                                <span class="sr-only">{{ $t('login.Loading') }}...</span>
-                                                            </b-button>
-                                                        </template>
 
                                                         <b-button variant="danger" class="font-weight-bold" type="button" @click.prevent="resetModalHidden">
                                                             {{ $t('general.Cancel') }}
@@ -1659,7 +1657,7 @@ export default {
                                                                                 valid-color="#28a745"
                                                                                 error-color="#dc3545"
                                                                                 :preferred-countries="['FR', 'EG', 'DE']"
-                                                                                @update="updatePhone"
+                                                                                @update="updatePhoneEdit"
                                                                             />
                                                                             <template v-if="errors.phone">
                                                                                 <ErrorMessage v-for="(errorMessage,index) in errors.phone" :key="index">{{ errorMessage }}</ErrorMessage>
@@ -1846,7 +1844,7 @@ export default {
                                                                 type="file"
                                                                 id="uploadImageEdit"
                                                                 @change.prevent="onImageChanged"
-                                                                class="input-file-upload position-absolute"
+                                                                class="input-file-upload position-absolute d-none"
                                                             >
                                                             <div class="col-md-8 my-1">
                                                                 <!-- file upload -->
@@ -1881,8 +1879,8 @@ export default {
                                                                                             <a
                                                                                                 href="javascript:void(0);"
                                                                                                 :class="['btn-danger dropzone-close',
-                                                                                $i18n.locale == 'ar' ?'dropzone-close-rtl': ''
-                                                                            ]"
+                                                                                                    $i18n.locale == 'ar' ?'dropzone-close-rtl': ''
+                                                                                                ]"
                                                                                                 data-dz-remove
                                                                                                 @click.prevent="deleteImageCreate(photo.id,index)"
                                                                                             >
@@ -1897,7 +1895,7 @@ export default {
                                                                     </div>
                                                                     <div class="footer-image col-12">
                                                                         <b-button
-                                                                            @click="changePhoto"
+                                                                            @click="changePhotoEdit"
                                                                             variant="success"
                                                                             type="button" class="mx-1 font-weight-bold px-3"
                                                                             v-if="!isLoader"
@@ -1950,7 +1948,7 @@ export default {
     </Layout>
 </template>
 
-<style scope>
+<style>
 .dropdown .dropdown-menu {
     padding: 5px 10px !important;
     overflow-y: scroll;
@@ -1959,7 +1957,7 @@ export default {
 .modal-dialog .card {
     margin: 0 !important;
 }
-.modal-body {
+.modal-body.paddingUnset {
     padding: 0 !important;
 }
 .modal-dialog .card-body {

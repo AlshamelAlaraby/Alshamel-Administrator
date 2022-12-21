@@ -41,14 +41,18 @@ export default {
                 password:'',
                 repeatPassword:'',
                 mobile_no:'',
-                is_active: 1
+                phone_code:'',
+                country_code:'',
+                is_active: 'active'
             },
             edit: {
                 name: '',
                 name_e: '',
                 email: '',
                 mobile_no:'',
-                is_active: 1
+                phone_code:'',
+                country_code:'',
+                is_active: 'active'
             },
             setting: {
                 name: true,
@@ -60,6 +64,7 @@ export default {
             filterSetting: ['name', 'name_e','email','mobile_no'],
             errors: {},
             isEye: false,
+            isVaildPhone: false,
             isEyeEdit: false,
             isCheckAll: false,
             checkAll: [],
@@ -248,17 +253,39 @@ export default {
          *  reset Modal (create)
          */
         resetModalHidden(){
-            this.create =  {name: '', name_e: '', email: '', password:'', repeatPassword:'', mobile_no:'', is_active: 1};
+            this.create =  {
+                name: '',
+                name_e: '',
+                email: '',
+                password:'',
+                repeatPassword:'',
+                mobile_no:'',
+                phone_code:'',
+                country_code:'',
+                is_active: 'active'
+            };
             this.$nextTick(() => { this.$v.$reset() });
             this.$bvModal.hide(`create`);
             this.errors = {};
+            this.isVaildPhone = false;
         },
         /**
          *  hidden Modal (create)
          */
         resetModal(){
-            this.create =  {name: '', name_e: '', email: '', password:'', repeatPassword:'', mobile_no:'', is_active: 1};
+            this.create =  {
+                name: '',
+                name_e: '',
+                email: '',
+                password:'',
+                repeatPassword:'',
+                mobile_no:'',
+                phone_code:'',
+                country_code:'',
+                is_active: 'active'
+            };
             this.$nextTick(() => { this.$v.$reset() });
+            this.isVaildPhone = false;
             this.errors = {};
             this.is_disabled = false;
         },
@@ -266,14 +293,14 @@ export default {
          *  create Partner
          */
         resetForm(){
-            this.create =  {name: '', name_e: '', email: '', password:'', repeatPassword:'', mobile_no:'', is_active: 1};
+            this.create =  {name: '', name_e: '', email: '', password:'', repeatPassword:'', mobile_no:'', is_active: 'active'};
             this.$nextTick(() => { this.$v.$reset() });
             this.is_disabled = false;
         },
         AddSubmit(){
             this.$v.create.$touch();
 
-            if (this.$v.create.$invalid) {
+            if (this.$v.create.$invalid && !this.isVaildPhone) {
                 return;
             } else {
                 this.isLoader = true;
@@ -316,7 +343,7 @@ export default {
         editSubmit(id){
             this.$v.edit.$touch();
 
-            if (this.$v.edit.$invalid) {
+            if (this.$v.edit.$invalid && !this.isVaildPhone) {
                 return;
             } else {
                 this.isLoader = true;
@@ -356,22 +383,35 @@ export default {
             let Partner = this.partners.find(e => id == e.id );
             this.edit.name = Partner.name;
             this.edit.name_e = Partner.name_e;
-            this.edit.is_active = Partner.is_active == 1 ? 1: 0;
+            this.edit.is_active = Partner.is_active;
             this.edit.email = Partner.email;
             this.edit.mobile_no = Partner.mobile_no;
+            this.isVaildPhone = false;
         },
         /**
          *  hidden Modal (edit)
          */
         resetModalHiddenEdit(){
-            this.edit = {name: '', name_e: '', email: '', password:'', repeatPassword:'', mobile_no:'', is_active: 1};
+            this.edit = {
+                name: '',
+                name_e: '',
+                email: '',
+                mobile_no:'',
+                phone_code:'',
+                country_code:'',
+                is_active: 'active'
+            };
             this.errors = {};
         },
         updatePhone(e){
-
+            this.create.phone_code = e.countryCallingCode;
+            this.create.country_code = e.countryCode;
+            this.isVaildPhone = e.isValid;
         },
         updatePhoneEdit(e){
-
+            this.edit.phone_code = e.countryCallingCode;
+            this.edit.country_code = e.countryCode;
+            this.isVaildPhone = e.isValid;
         },
         /**
          *  start  dynamicSortString
@@ -410,7 +450,7 @@ export default {
                                     <b-dropdown variant="primary" :text="$t('general.searchSetting')" ref="dropdown" class="btn-block setting-search">
                                         <b-form-checkbox v-model="filterSetting" value="name" class="mb-1">{{ $t('general.Name') }}</b-form-checkbox>
                                         <b-form-checkbox v-model="filterSetting" value="name_e" class="mb-1">{{ $t('general.Name_en') }}</b-form-checkbox>
-                                        <b-form-checkbox v-model="filterSetting" value="email" class="mb-1">{{ $t('general.Emailaddress') }}</b-form-checkbox>
+                                        <b-form-checkbox v-model="filterSetting" value="email" class="mb-1">{{ $t('login.Emailaddress') }}</b-form-checkbox>
                                         <b-form-checkbox v-model="filterSetting" value="mobile_no" class="mb-1">{{ $t('general.mobile_no') }}</b-form-checkbox>
                                     </b-dropdown>
                                     <!-- Basic dropdown -->
@@ -568,7 +608,7 @@ export default {
                                         variant="success"
                                         :disabled="!is_disabled"
                                         @click.prevent="resetForm"
-                                        type="button" :class="['font-weight-bold px-2',!is_disabled? '':'mb-2']"
+                                        type="button" :class="['font-weight-bold px-2',!is_disabled? '':'mx-2']"
                                     >
                                         {{ $t('general.AddNewRecord') }}
                                     </b-button>
@@ -739,12 +779,12 @@ export default {
                                             </label>
                                             <b-form-group
                                                 :class="{
-                                                                'is-invalid':$v.edit.is_active.$error || errors.is_active,
-                                                                'is-valid':!$v.edit.is_active.$invalid && !errors.is_active
-                                                                }"
+                                                    'is-invalid':$v.edit.is_active.$error || errors.is_active,
+                                                    'is-valid':!$v.edit.is_active.$invalid && !errors.is_active
+                                                }"
                                             >
-                                                <b-form-radio class="d-inline-block" v-model="$v.edit.is_active.$model" name="some-radios" value="1">{{$t('general.Active')}}</b-form-radio>
-                                                <b-form-radio class="d-inline-block m-1" v-model="$v.edit.is_active.$model" name="some-radios" value="0">{{$t('general.Inactive')}}</b-form-radio>
+                                                <b-form-radio class="d-inline-block" v-model="$v.edit.is_active.$model" name="some-radios" value="active">{{$t('general.Active')}}</b-form-radio>
+                                                <b-form-radio class="d-inline-block m-1" v-model="$v.edit.is_active.$model" name="some-radios" value="inactive">{{$t('general.Inactive')}}</b-form-radio>
                                             </b-form-group>
                                             <template v-if="errors.is_active">
                                                 <ErrorMessage
@@ -1026,8 +1066,8 @@ export default {
                                                                 'is-valid':!$v.edit.is_active.$invalid && !errors.is_active
                                                                 }"
                                                             >
-                                                                <b-form-radio class="d-inline-block" v-model="$v.edit.is_active.$model" name="some-radios" value="1">{{$t('general.Active')}}</b-form-radio>
-                                                                <b-form-radio class="d-inline-block m-1" v-model="$v.edit.is_active.$model" name="some-radios" value="0">{{$t('general.Inactive')}}</b-form-radio>
+                                                                <b-form-radio class="d-inline-block" v-model="$v.edit.is_active.$model" name="some-radios" value="active">{{$t('general.Active')}}</b-form-radio>
+                                                                <b-form-radio class="d-inline-block m-1" v-model="$v.edit.is_active.$model" name="some-radios" value="inactive">{{$t('general.Inactive')}}</b-form-radio>
                                                             </b-form-group>
                                                             <template v-if="errors.is_active">
                                                                 <ErrorMessage
@@ -1062,11 +1102,3 @@ export default {
         </div>
     </Layout>
 </template>
-
-<style>
-.modal-body {
-    padding: 2.25rem !important;
-}
-</style>
-
-

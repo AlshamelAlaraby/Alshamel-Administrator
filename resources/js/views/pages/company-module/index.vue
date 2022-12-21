@@ -7,57 +7,65 @@ import Switches from "vue-switches";
 import { required, minLength, maxLength ,integer,email, sameAs} from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
 import loader from "../../../components/loader";
-import {dynamicSortString,dynamicSortNumber} from "../../../helper/tableSort";
-
+import {dynamicSortString,dynamicSortNumber, dynamicSortDate} from "../../../helper/tableSort";
+import {formatDateTime,formatDateOnly} from "../../../helper/startDate";
+import DatePicker from "vue2-datepicker";
+import Multiselect from "vue-multiselect";
 
 /**
  * Advanced Table component
  */
 export default {
     page: {
-        title: "Partner",
-        meta: [{ name: "description", content: 'Partner' }],
+        title: "Company Module",
+        meta: [{ name: "description", content: 'Company Module' }],
     },
     components: {
         Layout,
         PageHeader,
         Switches,
         loader,
-        ErrorMessage
+        ErrorMessage,
+        DatePicker,
+        Multiselect
     },
     data() {
         return {
             per_page: 50,
             search: '',
             debounce: {},
-            partnersPagination: {},
-            partners: [],
+            companyModulesPagination: {},
+            companyModules: [],
             enabled3: false,
             isLoader: false,
+            companies: [],
+            modules: [],
             create: {
-                name: '',
-                name_e: '',
-                email: '',
-                password:'',
-                repeatPassword:'',
-                mobile_no:'',
-                is_active: 1
+                company_id: '',
+                module_id: '',
+                allowed_users_no: '',
+                start_date:  null,
+                end_date: null,
+                custom_date_start: new Date(),
+                custom_date_end: null
             },
             edit: {
-                name: '',
-                name_e: '',
-                email: '',
-                mobile_no:'',
-                is_active: 1
+                company_id: '',
+                module_id: '',
+                allowed_users_no: '',
+                start_date:  null,
+                end_date: null,
+                custom_date_start: null,
+                custom_date_end: null
             },
             setting: {
-                name: true,
-                name_e: true,
-                is_active: true,
-                mobile_no:true,
-                email: true
+                company_id: true,
+                module_id: true,
+                allowed_users_no: true,
+                start_date:true,
+                end_date: true
             },
-            filterSetting: ['name', 'name_e','email','mobile_no'],
+            filterSetting: ['company_id', 'module_id','allowed_users_no','start_date','end_date'],
             errors: {},
             isEye: false,
             isEyeEdit: false,
@@ -69,20 +77,18 @@ export default {
     },
     validations: {
         create: {
-            name: {required,minLength: minLength(3),maxLength: maxLength(100)},
-            name_e: {required,minLength: minLength(3),maxLength: maxLength(100)},
-            email: {required,email,minLength: minLength(3),maxLength: maxLength(100)},
-            password: {required,minLength: minLength(8),maxLength: maxLength(16)},
-            repeatPassword: {required,sameAs: sameAs('password')},
-            mobile_no: {required,integer},
-            is_active: {required}
+            company_id: {required,integer},
+            module_id: {required,integer},
+            allowed_users_no: {required,integer},
+            start_date: {required},
+            end_date: {required},
         },
         edit: {
-            name: {required,minLength: minLength(3),maxLength: maxLength(100)},
-            name_e: {required,minLength: minLength(3),maxLength: maxLength(100)},
-            email: {required,email,minLength: minLength(3),maxLength: maxLength(100)},
-            mobile_no: {required,integer},
-            is_active: {required}
+            company_id: {required,integer},
+            module_id: {required,integer},
+            allowed_users_no: {required,integer},
+            start_date: {required},
+            end_date: {required},
         },
     },
     watch: {
@@ -100,7 +106,7 @@ export default {
          */
         isCheckAll(after,befour){
             if(after){
-                this.partners.forEach(el => {
+                this.companyModules.forEach(el => {
                     if(!this.checkAll.includes(el.id)){
                         this.checkAll.push(el.id);
                     }
@@ -143,7 +149,7 @@ export default {
     },
     methods: {
         /**
-         *  get Data Partner
+         *  get Data companyModule
          */
         getData(page = 1){
 
@@ -153,11 +159,11 @@ export default {
                 filter += `columns[${i}]=${this.filterSetting[i]}&`;
             }
 
-            adminApi.get(`/partners?page=${page}&per_page=${this.per_page}&search=${this.search}&${filter}`)
+            adminApi.get(`/company-modules?page=${page}&per_page=${this.per_page}&search=${this.search}&${filter}`)
                 .then((res) => {
                     let l = res.data;
-                    this.partners = l.data;
-                    this.partnersPagination = l.pagination;
+                    this.companyModules = l.data;
+                    this.companyModulesPagination = l.pagination;
                     this.current_page = l.pagination.current_page;
                 })
                 .catch((err) => {
@@ -172,19 +178,19 @@ export default {
                 });
         },
         getDataCurrentPage(){
-            if(this.current_page <= this.partnersPagination.last_page && this.current_page != this.partnersPagination.current_page && this.current_page){
+            if(this.current_page <= this.companyModulesPagination.last_page && this.current_page != this.companyModulesPagination.current_page && this.current_page){
                 this.isLoader = true;
                 let filter = '';
                 for (let i = 0; i > this.filterSetting.length; ++i) {
                     filter += `columns[${i}]=${this.filterSetting[i]}&`;
                 }
 
-                adminApi.get(`/partners?page=${this.current_page}&per_page=${this.per_page}&search=${this.search}&${filter}`)
+                adminApi.get(`/company-modules?page=${this.current_page}&per_page=${this.per_page}&search=${this.search}&${filter}`)
                     .then((res) => {
                         let l = res.data;
-                        this.partners = l.data;
+                        this.companyModules = l.data;
                         this.current_page = l.pagination.current_page;
-                        this.partnersPagination = l.pagination;
+                        this.companyModulesPagination = l.pagination;
                         this.current_page = l.pagination.current_page;
                     })
                     .catch((err) => {
@@ -200,9 +206,9 @@ export default {
             }
         },
         /**
-         *  delete Partner
+         *  delete companyModule
          */
-        deletePartner(id,index) {
+        deleteCompanyModule(id,index) {
             Swal.fire({
                 title: `${this.$t('general.Areyousure')}`,
                 text: `${this.$t('general.Youwontbeabletoreverthis')}`,
@@ -218,7 +224,7 @@ export default {
 
                     this.isLoader = true;
 
-                    adminApi.delete(`/partners/${id}`)
+                    adminApi.delete(`/company-modules/${id}`)
                         .then((res) => {
                             this.checkAll = [];
                             this.getData();
@@ -248,27 +254,59 @@ export default {
          *  reset Modal (create)
          */
         resetModalHidden(){
-            this.create =  {name: '', name_e: '', email: '', password:'', repeatPassword:'', mobile_no:'', is_active: 1};
+            this.create =  {
+                company_id: '',
+                module_id: '',
+                allowed_users_no: '',
+                start_date:  null,
+                end_date: null,
+                custom_date_start: new Date(),
+                custom_date_end: null
+            };
             this.$nextTick(() => { this.$v.$reset() });
             this.$bvModal.hide(`create`);
             this.errors = {};
+            this.companies = [];
+            this.modules = [];
         },
         /**
          *  hidden Modal (create)
          */
-        resetModal(){
-            this.create =  {name: '', name_e: '', email: '', password:'', repeatPassword:'', mobile_no:'', is_active: 1};
+        async resetModal(){
+            this.create =  {
+                company_id: '',
+                module_id: '',
+                allowed_users_no: '',
+                start_date:  formatDateTime(this.create.custom_date_start),
+                end_date: null,
+                custom_date_start: new Date(),
+                custom_date_end: null
+            };
             this.$nextTick(() => { this.$v.$reset() });
             this.errors = {};
             this.is_disabled = false;
+            this.companies = [];
+            this.modules = [];
+            await this.getCompany();
+            await this.getModule();
         },
         /**
-         *  create Partner
+         *  create companyModule
          */
         resetForm(){
-            this.create =  {name: '', name_e: '', email: '', password:'', repeatPassword:'', mobile_no:'', is_active: 1};
+            this.create =  {
+                company_id: '',
+                module_id: '',
+                allowed_users_no: '',
+                start_date:  null,
+                end_date: null,
+                custom_date_start: new Date(),
+                custom_date_end: null
+            };
             this.$nextTick(() => { this.$v.$reset() });
             this.is_disabled = false;
+            this.companies = [];
+            this.modules = [];
         },
         AddSubmit(){
             this.$v.create.$touch();
@@ -278,10 +316,8 @@ export default {
             } else {
                 this.isLoader = true;
                 this.errors = {};
-                if(!this.create.name_e){ this.create.name_e = this.create.name}
-                if(!this.create.name){ this.create.name = this.create.name_e}
 
-                adminApi.post(`/partners`,this.create)
+                adminApi.post(`/company-modules`,this.create)
                     .then((res) => {
                         this.getData();
                         this.is_disabled = true;
@@ -311,7 +347,7 @@ export default {
 
         },
         /**
-         *  edit Partner
+         *  edit companyModule
          */
         editSubmit(id){
             this.$v.edit.$touch();
@@ -321,7 +357,7 @@ export default {
             } else {
                 this.isLoader = true;
                 this.errors = {};
-                adminApi.put(`/partners/${id}`,this.edit)
+                adminApi.put(`/company-modules/${id}`,this.edit)
                     .then((res) => {
                         this.$bvModal.hide(`modal-edit-${id}`);
                         this.getData();
@@ -352,26 +388,34 @@ export default {
         /**
          *   show Modal (edit)
          */
-        resetModalEdit(id){
-            let Partner = this.partners.find(e => id == e.id );
-            this.edit.name = Partner.name;
-            this.edit.name_e = Partner.name_e;
-            this.edit.is_active = Partner.is_active == 1 ? 1: 0;
-            this.edit.email = Partner.email;
-            this.edit.mobile_no = Partner.mobile_no;
+        async resetModalEdit(id){
+            let companyModule = this.companyModules.find(e => id == e.id );
+            this.edit.company_id = companyModule.company.id;
+            this.edit.module_id = companyModule.module.id;
+            this.edit.allowed_users_no = companyModule.allowed_users_no;
+            this.edit.custom_date_start = new Date(companyModule.start_date);
+            this.edit.custom_date_end = new Date(companyModule.end_date);
+            this.edit.start_date = formatDateTime(companyModule.start_date);
+            this.edit.end_date = formatDateTime(companyModule.end_date);
+            await this.getCompany();
+            await this.getModule();
         },
         /**
          *  hidden Modal (edit)
          */
         resetModalHiddenEdit(){
-            this.edit = {name: '', name_e: '', email: '', password:'', repeatPassword:'', mobile_no:'', is_active: 1};
+            this.edit = {
+                company_id: '',
+                module_id: '',
+                allowed_users_no: '',
+                start_date:  null,
+                end_date: null,
+                custom_date_start: null,
+                custom_date_end: null
+            };
             this.errors = {};
-        },
-        updatePhone(e){
-
-        },
-        updatePhoneEdit(e){
-
+            this.companies = [];
+            this.modules = [];
         },
         /**
          *  start  dynamicSortString
@@ -379,9 +423,10 @@ export default {
         sortString(value){
             return dynamicSortString(value);
         },
-        sortNumber(){
+        sortNumber(value){
             return dynamicSortNumber(value);
         },
+        SortDate(value){return dynamicSortDate(value);},
         checkRow(id){
             if(!this.checkAll.includes(id)) {
                 this.checkAll.push(id);
@@ -389,7 +434,64 @@ export default {
                 let index = this.checkAll.indexOf(id);
                 this.checkAll.splice(index,1);
             }
-        }
+        },
+        start_date(e){
+            if (e){
+                this.create.start_date = formatDateTime(e);
+                this.edit.start_date = formatDateTime(e);
+            }else{
+                this.create.start_date = null;
+                this.edit.start_date = null;
+            }
+        },
+        end_date(e){
+            if (e){
+                this.create.end_date = formatDateTime(e);
+                this.edit.end_date = formatDateTime(e);
+            }else{
+                this.create.end_date = null;
+                this.edit.end_date = null;
+            }
+        },
+        formatDate(value){return formatDateOnly(value);},
+    },
+    async getCompany(){
+        this.isLoader = true;
+
+        await adminApi.get(`/companies?is_active=active`)
+            .then((res) => {
+                let l = res.data;
+                this.companies = l.data;
+            })
+            .catch((err) => {
+                Swal.fire({
+                    icon: 'error',
+                    title: `${this.$t('general.Error')}`,
+                    text: `${this.$t('general.Thereisanerrorinthesystem')}`,
+                });
+            })
+            .finally(() => {
+                this.isLoader = false;
+            });
+    },
+    async getModule(){
+        this.isLoader = true;
+
+        await adminApi.get(`/modules?is_active=active`)
+            .then((res) => {
+                let l = res.data;
+                this.companies = l.data;
+            })
+            .catch((err) => {
+                Swal.fire({
+                    icon: 'error',
+                    title: `${this.$t('general.Error')}`,
+                    text: `${this.$t('general.Thereisanerrorinthesystem')}`,
+                });
+            })
+            .finally(() => {
+                this.isLoader = false;
+            });
     }
 };
 </script>
@@ -402,17 +504,16 @@ export default {
                 <div class="card">
                     <div class="card-body">
                         <div class="row justify-content-between align-items-center mb-2">
-                            <h4 class="header-title"> {{ $t('partner.partnersTable') }}</h4>
+                            <h4 class="header-title"> {{ $t('companyModule.table') }}</h4>
                             <div class="col-xs-10 col-md-9 col-lg-7" style="font-weight: 500">
 
                                 <div class="d-inline-block" style="width: 22.2%;">
                                     <!-- Basic dropdown -->
                                     <b-dropdown variant="primary" :text="$t('general.searchSetting')" ref="dropdown" class="btn-block setting-search">
-                                        <b-form-checkbox v-model="filterSetting" value="name" class="mb-1">{{ $t('general.Name') }}</b-form-checkbox>
-                                        <b-form-checkbox v-model="filterSetting" value="name_e" class="mb-1">{{ $t('general.Name_en') }}</b-form-checkbox>
-                                        <b-form-checkbox v-model="filterSetting" value="email" class="mb-1">{{ $t('general.Emailaddress') }}</b-form-checkbox>
-                                        <b-form-checkbox v-model="filterSetting" value="mobile_no" class="mb-1">{{ $t('general.mobile_no') }}</b-form-checkbox>
-                                    </b-dropdown>
+                                        <b-form-checkbox v-model="filterSetting" value="company_id" class="mb-1">{{ $t('company.company') }}</b-form-checkbox>
+                                        <b-form-checkbox v-model="filterSetting" value="module_id" class="mb-1">{{ $t('module.module') }}</b-form-checkbox>
+                                        <b-form-checkbox v-model="filterSetting" value="allowed_users_no" class="mb-1">{{ $t('general.allowed_users_no') }}</b-form-checkbox>
+                                        </b-dropdown>
                                     <!-- Basic dropdown -->
                                 </div>
 
@@ -461,7 +562,7 @@ export default {
                                     <button
                                         class="custom-btn-dowonload"
                                         v-if="checkAll.length > 1"
-                                        @click.prevent="deletePartner(checkAll)"
+                                        @click.prevent="deleteCompanyModule(checkAll)"
                                     >
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
@@ -470,7 +571,7 @@ export default {
                                     <button
                                         class="custom-btn-dowonload"
                                         v-if="checkAll.length == 1"
-                                        @click.prevent="deletePartner(checkAll)"
+                                        @click.prevent="deleteCompanyModule(checkAll)"
                                     >
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
@@ -497,21 +598,21 @@ export default {
                                     <b-dropdown variant="primary"
                                                 :html="`${$t('general.setting')} <i class='fe-settings'></i>`"
                                                 ref="dropdown" class="dropdown-custom-ali">
-                                        <b-form-checkbox v-model="setting.name" class="mb-1">{{
-                                                $t('general.Name')
+                                        <b-form-checkbox v-model="setting.company_id" class="mb-1">{{
+                                                $t('company.company')
                                             }}
                                         </b-form-checkbox>
-                                        <b-form-checkbox v-model="setting.name_e" class="mb-1">
-                                            {{ $t('general.Name_en') }}
+                                        <b-form-checkbox v-model="setting.module_id" class="mb-1">
+                                            {{ $t('module.module') }}
                                         </b-form-checkbox>
-                                        <b-form-checkbox v-model="setting.mobile_no" class="mb-1">
-                                            {{ $t('general.mobile_no') }}
+                                        <b-form-checkbox v-model="setting.allowed_users_no" class="mb-1">
+                                            {{ $t('general.allowed_users_no') }}
                                         </b-form-checkbox>
-                                        <b-form-checkbox v-model="setting.email" class="mb-1">
-                                            {{ $t('login.Emailaddress') }}
+                                        <b-form-checkbox v-model="setting.start_date" class="mb-1">
+                                            {{ $t('general.start_date') }}
                                         </b-form-checkbox>
-                                        <b-form-checkbox v-model="setting.is_active" class="mb-1">
-                                            {{ $t('general.Status') }}
+                                        <b-form-checkbox v-model="setting.end_date" class="mb-1">
+                                            {{ $t('general.end_date') }}
                                         </b-form-checkbox>
                                         <div class="d-flex justify-content-end">
                                             <a href="javascript:void(0)" class="btn btn-primary btn-sm">Apply</a>
@@ -521,13 +622,13 @@ export default {
                                     <!-- start Pagination -->
                                     <div class="d-inline-flex align-items-center pagination-custom">
                                         <div class="d-inline-block" style="font-size:15px;">
-                                            {{ partnersPagination.from }}-{{ partnersPagination.to }} / {{ partnersPagination.total }}
+                                            {{ companyModulesPagination.from }}-{{ companyModulesPagination.to }} / {{ companyModulesPagination.total }}
                                         </div>
                                         <div class="d-inline-block">
                                             <a
                                                 href="javascript:void(0)"
-                                                :style="{'pointer-events':partnersPagination.current_page == 1 ? 'none': ''}"
-                                                @click.prevent="getData(partnersPagination.current_page - 1)"
+                                                :style="{'pointer-events':companyModulesPagination.current_page == 1 ? 'none': ''}"
+                                                @click.prevent="getData(companyModulesPagination.current_page - 1)"
                                             >
                                                 <span>&lt;</span>
                                             </a>
@@ -539,8 +640,8 @@ export default {
                                             />
                                             <a
                                                 href="javascript:void(0)"
-                                                :style="{'pointer-events':partnersPagination.last_page == partnersPagination.current_page ? 'none': ''}"
-                                                @click.prevent="getData(partnersPagination.current_page + 1)"
+                                                :style="{'pointer-events':companyModulesPagination.last_page == companyModulesPagination.current_page ? 'none': ''}"
+                                                @click.prevent="getData(companyModulesPagination.current_page + 1)"
                                             >
                                                 <span>&gt;</span>
                                             </a>
@@ -554,9 +655,8 @@ export default {
                         <!--  create   -->
                         <b-modal
                             id="create"
-                            :title="$t('partner.addpartner')"
+                            :title="$t('companyModule.add')"
                             title-class="font-18"
-                            size="lg"
                             body-class="p-4"
                             :hide-footer="true"
                             @show="resetModal"
@@ -589,168 +689,94 @@ export default {
                                     </b-button>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6 direction" dir="rtl">
+                                    <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="field-1" class="control-label">
-                                                {{ $t('general.Name') }}
+                                            <label  class="control-label">
+                                                {{ $t('company.company') }}
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input
-                                                type="text"
-                                                class="form-control arabicInput"
-                                                v-model.trim="$v.create.name.$model"
-                                                :class="{
-                                                'is-invalid':$v.create.name.$error || errors.name,
-                                                'is-valid':!$v.create.name.$invalid && !errors.name
-                                            }"
-                                                 id="field-1"
-                                            />
-                                            <div v-if="!$v.create.name.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.name.$params.minLength.min }} {{ $t('general.letters') }}</div>
-                                            <div v-if="!$v.create.name.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.name.$params.maxLength.max }} {{ $t('general.letters') }}</div>
-                                            <div v-if="!$v.create.name.alphaArabic" class="invalid-feedback">{{ $t('general.alphaArabic') }}</div>
-                                            <template v-if="errors.name">
+                                            <multiselect
+                                                v-model="$v.create.company_id.$model"
+                                                :options="companies.map(type => type.id)"
+                                                :custom-label="opt => $i18n.locale == 'ar' ? companies.find(x => x.id == opt).name : companies.find(x => x.id == opt).name_e">
+                                            </multiselect>
+                                            <div v-if="!$v.create.company_id.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
+                                            <template v-if="errors.company_id">
                                                 <ErrorMessage v-for="(errorMessage,index) in errors.name" :key="index">{{ errorMessage }}</ErrorMessage>
                                             </template>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 direction-ltr" dir="ltr">
+                                    <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="field-2" class="control-label">
-                                                {{ $t('general.Name_en') }}
+                                            <label  class="control-label">
+                                                {{ $t('module.module') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <multiselect
+                                                v-model="$v.create.module_id.$model"
+                                                :options="modules.map(type => type.id)"
+                                                :custom-label="opt => $i18n.locale == 'ar' ? modules.find(x => x.id == opt).name : modules.find(x => x.id == opt).name_e">
+                                            </multiselect>
+                                            <div v-if="!$v.create.module_id.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
+                                            <template v-if="errors.module_id">
+                                                <ErrorMessage v-for="(errorMessage,index) in errors.name" :key="index">{{ errorMessage }}</ErrorMessage>
+                                            </template>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label  class="control-label">
+                                                {{ $t('general.allowed_users_no') }}
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <input
                                                 type="text"
-                                                class="form-control englishInput"
-                                                v-model.trim="$v.create.name_e.$model"
+                                                class="form-control "
+                                                v-model.trim="$v.create.allowed_users_no.$model"
                                                 :class="{
-                                                'is-invalid':$v.create.name_e.$error || errors.name_e,
-                                                'is-valid':!$v.create.name_e.$invalid && !errors.name_e
-                                            }"
-                                                 id="field-2"
+                                                    'is-invalid':$v.create.allowed_users_no.$error || errors.allowed_users_no,
+                                                    'is-valid':!$v.create.allowed_users_no.$invalid && !errors.allowed_users_no
+                                                }"
                                             />
-                                            <div v-if="!$v.create.name_e.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.name_e.$params.minLength.min }} {{ $t('general.letters') }}</div>
-                                            <div v-if="!$v.create.name_e.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.name_e.$params.maxLength.max }} {{ $t('general.letters') }}</div>
-                                            <div v-if="!$v.create.name_e.alphaEnglish" class="invalid-feedback">{{ $t('general.alphaEnglish') }}</div>
-                                            <template v-if="errors.name_e">
-                                                <ErrorMessage v-for="(errorMessage,index) in errors.name_e" :key="index">{{ errorMessage }}</ErrorMessage>
+                                            <template v-if="errors.allowed_users_no">
+                                                <ErrorMessage v-for="(errorMessage,index) in errors.allowed_users_no" :key="index">{{ errorMessage }}</ErrorMessage>
                                             </template>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="field-3" class="control-label">
-                                                {{ $t('login.Emailaddress') }}
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <input
-                                                type="email"
-                                                class="form-control"
-                                                v-model.trim="$v.create.email.$model"
-                                                :class="{
-                                                'is-invalid':$v.create.email.$error || errors.email,
-                                                'is-valid':!$v.create.email.$invalid && !errors.email
-                                            }"
-                                                 id="field-3"
-                                            />
-                                            <div v-if="!$v.create.email.email" class="invalid-feedback">{{ $t('general.PleaseEnterValidEmail') }}</div>
-                                            <div v-if="!$v.create.email.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.email.$params.minLength.min }} {{ $t('general.letters') }}</div>
-                                            <div v-if="!$v.create.email.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.email.$params.maxLength.max }} {{ $t('general.letters') }}</div>
-                                            <template v-if="errors.email">
-                                                <ErrorMessage v-for="(errorMessage,index) in errors.email" :key="index">{{ errorMessage }}</ErrorMessage>
-                                            </template>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="control-label">
-                                                {{ $t('general.mobile_no') }}
+                                                {{ $t('general.startDate') }}
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <VuePhoneNumberInput
-                                                v-model="$v.create.mobile_no.$model"
-                                                default-country-code="EG"
-                                                valid-color="#28a745"
-                                                error-color="#dc3545"
-                                                :preferred-countries="['FR', 'EG', 'DE']"
-                                                @update="updatePhone"
-                                            />
-                                            <template v-if="errors.mobile_no">
-                                                <ErrorMessage v-for="(errorMessage,index) in errors.mobile_no" :key="index">{{ errorMessage }}</ErrorMessage>
+                                            <date-picker
+                                                v-model="create.custom_date_start"
+                                                type="datetime"
+                                                :default-value="create.custom_date_start"
+                                                @change="start_date"
+                                                confirm
+                                            ></date-picker>
+                                            <div v-if="!$v.create.start_date.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
+                                            <template v-if="errors.start_date">
+                                                <ErrorMessage v-for="(errorMessage,index) in errors.start_date" :key="index">{{ errorMessage }}</ErrorMessage>
                                             </template>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <label for="field-5" class="control-label">
-                                                    {{ $t('login.Password') }}
-                                                    <span class="text-danger">*</span>
-                                                </label>
-                                                <i
-                                                    :class="['fas custom-eye',!isEye ?'fa-eye-slash': 'fas fa-eye active']"
-                                                   @click="isEye = !isEye"
-                                                ></i>
-                                            </div>
-                                            <input
-                                                :type="!isEye?'password':'text'"
-                                                class="form-control"
-                                                v-model.trim="$v.create.password.$model"
-                                                :class="{
-                                                'is-invalid':$v.create.password.$error || errors.password,
-                                                'is-valid':!$v.create.password.$invalid && !errors.password
-                                            }"
-                                                id="field-5"
-                                            />
-                                            <div v-if="!$v.create.password.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.password.$params.minLength.min }} {{ $t('general.letters') }}</div>
-                                            <div v-if="!$v.create.password.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.password.$params.maxLength.max }} {{ $t('general.letters') }}</div>
-                                            <template v-if="errors.password">
-                                                <ErrorMessage v-for="(errorMessage,index) in errors.password" :key="index">{{ errorMessage }}</ErrorMessage>
-                                            </template>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="field-6" class="control-label">
-                                                {{ $t('general.repeatPassword') }}
+                                            <label class="control-label">
+                                                {{ $t('general.endDate') }}
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input
-                                                type="password"
-                                                class="form-control"
-                                                v-model.trim="$v.create.repeatPassword.$model"
-                                                :class="{
-                                                'is-invalid':$v.create.repeatPassword.$error || errors.repeatPassword,
-                                                'is-valid':!$v.create.repeatPassword.$invalid && !errors.repeatPassword
-                                            }"
-                                                 id="field-6"
-                                            />
-                                            <div v-if="!$v.create.repeatPassword.sameAs" class="invalid-feedback">{{ $t('general.samaAs') }} </div>
-                                            <template v-if="errors.repeatPassword">
-                                                <ErrorMessage v-for="(errorMessage,index) in errors.repeatPassword" :key="index">{{ errorMessage }}</ErrorMessage>
-                                            </template>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class=" mr-2 mb-2" >
-                                                {{ $t('general.Status') }}
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <b-form-group
-                                                :class="{
-                                                                'is-invalid':$v.edit.is_active.$error || errors.is_active,
-                                                                'is-valid':!$v.edit.is_active.$invalid && !errors.is_active
-                                                                }"
-                                            >
-                                                <b-form-radio class="d-inline-block" v-model="$v.edit.is_active.$model" name="some-radios" value="1">{{$t('general.Active')}}</b-form-radio>
-                                                <b-form-radio class="d-inline-block m-1" v-model="$v.edit.is_active.$model" name="some-radios" value="0">{{$t('general.Inactive')}}</b-form-radio>
-                                            </b-form-group>
-                                            <template v-if="errors.is_active">
-                                                <ErrorMessage
-                                                    v-for="(errorMessage,index) in errors.is_active"
-                                                    :key="index">{{ errorMessage }}
-                                                </ErrorMessage>
+                                            <date-picker
+                                                v-model="create.custom_date_end"
+                                                type="datetime"
+                                                @change="end_date"
+                                                confirm
+                                            ></date-picker>
+                                            <div v-if="!$v.create.end_date.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
+                                            <template v-if="errors.end_date">
+                                                <ErrorMessage v-for="(errorMessage,index) in errors.end_date" :key="index">{{ errorMessage }}</ErrorMessage>
                                             </template>
                                         </div>
                                     </div>
@@ -778,52 +804,50 @@ export default {
                                             >
                                         </div>
                                     </th>
-                                    <th v-if="setting.name">
+                                    <th v-if="setting.company_id">
                                         <div class="d-flex justify-content-center">
-                                            <span>{{ $t('general.Name') }}</span>
+                                            <span>{{ $t('company.company') }}</span>
+                                        </div>
+                                    </th>
+                                    <th v-if="setting.module_id">
+                                        <div class="d-flex justify-content-center">
+                                            <span>{{ $t('module.module') }}</span>
+                                        </div>
+                                    </th>
+                                    <th  v-if="setting.allowed_users_no">
+                                        <div class="d-flex justify-content-center">
+                                            <span>{{ $t('general.allowed_users_no') }}</span>
                                             <div class="arrow-sort">
-                                                <i class="fas fa-arrow-up" @click="partners.sort(sortString('name'))"></i>
-                                                <i class="fas fa-arrow-down" @click="partners.sort(sortString('-name'))"></i>
+                                                <i class="fas fa-arrow-up" @click="companyModules.sort(sortNumber('allowed_users_no'))"></i>
+                                                <i class="fas fa-arrow-down" @click="companyModules.sort(sortNumber('-allowed_users_no'))"></i>
                                             </div>
                                         </div>
                                     </th>
-                                    <th v-if="setting.name_e">
+                                    <th v-if="setting.start_date">
                                         <div class="d-flex justify-content-center">
-                                            <span>{{ $t('general.Name_en') }}</span>
+                                            <span>{{ $t('general.startDate') }}</span>
                                             <div class="arrow-sort">
-                                                <i class="fas fa-arrow-up" @click="partners.sort(sortString('name_e'))"></i>
-                                                <i class="fas fa-arrow-down" @click="partners.sort(sortString('-name_e'))"></i>
+                                                <i class="fas fa-arrow-up" @click="companyModules.sort(SortDate('start_date'))"></i>
+                                                <i class="fas fa-arrow-down" @click="companyModules.sort(SortDate('-start_date'))"></i>
                                             </div>
                                         </div>
                                     </th>
-                                    <th  v-if="setting.email">
+                                    <th v-if="setting.end_date">
                                         <div class="d-flex justify-content-center">
-                                            <span>{{ $t('login.Emailaddress') }}</span>
+                                            <span>{{ $t('general.endDate') }}</span>
                                             <div class="arrow-sort">
-                                                <i class="fas fa-arrow-up" @click="partners.sort(sortString('email'))"></i>
-                                                <i class="fas fa-arrow-down" @click="partners.sort(sortString('-email'))"></i>
+                                                <i class="fas fa-arrow-up" @click="companyModules.sort(SortDate('end_date'))"></i>
+                                                <i class="fas fa-arrow-down" @click="companyModules.sort(SortDate('-end_date'))"></i>
                                             </div>
                                         </div>
-                                    </th>
-                                    <th  v-if="setting.mobile_no">
-                                        <div class="d-flex justify-content-center">
-                                            <span> {{ $t('general.mobile_no') }}</span>
-                                            <div class="arrow-sort">
-                                                <i class="fas fa-arrow-up" @click="partners.sort(sortNumber('mobile_no'))"></i>
-                                                <i class="fas fa-arrow-down" @click="partners.sort(sortNumber('-mobile_no'))"></i>
-                                            </div>
-                                        </div>
-                                    </th>
-                                    <th  v-if="setting.is_active">
-                                        {{ $t('general.Status') }}
                                     </th>
                                     <th>{{ $t('general.Action') }}</th>
                                     <th><i class="fas fa-ellipsis-v"></i></th>
                                 </tr>
                                 </thead>
-                                <tbody v-if="partners.length > 0">
+                                <tbody v-if="companyModules.length > 0">
                                 <tr
-                                    v-for="(data,index) in partners"
+                                    v-for="(data,index) in companyModules"
                                     :key="data.id" class="body-tr-custom"
                                     @click.capture="checkRow(data.id)"
                                     @dblclick.prevent="$bvModal.show(`modal-edit-${data.id}`)"
@@ -839,23 +863,15 @@ export default {
                                             >
                                         </div>
                                     </td>
-                                    <td  v-if="setting.name">
-                                        <h5 class="m-0 font-weight-normal">{{ data.name }}</h5>
+                                    <td  v-if="setting.company_id">
+                                        {{ $i18n.locale == 'ar' ? data.company.name : data.company.name_e }}
                                     </td>
-                                    <td  v-if="setting.name_e">{{ data.name_e }}</td>
-                                    <td  v-if="setting.email">{{ data.email }}</td>
-                                    <td  v-if="setting.mobile_no">{{ data.mobile_no }}</td>
-                                    <td  v-if="setting.is_active">
-                                        <span :class="[
-                                            data.is_active == 'active'?
-                                            'bg-soft-success text-success':
-                                            'bg-soft-danger  text-danger',
-                                            'badge'
-                                            ]"
-                                        >
-                                            {{ data.is_active == 'active'? `${$t('general.Active')}`:`${$t('general.Inactive')}`}}
-                                        </span>
+                                    <td  v-if="setting.module_id">
+                                        {{ $i18n.locale == 'ar' ? data.module.name : data.module.name_e }}
                                     </td>
+                                    <td  v-if="setting.allowed_users_no">{{ data.allowed_users_no }}</td>
+                                    <td>{{ formatDate(data.start_date) }}</td>
+                                    <td>{{ formatDate(data.end_date) }}</td>
                                     <td>
                                         <div class="btn-group">
                                             <button
@@ -883,7 +899,7 @@ export default {
                                                 <a
                                                     class="dropdown-item text-black"
                                                     href="#"
-                                                    @click.prevent="deletePartner(data.id)"
+                                                    @click.prevent="deleteCompanyModule(data.id)"
                                                 >
                                                     <div class="d-flex justify-content-between align-items-center text-black">
                                                         <span>{{ $t('general.delete') }}</span>
@@ -896,10 +912,9 @@ export default {
                                         <!--  edit   -->
                                         <b-modal
                                             :id="`modal-edit-${data.id}`"
-                                            :title="$t('partner.editpartner')"
+                                            :title="$t('companyModule.edit')"
                                             title-class="font-18"
                                             body-class="p-4"
-                                            size="lg"
                                             :ref="`edit-${data.id}`"
                                             :hide-footer="true"
                                             @show="resetModalEdit(data.id)"
@@ -923,117 +938,94 @@ export default {
                                                     </b-button>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-md-6 direction" dir="rtl">
+                                                    <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <label for="edit-1" class="control-label">
-                                                                {{ $t('general.Name') }}
+                                                            <label  class="control-label">
+                                                                {{ $t('company.company') }}
                                                                 <span class="text-danger">*</span>
                                                             </label>
-                                                            <input
-                                                                type="text"
-                                                                class="form-control arabicInput"
-                                                                v-model.trim="$v.edit.name.$model"
-                                                                :class="{
-                                                                    'is-invalid':$v.edit.name.$error || errors.name,
-                                                                    'is-valid':!$v.edit.name.$invalid && !errors.name
-                                                                }"
-                                                                 id="edit-1"
-                                                            />
-                                                            <div v-if="!$v.edit.name.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.edit.name.$params.minLength.min }} {{ $t('general.letters') }}</div>
-                                                            <div v-if="!$v.edit.name.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.edit.name.$params.maxLength.max }} {{ $t('general.letters') }}</div>
-                                                            <div v-if="!$v.edit.name.alphaArabic" class="invalid-feedback">{{ $t('general.alphaArabic') }}</div>
-                                                            <template v-if="errors.name">
+                                                            <multiselect
+                                                                v-model="$v.edit.company_id.$model"
+                                                                :options="companies.map(type => type.id)"
+                                                                :custom-label="opt => $i18n.locale == 'ar' ? companies.find(x => x.id == opt).name : companies.find(x => x.id == opt).name_e">
+                                                            </multiselect>
+                                                            <div v-if="!$v.edit.company_id.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
+                                                            <template v-if="errors.company_id">
                                                                 <ErrorMessage v-for="(errorMessage,index) in errors.name" :key="index">{{ errorMessage }}</ErrorMessage>
                                                             </template>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6 direction-ltr" dir="ltr">
+                                                    <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <label for="edit-2" class="control-label">
-                                                                {{ $t('general.Name_en') }}
+                                                            <label  class="control-label">
+                                                                {{ $t('module.module') }}
+                                                                <span class="text-danger">*</span>
+                                                            </label>
+                                                            <multiselect
+                                                                v-model="$v.edit.module_id.$model"
+                                                                :options="modules.map(type => type.id)"
+                                                                :custom-label="opt => $i18n.locale == 'ar' ? modules.find(x => x.id == opt).name : modules.find(x => x.id == opt).name_e">
+                                                            </multiselect>
+                                                            <div v-if="!$v.edit.module_id.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
+                                                            <template v-if="errors.module_id">
+                                                                <ErrorMessage v-for="(errorMessage,index) in errors.name" :key="index">{{ errorMessage }}</ErrorMessage>
+                                                            </template>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label  class="control-label">
+                                                                {{ $t('general.allowed_users_no') }}
                                                                 <span class="text-danger">*</span>
                                                             </label>
                                                             <input
                                                                 type="text"
-                                                                class="form-control englishInput"
-                                                                v-model.trim="$v.edit.name_e.$model"
+                                                                class="form-control "
+                                                                v-model.trim="$v.edit.allowed_users_no.$model"
                                                                 :class="{
-                                                                    'is-invalid':$v.edit.name_e.$error || errors.name_e,
-                                                                    'is-valid':!$v.edit.name_e.$invalid && !errors.name_e
-                                                                }"
-                                                                 id="edit-2"
+                                                    'is-invalid':$v.edit.allowed_users_no.$error || errors.allowed_users_no,
+                                                    'is-valid':!$v.edit.allowed_users_no.$invalid && !errors.allowed_users_no
+                                                }"
                                                             />
-                                                            <div v-if="!$v.edit.name_e.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.edit.name_e.$params.minLength.min }} {{ $t('general.letters') }}</div>
-                                                            <div v-if="!$v.edit.name_e.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.edit.name_e.$params.maxLength.max }} {{ $t('general.letters') }}</div>
-                                                            <div v-if="!$v.edit.name_e.alphaEnglish" class="invalid-feedback">{{ $t('general.alphaEnglish') }}</div>
-                                                            <template v-if="errors.name_e">
-                                                                <ErrorMessage v-for="(errorMessage,index) in errors.name_e" :key="index">{{ errorMessage }}</ErrorMessage>
+                                                            <template v-if="errors.allowed_users_no">
+                                                                <ErrorMessage v-for="(errorMessage,index) in errors.allowed_users_no" :key="index">{{ errorMessage }}</ErrorMessage>
                                                             </template>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <label for="edit-3" class="control-label">
-                                                                {{ $t('login.Emailaddress') }}
+                                                            <label class="control-label">
+                                                                {{ $t('general.startDate') }}
                                                                 <span class="text-danger">*</span>
                                                             </label>
-                                                            <input
-                                                                type="email"
-                                                                class="form-control"
-                                                                v-model.trim="$v.edit.email.$model"
-                                                                :class="{
-                                                                    'is-invalid':$v.edit.email.$error || errors.email,
-                                                                    'is-valid':!$v.edit.email.$invalid && !errors.email
-                                                                }"
-                                                                id="edit-3"
-                                                            />
-                                                            <div v-if="!$v.edit.email.email" class="invalid-feedback">{{ $t('general.PleaseEnterValidEmail') }}</div>
-                                                            <div v-if="!$v.edit.email.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.edit.email.$params.minLength.min }} {{ $t('general.letters') }}</div>
-                                                            <div v-if="!$v.edit.email.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.edit.email.$params.maxLength.max }} {{ $t('general.letters') }}</div>
-                                                            <template v-if="errors.email">
-                                                                <ErrorMessage v-for="(errorMessage,index) in errors.email" :key="index">{{ errorMessage }}</ErrorMessage>
+                                                            <date-picker
+                                                                v-model="create.custom_date_start"
+                                                                type="datetime"
+                                                                :default-value="create.custom_date_start"
+                                                                @change="start_date"
+                                                                confirm
+                                                            ></date-picker>
+                                                            <div v-if="!$v.create.start_date.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
+                                                            <template v-if="errors.start_date">
+                                                                <ErrorMessage v-for="(errorMessage,index) in errors.start_date" :key="index">{{ errorMessage }}</ErrorMessage>
                                                             </template>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <label  class="control-label">
-                                                                {{ $t('general.mobile_no') }}
+                                                            <label class="control-label">
+                                                                {{ $t('general.endDate') }}
                                                                 <span class="text-danger">*</span>
                                                             </label>
-                                                            <VuePhoneNumberInput
-                                                                v-model="$v.edit.mobile_no.$model"
-                                                                default-country-code="EG"
-                                                                valid-color="#28a745"
-                                                                error-color="#dc3545"
-                                                                :preferred-countries="['FR', 'EG', 'DE']"
-                                                                @update="updatePhoneEdit"
-                                                            />
-                                                             <template v-if="errors.mobile_no">
-                                                                <ErrorMessage v-for="(errorMessage,index) in errors.mobile_no" :key="index">{{ errorMessage }}</ErrorMessage>
-                                                            </template>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class=" mr-2 mb-2" >
-                                                                {{ $t('general.Status') }}
-                                                                <span class="text-danger">*</span>
-                                                            </label>
-                                                            <b-form-group
-                                                                :class="{
-                                                                'is-invalid':$v.edit.is_active.$error || errors.is_active,
-                                                                'is-valid':!$v.edit.is_active.$invalid && !errors.is_active
-                                                                }"
-                                                            >
-                                                                <b-form-radio class="d-inline-block" v-model="$v.edit.is_active.$model" name="some-radios" value="1">{{$t('general.Active')}}</b-form-radio>
-                                                                <b-form-radio class="d-inline-block m-1" v-model="$v.edit.is_active.$model" name="some-radios" value="0">{{$t('general.Inactive')}}</b-form-radio>
-                                                            </b-form-group>
-                                                            <template v-if="errors.is_active">
-                                                                <ErrorMessage
-                                                                    v-for="(errorMessage,index) in errors.is_active"
-                                                                    :key="index">{{ errorMessage }}
-                                                                </ErrorMessage>
+                                                            <date-picker
+                                                                v-model="create.custom_date_end"
+                                                                type="datetime"
+                                                                @change="end_date"
+                                                                confirm
+                                                            ></date-picker>
+                                                            <div v-if="!$v.create.end_date.required" class="invalid-feedback">{{ $t('general.fieldIsRequired') }}</div>
+                                                            <template v-if="errors.end_date">
+                                                                <ErrorMessage v-for="(errorMessage,index) in errors.end_date" :key="index">{{ errorMessage }}</ErrorMessage>
                                                             </template>
                                                         </div>
                                                     </div>

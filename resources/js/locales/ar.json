@@ -488,6 +488,10 @@
     "edit": "تعديل",
     "searchSetting": "إعداد البحث",
     "AddNewRecord": "أضف سجل جديد",
-    "Save": "حفظ"
+    "Save": "حفظ",
+    "DataEntry": "ادخل البيانات",
+    "allowed_users_no": "عدد المستخدمين المسموح لهم",
+    "startDate": "وقت البدايه",
+    "endDate": "وقت النهايه"
   }
 }

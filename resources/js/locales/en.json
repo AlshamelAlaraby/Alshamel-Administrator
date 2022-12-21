@@ -488,6 +488,10 @@
     "edit": "Edit",
     "searchSetting": "Search Setting",
     "AddNewRecord": "Add New Record",
-    "Save": "Save"
+    "Save": "Save",
+    "DataEntry": "Data Entry",
+    "allowed_users_no": "Allowed Users No",
+    "startDate": "Start Date",
+    "endDate": "End Date"
   }
 }
