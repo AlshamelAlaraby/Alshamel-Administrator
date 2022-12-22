@@ -38,7 +38,8 @@ class ScreenButtonController extends Controller
         return responseJson(200, 'success', ScreenButtonResource::collection($models['data']), $models['paginate'] ? getPaginates($models['data']) : null);
     }
 
-    public function allScreens(){
+    public function allScreens()
+    {
         return $this->repository->getScreens();
     }
 
@@ -62,10 +63,16 @@ class ScreenButtonController extends Controller
 
     public function store(StoreScreenButtonRequest $request)
     {
-
-        return responseJson(200, __('Done'), $this->repository->create($request->validated()));
+        if ($this->repository->screenButtonExist($request->screen_id, $request->button_id)) {
+            return response()->json(["error" => "screen button exist"], 422);
+        }
+        return responseJson(200, __('Done'), $this->repository->create($request));
     }
 
+    public function removeScreenFromButton($screen_id, $button_id)
+    {
+        $this->repository->removeScreenFromButton($screen_id, $button_id);
+    }
 
     public function update(UpdateScreenButtonRequest $request, $id)
     {
@@ -101,8 +108,9 @@ class ScreenButtonController extends Controller
         return  responseJson(200, __('Done'));
     }
 
-    public function bulkDelete(Request $request){
-        foreach ($request->ids as $id){
+    public function bulkDelete(Request $request)
+    {
+        foreach ($request->ids as $id) {
             $this->repository->delete($id);
         }
         return  responseJson(200, __('Done'));

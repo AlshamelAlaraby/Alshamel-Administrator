@@ -25,7 +25,6 @@
         "AddWorkflow": "اضافة شجرة سير العمل",
         "EditWorkflow": "تعديل شجرة سير العمل",
         "Workflow": "سير العمل",
-
         "WorkflowsTable": "جدول سير العمل"
     },
     "DocumentType": {
@@ -432,7 +431,16 @@
         }
     },
     "general": {
+        "AddButton": "اضافة زرار",
+        "AddFile": "اضافة ملف",
+        "DeletedSuccessfully": "تم الحذف بنجاح",
+        "Buttons": "الازرار",
+        "DocumentType": "انواع الملفات",
+      "ExistBefore":"موجود مسبقا",
+        "title": "العنوان (عربي)",
+        "title_en": "العنوان (انجليزي)",
         "IdSort": "معرف الترتيب",
+        "screens": "الشاشات",
         "Partner": "الشريك",
         "Company": "الشركة",
         "Module": "الوحدة",
