@@ -64,6 +64,7 @@ Route::group(['prefix' => 'companies'], function () {
     Route::delete('/{id}', [CompanyController::class, "destroy"])->name('companies.delete');
     Route::delete('/logs/{id}', [CompanyController::class, "logs"])->name('companies.logs');
     Route::post('bulk-delete', [CompanyController::class, 'bulkDelete']);
+
 });
 
 Route::post('/companyModules/{id}', [CompanyController::class, "companyModules"]);
@@ -200,6 +201,8 @@ Route::group(['prefix' => 'hotfields'], function () {
 Route::group(['prefix' => 'workflow-trees'], function () {
     Route::controller(WorkflowTreeController::class)->group(function () {
         Route::get('/', 'all')->name('WorkflowTree.index');
+        Route::get('/root-nodes', 'getRootNodes')->name('workflow.root-nodes');
+        Route::get('/child-nodes/{parentId}', 'getChildNodes')->name('workflow.child-nodes');
         Route::get('/{id}', 'find');
         Route::post('/', 'store')->name('WorkflowTree.store');
         Route::put('/{id}', 'update')->name('WorkflowTree.update');
@@ -227,7 +230,7 @@ Route::group(['prefix' => 'buttons'], function () {
         Route::get("/logs/{id}", "logs")->name("buttons.logs");
         Route::get('/{id}', 'find');
         Route::post('/', 'store')->name('buttons.store');
-        Route::post('/{id}', 'update')->name('buttons.update');
+        Route::put('/{id}', 'update')->name('buttons.update');
         Route::delete('/{id}', 'delete')->name('buttons.destroy');
         Route::post('bulk-delete', 'bulkDelete');
     });
@@ -246,13 +249,15 @@ Route::group(['prefix' => 'branches'], function () {
 
 Route::group(['prefix' => 'document-type'], function () {
     Route::controller(DocumentTypeController::class)->group(function () {
-        Route::get('/', 'all')->name('modules.index');
+        Route::get('/', 'all')->name('document.index');
         Route::get('/{id}', 'find');
+
         Route::post('/', 'create')->name('modules.create');
         Route::put('/{id}', 'update')->name('modules.update');
         Route::delete('/{id}', 'delete')->name('modules.destroy');
         Route::get('logs/{id}', 'logs');
         Route::post('bulk-delete', 'bulkDelete');
+
     });
 });
 

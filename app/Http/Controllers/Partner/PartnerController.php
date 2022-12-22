@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Partner;
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\WorkflowTree\WorkflowTreeResource1;
 use Mockery\Exception;
 use App\Models\Partner;
@@ -11,14 +12,13 @@ use Illuminate\Support\Facades\Hash;
 use App\Exceptions\NotFoundException;
 use App\Http\Resources\Log\LogResource;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Controllers\ResponseController;
 use App\Http\Resources\Partner\PartnerResource;
 use App\Http\Requests\Partner\StorePartnerRequest;
 use App\Http\Requests\Partner\UpdatePartnerRequest;
 use App\Repositories\Partner\PartnerRepositoryInterface;
 use App\Http\Resources\ScreenSetting\ScreenSettingResource;
 
-class PartnerController extends ResponseController
+class PartnerController extends Controller
 {
 
     protected $repository;

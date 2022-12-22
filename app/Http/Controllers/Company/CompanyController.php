@@ -53,13 +53,16 @@ class CompanyController extends Controller
 
     public function update(UpdateCompanyRequest $request, $id)
     {
+
         $model = $this->modelInterface->find($id);
         if (!$model) {
             return responseJson(404, __('message.data not found'));
         }
+
         $model->refresh();
         $this->modelInterface->update($request, $id);
         return responseJson(200, 'success', new CompanyResource($model));
+
     }
 
     public function bulkDelete(Request $request)
