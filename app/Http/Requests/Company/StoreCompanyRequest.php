@@ -18,6 +18,8 @@ class StoreCompanyRequest extends FormRequest
             "name" => "required|string|max:100",
             "name_e" => "required|string|max:100",
             "url" => "required|url|string|max:200",
+            "phone_code"      => [],
+            "country_code"      => [],
             "address" => "required|string|max:200",
             "phone" => "required|numeric|digits_between:8,16",
             "cr" => "required|string",

@@ -42,11 +42,11 @@ class CompanyModule extends Model
 
     public function company()
     {
-        return $this->belongsToMany(Company::class, 'company_id' , 'id');
+        return $this->belongsTo(Company::class, 'company_id','id');
     }
     public function module()
     {
-        return $this->belongsToMany(Module::class, 'module_id' , 'id');
+        return $this->belongsTo(Module::class, 'module_id','id');
     }
 
 
