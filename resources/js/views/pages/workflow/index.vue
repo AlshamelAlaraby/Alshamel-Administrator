@@ -371,9 +371,9 @@ export default {
       }
       this.$v.create.$touch();
 
-      // if (this.$v.create.$invalid) {
-      //   return;
-      // }
+      if (this.$v.create.$invalid) {
+        return;
+      }
       if (true) {
         this.isLoader = true;
         this.errors = {};
