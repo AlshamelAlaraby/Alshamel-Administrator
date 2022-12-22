@@ -79,7 +79,7 @@ class WorkflowTreeRepository implements WorkflowTreeRepositoryInterface
             if (!$request->old_media && !$request->media) { // if this is no old media and new media
                 $model->clearMediaCollection('media');
             }
-            $model->update($request);
+            $model->update($request->all());
 
             $this->forget($id);
         });

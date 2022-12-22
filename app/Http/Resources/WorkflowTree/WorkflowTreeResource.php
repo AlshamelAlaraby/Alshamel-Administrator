@@ -26,6 +26,8 @@ class WorkflowTreeResource extends JsonResource
             'partner'    => new PartnerRelationResource($this->partner),
             'company_id' => $this->company_id,
             'module_id'  => $this->module_id,
+            'partner_id'  => $this->partner_id,
+            'screen_id'  => $this->screen_id,
             'screen'  => new ScreenRelationResource($this->screen),
             'module'  => new ScreenRelationResource($this->module),
             'company'  => new ScreenRelationResource($this->company),
@@ -34,6 +36,7 @@ class WorkflowTreeResource extends JsonResource
             'deleted_at' => $this->deleted_at,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            "media" => isset($this->files) ? FileResource::collection($this->files) : null,
         ];
     }
 }

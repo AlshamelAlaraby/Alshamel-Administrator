@@ -752,7 +752,7 @@ export default {
                             :title="$t('general.addButton')"
                             title-class="font-18"
                             size="lg"
-                            body-class=""
+                            body-class="buttons"
                             :hide-footer="true"
                             @show="resetModal"
                             @hidden="resetModalHidden"
@@ -1093,7 +1093,7 @@ export default {
                                             :id="`modal-edit-${data.id}`"
                                             :title="$t('general.editButton')"
                                             title-class="font-18"
-                                            body-class=""
+                                            body-class="buttons"
                                             size="lg"
                                             :ref="`edit-${data.id}`"
                                             :hide-footer="true"
@@ -1341,7 +1341,7 @@ export default {
 .modal-dialog .card {
     margin: 0 !important;
 }
-.modal-body {
+.buttons.modal-body {
     padding: 0 !important;
 }
 .modal-dialog .card-body {

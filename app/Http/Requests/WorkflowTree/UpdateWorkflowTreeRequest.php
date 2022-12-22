@@ -25,16 +25,18 @@ class UpdateWorkflowTreeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
-            'name_e' => 'required|string|max:255',
-            'is_active' => 'nullable|in:0,1',
+            'name' => 'nullable|string|max:255',
+            'name_e' => 'nullable|string|max:255',
+            'is_active' => 'nullable|in:active,inactive',
             'parent_id' => 'nullable',
-            'partner_id' => 'required',
-            'company_id' => 'required',
-            'module_id'  => 'required',
+            'partner_id' => 'nullable',
+            'company_id' => 'nullable',
+            'module_id'  => 'nullable',
             'screen_id'  => 'nullable',
-            "media" => ["exists:media,id", new \App\Rules\MediaRule()],
             'id_sort'    => 'nullable',
+            "media" => "nullable|array",
+            "media.*" => ["nullable", "exists:media,id", new \App\Rules\MediaRule()],
+            'old_media.*' => ['exists:media,id', new \App\Rules\MediaRule("App\Models\WorkflowTree")],
         ];
     }
 

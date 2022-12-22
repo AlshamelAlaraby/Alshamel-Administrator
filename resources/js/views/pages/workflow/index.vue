@@ -86,6 +86,7 @@ export default {
         screen_id: true,
         id_sort: true,
         is_active: true,
+        id_integer: true,
       },
       idDelete: null,
       filterSetting: ["name", "name_e"],
@@ -213,7 +214,7 @@ export default {
 
         adminApi
           .get(
-            `/workflow-trees?page=${page}&per_page=${this.per_page}&search=${this.search}&${filter}`
+            `/workflow-trees?page=${this.current_page}&per_page=${this.per_page}&search=${this.search}&${filter}`
           )
           .then((res) => {
             let l = res.data;
@@ -390,6 +391,7 @@ export default {
                 timer: 1500,
               });
             }, 200);
+            this.getRootNodes();
             this.getData();
           })
           .catch((err) => {
@@ -426,6 +428,7 @@ export default {
           .then((res) => {
             this.$bvModal.hide(`modal-edit-${id}`);
             this.getData();
+            this.getRootNodes();
             setTimeout(() => {
               Swal.fire({
                 icon: "success",
@@ -490,9 +493,15 @@ export default {
       this.edit.company_id = workflow.company_id;
       this.edit.module_id = workflow.module_id;
       this.edit.screen_id = workflow.screen_id;
+      this.edit.id_sort = workflow.id_sort;
       this.edit.is_active = workflow.is_active;
-      this.images = workflow.media;
-      this.showPhoto = this.images[this.images.length - 1].webp;
+      this.images = workflow.media ? workflow.media : [];
+      if (this.images&&this.images.length>0) {
+        this.showPhoto = this.images[this.images.length - 1].webp;
+      }
+      this.$nextTick(() => {
+        this.$v.$reset();
+      });
       this.errors = {};
     },
     /**
@@ -739,18 +748,21 @@ export default {
             .post(`/media`, formDate)
             .then((res) => {
               let old_media = [];
+
               this.images.forEach((e) => old_media.push(e.id));
               let new_media = [];
               res.data.data.forEach((e) => new_media.push(e.id));
-
               adminApi
                 .put(`/workflow-trees/${this.workflow_id}`, {
                   old_media,
                   media: new_media,
                 })
                 .then((res) => {
-                  this.images = res.data.data.media;
-                  this.showPhoto = this.images[this.images.length - 1].webp;
+                  console.log(res);
+                  this.images = res.data.data.media ? res.data.data.media : [];
+                  if (this.images&&this.images.length>0) {
+                    this.showPhoto = this.images[this.images.length - 1].webp;
+                  }
                   this.getData();
                 })
                 .catch((err) => {
@@ -798,15 +810,16 @@ export default {
                   old_media.splice(old_media.indexOf(this.idDelete), 1);
                   let new_media = [];
                   res.data.data.forEach((e) => new_media.push(e.id));
-
                   adminApi
                     .put(`/workflow-trees/${this.workflow_id}`, {
                       old_media,
                       media: new_media,
                     })
                     .then((res) => {
-                      this.images = res.data.data.media;
-                      this.showPhoto = this.images[this.images.length - 1].webp;
+                      this.images = res.data.data.media ? res.data.data.media : [];
+                      if (this.images && this.images.length > 0) {
+                        this.showPhoto = this.images[this.images.length - 1].webp;
+                      }
                       this.getData();
                     })
                     .catch((err) => {
@@ -846,8 +859,11 @@ export default {
       adminApi
         .put(`/workflow-trees/${this.workflow_id}`, { old_media })
         .then((res) => {
-          this.images = res.data.data.media;
-          this.showPhoto = this.images[this.images.length - 1].webp;
+          this.images = res.data.data.media ? res.data.data.media : [];
+            if(this.images&&this.images.length>0){ {
+            this.showPhoto = this.images[this.images.length - 1].webp;
+          }
+            }
         })
         .catch((err) => {
           Swal.fire({
@@ -999,13 +1015,16 @@ export default {
                       <b-form-checkbox v-model="setting.screen_id" class="mb-1">
                         {{ $t("general.Screen") }}
                       </b-form-checkbox>
+                      <b-form-checkbox v-model="setting.id_sort" class="mb-1">
+                        {{ $t("general.IdSort") }}
+                      </b-form-checkbox>
                       <b-form-checkbox v-model="setting.is_active" class="mb-1">
                         {{ $t("general.Status") }}
                       </b-form-checkbox>
                       <div class="d-flex justify-content-end">
-                        <a href="javascript:void(0)" class="btn btn-primary btn-sm"
-                          >{{$t("general.Apply")}}</a
-                        >
+                        <a href="javascript:void(0)" class="btn btn-primary btn-sm">{{
+                          $t("general.Apply")
+                        }}</a>
                       </div>
                     </b-dropdown>
                     <!-- Basic dropdown -->
@@ -1061,7 +1080,7 @@ export default {
               :title="$t('Workflow.AddWorkflow')"
               title-class="font-18"
               dialog-class="modal-full-width"
-              body-class=""
+              body-class="workflow"
               :hide-footer="true"
               @show="resetModal"
               @hidden="resetModalHidden"
@@ -1111,7 +1130,10 @@ export default {
                   <b-tabs nav-class="nav-tabs nav-bordered">
                     <b-tab :title="$t('general.DataEntry')" active>
                       <div class="row">
-                        <div class="myUl-workflow col-md-6" :class="$i18n.locale == 'ar' ? 'rtl' : 'ltr'">
+                        <div
+                          class="myUl-workflow col-md-6"
+                          :class="$i18n.locale == 'ar' ? 'rtl' : 'ltr'"
+                        >
                           <ul id="myUL">
                             <li v-for="node in rootNodes" :key="node.id">
                               <span>
@@ -1398,7 +1420,7 @@ export default {
                                 </label>
                                 <div>
                                   <input
-                                    type="text"
+                                    type="number"
                                     class="form-control"
                                     data-create="2"
                                     @keypress.enter="moveInput('input', 'create', 3)"
@@ -1625,11 +1647,19 @@ export default {
                         <div class="arrow-sort">
                           <i
                             class="fas fa-arrow-up"
-                            @click="workflows.sort(sortString($i18n.locale='ar'?'name':'name_e'))"
+                            @click="
+                              workflows.sort(
+                                sortString(($i18n.locale = 'ar' ? 'name' : 'name_e'))
+                              )
+                            "
                           ></i>
                           <i
                             class="fas fa-arrow-down"
-                            @click="workflows.sort(sortString($i18n.locale='ar'?'-name':'-name_e'))"
+                            @click="
+                              workflows.sort(
+                                sortString(($i18n.locale = 'ar' ? '-name' : '-name_e'))
+                              )
+                            "
                           ></i>
                         </div>
                       </div>
@@ -1640,11 +1670,19 @@ export default {
                         <div class="arrow-sort">
                           <i
                             class="fas fa-arrow-up"
-                            @click="workflows.sort($i18n.locale='ar'?'name':'name_e')"
+                            @click="
+                              workflows.sort(
+                                sortString(($i18n.locale = 'ar' ? 'name' : 'name_e'))
+                              )
+                            "
                           ></i>
                           <i
                             class="fas fa-arrow-down"
-                            @click="workflows.sort($i18n.locale='ar'?'-name':'-name_e')"
+                            @click="
+                              workflows.sort(
+                                sortString(($i18n.locale = 'ar' ? '-name' : '-name_e'))
+                              )
+                            "
                           ></i>
                         </div>
                       </div>
@@ -1655,11 +1693,19 @@ export default {
                         <div class="arrow-sort">
                           <i
                             class="fas fa-arrow-up"
-                            @click="workflows.sort($i18n.locale='ar'?'name':'name_e')"
+                            @click="
+                              workflows.sort(
+                                sortString(($i18n.locale = 'ar' ? 'name' : 'name_e'))
+                              )
+                            "
                           ></i>
                           <i
                             class="fas fa-arrow-down"
-                            @click="workflows.sort($i18n.locale='ar'?'-name':'-name_e')"
+                            @click="
+                              workflows.sort(
+                                sortString(($i18n.locale = 'ar' ? '-name' : '-name_e'))
+                              )
+                            "
                           ></i>
                         </div>
                       </div>
@@ -1670,11 +1716,23 @@ export default {
                         <div class="arrow-sort">
                           <i
                             class="fas fa-arrow-up"
-                            @click="workflows.sort(sortString($i18n.locale='ar'?'name':'name_e'))"
+                            @click="
+                              workflows.sort(
+                                sortString(
+                                  sortString(($i18n.locale = 'ar' ? 'name' : 'name_e'))
+                                )
+                              )
+                            "
                           ></i>
                           <i
                             class="fas fa-arrow-down"
-                            @click="workflows.sort(sortString($i18n.locale='ar'?'-name':'-name_e'))"
+                            @click="
+                              workflows.sort(
+                                sortString(
+                                  sortString(($i18n.locale = 'ar' ? '-name' : '-name_e'))
+                                )
+                              )
+                            "
                           ></i>
                         </div>
                       </div>
@@ -1742,22 +1800,26 @@ export default {
                     </td>
                     <td v-if="setting.partner_id">
                       <h5 class="m-0 font-weight-normal">
-                        {{ $i18n.locale=='ar'?data.partner.name:data.partner.name_e }}
+                        {{
+                          $i18n.locale == "ar" ? data.partner.name : data.partner.name_e
+                        }}
                       </h5>
                     </td>
                     <td v-if="setting.company_id">
                       <h5 class="m-0 font-weight-normal">
-                           <!-- {{ $i18n.locale=='ar'?data.company.name:data.company.name_e }} -->
+                        {{
+                          $i18n.locale == "ar" ? data.company.name : data.company.name_e
+                        }}
                       </h5>
                     </td>
                     <td v-if="setting.module_id">
                       <h5 class="m-0 font-weight-normal">
-                        {{ $i18n.locale=='ar'?data.module.name:data.module.name_e }}
+                        {{ $i18n.locale == "ar" ? data.module.name : data.module.name_e }}
                       </h5>
                     </td>
                     <td v-if="setting.screen_id">
                       <h5 v-if="data.screen" class="m-0 font-weight-normal">
-                        {{ $i18n.locale=='ar'?data.screen.name:data.screen.name_e }}
+                        {{ $i18n.locale == "ar" ? data.screen.name : data.screen.name_e }}
                       </h5>
                     </td>
                     <td v-if="setting.id_sort">
@@ -1821,7 +1883,7 @@ export default {
                         :id="`modal-edit-${data.id}`"
                         :title="$t('Workflow.EditWorkflow')"
                         title-class="font-18"
-                        body-class=""
+                        body-class="workflow"
                         dialog-class="modal-full-width"
                         :ref="`edit-${data.id}`"
                         :hide-footer="true"
@@ -1860,7 +1922,10 @@ export default {
                           <b-tabs nav-class="nav-tabs nav-bordered">
                             <b-tab :title="$t('general.DataEntry')" active>
                               <div class="row">
-                                <div :class="$i18n.locale == 'ar' ? 'rtl' : 'ltr'" class="myUl-workflow col-md-6" >
+                                <div
+                                  :class="$i18n.locale == 'ar' ? 'rtl' : 'ltr'"
+                                  class="myUl-workflow col-md-6"
+                                >
                                   <ul id="myUL">
                                     <li v-for="node in rootNodes" :key="node.id">
                                       <span>
@@ -2421,7 +2486,7 @@ export default {
 .modal-dialog .card {
   margin: 0 !important;
 }
-.modal-body {
+.workflow.modal-body {
   padding: 0 !important;
 }
 .modal-dialog .card-body {
