@@ -1331,11 +1331,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_widgets_errorMessage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../components/widgets/errorMessage */ "./resources/js/components/widgets/errorMessage.vue");
 /* harmony import */ var _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../api/adminAxios */ "./resources/js/api/adminAxios.js");
 /* harmony import */ var vue_switches__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-switches */ "./node_modules/vue-switches/src/switches.vue");
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _components_loader__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../components/loader */ "./resources/js/components/loader.vue");
 /* harmony import */ var _helper_tableSort__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../helper/tableSort */ "./resources/js/helper/tableSort.js");
+/* harmony import */ var _helper_startDate__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../helper/startDate */ "./resources/js/helper/startDate.js");
+
 
 
 
@@ -1408,67 +1410,68 @@ __webpack_require__.r(__webpack_exports__);
       isCheckAll: false,
       checkAll: [],
       is_disabled: false,
-      current_page: 1
+      current_page: 1,
+      Tooltip: ''
     };
   },
   validations: {
     create: {
       name: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(100)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(100)
       },
       name_e: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(100)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(100)
       },
       email: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.email,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(100)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.email,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(100)
       },
       password: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(8),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(16)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(8),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(16)
       },
       repeatPassword: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        sameAs: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.sameAs)('password')
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        sameAs: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.sameAs)('password')
       },
       mobile_no: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.integer
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.integer
       },
       is_active: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required
       }
     },
     edit: {
       name: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(100)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(100)
       },
       name_e: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(100)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(100)
       },
       email: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.email,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(100)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.email,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(100)
       },
       mobile_no: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.integer
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.integer
       },
       is_active: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required
       }
     }
   },
@@ -1811,6 +1814,27 @@ __webpack_require__.r(__webpack_exports__);
         var index = this.checkAll.indexOf(id);
         this.checkAll.splice(index, 1);
       }
+    },
+    formatDate: function formatDate(value) {
+      return (0,_helper_startDate__WEBPACK_IMPORTED_MODULE_8__.formatDateOnly)(value);
+    },
+    log: function log(id) {
+      var _this11 = this;
+      this.Tooltip = '';
+      _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].get("/partners/logs/".concat(id)).then(function (res) {
+        var l = res.data.data;
+        l.forEach(function (e) {
+          _this11.Tooltip += "Created By: ".concat(e.causer_type, "; Event: ").concat(e.event, "; Description: ").concat(e.description, " ;Created At: ").concat(_this11.formatDate(e.created_at), " \n");
+        });
+      })["catch"](function (err) {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
+          icon: 'error',
+          title: "".concat(_this11.$t('general.Error')),
+          text: "".concat(_this11.$t('general.Thereisanerrorinthesystem'))
+        });
+      })["finally"](function () {
+        _this11.isLoader = false;
+      });
     }
   }
 });
@@ -2916,6 +2940,33 @@ var menuItems = [{
     }]
   }]
 }];
+
+/***/ }),
+
+/***/ "./resources/js/helper/startDate.js":
+/*!******************************************!*\
+  !*** ./resources/js/helper/startDate.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "formatDateOnly": () => (/* binding */ formatDateOnly),
+/* harmony export */   "formatDateTime": () => (/* binding */ formatDateTime)
+/* harmony export */ });
+function formatDateTime(item) {
+  var now = new Date(item);
+  var st = now.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/);
+  return st[1] + ' ' + st[2];
+}
+;
+function formatDateOnly(item) {
+  var now = new Date(item);
+  var st = now.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/);
+  return st[1];
+}
+;
 
 /***/ }),
 
@@ -17639,12 +17690,41 @@ var render = function () {
                                       1
                                     ),
                                     _vm._v(" "),
-                                    _c("td", [
-                                      _c("i", {
-                                        staticClass: "fe-info",
-                                        staticStyle: { "font-size": "22px" },
-                                      }),
-                                    ]),
+                                    _c(
+                                      "td",
+                                      {
+                                        on: {
+                                          mouseup: function ($event) {
+                                            return _vm.log(data.id)
+                                          },
+                                        },
+                                      },
+                                      [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass: "btn",
+                                            attrs: {
+                                              type: "button",
+                                              "data-toggle": "tooltip",
+                                              "data-placement":
+                                                _vm.$i18n.locale == "en"
+                                                  ? "left"
+                                                  : "right",
+                                              title: _vm.Tooltip,
+                                            },
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fe-info",
+                                              staticStyle: {
+                                                "font-size": "22px",
+                                              },
+                                            }),
+                                          ]
+                                        ),
+                                      ]
+                                    ),
                                   ]
                                 )
                               }),

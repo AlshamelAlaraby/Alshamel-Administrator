@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Repositories\Branch\BranchInterface;
 use App\Repositories\Branch\BranchRepository;
 use App\Repositories\Branch\BranchRepositoryInterface;
 use App\Repositories\Button\ButtonRepository;
@@ -18,14 +19,12 @@ use App\Repositories\Hotfield\HotfieldRepository;
 use App\Repositories\Hotfield\HotfieldRepositoryInterface;
 use App\Repositories\Module\ModuleInterface;
 use App\Repositories\Module\ModuleRepository;
-use App\Repositories\ScreenDocumentType\ScreenDocumentTypeRepository;
-use App\Repositories\ScreenDocumentType\ScreenDocumentTypeRepositoryInterface;
-use App\Repositories\User\UserRepository;
-use App\Repositories\User\UserRepositoryInterface;
 use App\Repositories\Partner\PartnerRepository;
 use App\Repositories\Partner\PartnerRepositoryInterface;
 use App\Repositories\ScreenButton\ScreenButtonRepository;
 use App\Repositories\ScreenButton\ScreenButtonRepositoryInterface;
+use App\Repositories\ScreenDocumentType\ScreenDocumentTypeRepository;
+use App\Repositories\ScreenDocumentType\ScreenDocumentTypeRepositoryInterface;
 use App\Repositories\ScreenHelpfile\ScreenHelpfileRepository;
 use App\Repositories\ScreenHelpfile\ScreenHelpfileRepositoryInterface;
 use App\Repositories\Screen\ScreenRepository;
@@ -34,7 +33,8 @@ use App\Repositories\Serial\SerialRepository;
 use App\Repositories\Serial\SerialRepositoryInterface;
 use App\Repositories\Store\StoreRepository;
 use App\Repositories\Store\StoreRepositoryInterface;
-
+use App\Repositories\User\UserRepository;
+use App\Repositories\User\UserRepositoryInterface;
 use App\Repositories\WorkflowTree\WorkflowTreeRepository;
 use App\Repositories\WorkflowTree\WorkflowTreeRepositoryInterface;
 use Illuminate\Support\Facades\Schema;
@@ -52,6 +52,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(PartnerRepositoryInterface::class, PartnerRepository::class);
         $this->app->bind(ScreenRepositoryInterface::class, ScreenRepository::class);
+        $this->app->bind(BranchInterface::class, BranchRepository::class);
+
         $this->app->bind(HelpfileRepositoryInterface::class, HelpfileRepository::class);
         $this->app->bind(WorkflowTreeRepositoryInterface::class, WorkflowTreeRepository::class);
         $this->app->bind(CompanyModuleRepositoryInterface::class, CompanyModuleRepository::class);

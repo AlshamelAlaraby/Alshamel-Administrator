@@ -1056,5 +1056,3 @@ export default {
     padding: 2.25rem !important;
 }
 </style>
-
-

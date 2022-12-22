@@ -1750,10 +1750,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.create.name_e = this.create.name;
       }
       this.$v.create.$touch();
-
-      // if (this.$v.create.$invalid) {
-      //   return;
-      // }
+      if (this.$v.create.$invalid) {
+        return;
+      }
       if (true) {
         this.isLoader = true;
         this.errors = {};
