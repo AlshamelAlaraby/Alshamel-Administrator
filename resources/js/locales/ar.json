@@ -1,188 +1,5 @@
-
 {
-  "message.name already exists": "الاسم موجود مسبقا",
-  "alshamel": "الشامل",
-  "login": {
-    "loginIn": "تسجيل الدخول",
-    "Rememberme": "تذكرني",
-    "Password": "كلمه المرور",
-    "Emailaddress": "البريد الالكتروني",
-    "Enteryouremailaddressandpasswordtoaccessadminpanel": "أدخل عنوان بريدك الإلكتروني وكلمة المرور للوصول إلى لوحة الإدارة.",
-    "Enteryouremail": "ادخل الاميل",
-    "Enteryourpassword": "ادخل كلمه المرور",
-    "success": "تم تسجيل الدخول بنجاح .",
-    "danger": "يوجد خطا في الاميل او الباسورد",
-    "Loading": "تحميل"
-  },
-  "module": {
-    "addmodule": "اضافه موديل جديد",
-    "editmodule": "تعديل موديل ",
-    "ModulesTable": "جدول الموديول",
-    "module": "موديول"
-  },
-  "Workflow": {
-    "AddWorkflow": "اضافة شجرة سير العمل",
-    "EditWorkflow": "تعديل شجرة سير العمل",
-    "Workflow": "سير العمل",
-    "WorkflowsTable": "جدول سير العمل"
-  },
-  "DocumentType": {
-    "AddDocumentType": "اضافة نوع المستند",
-    "EditDocumentType": "تعديل نوع المستند",
-    "DocumentType": "نوع المستند",
-    "DocumentTypesTable": "جدول انواع المستندات"
-  },
-  "HotField": {
-    "AddHotField": "اضافة حقل ساخن",
-    "EditHotField": "تعديل الحقل الساخن",
-    "HotField": "الحقل الساخن",
-    "HotFieldsTable": "جدول الحقول الساخنة"
-  },
-  "screen_button": {
-    "AddScreenButton": "اضافة زر الشاشة",
-    "EditScreenButton": "تعديل زر الشاشة",
-    "ScreenButtonsTable": "جدول ازرار الشاشة",
-    "screen_button": "زر الشاشة"
-  },
-  "partner": {
-    "addpartner": "اضافه شريك جديد",
-    "editpartner": "تعديل الشريك ",
-    "partnersTable": "جدول الشركاء",
-    "partner": "الشركاء"
-  },
-  "company": {
-    "addcompany": "اضافه الشركه جديد",
-    "editcompany": "تعديل الشركه ",
-    "companysTable": "جدول الشركات",
-    "company": "الشركات",
-    "LogoFileUpload": "تحميل ملف الشعار"
-  },
-  "navbar": {
-    "search": {
-      "text": "بحث..."
-    },
-    "dropdown": {
-      "createnew": {
-        "text": "خلق جديد إبداع جديد",
-        "list": {
-          "projects": "مشاريع جديدة",
-          "users": "أنشئ مستخدمين",
-          "revenue": "تقرير الإيرادات",
-          "settings": "الإعدادات",
-          "help": "ساعد لدعم"
-        }
-      },
-      "megamenu": {
-        "text": "قائمة ميجا",
-        "uicontent": {
-          "title": "مكونات واجهة المستخدم",
-          "list": {
-            "widgets": "الحاجيات",
-            "nestable": "قائمة عش",
-            "rangeslider": "رينج سلايدر",
-            "masonry": "عناصر البناء",
-            "sweetalert": "تنبيهات حلوة",
-            "treeview": "صفحة Treeview",
-            "tour": "صفحة الجولة"
-          }
-        },
-        "application": {
-          "title": "التطبيقات",
-          "list": {
-            "ecommerce": "صفحات التجارة الإلكترونية",
-            "crm": "صفحات CRM",
-            "email": "البريد الإلكتروني",
-            "calendar": "التقويم",
-            "contacts": "اتصالات الفريق",
-            "tasks": "مجلس المهام",
-            "template": "قوالب البريد الإلكتروني"
-          }
-        },
-        "extrapages": {
-          "title": "صفحات اضافية",
-          "list": {
-            "leftsidebaruser": "الشريط الجانبي الأيسر مع المستخدم",
-            "collapsed": "تم طي القائمة",
-            "leftsidebar": "شريط جانبي أيسر صغير",
-            "header": "نمط رأس جديد",
-            "search": "نتيجة البحث",
-            "gallery": "صفحات المعرض",
-            "maintenance": "الصيانة وقريبًا"
-          }
-        },
-        "discount": "بيع خصم خاص!",
-        "subtext": "وفر حتى 70٪.",
-        "buttontext": "التحميل الان"
-      },
-      "site": {
-        "list": {
-          "github": "GitHub",
-          "bitbucket": "Bitbucket",
-          "dribbble": "Dribbble",
-          "dropbox": "Dropbox",
-          "g-suite": "G Suite",
-          "slack": "Slack"
-        }
-      },
-      "notification": {
-        "badge": "5",
-        "text": "إشعارات",
-        "subtext": "امسح الكل",
-        "1": {
-          "title": "علق دوج دوكس على لوحة تحكم المشرف",
-          "text": "قبل دقيقة واحدة"
-        },
-        "2": {
-          "title": "ماريو دروموند",
-          "text": "اهلا كيف انت؟ ماذا عن اجتماعنا القادم"
-        },
-        "3": {
-          "title": "كارين روبنسون",
-          "text": "نجاح باهر ! هذا المشرف يبدو تصميمًا جيدًا ورائعًا"
-        },
-        "4": {
-          "title": "مستخدم جديد مسجل.",
-          "text": "منذ 5 ساعات"
-        },
-        "5": {
-          "title": "علق كاليب فلاكيلار على المسؤول",
-          "text": "قبل 4 أيام"
-        },
-        "6": {
-          "title": "أحب كارلوس كراوتش",
-          "text": "قبل 13 يوم"
-        },
-        "button": "مشاهدة الكل"
-      },
-      "name": {
-        "text": "Nik Patel",
-        "list": {
-          "greet": "أهلا بك !",
-          "account": "حسابي",
-          "mywallet": "محفظتي",
-          "settings": "الإعدادات",
-          "lockscreen": "اقفل الشاشة",
-          "logout": "تسجيل خروج"
-        }
-      }
-    }
-  },
-  "companyModule": {
-    "add": "اضافه الشركه جديد",
-    "edit": "تعديل",
-    "companyModule": "موديول الشركات",
-    "table": "جدول موديول الشركات"
-  },
-  "menuitems": {
-    "navigation": {
-      "text": "التنقل"
-    },
-    "Workflow": {
-      "text": "شجرة سير العمل"
-    },
-    "HotFields": {
-      "text": "الحقول الساخنة"
-    },
+    "message.name already exists": "الاسم موجود مسبقا",
     "alshamel": "الشامل",
     "login": {
         "loginIn": "تسجيل الدخول",
@@ -199,10 +16,17 @@
     "module": {
         "addmodule": "اضافه موديل جديد",
         "editmodule": "تعديل موديل ",
+        "ScreensTable": "جدول الشاشات",
         "ModulesTable": "جدول الموديول",
         "ButtonsTable": "جدول الأزرار",
-        "ScreensTable": "جدول الشاشات",
         "module": "موديول"
+    },
+    "Workflow": {
+        "AddWorkflow": "اضافة شجرة سير العمل",
+        "EditWorkflow": "تعديل شجرة سير العمل",
+        "Workflow": "سير العمل",
+
+        "WorkflowsTable": "جدول سير العمل"
     },
     "DocumentType": {
         "AddDocumentType": "اضافة نوع المستند",
@@ -234,6 +58,15 @@
         "companysTable": "جدول الشركات",
         "company": "الشركات",
         "LogoFileUpload": "تحميل ملف الشعار"
+    },
+    "HotFields": {
+        "text": "الحقول الساخنة"
+    },
+    "companyModule": {
+        "add": "اضافه الشركه جديد",
+        "edit": "تعديل",
+        "companyModule": "موديول الشركات",
+        "table": "جدول موديول الشركات"
     },
     "navbar": {
         "search": {
@@ -364,11 +197,17 @@
         "buttons": {
             "text": "الأزرار"
         },
+        "companyModule": {
+            "text": "موديول الشركات"
+        },
         "company": {
             "text": "الشركات"
         },
         "partner": {
             "text": "الشركاء"
+        },
+        "Workflow": {
+            "text": "سير العمل"
         },
         "dashboard": {
             "text": "لوحة القيادة",
@@ -593,16 +432,21 @@
         }
     },
     "general": {
-        "Default":"افتراضي",
-        "NonDefault":"غير افتراضي",
-        "Yes":"نعم",
-        "No":"لا",
-        "Apply":"تطبيق",
-        "TableName":"اسم الجدول",
-        "FieldName":"اسم الحقل",
-        "FieldTitle":"عنوان الحقل (عربي)",
-        "FieldTitleEn":"عنوان الحقل (انجليزي)",
-        "Visibility":"الرؤية",
+        "IdSort": "معرف الترتيب",
+        "Partner": "الشريك",
+        "Company": "الشركة",
+        "Module": "الوحدة",
+        "Default": "افتراضي",
+        "NonDefault": "غير افتراضي",
+        "ImageUploads": "تحميل الصور",
+        "Yes": "نعم",
+        "No": "لا",
+        "Apply": "تطبيق",
+        "TableName": "اسم الجدول",
+        "FieldName": "اسم الحقل",
+        "FieldTitle": "عنوان الحقل (عربي)",
+        "FieldTitleEn": "عنوان الحقل (انجليزي)",
+        "Visibility": "الرؤية",
         "Screen": "الشاشة",
         "Button": "الزر",
         "fieldIsRequired": "هذا الحقل مطلوب .",
@@ -614,6 +458,8 @@
         "Date": "التاريخ",
         "Active": "نشط",
         "Inactive": "غير نشط",
+        "Visible": "مرئي",
+        "Invisible": "غير مرئي",
         "Name": "الاسم(عربي)",
         "Name_en": "الاسم(انجليزي)",
         "Areyousure": "هل انت متاكد ؟",
@@ -656,6 +502,7 @@
         "ItmustbeyourImage": "يجب ان يكون امتداد الصور (jpeg,png,gif,jpg)",
         "alphaArabic": "هذا الحقل يجب ان يكون باللغه العربيه.",
         "alphaEnglish": "هذا الحقل يجب ان يكون باللغه الانجليزيه.",
+        "Alpha": "هذا الحقل يجب ان يكون حروف فقط",
         "filter": "فلتر",
         "group": "جروب",
         "setting": "اعدادات",
@@ -665,104 +512,9 @@
         "searchSetting": "إعداد البحث",
         "AddNewRecord": "أضف سجل جديد",
         "Save": "حفظ",
-        "addButton": "اضافة زر",
-        "editButton": "تعديل الزر",
-        "DataEntry": "ادخال البيانات",
-        "screens": "الشاشات",
-        "title": "العنوان(عربي)",
-        "title_en": "العنوان(انجليزي)",
-        "addScreen": "اضافة شاشة",
-        "editScreen": "تعديل الشاشة",
-        "serial": "السريال",
+        "DataEntry": "ادخل البيانات",
         "allowed_users_no": "عدد المستخدمين المسموح لهم",
         "startDate": "وقت البدايه",
         "endDate": "وقت النهايه"
     }
-  },
-  "general": {
-    "IdSort":"معرف الترتيب",
-    "Partner":"الشريك",
-    "Company":"الشركة",
-    "Module":"الوحدة",
-    "Default": "افتراضي",
-    "NonDefault": "غير افتراضي",
-    "ImageUploads":"تحميل الصور",
-    "Yes": "نعم",
-    "No": "لا",
-    "Apply": "تطبيق",
-    "TableName": "اسم الجدول",
-    "FieldName": "اسم الحقل",
-    "FieldTitle": "عنوان الحقل (عربي)",
-    "FieldTitleEn": "عنوان الحقل (انجليزي)",
-    "Visibility": "الرؤية",
-    "Screen": "الشاشة",
-    "Button": "الزر",
-    "fieldIsRequired": "هذا الحقل مطلوب .",
-    "PleaseEnterValidEmail": "الرجاء إدخال بريد إلكتروني صحيح .",
-    "notDataFound": "لا يوجد بيانات .",
-    "Create": "اضافه",
-    "Action": "الاجراءات",
-    "Status": "الحاله",
-    "Date": "التاريخ",
-    "Active": "نشط",
-    "Inactive": "غير نشط",
-    "Visible": "مرئي",
-    "Invisible": "غير مرئي",
-    "Name": "الاسم(عربي)",
-    "Name_en": "الاسم(انجليزي)",
-    "Areyousure": "هل انت متاكد ؟",
-    "Youwontbeabletoreverthis": "لن تتمكن من التراجع عن هذا!",
-    "Yesdeleteit": "نعم ، احذفها!",
-    "Nocancel": "لا ، إلغاء!",
-    "Error": "خطأ",
-    "Deleted": "تم الحذف",
-    "Thereisanerrorinthesystem": "يوجد خطا في النظام!",
-    "Yourrowhasbeendeleted": "تم حذف صفك .",
-    "Previous": "السابق",
-    "Next": "التالي",
-    "Looksgood": "تبدو جيده !",
-    "Itmustbeatleast": "يجب ان يكون علي الاقل",
-    "letters": "احرف",
-    "Itmustbeatmost": "يجب ان يكون علي الاكثر",
-    "Choose": "اختار",
-    "Add": "اضافه",
-    "Edit": "تعديل",
-    "Cancel": "إلغاء",
-    "IdParent": "الاب",
-    "Addedsuccessfully": "تم الاضافه بنجاح !",
-    "Editsuccessfully": "تم التعديل بنجاح !",
-    "samaAs": "يجب أن تكون كلمات المرور متطابقة.",
-    "repeatPassword": "اعاده الرقم السري",
-    "mobile_no": "رقم التليفون",
-    "Search": "بحث",
-    "Show": "عرض ",
-    "entries": "ادخالات",
-    "Itmustbeyourlink": "يجب أن يكون لنك",
-    "fieldIsInteger": "هذا يجب ان يكون رقم",
-    "taxnumber": "رقم ضريبي",
-    "Valueaddedregistrationnumber": "رقم تسجيل القيمة المضافة",
-    "CommercialRecord": "سجل التجاري",
-    "companysystempath": "مسار نظام الشركة",
-    "website": "لنك الموقع",
-    "address": "العنوان",
-    "Dropfileshereorclicktoupload": "إسقاط الملفات هنا أو انقر للتحميل.",
-    "fieldIsImage": "هذا الحقل يجب ان يكون الصوره .",
-    "ItmustbeyourImage": "يجب ان يكون امتداد الصور (jpeg,png,gif,jpg)",
-    "alphaArabic": "هذا الحقل يجب ان يكون باللغه العربيه.",
-    "alphaEnglish": "هذا الحقل يجب ان يكون باللغه الانجليزيه.",
-    "Alpha": "هذا الحقل يجب ان يكون حروف فقط",
-    "filter": "فلتر",
-    "group": "جروب",
-    "setting": "اعدادات",
-    "commands": "الاوامر",
-    "delete": "حذف",
-    "edit": "تعديل",
-    "searchSetting": "إعداد البحث",
-    "AddNewRecord": "أضف سجل جديد",
-    "Save": "حفظ",
-    "DataEntry": "ادخل البيانات",
-    "allowed_users_no": "عدد المستخدمين المسموح لهم",
-    "startDate": "وقت البدايه",
-    "endDate": "وقت النهايه"
-  }
 }

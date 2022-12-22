@@ -1532,7 +1532,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
       $(".arabicInput").keypress(function (event) {
         var ew = event.which;
-        if (ew == 32) return false;
+        if (ew == 32) return true;
         if (48 <= ew && ew <= 57) return false;
         if (65 <= ew && ew <= 90) return false;
         if (97 <= ew && ew <= 122) return false;
@@ -2451,6 +2451,11 @@ var menuItems = [{
   label: 'menuitems.DocumentType.text',
   icon: 'ri-stack-line',
   link: '/document-types'
+}, {
+  id: 8,
+  label: 'menuitems.Workflow.text',
+  icon: 'ri-share-line',
+  link: '/workflows'
 }, {
   id: 1115,
   label: "menuitems.dashboard.text",
@@ -15077,7 +15082,10 @@ var render = function () {
                           _c(
                             "b-button",
                             {
-                              staticClass: "font-weight-bold px-2",
+                              class: [
+                                "font-weight-bold px-2",
+                                _vm.is_disabled ? "mx-2" : "",
+                              ],
                               attrs: {
                                 variant: "success",
                                 disabled: !_vm.is_disabled,

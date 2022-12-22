@@ -62,7 +62,7 @@ Route::group(['prefix' => 'companies'], function () {
     Route::post('/', [CompanyController::class, "create"])->name('companies.store');
     Route::post('/{id}', [CompanyController::class, "update"])->name('companies.update');
     Route::delete('/{id}', [CompanyController::class, "destroy"])->name('companies.delete');
-    Route::delete('/logs/{id}', [CompanyController::class, "logs"])->name('companies.logs');
+    Route::delete('/logs/{id}', [CompanyController::class, "logs"])->name('companies.logs.delete');
     Route::post('bulk-delete', [CompanyController::class, 'bulkDelete']);
 
 });
@@ -252,9 +252,9 @@ Route::group(['prefix' => 'document-type'], function () {
         Route::get('/', 'all')->name('document.index');
         Route::get('/{id}', 'find');
 
-        Route::post('/', 'create')->name('modules.create');
-        Route::put('/{id}', 'update')->name('modules.update');
-        Route::delete('/{id}', 'delete')->name('modules.destroy');
+        Route::post('/', 'create')->name('document.create');
+        Route::put('/{id}', 'update')->name('document.update');
+        Route::delete('/{id}', 'delete')->name('document.destroy');
         Route::get('logs/{id}', 'logs');
         Route::post('bulk-delete', 'bulkDelete');
 

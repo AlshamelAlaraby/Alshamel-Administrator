@@ -145,7 +145,7 @@ export default {
             $(".arabicInput").keypress(function(event){
                 var ew = event.which;
                 if(ew == 32)
-                    return false;
+                    return true;
                 if(48 <= ew && ew <= 57)
                     return false;
                 if(65 <= ew && ew <= 90)
@@ -603,7 +603,7 @@ export default {
                                         variant="success"
                                         :disabled="!is_disabled"
                                         @click.prevent="resetForm"
-                                        type="button" class="font-weight-bold px-2"
+                                       type="button" :class="['font-weight-bold px-2',is_disabled?'mx-2': '']"
                                     >
                                         {{ $t('general.AddNewRecord') }}
                                     </b-button>

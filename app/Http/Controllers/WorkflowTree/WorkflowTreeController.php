@@ -70,7 +70,7 @@ class WorkflowTreeController extends ResponseController
 
     public function store(StoreWorkflowTreeRequest $request)
     {
-        $model = $this->repository->create($request->validated());
+        $model = $this->repository->create($request);
         return responseJson(200, 'success', new WorkflowTreeResource($model));
     }
 
