@@ -338,7 +338,7 @@ export default {
                 website: '',
                 phone_code:'',
                 country_code:'',
-                is_active: null,
+                is_active: 'active',
             };
             this.$nextTick(() => { this.$v.$reset() });
             this.errors = {};
@@ -700,7 +700,7 @@ export default {
                             <div class="col-xs-10 col-md-9 col-lg-7" style="font-weight: 500">
                                 <div class="d-inline-block" style="width: 22.2%;">
                                     <!-- Basic dropdown -->
-                                    <b-dropdown variant="primary" :text="$t('general.searchSetting')" ref="dropdown" class="btn-block setting-search">
+                                    <b-dropdown variant="primary" :text="$t('general.searchSetting')" ref="dropdown" class="btn-block setting-search dropdown-menu-custom-company">
                                         <b-form-checkbox v-model="filterSetting" value="name" class="mb-1">
                                             {{ $t('general.Name') }}
                                         </b-form-checkbox>
@@ -817,7 +817,7 @@ export default {
                                     </b-button>
                                     <b-dropdown variant="primary"
                                         :html="`${$t('general.setting')} <i class='fe-settings'></i>`"
-                                        ref="dropdown" class="dropdown-custom-ali"
+                                        ref="dropdown" class="dropdown-custom-ali dropdown-menu-custom-company"
                                     >
                                         <b-form-checkbox v-model="setting.name" class="mb-1">{{
                                                 $t('general.Name')
@@ -1955,7 +1955,7 @@ export default {
 </template>
 
 <style>
-.dropdown .dropdown-menu {
+.dropdown-menu-custom-company.dropdown .dropdown-menu {
     padding: 5px 10px !important;
     overflow-y: scroll;
     height: 400px;

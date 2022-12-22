@@ -1902,7 +1902,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _this13.isLoader = true;
                 _context5.next = 3;
-                return _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].get("/modules").then(function (res) {
+                return _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].get("/modules?is_active=active").then(function (res) {
                   var l = res.data;
                   _this13.modules = l.data;
                 })["catch"](function (err) {
@@ -2491,6 +2491,11 @@ var menuItems = [{
   label: 'menuitems.DocumentType.text',
   icon: 'ri-stack-line',
   link: '/document-types'
+}, {
+  id: 8,
+  label: 'menuitems.Workflow.text',
+  icon: 'ri-share-line',
+  link: '/workflows'
 }, {
   id: 1115,
   label: "menuitems.dashboard.text",
@@ -3255,7 +3260,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-body {\r\n    padding: 2.25rem !important;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-body {\n    padding: 2.25rem !important;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -16802,19 +16807,25 @@ var render = function () {
                                           ])
                                         : _vm._e(),
                                       _vm._v(" "),
-                                      _c("td", [
-                                        _vm._v(
-                                          _vm._s(
-                                            _vm.formatDate(data.start_date)
-                                          )
-                                        ),
-                                      ]),
+                                      _vm.setting.start_date
+                                        ? _c("td", [
+                                            _vm._v(
+                                              _vm._s(
+                                                _vm.formatDate(data.start_date)
+                                              )
+                                            ),
+                                          ])
+                                        : _vm._e(),
                                       _vm._v(" "),
-                                      _c("td", [
-                                        _vm._v(
-                                          _vm._s(_vm.formatDate(data.end_date))
-                                        ),
-                                      ]),
+                                      _vm.setting.end_date
+                                        ? _c("td", [
+                                            _vm._v(
+                                              _vm._s(
+                                                _vm.formatDate(data.end_date)
+                                              )
+                                            ),
+                                          ])
+                                        : _vm._e(),
                                       _vm._v(" "),
                                       _c(
                                         "td",
