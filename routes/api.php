@@ -64,7 +64,6 @@ Route::group(['prefix' => 'companies'], function () {
     Route::delete('/{id}', [CompanyController::class, "destroy"])->name('companies.delete');
     Route::delete('/logs/{id}', [CompanyController::class, "logs"])->name('companies.logs.delete');
     Route::post('bulk-delete', [CompanyController::class, 'bulkDelete']);
-
 });
 
 Route::post('/companyModules/{id}', [CompanyController::class, "companyModules"]);
@@ -126,6 +125,8 @@ Route::group(['prefix' => 'screens'], function () {
         Route::get('/', 'all')->name('screens.index');
         Route::get("logs/{id}", "logs")->name("screens.logs");
         Route::get('/{id}', 'find');
+        Route::get('/screen-documents/{id}', 'getScreenDocumentTypes');
+        Route::get('/screen-buttons/{id}', 'getScreenButtons');
         Route::post('/', 'store')->name('screens.store');
         Route::put('/{id}', 'update')->name('screens.update');
         Route::delete('/{id}', 'delete')->name('screens.destroy');
@@ -180,6 +181,7 @@ Route::group(['prefix' => 'screen-button'], function () {
         Route::post('/', 'store')->name('screenbutton.store');
         Route::post('/{id}', 'update')->name('screenbutton.update');
         Route::delete('/{id}', 'delete')->name('screenbutton.destroy');
+        Route::delete('/remove/{screen_id}/{button_id}',"removeScreenFromButton");
         Route::post('bulk-delete', 'bulkDelete');
     });
 });
@@ -251,13 +253,11 @@ Route::group(['prefix' => 'document-type'], function () {
     Route::controller(DocumentTypeController::class)->group(function () {
         Route::get('/', 'all')->name('document.index');
         Route::get('/{id}', 'find');
-
         Route::post('/', 'create')->name('document.create');
         Route::put('/{id}', 'update')->name('document.update');
         Route::delete('/{id}', 'delete')->name('document.destroy');
         Route::get('logs/{id}', 'logs');
         Route::post('bulk-delete', 'bulkDelete');
-
     });
 });
 

@@ -654,6 +654,7 @@ export default {
                       <div v-if="!$v.create.screen_id.required" class="invalid-feedback">
                         {{ $t("general.fieldIsRequired") }}
                       </div>
+                      
                       <template v-if="errors.screen_id">
                         <ErrorMessage
                           v-for="(errorMessage, index) in errors.screen_id"
