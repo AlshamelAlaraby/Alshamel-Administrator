@@ -29,7 +29,7 @@ class UpdateButtonRequest extends FormRequest
             'name_e' => 'string|max:100|unique:buttons,name_e,' . $request->id,
             "media" => "nullable|array",
             "media.*" => ["nullable", "exists:media,id", new \App\Rules\MediaRule()],
-            'old_media.*' => ['exists:media,id', new \App\Rules\MediaRule("App\Models\Company")],
+            'old_media.*' => ['exists:media,id', new \App\Rules\MediaRule("App\Models\Button")],
         ];
     }
 }

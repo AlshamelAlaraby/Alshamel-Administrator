@@ -8,6 +8,7 @@ import { required, minLength, maxLength ,integer,email, sameAs} from "vuelidate/
 import Swal from "sweetalert2";
 import loader from "../../../components/loader";
 import {dynamicSortString,dynamicSortNumber} from "../../../helper/tableSort";
+import {formatDateOnly} from "../../../helper/startDate";
 
 
 /**
@@ -69,7 +70,8 @@ export default {
             isCheckAll: false,
             checkAll: [],
             is_disabled: false,
-            current_page: 1
+            current_page: 1,
+            Tooltip: ''
         }
     },
     validations: {
@@ -135,7 +137,7 @@ export default {
             $(".arabicInput").keypress(function(event){
                 var ew = event.which;
                 if(ew == 32)
-                    return false;
+                    return true;
                 if(48 <= ew && ew <= 57)
                     return false;
                 if(65 <= ew && ew <= 90)
@@ -429,6 +431,26 @@ export default {
                 let index = this.checkAll.indexOf(id);
                 this.checkAll.splice(index,1);
             }
+        },
+        formatDate(value){return formatDateOnly(value);},
+        log(id){
+            this.Tooltip = '';
+            adminApi.get(`/partners/logs/${id}`)
+                .then((res) => {
+                    let l = res.data.data;
+                    l.forEach((e) => {
+                        this.Tooltip += `Created By: ${e.causer_type}; Event: ${e.event}; Description: ${e.description} ;Created At: ${this.formatDate(e.created_at)} \n`
+                    });
+                })
+                .catch((err) => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: `${this.$t('general.Error')}`,
+                        text: `${this.$t('general.Thereisanerrorinthesystem')}`,
+                    });
+                }).finally(() => {
+                this.isLoader = false;
+            });
         }
     }
 };
@@ -1082,8 +1104,16 @@ export default {
                                         </b-modal>
                                         <!--  /edit   -->
                                     </td>
-                                    <td>
-                                        <i class="fe-info" style="font-size: 22px;"></i>
+                                    <td @mouseup="log(data.id)">
+                                        <button
+                                            type="button"
+                                            class="btn"
+                                            data-toggle="tooltip"
+                                            :data-placement="$i18n.locale == 'en' ? 'left' : 'right'"
+                                            :title="Tooltip"
+                                        >
+                                            <i class="fe-info" style="font-size: 22px;"></i>
+                                        </button>
                                     </td>
                                 </tr>
                                 </tbody>

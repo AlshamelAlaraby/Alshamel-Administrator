@@ -6,14 +6,13 @@ use App\Http\Requests\Module\AllModuleRequest;
 use App\Http\Requests\Module\StoreModuleRequest;
 use App\Http\Requests\Module\UpdateModuleRequest;
 use App\Http\Resources\Module\ModuleResource;
-use App\Http\Resources\ScreenSetting\ScreenSettingResource;
+use App\Repositories\Module\ModuleInterface;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Mockery\Exception;
 
 class ModuleController extends Controller
 {
-    public function __construct(private \App\Repositories\Module\ModuleInterface $modelInterface)
+    public function __construct(private ModuleInterface $modelInterface)
     {
         $this->modelInterface = $modelInterface;
     }
@@ -46,11 +45,13 @@ class ModuleController extends Controller
 
         return responseJson(200, 'success', ModuleResource::collection($models['data']), $models['paginate'] ? getPaginates($models['data']) : null);
     }
-    public function getRootNodes(){
+    public function getRootNodes()
+    {
         return $this->modelInterface->getRootNodes();
     }
 
-    public function getChildNodes($parentId){
+    public function getChildNodes($parentId)
+    {
         return $this->modelInterface->getChildNodes($parentId);
     }
     public function create(StoreModuleRequest $request)
@@ -93,20 +94,21 @@ class ModuleController extends Controller
         $logs = $this->modelInterface->logs($id);
         return responseJson(200, 'success', $logs);
     }
-    public function bulkDelete(Request $request){
-        foreach ($request->ids as $id){
+    public function bulkDelete(Request $request)
+    {
+        foreach ($request->ids as $id) {
             $model = $this->repository->find($id);
             $arr = [];
-            if ($model->have_children){
-                $arr[]=$id;
+            if ($model->have_children) {
+                $arr[] = $id;
                 continue;
             }
             $this->repository->delete($id);
         }
-        if (count ($arr) > 0){
-            return  responseJson(200, __('some items has relation cant delete'));
+        if (count($arr) > 0) {
+            return responseJson(200, __('some items has relation cant delete'));
         }
-        return  responseJson(200, __('Done'));
+        return responseJson(200, __('Done'));
     }
 
     public function addModuleToCompany(\App\Http\Requests\Module\AddCompanyToModuleRequest$request)

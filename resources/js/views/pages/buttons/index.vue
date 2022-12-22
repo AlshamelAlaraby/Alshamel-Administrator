@@ -124,7 +124,7 @@ export default {
             $(".arabicInput").keypress(function(event){
                 var ew = event.which;
                 if(ew == 32)
-                    return false;
+                    return true;
                 if(48 <= ew && ew <= 57)
                     return false;
                 if(65 <= ew && ew <= 90)
@@ -752,7 +752,7 @@ export default {
                             :title="$t('general.addButton')"
                             title-class="font-18"
                             size="lg"
-                            body-class="buttons"
+                            body-class="paddingUnset"
                             :hide-footer="true"
                             @show="resetModal"
                             @hidden="resetModalHidden"
@@ -1093,7 +1093,7 @@ export default {
                                             :id="`modal-edit-${data.id}`"
                                             :title="$t('general.editButton')"
                                             title-class="font-18"
-                                            body-class="buttons"
+                                            body-class="paddingUnset"
                                             size="lg"
                                             :ref="`edit-${data.id}`"
                                             :hide-footer="true"
@@ -1341,7 +1341,7 @@ export default {
 .modal-dialog .card {
     margin: 0 !important;
 }
-.buttons.modal-body {
+.modal-body.paddingUnset {
     padding: 0 !important;
 }
 .modal-dialog .card-body {

@@ -3,15 +3,8 @@
 namespace App\Http\Controllers\Button;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Mockery\Exception;
-use App\Repositories\Button\ButtonRepositoryInterface;
-use App\Http\Resources\Button\ButtonResource;
 use App\Http\Requests\Button\StoreButtonRequest;
 use App\Http\Requests\Button\UpdateButtonRequest;
-use App\Http\Resources\Button\ButtonResource;
-use App\Repositories\Button\ButtonRepositoryInterface;
-use Illuminate\Http\Request;
 
 class ButtonController extends Controller
 {
@@ -80,9 +73,11 @@ class ButtonController extends Controller
         if (!$model) {
             return responseJson(404, __('message.data not found'));
         }
-        $model = $this->repository->update($request->validated(), $id);
+        $model->refresh();
+        $this->repository->update($request, $id);
 
-        return  responseJson(200, __('Done'));
+        return responseJson(200, 'success', new ButtonResource($model));
+
     }
 
     public function delete($id)

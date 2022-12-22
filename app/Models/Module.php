@@ -19,7 +19,6 @@ class Module extends Model
     protected $table = 'modules';
     protected $hidden = ['pivot'];
 
-
     protected $casts = [
         'is_active' => 'App\Enums\IsActive',
     ];
@@ -46,6 +45,10 @@ class Module extends Model
             if ($request->name_e) {
                 $q->orWhere('name_e', 'like', '%' . $request->name_e . '%');
             }
+
+            if ($request->parent_id) {
+                $q->orWhere('parent_id', $request->parent_id);
+            }
         });
     }
     public function parent()
@@ -55,14 +58,13 @@ class Module extends Model
 
     public function children()
     {
-        return $this->belongsTo(Module::class);
+        return $this->belongsTo(Module::class, 'parent_id', 'id');
     }
 
     public function companies()
     {
         return $this->belongsToMany(Company::class, 'company_module', 'module_id', 'company_id');
     }
-
 
     public function getHaveChildrenAttribute()
     {
