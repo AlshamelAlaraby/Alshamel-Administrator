@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Store;
 use App\Http\Controllers\ResponseController;
 use App\Http\Requests\Store\StoreStoreRequest;
 use App\Http\Requests\Store\UpdateStoreRequest;
+use App\Http\Resources\Log\LogResource;
 use App\Http\Resources\Store\StoreResource;
 use App\Repositories\Store\StoreRepositoryInterface;
 use Illuminate\Http\Request;
@@ -120,10 +121,22 @@ class StoreController extends ResponseController
         }
     }
 
-    public function bulkDelete(Request $request){
-        foreach ($request->ids as $id){
+    public function bulkDelete(Request $request)
+    {
+        foreach ($request->ids as $id) {
             $this->repository->destroy($id);
         }
-        return  responseJson(200, __('Done'));
+        return responseJson(200, __('Done'));
+    }
+
+    public function logs($id)
+    {
+        $model = $this->repository->show($id);
+        if (!$model) {
+            return responseJson(404, __('message.data not found'));
+        }
+        $logs = $this->repository->logs($id);
+        return responseJson(200, __('Done'), LogResource::collection($logs));
+
     }
 }

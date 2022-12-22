@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Repositories\Helpfile;
+namespace App\Repositories\Branch;
 
-interface HelpfileRepositoryInterface
+interface BranchInterface
 {
 
-    public function getAllHelpfiles($request);
+    public function all($request);
 
     public function find($id);
 
@@ -13,9 +13,8 @@ interface HelpfileRepositoryInterface
 
     public function update($request, $id);
 
-    public function delete($id);
-
     public function logs($id);
 
+    public function delete($id);
 
 }

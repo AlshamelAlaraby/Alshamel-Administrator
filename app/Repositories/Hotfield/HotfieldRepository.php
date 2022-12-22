@@ -5,6 +5,7 @@ namespace App\Repositories\Hotfield;
 use App\Models\Hotfield;
 use App\Models\UserSettingScreen;
 use Illuminate\Support\Facades\DB;
+
 class HotfieldRepository implements HotfieldRepositoryInterface
 {
 
@@ -66,31 +67,26 @@ class HotfieldRepository implements HotfieldRepositoryInterface
     public function setting($request)
     {
         DB::transaction(function () use ($request) {
-            $screenSetting = UserSettingScreen::where('user_id',$request['user_id'])->where('screen_id',$request['screen_id'])->first();
-            $request['data_json'] =json_encode($request['data_json']);
+            $screenSetting = UserSettingScreen::where('user_id', $request['user_id'])->where('screen_id', $request['screen_id'])->first();
+            $request['data_json'] = json_encode($request['data_json']);
             if (!$screenSetting) {
                 UserSettingScreen::create($request);
             } else {
                 $screenSetting->update($request);
             }
         });
-        return $this->successResponse([],__('Done'));
+        return $this->successResponse([], __('Done'));
     }
-
 
     public function getSetting($user_id, $screen_id)
     {
-        return  UserSettingScreen::where('user_id',$user_id)->where('screen_id',$screen_id)->first();
+        return UserSettingScreen::where('user_id', $user_id)->where('screen_id', $screen_id)->first();
     }
-
-
 
     public function logs($id)
     {
         return $this->model->find($id)->activities()->orderBy('created_at', 'DESC')->get();
     }
-
-
 
     private function forget($id)
     {

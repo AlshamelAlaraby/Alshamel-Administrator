@@ -29,7 +29,7 @@ class WorkflowTreeRepository implements WorkflowTreeRepositoryInterface
 
     public function create($request)
     {
-        DB::transaction(function () use ($request) {
+        return DB::transaction(function () use ($request) {
             $model = $this->model->create($request->all());
             if ($request->media) {
                 foreach ($request->media as $media) {
