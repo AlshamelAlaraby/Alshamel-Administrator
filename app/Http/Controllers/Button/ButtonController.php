@@ -3,10 +3,6 @@
 namespace App\Http\Controllers\Button;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Mockery\Exception;
-use App\Repositories\Button\ButtonRepositoryInterface;
-use App\Http\Resources\Button\ButtonResource;
 use App\Http\Requests\Button\StoreButtonRequest;
 use App\Http\Requests\Button\UpdateButtonRequest;
 
@@ -81,6 +77,7 @@ class ButtonController extends Controller
         $this->repository->update($request, $id);
 
         return responseJson(200, 'success', new ButtonResource($model));
+
     }
 
     public function delete($id)

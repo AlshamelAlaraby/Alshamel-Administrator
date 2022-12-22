@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Contracts\Activity;
 use Spatie\Activitylog\LogOptions;
@@ -23,7 +22,6 @@ class CompanyModule extends Model
         'allowed_users_no',
     ];
 
-
     public function tapActivity(Activity $activity, string $eventName)
     {
         $activity->causer_id = auth()->user()->id ?? 0;
@@ -32,27 +30,24 @@ class CompanyModule extends Model
 
     public function getActivitylogOptions(): LogOptions
     {
-        $user =  auth()->user()->id ?? "system" ;
+        $user = auth()->user()->id ?? "system";
 
         return LogOptions::defaults()
-        ->logAll()
-        ->useLogName('Partner')
-        ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName} by ($user)");
+            ->logAll()
+            ->useLogName('Partner')
+            ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName} by ($user)");
     }
 
     public function company()
     {
-        return $this->belongsTo(Company::class, 'company_id','id');
+        return $this->belongsTo(Company::class, 'company_id', 'id');
     }
     public function module()
     {
-        return $this->belongsTo(Module::class, 'module_id','id');
+        return $this->belongsTo(Module::class, 'module_id', 'id');
     }
 
-
-
-
-    public function scopeFilter($query,$request)
+    public function scopeFilter($query, $request)
     {
         return $query->where(function ($q) use ($request) {
             if ($request->search) {
