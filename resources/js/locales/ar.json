@@ -515,6 +515,8 @@
         "DataEntry": "ادخل البيانات",
         "allowed_users_no": "عدد المستخدمين المسموح لهم",
         "startDate": "وقت البدايه",
-        "endDate": "وقت النهايه"
+        "endDate": "وقت النهايه",
+        "Thisfilehasalreadybeenuploaded": " تم رفع هذا الملف من قبل\n لتغيير الملف اضغط علي استبدال",
+        "Replace": "استبدال"
     }
 }

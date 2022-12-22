@@ -520,6 +520,8 @@
         "serial": "Serial",
         "allowed_users_no": "Allowed Users No",
         "startDate": "Start Date",
-        "endDate": "End Date"
+        "endDate": "End Date",
+          "Thisfilehasalreadybeenuploaded": "This file has already been uploaded\n  To change the file, press Replace",
+          "Replace": "Replace"
     }
 }
