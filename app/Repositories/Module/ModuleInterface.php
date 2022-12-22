@@ -17,6 +17,10 @@ interface ModuleInterface
 
     public function logs($id);
 
+    public function getRootNodes();
+
+    public function getChildNodes($id);
+
     public function addModuleToCompany($request);
 
     public function removeModuleFromCompany($module_id, $company_id);
