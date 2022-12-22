@@ -1386,7 +1386,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       edit: {
         screen_id: null,
-        button_id: null
+        button_id: null,
+        buttons: []
       },
       setting: {
         screen_id: true,
@@ -1552,7 +1553,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this6 = this;
       this.create = {
         screen_id: null,
-        button_id: null
+        button_id: null,
+        buttons: []
       };
       this.$nextTick(function () {
         _this6.$v.$reset();
@@ -1580,7 +1582,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 4:
                 _this7.create = {
                   screen_id: null,
-                  button_id: null
+                  button_id: null,
+                  buttons: []
                 };
                 _this7.is_disabled = false;
                 _this7.$nextTick(function () {
@@ -1790,7 +1793,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.errors = {};
       this.edit = {
         screen_id: null,
-        button_id: null
+        button_id: null,
+        buttons: []
       };
       this.screens = [];
       this.buttons = [];
@@ -14636,7 +14640,6 @@ var render = function () {
                       "title-class": "font-18",
                       "body-class": "p-4 ",
                       "hide-footer": true,
-                      size: "lg",
                     },
                     on: { show: _vm.resetModal, hidden: _vm.resetModalHidden },
                   },
@@ -14755,7 +14758,7 @@ var render = function () {
                       _c("div", { staticClass: "row" }, [
                         _c(
                           "div",
-                          { staticClass: "col-md-6 position-relative" },
+                          { staticClass: "col-md-12 position-relative" },
                           [
                             _c(
                               "div",
@@ -14830,7 +14833,7 @@ var render = function () {
                         _vm._v(" "),
                         _c(
                           "div",
-                          { staticClass: "col-md-6 position-relative" },
+                          { staticClass: "col-md-12 position-relative" },
                           [
                             _c(
                               "div",
@@ -15378,7 +15381,6 @@ var render = function () {
                                               ),
                                               "title-class": "font-18",
                                               "body-class": "p-4",
-                                              size: "lg",
                                               "hide-footer": true,
                                             },
                                             on: {
@@ -15512,7 +15514,9 @@ var render = function () {
                                                 [
                                                   _c(
                                                     "div",
-                                                    { staticClass: "col-md-6" },
+                                                    {
+                                                      staticClass: "col-md-12",
+                                                    },
                                                     [
                                                       _c(
                                                         "div",
@@ -15625,7 +15629,9 @@ var render = function () {
                                                   _vm._v(" "),
                                                   _c(
                                                     "div",
-                                                    { staticClass: "col-md-6" },
+                                                    {
+                                                      staticClass: "col-md-12",
+                                                    },
                                                     [
                                                       _c(
                                                         "div",

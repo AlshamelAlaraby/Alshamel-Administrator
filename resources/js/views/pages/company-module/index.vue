@@ -136,7 +136,7 @@ export default {
             $(".arabicInput").keypress(function(event){
                 var ew = event.which;
                 if(ew == 32)
-                    return false;
+                    return true;
                 if(48 <= ew && ew <= 57)
                     return false;
                 if(65 <= ew && ew <= 90)
@@ -474,7 +474,7 @@ export default {
         async getModule(){
             this.isLoader = true;
 
-            await adminApi.get(`/modules`)
+            await adminApi.get(`/modules?is_active=active`)
                 .then((res) => {
                     let l = res.data;
                     this.modules = l.data;
@@ -867,8 +867,8 @@ export default {
                                         {{ $i18n.locale == 'ar' ? data.module.name : data.module.name_e }}
                                     </td>
                                     <td  v-if="setting.allowed_users_no">{{ data.allowed_users_no }}</td>
-                                    <td>{{ formatDate(data.start_date) }}</td>
-                                    <td>{{ formatDate(data.end_date) }}</td>
+                                    <td v-if="setting.start_date">{{ formatDate(data.start_date) }}</td>
+                                    <td v-if="setting.end_date">{{ formatDate(data.end_date) }}</td>
                                     <td>
                                         <div class="btn-group">
                                             <button
@@ -1056,5 +1056,3 @@ export default {
     padding: 2.25rem !important;
 }
 </style>
-
-

@@ -1619,8 +1619,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
       $(".arabicInput").keypress(function (event) {
         var ew = event.which;
-        console.log(event);
-        if (ew == 32) return false;
+        if (ew == 32) return true;
         if (48 <= ew && ew <= 57) return false;
         if (65 <= ew && ew <= 90) return false;
         if (97 <= ew && ew <= 122) return false;
@@ -1777,7 +1776,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   website: '',
                   phone_code: '',
                   country_code: '',
-                  is_active: null
+                  is_active: 'active'
                 };
                 _this7.$nextTick(function () {
                   _this7.$v.$reset();
@@ -3486,7 +3485,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.dropdown .dropdown-menu {\r\n    padding: 5px 10px !important;\r\n    overflow-y: scroll;\r\n    height: 400px;\n}\n.modal-dialog .card {\r\n    margin: 0 !important;\n}\n.modal-body.paddingUnset {\r\n    padding: 0 !important;\n}\n.modal-dialog .card-body {\r\n    padding: 1.5rem 1.5rem 0 1.5rem !important;\n}\n.nav-bordered{\r\n    border: unset !important;\n}\n.nav {\r\n    background-color: #dff0fe;\n}\n.tab-content {\r\n    padding: 70px 60px 40px;\r\n    min-height: 300px;\r\n    background-color: #f5f5f5;\r\n    position: relative;\n}\n.nav-tabs .nav-link {\r\n    border: 1px solid #b7b7b7 !important;\r\n    background-color: #d7e5f2;\r\n    border-bottom: 0 !important;\r\n    margin-bottom: 1px;\n}\n.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {\r\n    color: #000;\r\n    background-color: hsl(0deg 0% 96%);\r\n    border-bottom: 0 !important;\n}\n.img-thumbnail {\r\n    max-height: 400px !important;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.dropdown-menu-custom-company.dropdown .dropdown-menu {\r\n    padding: 5px 10px !important;\r\n    overflow-y: scroll;\r\n    height: 400px;\n}\n.modal-dialog .card {\r\n    margin: 0 !important;\n}\n.modal-body.paddingUnset {\r\n    padding: 0 !important;\n}\n.modal-dialog .card-body {\r\n    padding: 1.5rem 1.5rem 0 1.5rem !important;\n}\n.nav-bordered{\r\n    border: unset !important;\n}\n.nav {\r\n    background-color: #dff0fe;\n}\n.tab-content {\r\n    padding: 70px 60px 40px;\r\n    min-height: 300px;\r\n    background-color: #f5f5f5;\r\n    position: relative;\n}\n.nav-tabs .nav-link {\r\n    border: 1px solid #b7b7b7 !important;\r\n    background-color: #d7e5f2;\r\n    border-bottom: 0 !important;\r\n    margin-bottom: 1px;\n}\n.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {\r\n    color: #000;\r\n    background-color: hsl(0deg 0% 96%);\r\n    border-bottom: 0 !important;\n}\n.img-thumbnail {\r\n    max-height: 400px !important;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -14608,7 +14607,8 @@ var render = function () {
                               "b-dropdown",
                               {
                                 ref: "dropdown",
-                                staticClass: "btn-block setting-search",
+                                staticClass:
+                                  "btn-block setting-search dropdown-menu-custom-company",
                                 attrs: {
                                   variant: "primary",
                                   text: _vm.$t("general.searchSetting"),
@@ -15071,7 +15071,8 @@ var render = function () {
                               "b-dropdown",
                               {
                                 ref: "dropdown",
-                                staticClass: "dropdown-custom-ali",
+                                staticClass:
+                                  "dropdown-custom-ali dropdown-menu-custom-company",
                                 attrs: {
                                   variant: "primary",
                                   html:

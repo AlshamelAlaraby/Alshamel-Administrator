@@ -42,6 +42,7 @@ export default {
       edit: {
         screen_id: null,
         button_id: null,
+        buttons: []
       },
       setting: {
         screen_id: true,
@@ -213,7 +214,7 @@ export default {
      *  reset Modal (create)
      */
     resetModalHidden() {
-      this.create = { screen_id: null, button_id: null };
+      this.create = { screen_id: null, button_id: null ,buttons: []};
       this.$nextTick(() => {
         this.$v.$reset();
       });
@@ -228,7 +229,7 @@ export default {
     async resetModal() {
       await this.getScreens();
       await this.getButtons();
-      this.create = { screen_id: null, button_id: null };
+      this.create = { screen_id: null, button_id: null,buttons: [] };
       this.is_disabled = false;
       this.$nextTick(() => {
         this.$v.$reset();
@@ -388,6 +389,7 @@ export default {
       this.edit = {
         screen_id: null,
         button_id: null,
+        buttons: []
       };
       this.screens = [];
       this.buttons = [];
@@ -592,7 +594,6 @@ export default {
               title-class="font-18"
               body-class="p-4 "
               :hide-footer="true"
-              size="lg"
               @show="resetModal"
               @hidden="resetModalHidden"
             >
@@ -633,7 +634,7 @@ export default {
                   </b-button>
                 </div>
                 <div class="row">
-                  <div class="col-md-6 position-relative">
+                  <div class="col-md-12 position-relative">
                     <div class="form-group">
                       <label class="my-1 mr-2">{{ $t("general.Screen") }}</label>
                       <multiselect
@@ -662,7 +663,7 @@ export default {
                       </template>
                     </div>
                   </div>
-                  <div class="col-md-6 position-relative">
+                  <div class="col-md-12 position-relative">
                     <div class="form-group">
                       <label class="my-1 mr-2">{{ $t("general.Button") }}</label>
                       <multiselect
@@ -835,7 +836,6 @@ export default {
                         :title="$t('screen_button.EditScreenButton')"
                         title-class="font-18"
                         body-class="p-4"
-                        size="lg"
                         :ref="`edit-${data.id}`"
                         :hide-footer="true"
                         @show="resetModalEdit(data.id)"
@@ -868,7 +868,7 @@ export default {
                             </b-button>
                           </div>
                           <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                               <div class="form-group">
                                 <label class="my-1 mr-2">{{
                                   $t("general.Screen")
@@ -893,7 +893,7 @@ export default {
                                 </template>
                               </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                               <div class="form-group">
                                 <label class="my-1 mr-2">{{
                                   $t("general.Button")

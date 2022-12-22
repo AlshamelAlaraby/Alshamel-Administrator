@@ -18,7 +18,9 @@
     "addmodule": "New Add Module",
     "editmodule": "Edit Module",
     "module": "Module",
-    "ModulesTable": "Modules Table"
+    "ModulesTable": "Modules Table",
+    "ScreensTable": "Screens Table",
+    "ButtonsTable": "Buttons Table"
   },
   "Workflow": {
     "AddWorkflow": "Add work flow",
@@ -200,6 +202,9 @@
         },
         "partner": {
             "text": "Partner"
+        },
+        "Workflow": {
+            "text": "Work Flow"
         },
         "dashboard": {
             "text": "Dashboards",
