@@ -30,7 +30,7 @@ class WorkflowTreeRepository implements WorkflowTreeRepositoryInterface
     public function create($request)
     {
         DB::transaction(function () use ($request) {
-            $model = $this->model->create($request);
+            $model = $this->model->create($request->all());
             if ($request->media) {
                 foreach ($request->media as $media) {
                     $this->media::where('id', $media)->update([
@@ -40,6 +40,7 @@ class WorkflowTreeRepository implements WorkflowTreeRepositoryInterface
                 }
             }
             cacheForget("work_flow_trees");
+            return $model;
         });
     }
 

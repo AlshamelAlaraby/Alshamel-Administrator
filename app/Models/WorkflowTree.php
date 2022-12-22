@@ -23,7 +23,6 @@ class WorkflowTree extends Model implements \Spatie\MediaLibrary\HasMedia
         'screen_id',
         'id_sort',
     ];
-
     /**
      * return child of this parent
      */

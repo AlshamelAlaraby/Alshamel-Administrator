@@ -1750,10 +1750,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.create.name_e = this.create.name;
       }
       this.$v.create.$touch();
-
-      // if (this.$v.create.$invalid) {
-      //   return;
-      // }
+      if (this.$v.create.$invalid) {
+        return;
+      }
       if (true) {
         this.isLoader = true;
         this.errors = {};
@@ -2835,6 +2834,21 @@ var menuItems = [{
   label: 'menuitems.module.text',
   icon: 'fab fa-medium-m',
   link: '/module'
+}, {
+  id: 112205,
+  label: 'menuitems.buttons.text',
+  icon: 'ri-markup-line',
+  link: '/buttons'
+}, {
+  id: 112206,
+  label: 'general.screens',
+  icon: 'fe-monitor',
+  link: '/screens'
+}, {
+  id: 4874387,
+  label: 'menuitems.companyModule.text',
+  icon: 'fab fa-medium-m',
+  link: '/company-module'
 }, {
   id: 5,
   label: 'menuitems.screen_button.text',
