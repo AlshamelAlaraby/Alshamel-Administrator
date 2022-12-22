@@ -2462,6 +2462,16 @@ var menuItems = [{
   icon: 'fab fa-medium-m',
   link: '/module'
 }, {
+  id: 112205,
+  label: 'menuitems.buttons.text',
+  icon: 'ri-markup-line',
+  link: '/buttons'
+}, {
+  id: 112206,
+  label: 'general.screens',
+  icon: 'fe-monitor',
+  link: '/screens'
+}, {
   id: 4874387,
   label: 'menuitems.companyModule.text',
   icon: 'fab fa-medium-m',
@@ -3245,7 +3255,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-body {\n    padding: 2.25rem !important;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-body {\r\n    padding: 2.25rem !important;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

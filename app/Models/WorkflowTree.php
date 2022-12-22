@@ -10,17 +10,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class WorkflowTree extends Model implements \Spatie\MediaLibrary\HasMedia
 {
     use SoftDeletes, LogTrait, MediaTrait;
-
-<<<<<<< HEAD
-<<<<<<< HEAD
+    protected $appends = ["haveChildren"];
     protected $table = 'workflow_trees';
-=======
->>>>>>> origin/mostafa-2
-=======
-
-    protected $table = 'workflow_trees';
-
->>>>>>> dev-test
     protected $fillable = [
         'name',
         'name_e',
@@ -46,6 +37,10 @@ class WorkflowTree extends Model implements \Spatie\MediaLibrary\HasMedia
         return $this->belongsTo(WorkflowTree::class, 'parent_id', 'id');
     }
 
+    public function getHaveChildrenAttribute()
+    {
+        return static::where("parent_id", $this->id)->count() > 0;
+    }
     /**
      * return relation  with  partner
      */
@@ -82,7 +77,5 @@ class WorkflowTree extends Model implements \Spatie\MediaLibrary\HasMedia
     {
         return $this->belongsTo(Screen::class);
     }
-
     // scope
-
 }

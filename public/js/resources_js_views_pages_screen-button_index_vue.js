@@ -2349,6 +2349,16 @@ var menuItems = [{
   icon: 'fab fa-medium-m',
   link: '/module'
 }, {
+  id: 112205,
+  label: 'menuitems.buttons.text',
+  icon: 'ri-markup-line',
+  link: '/buttons'
+}, {
+  id: 112206,
+  label: 'general.screens',
+  icon: 'fe-monitor',
+  link: '/screens'
+}, {
   id: 4874387,
   label: 'menuitems.companyModule.text',
   icon: 'fab fa-medium-m',
@@ -2368,6 +2378,11 @@ var menuItems = [{
   label: 'menuitems.DocumentType.text',
   icon: 'ri-stack-line',
   link: '/document-types'
+}, {
+  id: 8,
+  label: 'menuitems.Workflow.text',
+  icon: 'ri-share-line',
+  link: '/workflows'
 }, {
   id: 1115,
   label: "menuitems.dashboard.text",

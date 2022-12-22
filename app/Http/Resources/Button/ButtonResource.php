@@ -19,7 +19,7 @@ class ButtonResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'name_e' => $this->name_e,
-            'media' => new FileResource($this->files[0]),
+            "media" => isset($this->files) ? FileResource::collection($this->files) : null,
             'screen' => $this->screens,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at

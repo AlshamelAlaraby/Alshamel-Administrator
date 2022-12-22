@@ -25,6 +25,7 @@ class ModuleRepository implements ModuleInterface
             return ['data' => $models->get(), 'paginate' => false];
         }
     }
+    
     public function getRootNodes()
     {
         return $this->model->where("parent_id", 0)->get();
