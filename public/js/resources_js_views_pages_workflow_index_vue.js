@@ -1425,7 +1425,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         module_id: true,
         screen_id: true,
         id_sort: true,
-        is_active: true
+        is_active: true,
+        id_integer: true
       },
       idDelete: null,
       filterSetting: ["name", "name_e"]
@@ -1575,7 +1576,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         for (var i = 0; i > this.filterSetting.length; ++i) {
           filter += "columns[".concat(i, "]=").concat(this.filterSetting[i], "&");
         }
-        _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/workflow-trees?page=".concat(page, "&per_page=").concat(this.per_page, "&search=").concat(this.search, "&").concat(filter)).then(function (res) {
+        _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/workflow-trees?page=".concat(this.current_page, "&per_page=").concat(this.per_page, "&search=").concat(this.search, "&").concat(filter)).then(function (res) {
           var l = res.data;
           _this4.workflows = l.data;
           _this4.workflowsPagination = l.pagination;
@@ -1766,6 +1767,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               timer: 1500
             });
           }, 200);
+          _this9.getRootNodes();
           _this9.getData();
         })["catch"](function (err) {
           if (err.response.data) {
@@ -1799,6 +1801,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].put("/workflow-trees/".concat(id), this.edit).then(function (res) {
           _this10.$bvModal.hide("modal-edit-".concat(id));
           _this10.getData();
+          _this10.getRootNodes();
           setTimeout(function () {
             sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
               icon: "success",
@@ -1878,11 +1881,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 _this12.edit.company_id = workflow.company_id;
                 _this12.edit.module_id = workflow.module_id;
                 _this12.edit.screen_id = workflow.screen_id;
+                _this12.edit.id_sort = workflow.id_sort;
                 _this12.edit.is_active = workflow.is_active;
-                _this12.images = workflow.media;
-                _this12.showPhoto = _this12.images[_this12.images.length - 1].webp;
+                _this12.images = workflow.media ? workflow.media : [];
+                if (_this12.images && _this12.images.length > 0) {
+                  _this12.showPhoto = _this12.images[_this12.images.length - 1].webp;
+                }
+                _this12.$nextTick(function () {
+                  _this12.$v.$reset();
+                });
                 _this12.errors = {};
-              case 23:
+              case 25:
               case "end":
                 return _context2.stop();
             }
@@ -2191,8 +2200,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               old_media: old_media,
               media: new_media
             }).then(function (res) {
-              _this20.images = res.data.data.media;
-              _this20.showPhoto = _this20.images[_this20.images.length - 1].webp;
+              console.log(res);
+              _this20.images = res.data.data.media ? res.data.data.media : [];
+              if (_this20.images && _this20.images.length > 0) {
+                _this20.showPhoto = _this20.images[_this20.images.length - 1].webp;
+              }
               _this20.getData();
             })["catch"](function (err) {
               sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
@@ -2243,8 +2255,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   old_media: old_media,
                   media: new_media
                 }).then(function (res) {
-                  _this20.images = res.data.data.media;
-                  _this20.showPhoto = _this20.images[_this20.images.length - 1].webp;
+                  _this20.images = res.data.data.media ? res.data.data.media : [];
+                  if (_this20.images && _this20.images.length > 0) {
+                    _this20.showPhoto = _this20.images[_this20.images.length - 1].webp;
+                  }
                   _this20.getData();
                 })["catch"](function (err) {
                   sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
@@ -2282,8 +2296,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].put("/workflow-trees/".concat(this.workflow_id), {
         old_media: old_media
       }).then(function (res) {
-        _this21.images = res.data.data.media;
-        _this21.showPhoto = _this21.images[_this21.images.length - 1].webp;
+        _this21.images = res.data.data.media ? res.data.data.media : [];
+        if (_this21.images && _this21.images.length > 0) {
+          {
+            _this21.showPhoto = _this21.images[_this21.images.length - 1].webp;
+          }
+        }
       })["catch"](function (err) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
           icon: "error",
@@ -3534,7 +3552,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".myUl-workflow ul,\n.myUl-workflow #myUL {\n  list-style-type: none;\n}\n.myUl-workflow #myUL {\n  margin: 0;\n  padding: 0;\n}\n.myUl-workflow #myUL span i {\n  font-size: 20px;\n  position: relative;\n  top: 3px;\n  color: black;\n}\n.myUl-workflow #myUL span span:hover,\n.myUl-workflow #myUL span i:hover {\n  cursor: pointer;\n}\n.myUl-workflow .nested {\n  display: block;\n}\n.myUl-workflow .active {\n  color: #1abc9c;\n}\n.myUl-workflow.rtl #myUL .without-children {\n  padding-right: 10px;\n}\n.myUl-workflow.rtl #myUL .nested {\n  padding-right: 40px;\n}\n.myUl-workflow.ltr #myUL .without-children {\n  padding-left: 10px;\n}\n.modal-dialog .card {\n  margin: 0 !important;\n}\n.modal-body {\n  padding: 0 !important;\n}\n.modal-dialog .card-body {\n  padding: 1.5rem 1.5rem 0 1.5rem !important;\n}\n.nav-bordered {\n  border: unset !important;\n}\n.nav {\n  background-color: #dff0fe;\n}\n.tab-content {\n  padding: 70px 60px 40px;\n  min-height: 300px;\n  background-color: #f5f5f5;\n  position: relative;\n}\n.nav-tabs .nav-link {\n  border: 1px solid #b7b7b7 !important;\n  background-color: #d7e5f2;\n  border-bottom: 0 !important;\n  margin-bottom: 1px;\n}\n.nav-tabs .nav-link.active,\n.nav-tabs .nav-item.show .nav-link {\n  color: #000;\n  background-color: hsl(0deg, 0%, 96%);\n  border-bottom: 0 !important;\n}\n.img-thumbnail {\n  max-height: 400px !important;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".myUl-workflow ul,\n.myUl-workflow #myUL {\n  list-style-type: none;\n}\n.myUl-workflow #myUL {\n  margin: 0;\n  padding: 0;\n}\n.myUl-workflow #myUL span i {\n  font-size: 20px;\n  position: relative;\n  top: 3px;\n  color: black;\n}\n.myUl-workflow #myUL span span:hover,\n.myUl-workflow #myUL span i:hover {\n  cursor: pointer;\n}\n.myUl-workflow .nested {\n  display: block;\n}\n.myUl-workflow .active {\n  color: #1abc9c;\n}\n.myUl-workflow.rtl #myUL .without-children {\n  padding-right: 10px;\n}\n.myUl-workflow.rtl #myUL .nested {\n  padding-right: 40px;\n}\n.myUl-workflow.ltr #myUL .without-children {\n  padding-left: 10px;\n}\n.modal-dialog .card {\n  margin: 0 !important;\n}\n.workflow.modal-body {\n  padding: 0 !important;\n}\n.modal-dialog .card-body {\n  padding: 1.5rem 1.5rem 0 1.5rem !important;\n}\n.nav-bordered {\n  border: unset !important;\n}\n.nav {\n  background-color: #dff0fe;\n}\n.tab-content {\n  padding: 70px 60px 40px;\n  min-height: 300px;\n  background-color: #f5f5f5;\n  position: relative;\n}\n.nav-tabs .nav-link {\n  border: 1px solid #b7b7b7 !important;\n  background-color: #d7e5f2;\n  border-bottom: 0 !important;\n  margin-bottom: 1px;\n}\n.nav-tabs .nav-link.active,\n.nav-tabs .nav-item.show .nav-link {\n  color: #000;\n  background-color: hsl(0deg, 0%, 96%);\n  border-bottom: 0 !important;\n}\n.img-thumbnail {\n  max-height: 400px !important;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15448,6 +15466,27 @@ var render = function () {
                                     {
                                       staticClass: "mb-1",
                                       model: {
+                                        value: _vm.setting.id_sort,
+                                        callback: function ($$v) {
+                                          _vm.$set(_vm.setting, "id_sort", $$v)
+                                        },
+                                        expression: "setting.id_sort",
+                                      },
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                      " +
+                                          _vm._s(_vm.$t("general.IdSort")) +
+                                          "\n                    "
+                                      ),
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "b-form-checkbox",
+                                    {
+                                      staticClass: "mb-1",
+                                      model: {
                                         value: _vm.setting.is_active,
                                         callback: function ($$v) {
                                           _vm.$set(
@@ -15623,7 +15662,7 @@ var render = function () {
                       title: _vm.$t("Workflow.AddWorkflow"),
                       "title-class": "font-18",
                       "dialog-class": "modal-full-width",
-                      "body-class": "",
+                      "body-class": "workflow",
                       "hide-footer": true,
                     },
                     on: { show: _vm.resetModal, hidden: _vm.resetModalHidden },
@@ -16817,7 +16856,7 @@ var render = function () {
                                                   ],
                                                   staticClass: "form-control",
                                                   attrs: {
-                                                    type: "text",
+                                                    type: "number",
                                                     "data-create": "2",
                                                     id: "field-2",
                                                   },
@@ -17610,10 +17649,12 @@ var render = function () {
                                           staticClass: "fas fa-arrow-up",
                                           on: {
                                             click: function ($event) {
-                                              return _vm.workflows.sort(
-                                                (_vm.$i18n.locale =  true
-                                                  ? "name"
-                                                  : 0)
+                                              _vm.workflows.sort(
+                                                _vm.sortString(
+                                                  (_vm.$i18n.locale =  true
+                                                    ? "name"
+                                                    : 0)
+                                                )
                                               )
                                             },
                                           },
@@ -17623,10 +17664,12 @@ var render = function () {
                                           staticClass: "fas fa-arrow-down",
                                           on: {
                                             click: function ($event) {
-                                              return _vm.workflows.sort(
-                                                (_vm.$i18n.locale =  true
-                                                  ? "-name"
-                                                  : 0)
+                                              _vm.workflows.sort(
+                                                _vm.sortString(
+                                                  (_vm.$i18n.locale =  true
+                                                    ? "-name"
+                                                    : 0)
+                                                )
                                               )
                                             },
                                           },
@@ -17657,10 +17700,12 @@ var render = function () {
                                           staticClass: "fas fa-arrow-up",
                                           on: {
                                             click: function ($event) {
-                                              return _vm.workflows.sort(
-                                                (_vm.$i18n.locale =  true
-                                                  ? "name"
-                                                  : 0)
+                                              _vm.workflows.sort(
+                                                _vm.sortString(
+                                                  (_vm.$i18n.locale =  true
+                                                    ? "name"
+                                                    : 0)
+                                                )
                                               )
                                             },
                                           },
@@ -17670,10 +17715,12 @@ var render = function () {
                                           staticClass: "fas fa-arrow-down",
                                           on: {
                                             click: function ($event) {
-                                              return _vm.workflows.sort(
-                                                (_vm.$i18n.locale =  true
-                                                  ? "-name"
-                                                  : 0)
+                                              _vm.workflows.sort(
+                                                _vm.sortString(
+                                                  (_vm.$i18n.locale =  true
+                                                    ? "-name"
+                                                    : 0)
+                                                )
                                               )
                                             },
                                           },
@@ -17706,9 +17753,11 @@ var render = function () {
                                             click: function ($event) {
                                               _vm.workflows.sort(
                                                 _vm.sortString(
-                                                  (_vm.$i18n.locale =  true
-                                                    ? "name"
-                                                    : 0)
+                                                  _vm.sortString(
+                                                    (_vm.$i18n.locale =  true
+                                                      ? "name"
+                                                      : 0)
+                                                  )
                                                 )
                                               )
                                             },
@@ -17721,9 +17770,11 @@ var render = function () {
                                             click: function ($event) {
                                               _vm.workflows.sort(
                                                 _vm.sortString(
-                                                  (_vm.$i18n.locale =  true
-                                                    ? "-name"
-                                                    : 0)
+                                                  _vm.sortString(
+                                                    (_vm.$i18n.locale =  true
+                                                      ? "-name"
+                                                      : 0)
+                                                  )
                                                 )
                                               )
                                             },
@@ -17977,10 +18028,24 @@ var render = function () {
                                     _vm._v(" "),
                                     _vm.setting.company_id
                                       ? _c("td", [
-                                          _c("h5", {
-                                            staticClass:
-                                              "m-0 font-weight-normal",
-                                          }),
+                                          _c(
+                                            "h5",
+                                            {
+                                              staticClass:
+                                                "m-0 font-weight-normal",
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                      " +
+                                                  _vm._s(
+                                                    _vm.$i18n.locale == "ar"
+                                                      ? data.company.name
+                                                      : data.company.name_e
+                                                  ) +
+                                                  "\n                    "
+                                              ),
+                                            ]
+                                          ),
                                         ])
                                       : _vm._e(),
                                     _vm._v(" "),
@@ -18217,7 +18282,7 @@ var render = function () {
                                                 "Workflow.EditWorkflow"
                                               ),
                                               "title-class": "font-18",
-                                              "body-class": "",
+                                              "body-class": "workflow",
                                               "dialog-class":
                                                 "modal-full-width",
                                               "hide-footer": true,
