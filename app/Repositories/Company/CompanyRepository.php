@@ -17,7 +17,7 @@ class CompanyRepository implements CompanyInterface
     public function all($request)
     {
         $models = $this->model->where(function ($q) use ($request) {
-            $this->model->scopeFilter($q , $request);
+            $this->model->scopeFilter($q, $request);
         })->orderBy($request->order ? $request->order : 'updated_at', $request->sort ? $request->sort : 'DESC');
 
         if ($request->per_page) {
@@ -34,8 +34,10 @@ class CompanyRepository implements CompanyInterface
 
     public function create($request)
     {
+
         return DB::transaction(function () use ($request) {
-            $model = $this->model->create($request->all());
+
+            $model = $this->model->create($request->except('media'));
             if ($request->media) {
                 foreach ($request->media as $media) {
                     $this->media::where('id', $media)->update([
