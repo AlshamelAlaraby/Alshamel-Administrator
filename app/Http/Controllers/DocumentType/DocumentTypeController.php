@@ -10,7 +10,8 @@ use Illuminate\Routing\Controller;
 
 class DocumentTypeController extends Controller
 {
-    public function __construct(private DocumentTypeInterface $modelInterface){}
+    public function __construct(private DocumentTypeInterface $modelInterface)
+    {}
 
     public function find($id)
     {
@@ -53,7 +54,7 @@ class DocumentTypeController extends Controller
         if (!$model) {
             return responseJson(404, 'data not found');
         }
-       $this->modelInterface->update($request, $id);
+        $this->modelInterface->update($request, $id);
         return responseJson(200, 'success');
     }
 
@@ -61,11 +62,31 @@ class DocumentTypeController extends Controller
     {
         $model = $this->modelInterface->find($id);
         if (!$model) {
-            return responseJson(404,'data not found');
+            return responseJson(404, 'data not found');
         }
         $this->modelInterface->delete($id);
 
         return responseJson(200, 'success');
+    }
+
+    public function bulkDelete(Request $request)
+    {
+        foreach ($request->ids as $id) {
+            $this->repository->delete($id);
+        }
+        return responseJson(200, __('Done'));
+    }
+
+    public function logs($id)
+    {
+        $model = $this->modelInterface->find($id);
+        if (!$model) {
+            return responseJson(404, __('message.data not found'));
+        }
+
+        $logs = $this->modelInterface->logs($id);
+        return responseJson(200, 'success', \App\Http\Resources\Log\LogResource::collection($logs));
+
     }
 
 }

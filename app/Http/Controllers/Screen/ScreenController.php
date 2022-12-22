@@ -39,6 +39,12 @@ class ScreenController extends ResponseController
         }
         return responseJson(200, 'success', ($this->resource)::collection($models['data']), $models['paginate'] ? getPaginates($models['data']) : null);
     }
+    public function getScreenDocumentTypes($screen_id){
+        return $this->repository->getScreenDocumentTypes($screen_id);
+    }
+    public function getScreenButtons($screen_id){
+        return $this->repository->getScreenButtons($screen_id);
+    }
 
     public function find($id)
     {
@@ -100,9 +106,19 @@ class ScreenController extends ResponseController
         }
     }
 
+    public function bulkDelete(Request $request){
+        foreach ($request->ids as $id){
+            $this->repository->delete($id);
+        }
+        return  responseJson(200, __('Done'));
+    }
+
     public function addScreenToDocumentType(AddScreenToDocumentTypeRequest $request)
     {
         try {
+            if($this->repository->screenDocumentExist($request->screen_id,$request->documentType_id)){
+                return response()->json(["error"=>"Screen document exist"],422);
+            }
             $this->repository->addScreenToDocumentType($request);
             return responseJson(200, 'success');
         } catch (\Exception$ex) {

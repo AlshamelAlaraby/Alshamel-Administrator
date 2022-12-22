@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 
-class Company extends Model  implements \Spatie\MediaLibrary\HasMedia
+class Company extends Model implements \Spatie\MediaLibrary\HasMedia
+
 {
     use HasFactory, SoftDeletes, LogTrait, MediaTrait;
 
@@ -19,6 +20,7 @@ class Company extends Model  implements \Spatie\MediaLibrary\HasMedia
         'is_active' => 'App\Enums\IsActive',
     ];
 
+    // relations
     public function partner()
     {
         return $this->belongsTo(Partner::class);
@@ -34,6 +36,11 @@ class Company extends Model  implements \Spatie\MediaLibrary\HasMedia
         return $this->hasMany(Store::class);
     }
 
+    public function branches()
+    {
+        return $this->hasMany(Branch::class);
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         $user = auth()->user()->id ?? "system";
@@ -41,6 +48,6 @@ class Company extends Model  implements \Spatie\MediaLibrary\HasMedia
         return \Spatie\Activitylog\LogOptions::defaults()
             ->logAll()
             ->useLogName('Company')
-            ->setDescriptionForEvent(fn (string $eventName) => "This model has been {$eventName} by ($user)");
+            ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName} by ($user)");
     }
 }
