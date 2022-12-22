@@ -24,9 +24,10 @@ class StoreButtonRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'       => 'required|string|max:100|unique:sys_buttons,name',
-            'name_e'     => 'required|string|max:100|unique:sys_buttons,name_e',
-            "media" => ["required", "exists:media,id", new \App\Rules\MediaRule()],
+            'name' => 'required|string|max:100|unique:buttons,name',
+            'name_e' => 'required|string|max:100|unique:buttons,name_e',
+            "media" => "nullable|array",
+            "media.*" => ["nullable", "exists:media,id", new \App\Rules\MediaRule()],
         ];
     }
 }

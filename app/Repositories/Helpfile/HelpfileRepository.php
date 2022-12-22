@@ -4,6 +4,7 @@ namespace App\Repositories\Helpfile;
 
 use App\Models\Helpfile;
 use Illuminate\Support\Facades\DB;
+
 class HelpfileRepository implements HelpfileRepositoryInterface
 {
 
@@ -61,6 +62,10 @@ class HelpfileRepository implements HelpfileRepositoryInterface
         $model->delete();
     }
 
+    public function logs($id)
+    {
+        return $this->model->find($id)->activities()->orderBy('created_at', 'DESC')->get();
+    }
 
     private function forget($id)
     {

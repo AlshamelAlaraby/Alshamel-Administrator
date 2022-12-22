@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 class ModuleRepository implements ModuleInterface
 {
 
-    public function __construct(private \App\Models\Module $model)
+    public function __construct(private \App\Models\Module$model)
     {
         $this->model = $model;
     }
@@ -23,6 +23,14 @@ class ModuleRepository implements ModuleInterface
         }
     }
 
+    public function getRootNodes()
+    {
+        return $this->model->where("parent_id", 0)->get();
+    }
+    public function getChildNodes($parentId)
+    {
+        return $this->model->where("parent_id", $parentId)->get();
+    }
     public function find($id)
     {
         return $this->model->find($id);
@@ -44,6 +52,11 @@ class ModuleRepository implements ModuleInterface
         });
     }
 
+    public function logs($id)
+    {
+        return $this->model->find($id)->activities()->orderBy('created_at', 'DESC')->get();
+    }
+
     public function delete($id)
     {
         $model = $this->find($id);
@@ -63,10 +76,6 @@ class ModuleRepository implements ModuleInterface
     public function removeModuleFromCompany($module_id, $company_id)
     {
         $this->model->find($module_id)->companies()->detach($company_id);
-    }
-    public function logs($id)
-    {
-        return $this->model->find($id)->activities()->orderBy('created_at', 'DESC')->get();
     }
 
     private function forget($id)

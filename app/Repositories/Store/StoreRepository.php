@@ -1,21 +1,19 @@
 <?php
 
-
 namespace App\Repositories\Store;
-
 
 use App\Models\Store;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 
 class StoreRepository implements StoreRepositoryInterface
 {
     public $model;
-    public function __construct(Store $model){
+    public function __construct(Store $model)
+    {
         $this->model = $model;
     }
 
-    public function getAllStores ($request)
+    public function getAllStores($request)
     {
         $models = $this->model->where(function ($q) use ($request) {
 
@@ -34,30 +32,38 @@ class StoreRepository implements StoreRepositoryInterface
             return ['data' => $models->paginate($request->per_page), 'paginate' => true];
         } else {
             return ['data' => $models->get(), 'paginate' => false];
-        }    }
+        }}
 
-    public function create($request){
+    public function create($request)
+    {
         DB::transaction(function () use ($request) {
             $this->model->create($request);
-             cacheForget("company");
-         });
+            cacheForget("company");
+        });
     }
 
-    public function show($id){
+    public function show($id)
+    {
         return $this->model->find($id);
     }
 
-    public function update($data,$id){
+    public function update($data, $id)
+    {
         DB::transaction(function () use ($id, $data) {
             $this->model->where("id", $id)->update($data);
             $this->forget($id);
         });
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $model = $this->show($id);
         $this->forget($id);
         $model->delete();
+    }
+    public function logs($id)
+    {
+        return $this->model->find($id)->activities()->orderBy('created_at', 'DESC')->get();
     }
 
     private function forget($id)

@@ -4,13 +4,15 @@ namespace App\Repositories\Screen;
 
 use App\Exceptions\NotFoundException;
 use App\Models\Screen;
+use App\Models\ScreenDocumentType;
 use Illuminate\Support\Facades\DB;
 
 class ScreenRepository implements ScreenRepositoryInterface
 {
 
     public function __construct(private Screen $model)
-    {}
+    {
+    }
 
     public function getAllScreens($request)
     {
@@ -19,7 +21,6 @@ class ScreenRepository implements ScreenRepositoryInterface
                 foreach ($request->columns as $column) {
                     $q->orWhere($column, 'like', '%' . $request->search . '%');
                 }
-
             }
             if ($request->search) {
                 $q->where('name', 'like', '%' . $request->search . '%')
@@ -31,11 +32,13 @@ class ScreenRepository implements ScreenRepositoryInterface
             if ($request->serial_id) {
                 $q->where('serial_id', $request->serial_id);
             }
-
         })->latest();
 
-        return ['data' => $models->paginate($request->per_page), 'paginate' => true];
-
+        if ($request->per_page) {
+            return ['data' => $models->paginate($request->per_page), 'paginate' => true];
+        } else {
+            return ['data' => $models->get(), 'paginate' => false];
+        }
     }
 
     public function find($id)
@@ -45,10 +48,10 @@ class ScreenRepository implements ScreenRepositoryInterface
 
     public function create($request)
     {
-        DB::transaction(function () use ($request) {
+        return DB::transaction(function () use ($request) {
 
-            $this->model->create($request);
             cacheForget("Screens");
+            return $this->model->create($request);
         });
     }
 
@@ -58,7 +61,6 @@ class ScreenRepository implements ScreenRepositoryInterface
             $this->model->where("id", $id)->update($request);
             $this->forget($id);
         });
-
     }
 
     public function delete($id)
@@ -85,6 +87,22 @@ class ScreenRepository implements ScreenRepositoryInterface
         }
         $screen->documentTypes()->detach($documentType_id);
     }
+    public function getScreenButtons($screen_id)
+    {
+        $screen = $this->model->find($screen_id);
+        return $screen->buttons;
+    }
+    public function screenDocumentExist($screen_id, $documentType_id)
+    {
+        return ScreenDocumentType::where("screen_id", $screen_id)->where("document_type_id", $documentType_id)
+            ->count() > 0;
+    }
+    public function getScreenDocumentTypes($screen_id)
+    {
+        $screen = $this->model->find($screen_id);
+        return $screen->documentTypes;
+    }
+
     public function logs($id)
     {
         return $this->model->find($id)->activities()->orderBy('created_at', 'DESC')->get();

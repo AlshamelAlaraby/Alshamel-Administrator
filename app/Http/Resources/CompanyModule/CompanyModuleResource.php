@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\CompanyModule;
 
+use App\Http\Resources\Company\CompanyResource;
+use App\Http\Resources\Module\ModuleResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CompanyModuleResource extends JsonResource
@@ -16,8 +18,8 @@ class CompanyModuleResource extends JsonResource
     {
         return [
             "id"     => $this->id,
-            "company_id"     => $this->company_id,
-            "module_id"       => $this->module_id,
+            "company"     =>  new CompanyResource($this->company),
+            "module"       =>  new ModuleResource($this->module),
             "start_date"         => $this->start_date,
             "end_date"         => $this->end_date,
             "allowed_users_no" => $this->allowed_users_no,

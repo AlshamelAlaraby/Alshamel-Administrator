@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Partner;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdatePartnerRequest extends FormRequest
 {
@@ -25,8 +25,8 @@ class UpdatePartnerRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'      => 'required|string|max:255',
-            'name_e'    => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'name_e' => 'required|string|max:255',
             "is_active" => "nullable|in:active,inactive",
             'email' => [
                 'required',
@@ -38,15 +38,17 @@ class UpdatePartnerRequest extends FormRequest
                 'required',
                 Rule::unique('partners', 'mobile_no')->ignore($this->route('id')),
             ],
+            "phone_code"      => [],
+            "country_code"      => [],
         ];
     }
 
     public function messages()
     {
         return [
-            'required'      => __('message.field is required'),
-            'unique'        => __('message.field already exists'),
-            'is_active.in'  => __('message.status must be active or inactive'),
+            'required' => __('message.field is required'),
+            'unique' => __('message.field already exists'),
+            'is_active.in' => __('message.status must be active or inactive'),
         ];
     }
 }

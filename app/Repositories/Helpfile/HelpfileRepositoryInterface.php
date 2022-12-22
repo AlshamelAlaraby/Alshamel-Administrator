@@ -15,5 +15,7 @@ interface HelpfileRepositoryInterface
 
     public function delete($id);
 
+    public function logs($id);
+
 
 }

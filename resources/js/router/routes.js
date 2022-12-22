@@ -3,13 +3,28 @@ import checkAuth from "../middleware/auth-check";
 import login from "./routeChild/login";
 import company from "./routeChild/company";
 import module from "./routeChild/module";
+import screenButton from "./routeChild/screen-button";
 import partner from "./routeChild/partner";
+import buttons from "./routeChild/buttons";
+import screens from "./routeChild/screens";
+import hotField from "./routeChild/hot-field";
+import workflow from "./routeChild/workflow";
+import documentType from "./routeChild/document-type";
+import companyModule from "./routeChild/company-model";
+
 
 export default [
     ...login,
     ...company,
     ...module,
+    ...workflow,
+    ...hotField,
+    ...documentType,
+    ...screenButton,
     ...partner,
+    ...buttons,
+    ...screens,
+    ...companyModule,
 
     //**********************************************
     {

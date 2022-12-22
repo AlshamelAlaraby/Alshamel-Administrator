@@ -2,7 +2,9 @@
 
 namespace App\Repositories\ScreenButton;
 
+use App\Models\Screen;
 use App\Models\ScreenButton;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class ScreenButtonRepository implements ScreenButtonRepositoryInterface
@@ -25,6 +27,11 @@ class ScreenButtonRepository implements ScreenButtonRepositoryInterface
         }
     }
 
+    public function getScreens()
+    {
+        return $this->model->screens();
+    }
+
     public function find($id)
     {
         return $this->model->find($id);
@@ -33,10 +40,33 @@ class ScreenButtonRepository implements ScreenButtonRepositoryInterface
     public function create($request)
     {
         DB::transaction(function () use ($request) {
-
-            $this->model->create($request);
-            cacheForget("ScreenButtons");
+            if ($request->buttons) {
+                $btns = explode(',', $request->buttons);
+                foreach ($btns as $btn) {
+                    $this->model->create(
+                        [
+                            'screen_id' => $request->screen_id,
+                            'button_id' => $btn
+                        ]
+                    );
+                }
+                cacheForget("ScreenButtons");
+            } else {
+                $this->model->create($request->input());
+                cacheForget("ScreenButtons");
+            }
         });
+    }
+
+    public function screenButtonExist($screen_id, $button_id)
+    {
+        return $this->model->where("screen_id",$screen_id)->where("button_id", $button_id)->count() > 0;
+    }
+
+    public function removeScreenFromButton($screen_id, $button_id)
+    {
+        $screen = Screen::find($screen_id);
+        $screen->buttons()->detach($button_id);
     }
 
     public function update($request, $id)

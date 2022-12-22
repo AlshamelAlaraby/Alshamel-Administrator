@@ -4,6 +4,7 @@ namespace App\Repositories\ScreenHelpfile;
 
 use App\Models\ScreenHelpfile;
 use Illuminate\Support\Facades\DB;
+
 class ScreenHelpfileRepository implements ScreenHelpfileRepositoryInterface
 {
 
@@ -48,13 +49,17 @@ class ScreenHelpfileRepository implements ScreenHelpfileRepositoryInterface
 
     }
 
+    public function logs($id)
+    {
+        return $this->model->find($id)->activities()->orderBy('created_at', 'DESC')->get();
+    }
+
     public function delete($id)
     {
         $model = $this->find($id);
         $this->forget($id);
         $model->delete();
     }
-
 
     private function forget($id)
     {
