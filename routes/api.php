@@ -49,6 +49,7 @@ Route::group(['prefix' => 'auth'], function () {
 
 Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
     Route::post('/logout', [LogoutController::class, "logout"]);
+    Route::post("/partner/logout", [LogoutController::class, "partnerLogout"]);
 });
 
 Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
@@ -99,6 +100,7 @@ Route::group(['prefix' => 'modules'], function () {
 Route::group(['prefix' => 'partners'], function () {
     Route::controller(PartnerController::class)->group(function () {
         Route::get('/', 'all')->name('partners.index');
+
         Route::get('/{id}', 'find');
         Route::get('logs/{id}', "logs");
         Route::post('/', 'store')->name('partners.store');
