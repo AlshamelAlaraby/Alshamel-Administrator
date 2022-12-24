@@ -1417,5 +1417,4 @@ ul,
     }
   }
 }
-/* Remove default bullets */
 </style>
