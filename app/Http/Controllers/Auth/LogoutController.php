@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Auth;
 
 class LogoutController extends Controller
 {
@@ -12,7 +11,15 @@ class LogoutController extends Controller
     {
         $user = request()->user();
         $user->tokens()->where('id', $user->currentAccessToken()->id)->delete();
-        return responseJson(200,'Logged Out Successfully');
+        return responseJson(200, 'Logged Out Successfully');
+    }
+
+    public function partnerLogout()
+    {
+        dd("d");
+        $user = request()->user();
+        $user->tokens()->where('id', $user->currentAccessToken()->id)->delete();
+        return responseJson(200, 'Logged Out Successfully');
     }
 
 }

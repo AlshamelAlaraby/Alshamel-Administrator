@@ -126,10 +126,14 @@ class PartnerController extends Controller
         if (!Auth::guard('partner')->attempt($request->only("email", "password"))) {
             return responseJson(422, 'Email Or Password is wrong!');
         }
-        $authUser = new PartnerResource(Auth::guard('partner')->user());
-        $success['token'] = $authUser->createToken('sanctumPartner')->plainTextToken;
-        $success['partner'] = $authUser;
-        $success['companies'] = $authUser->everything_about_the_company();
-        return responseJson(200, 'Login Successfully', $success);
+        $user = Auth::guard('partner')->user();
+        return responseJson(200, 'Login Successfully', [
+            "partner" => new PartnerResource($user),
+            "token" => $user->createToken('sanctumPartner')->plainTextToken,
+        ]);
     }
+
+
+
+
 }
