@@ -36,7 +36,9 @@ class WorkflowTreeController extends ResponseController
         }
         return responseJson(200, 'success', ($this->resource)::collection($models['data']), $models['paginate'] ? getPaginates($models['data']) : null);
     }
-
+    public function getCompanyWorkflows($company_id){
+        return $this->repository->getCompanyWorkflows($company_id);
+    }
     public function find($id)
     {
         $model = cacheGet('work_flow_trees_' . $id);

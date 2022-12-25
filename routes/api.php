@@ -9,7 +9,7 @@ use App\Http\Controllers\CompanyModule\CompanyModuleController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\DocumentType\DocumentTypeController;
 use App\Http\Controllers\Helpfile\HelpfileController;
-use App\Http\Controllers\hotfield\HotfieldController;
+use App\Http\Controllers\Hotfield\HotfieldController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\Partner\PartnerController;
 use App\Http\Controllers\ScreenButton\ScreenButtonController;
@@ -211,6 +211,7 @@ Route::group(['prefix' => 'workflow-trees'], function () {
         Route::delete('/{id}', 'delete')->name('WorkflowTree.destroy');
         Route::get('logs/{id}', 'logs')->name('WorkflowTree.logs');
         Route::post('bulk-delete', 'bulkDelete');
+        Route::get("company-workflows/{company_id}","getCompanyWorkflows");
     });
 });
 
