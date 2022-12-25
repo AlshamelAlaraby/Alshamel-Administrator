@@ -431,12 +431,13 @@
         }
     },
     "general": {
+        "url": "رابط الموقع",
         "AddButton": "اضافة زرار",
         "AddFile": "اضافة ملف",
         "DeletedSuccessfully": "تم الحذف بنجاح",
         "Buttons": "الازرار",
         "DocumentType": "انواع الملفات",
-      "ExistBefore":"موجود مسبقا",
+        "ExistBefore": "موجود مسبقا",
         "title": "العنوان (عربي)",
         "title_en": "العنوان (انجليزي)",
         "IdSort": "معرف الترتيب",

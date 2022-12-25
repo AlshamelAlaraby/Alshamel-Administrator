@@ -29,8 +29,7 @@ class StoreSerialRequest extends FormRequest
             'suffix'        => 'required|string|max:255',
             'company_id'    => 'required',
             'branch_id'     => 'required',
-            'store_id'      => 'required',
-            
+            'store_id'      => 'required',            
         ];
     }
 
