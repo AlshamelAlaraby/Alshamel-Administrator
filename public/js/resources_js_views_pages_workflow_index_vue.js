@@ -2296,7 +2296,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].put("/workflow-trees/".concat(this.workflow_id), {
         old_media: old_media
       }).then(function (res) {
-        _this21.images = res.data.data.media ? res.data.data.media : [];
+        _this21.images = res.data.data.media ? res.data.data.media : _this21.images;
         if (_this21.images && _this21.images.length > 0) {
           {
             _this21.showPhoto = _this21.images[_this21.images.length - 1].webp;
