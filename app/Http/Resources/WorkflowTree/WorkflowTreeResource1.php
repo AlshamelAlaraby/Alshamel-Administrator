@@ -2,10 +2,15 @@
 
 namespace App\Http\Resources\WorkflowTree;
 
+use App\Http\Resources\Button\ButtonResource;
 use App\Http\Resources\Company\CompanyResource;
+use App\Http\Resources\Hotfield\HotfieldResource;
 use App\Http\Resources\Module\ModuleResource;
 use App\Http\Resources\Partner\PartnerRelationResource;
 use App\Http\Resources\Screen\ScreenRelationResource;
+use App\Models\Button;
+use App\Models\HotField;
+use App\Models\Screen;
 use App\Models\WorkflowTree;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -31,6 +36,7 @@ class WorkflowTreeResource1 extends JsonResource
             'screen'  => new ScreenRelationResource($this->screen),
             'icon_url'   => $this->icon,
             'id_sort'    => $this->id_sort,
+
         ];
     }
 }
