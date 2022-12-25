@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Resources\WorkflowTree\WorkflowTreeResource1;
+use App\Traits\LogTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -19,8 +20,7 @@ class Partner extends Authenticatable
 {
     use HasFactory;
     use SoftDeletes;
-    use LogsActivity;
-    use CausesActivity, HasApiTokens;
+    use LogTrait, HasApiTokens;
 
 
     public const ACTIVE = 'active';
@@ -35,11 +35,6 @@ class Partner extends Authenticatable
         'mobile_no',
     ];
 
-    public function tapActivity(Activity $activity, string $eventName)
-    {
-        $activity->causer_id = auth()->user()->id ?? 0;
-        $activity->causer_type = auth()->user()->role ?? "admin";
-    }
 
     public function getActivitylogOptions(): LogOptions
     {

@@ -50,6 +50,12 @@ class WorkflowTreeController extends ResponseController
         }
         return responseJson(200, __('Done'), new WorkflowTreeResource($model), );
     }
+    public function getRootNodes(){
+        return $this->repository->getRootNodes();
+    }
+    public function getChildNodes($parentId){
+        return $this->repository->getChildNodes($parentId);
+    }
 
     public function everything_about_the_company($id)
     {
@@ -64,7 +70,7 @@ class WorkflowTreeController extends ResponseController
 
     public function store(StoreWorkflowTreeRequest $request)
     {
-        $model = $this->repository->create($request->validated());
+        $model = $this->repository->create($request);
         return responseJson(200, 'success', new WorkflowTreeResource($model));
     }
 
@@ -75,9 +81,9 @@ class WorkflowTreeController extends ResponseController
         if (!$model) {
             return responseJson(404, __('message.data not found'));
         }
-        $model = $this->repository->update($request->validated(), $id);
-
-        return responseJson(200, __('Done'));
+        $this->repository->update($request, $id);
+        $model->refresh();
+        return responseJson(200, 'success', new WorkflowTreeResource($model));
     }
 
     public function delete($id)

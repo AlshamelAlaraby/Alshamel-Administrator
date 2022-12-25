@@ -10,10 +10,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class WorkflowTree extends Model implements \Spatie\MediaLibrary\HasMedia
 {
     use SoftDeletes, LogTrait, MediaTrait;
-
-
+    protected $appends = ["haveChildren"];
     protected $table = 'workflow_trees';
-
     protected $fillable = [
         'name',
         'name_e',
@@ -25,7 +23,6 @@ class WorkflowTree extends Model implements \Spatie\MediaLibrary\HasMedia
         'screen_id',
         'id_sort',
     ];
-
     /**
      * return child of this parent
      */
@@ -39,6 +36,10 @@ class WorkflowTree extends Model implements \Spatie\MediaLibrary\HasMedia
         return $this->belongsTo(WorkflowTree::class, 'parent_id', 'id');
     }
 
+    public function getHaveChildrenAttribute()
+    {
+        return static::where("parent_id", $this->id)->count() > 0;
+    }
     /**
      * return relation  with  partner
      */
@@ -76,6 +77,15 @@ class WorkflowTree extends Model implements \Spatie\MediaLibrary\HasMedia
         return $this->belongsTo(Screen::class);
     }
 
-    // scope
+
+    public function getActivitylogOptions(): \Spatie\Activitylog\LogOptions
+    {
+        $user = @auth()->user()->id ?: "system";
+
+        return \Spatie\Activitylog\LogOptions::defaults()
+            ->logAll()
+            ->useLogName('Workflow Tree')
+            ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName} by ($user)");
+    }
 
 }

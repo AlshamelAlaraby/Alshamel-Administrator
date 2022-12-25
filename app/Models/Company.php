@@ -20,6 +20,7 @@ class Company extends Model implements \Spatie\MediaLibrary\HasMedia
         'is_active' => 'App\Enums\IsActive',
     ];
 
+    // relations
     public function partner()
     {
         return $this->belongsTo(Partner::class);
@@ -33,6 +34,11 @@ class Company extends Model implements \Spatie\MediaLibrary\HasMedia
     public function stores()
     {
         return $this->hasMany(Store::class);
+    }
+
+    public function branches()
+    {
+        return $this->hasMany(Branch::class);
     }
 
     public function getActivitylogOptions(): LogOptions

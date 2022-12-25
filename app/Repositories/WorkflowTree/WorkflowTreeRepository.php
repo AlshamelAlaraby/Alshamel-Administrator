@@ -19,7 +19,7 @@ class WorkflowTreeRepository implements WorkflowTreeRepositoryInterface
     {
         $models = $this->model->filter($request)->latest();
 
-        return ['data' => $models->paginate($request->per_page), 'paginate' => true];
+        return ['data' => $models->with(["partner","company","module","screen"])->paginate($request->per_page), 'paginate' => true];
     }
 
     public function find($id)
@@ -29,8 +29,8 @@ class WorkflowTreeRepository implements WorkflowTreeRepositoryInterface
 
     public function create($request)
     {
-        DB::transaction(function () use ($request) {
-            $model = $this->model->create($request);
+        return DB::transaction(function () use ($request) {
+            $model = $this->model->create($request->all());
             if ($request->media) {
                 foreach ($request->media as $media) {
                     $this->media::where('id', $media)->update([
@@ -40,6 +40,7 @@ class WorkflowTreeRepository implements WorkflowTreeRepositoryInterface
                 }
             }
             cacheForget("work_flow_trees");
+            return $model;
         });
     }
 
@@ -78,7 +79,7 @@ class WorkflowTreeRepository implements WorkflowTreeRepositoryInterface
             if (!$request->old_media && !$request->media) { // if this is no old media and new media
                 $model->clearMediaCollection('media');
             }
-            $model->update($request);
+            $model->update($request->all());
 
             $this->forget($id);
         });
@@ -96,6 +97,15 @@ class WorkflowTreeRepository implements WorkflowTreeRepositoryInterface
         return $this->model->find($id)->activities()->orderBy('created_at', 'DESC')->get();
     }
 
+    public function getRootNodes()
+    {
+        return $this->model->whereNull("parent_id")->get();
+    }
+    public function getChildNodes($parentId)
+    {
+        return $this->model->where("parent_id", $parentId)->get();
+    }
+    
     private function forget($id)
     {
         $keys = [

@@ -15,10 +15,10 @@ class CreateBranchesTable extends Migration
     {
         Schema::create('branches', function (Blueprint $table) {
             $table->id();
-            $table->foreignId ('company_id')->nullable ()->constrained ('companies');
-            $table->string ('name');
-            $table->string ('name_e');
-            $table->boolean ('is_active')->default (false)->comment ('1=Active, 0=Not Active');
+            $table->string('name');
+            $table->string('name_e');
+            $table->string("is_active");
+            $table->unsignedInteger('company_id');
             $table->timestamps();
         });
     }
@@ -33,3 +33,4 @@ class CreateBranchesTable extends Migration
         Schema::dropIfExists('branches');
     }
 }
+    

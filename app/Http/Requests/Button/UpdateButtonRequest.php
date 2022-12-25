@@ -25,9 +25,11 @@ class UpdateButtonRequest extends FormRequest
     public function rules(Request $request)
     {
         return [
-            'name' => 'string|max:100|unique:sys_buttons,name,' . $request->id,
-            'name_e' => 'string|max:100|unique:sys_buttons,name_e,' . $request->id,
-            "media" => ["exists:media,id", new \App\Rules\MediaRule()],
+            'name' => 'string|max:100|unique:buttons,name,' . $request->id,
+            'name_e' => 'string|max:100|unique:buttons,name_e,' . $request->id,
+            "media" => "nullable|array",
+            "media.*" => ["nullable", "exists:media,id", new \App\Rules\MediaRule()],
+            'old_media.*' => ['exists:media,id', new \App\Rules\MediaRule("App\Models\Button")],
         ];
     }
 }

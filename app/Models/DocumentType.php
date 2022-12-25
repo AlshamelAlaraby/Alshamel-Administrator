@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class DocumentType extends Model
 {
-    use HasFactory,LogTrait;
+    use HasFactory, LogTrait;
 
     protected $fillable = [
         'name',
@@ -16,14 +16,9 @@ class DocumentType extends Model
         'is_default',
     ];
 
-
     public function screens()
     {
-        return $this->belongsToMany(Screen::class,'screen_document_types','documentType_id','screen_id','id','id');
+        return $this->belongsToMany(Screen::class, 'screen_document_types', 'documentType_id', 'screen_id', 'id', 'id');
     }
-
-
-
-
 
 }

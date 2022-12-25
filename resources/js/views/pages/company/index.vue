@@ -6,9 +6,7 @@ import adminApi from "../../../api/adminAxios";
 import { required, minLength, maxLength ,integer,email, sameAs ,url} from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
 import loader from "../../../components/loader";
-import alphaArabic  from "../../../helper/alphaArabic";
-import alphaEnglish  from "../../../helper/alphaEnglish";
-import {dynamicSortString} from "../../../helper/tableSort";
+import {dynamicSortNumber, dynamicSortString} from "../../../helper/tableSort";
 import Multiselect from "vue-multiselect";
 
 /**
@@ -16,7 +14,6 @@ import Multiselect from "vue-multiselect";
  */
 
 // start validation image/png
-const imgValid = (value) => ['image/png','image/jpg','image/jpeg','image/gif'].includes(value);
 
 export default {
     page: {
@@ -52,6 +49,8 @@ export default {
                 cr:'',
                 address:'',
                 website: '',
+                phone_code:'',
+                country_code:'',
                 is_active: null,
             },
             edit: {
@@ -66,7 +65,10 @@ export default {
                 cr:'',
                 address:'',
                 website: '',
-                is_active: null
+                phone_code:'',
+                country_code:'',
+                is_active: null,
+                old_media: []
             },
             errors: {},
             isCheckAll: false,
@@ -75,6 +77,7 @@ export default {
             images: [],
             media: {},
             company_id: null,
+            isVaildPhone: false,
             saveImageName: [],
             showPhoto: './images/img-1.png',
             setting: {
@@ -97,8 +100,8 @@ export default {
     },
     validations: {
         create: {
-            name: {required,minLength: minLength(3),maxLength: maxLength(100),alphaArabic},
-            name_e: {required,minLength: minLength(3),maxLength: maxLength(100),alphaEnglish},
+            name: {required,minLength: minLength(3),maxLength: maxLength(100)},
+            name_e: {required,minLength: minLength(3),maxLength: maxLength(100)},
             email: {required,email,minLength: minLength(3),maxLength: maxLength(100)},
             phone: {required,integer},
             tax_id: {required,minLength: minLength(1),maxLength: maxLength(10),integer},
@@ -107,14 +110,12 @@ export default {
             website: {required,url,minLength: minLength(10),maxLength: maxLength(200)},
             cr: {required,minLength: minLength(3),maxLength: maxLength(100)},
             address: {required,minLength: minLength(10),maxLength: maxLength(200)},
-            logo: {required},
             partner_id: {required,integer},
             is_active: {required},
-            type: {imgValid}
         },
         edit: {
-            name: {required,minLength: minLength(3),maxLength: maxLength(100),alphaArabic},
-            name_e: {required,minLength: minLength(3),maxLength: maxLength(100),alphaEnglish},
+            name: {required,minLength: minLength(3),maxLength: maxLength(100)},
+            name_e: {required,minLength: minLength(3),maxLength: maxLength(100)},
             email: {required,email,minLength: minLength(3),maxLength: maxLength(100)},
             phone: {required,integer},
             tax_id: {required,minLength: minLength(1),maxLength: maxLength(10),integer},
@@ -123,7 +124,6 @@ export default {
             website: {required,url,minLength: minLength(10),maxLength: maxLength(200)},
             cr: {required,minLength: minLength(3),maxLength: maxLength(100)},
             address: {required,minLength: minLength(10),maxLength: maxLength(200)},
-            logo: {},
             partner_id: {required,integer},
             is_active: {required}
         },
@@ -179,7 +179,7 @@ export default {
             $(".arabicInput").keypress(function(event){
                 var ew = event.which;
                 if(ew == 32)
-                    return false;
+                    return true;
                 if(48 <= ew && ew <= 57)
                     return false;
                 if(65 <= ew && ew <= 90)
@@ -303,15 +303,14 @@ export default {
                 partner_id: null,
                 url:'',
                 phone:'',
-                search: "",
                 tax_id: null,
                 vat_no: null,
                 cr:'',
-                logo:{},
                 address:'',
                 website: '',
+                phone_code:'',
+                country_code:'',
                 is_active: null,
-                type: ''
             };
             this.$nextTick(() => { this.$v.$reset() });
             this.errors = {};
@@ -323,7 +322,8 @@ export default {
         /**
          *  hidden Modal (create)
          */
-        resetModal(){
+        async resetModal(){
+            await this.getPartner();
             this.create =  {
                 name: '',
                 name_e: '',
@@ -336,7 +336,9 @@ export default {
                 cr:'',
                 address:'',
                 website: '',
-                is_active: null,
+                phone_code:'',
+                country_code:'',
+                is_active: 'active',
             };
             this.$nextTick(() => { this.$v.$reset() });
             this.errors = {};
@@ -358,37 +360,28 @@ export default {
                 cr:'',
                 address:'',
                 website: '',
-                is_active: null,
+                phone_code:'',
+                country_code:'',
+                is_active: 'active',
             };
             this.$nextTick(() => { this.$v.$reset() });
             this.company_id = null;
+            this.isVaildPhone = false;
         },
         AddSubmit(){
             this.$v.create.$touch();
 
-            if (this.$v.create.$invalid) {
+            if (this.$v.create.$invalid && !this.isVaildPhone) {
                 return;
             } else {
                 this.isLoader = true;
                 this.errors = {};
-                let formDate = new FormData();
-                formDate.append('name',this.create.name);
-                formDate.append('name_e',this.create.name_e);
-                formDate.append('email',this.create.email);
-                formDate.append('phone',this.create.phone);
-                formDate.append('tax_id',this.create.tax_id);
-                formDate.append('partner_id',this.create.partner_id);
-                formDate.append('logo',this.create.logo);
-                formDate.append('website',this.create.website);
-                formDate.append('cr',this.create.cr);
-                formDate.append('url',this.create.url);
-                formDate.append('address',this.create.address);
-                formDate.append('is_active',this.create.is_active);
-                formDate.append('vat_no',this.create.vat_no);
+                if(!this.create.name){ this.create.name = this.create.name_e}
+                if(!this.create.name_e){ this.create.name_e = this.create.name}
 
-                adminApi.post(`/companies`,formDate)
+                adminApi.post(`/companies`,this.create)
                     .then((res) => {
-                        this.$bvModal.hide(`create`);
+                        this.company_id = res.data.data.id;
                         this.getData();
                         setTimeout(() => {
                             Swal.fire({
@@ -420,29 +413,14 @@ export default {
          */
         editSubmit(id,index){
             this.$v.edit.$touch();
-            if (this.$v.edit.$invalid) {
+            if(this.images) this.images.forEach(e => {this.edit.old_media.push(e.id);});
+            if (this.$v.edit.$invalid && !this.isVaildPhone) {
                 return;
             } else {
                 this.isLoader = true;
                 this.errors = {};
 
-                let formDate = new FormData();
-                formDate.append('name',this.edit.name);
-                formDate.append('name_e',this.edit.name_e);
-                formDate.append('email',this.edit.email);
-                formDate.append('phone',this.edit.phone);
-                formDate.append('tax_id',this.edit.tax_id);
-                formDate.append('partner_id',this.edit.partner_id);
-                formDate.append('logo',this.edit.logo);
-                formDate.append('website',this.edit.website);
-                formDate.append('cr',this.edit.cr);
-                formDate.append('url',this.edit.url);
-                formDate.append('address',this.edit.address);
-                formDate.append('is_active',this.edit.is_active);
-                formDate.append('vat_no',this.edit.vat_no);
-                formDate.append('_method','PUT');
-
-                adminApi.post(`/companies/${id}`,formDate)
+                adminApi.post(`/companies/${id}`, this.edit)
                     .then((res) => {
                         this.getData();
                         this.$bvModal.hide(`modal-edit-${id}`);
@@ -473,11 +451,11 @@ export default {
         /**
          *  get parent
          */
-        getPartner(){
-            adminApi.get(`/partners?per_page=${this.per_page}&search=${this.search}&is_active=active`)
+        async getPartner(){
+            await adminApi.get(`/partners`)
                 .then((res) => {
                     let l = res.data;
-                    this.dropDownSenders = l.data;
+                    this.partners = l.data;
                 })
                 .catch((err) => {
                     Swal.fire({
@@ -490,8 +468,12 @@ export default {
         /**
          *   show Modal (edit)
          */
-        resetModalEdit(id){
+        async resetModalEdit(id){
             let company = this.companies.find(e => id == e.id );
+            await this.getPartner();
+            this.company_id = company.id;
+            this.isVaildPhone = false;
+            this.company_id = company.id;
             this.edit.name = company.name;
             this.edit.name_e = company.name_e;
             this.edit.is_active = company.is_active;
@@ -499,15 +481,14 @@ export default {
             this.edit.address = company.address;
             this.edit.cr = company.cr;
             this.edit.partner_id = company.partner.id;
-            this.edit.search = this.$i18n.locale == 'ar'? company.partner.name : company.partner.name_e;
             this.edit.tax_id = company.tax_id;
             this.edit.url = company.url;
             this.edit.website = company.website;
             this.edit.vat_no = company.vat_no;
             this.edit.phone = company.phone;
-            this.dropDownSenders = [];
             this.errors = {};
-            this.edit.file = company.logo;
+            this.images = company.media ?? [];
+            if(this.images.length > 0) this.showPhoto = this.images[this.images.length - 1].webp;
         },
         /**
          *  hidden Modal (edit)
@@ -523,14 +504,12 @@ export default {
                 tax_id: null,
                 vat_no: null,
                 cr:'',
-                logo:{},
                 address:'',
                 website: '',
-                is_active: null,
-                type: '',
-                search: "",
-                file: '',
-                isImage: true
+                phone_code:'',
+                country_code:'',
+                is_active: 'active',
+                old_media: []
             };
             this.errors = {};
             this.company_id = null;
@@ -539,16 +518,26 @@ export default {
          *  update phone
          */
         updatePhone(e){
-
+            this.create.phone_code = e.countryCallingCode;
+            this.create.country_code = e.countryCode;
+            this.isVaildPhone = e.isValid;
         },
         updatePhoneEdit(e){
-
+            this.edit.phone_code = e.countryCallingCode;
+            this.edit.country_code = e.countryCode;
+            this.isVaildPhone = e.isValid;
         },
+        /**
+         *  start  dynamicSortString
+         */
         /**
          *  start  dynamicSortString
          */
         sortString(value){
             return dynamicSortString(value);
+        },
+        sortNumber(value){
+            return dynamicSortNumber(value);
         },
         checkRow(id){
             if(!this.checkAll.includes(id)) {
@@ -581,11 +570,11 @@ export default {
                     adminApi.post(`/media`, formDate)
                         .then((res) => {
                             let old_media = [];
-                            this.images.forEach(e => old_media.push(e.id));
+                            if(this.images) this.images.forEach(e => old_media.push(e.id));
                             let new_media = [];
                             res.data.data.forEach(e => new_media.push(e.id));
 
-                            adminApi.put(`/countries/${this.country_id}`,{old_media,'media':new_media})
+                            adminApi.post(`/companies/${this.company_id}`,{old_media,'media':new_media})
                                 .then((res) => {
                                     this.images = res.data.data.media;
                                     this.showPhoto = this.images[this.images.length - 1].webp;
@@ -636,7 +625,7 @@ export default {
                                     let new_media = [];
                                     res.data.data.forEach(e => new_media.push(e.id));
 
-                                    adminApi.put(`/countries/${this.country_id}`,{old_media,'media':new_media})
+                                    adminApi.post(`/companies/${this.company_id}`,{old_media,'media':new_media})
                                         .then((res) => {
                                             this.images = res.data.data.media;
                                             this.showPhoto = this.images[this.images.length - 1].webp;
@@ -676,10 +665,12 @@ export default {
                     old_media.push(e.id);
                 }
             });
-            adminApi.put(`/countries/${this.country_id}`,{old_media})
+            adminApi.post(`/companies/${this.company_id}`,{old_media})
                 .then((res) => {
-                    this.images = res.data.data.media;
-                    this.showPhoto = this.images[this.images.length - 1].webp;
+                    this.images = res.data.data.media ?? [];
+                    if(this.images.length){
+                        this.showPhoto = this.images[this.images.length - 1].webp;
+                    }
                 })
                 .catch(err => {
                     Swal.fire({
@@ -709,7 +700,7 @@ export default {
                             <div class="col-xs-10 col-md-9 col-lg-7" style="font-weight: 500">
                                 <div class="d-inline-block" style="width: 22.2%;">
                                     <!-- Basic dropdown -->
-                                    <b-dropdown variant="primary" :text="$t('general.searchSetting')" ref="dropdown" class="btn-block setting-search">
+                                    <b-dropdown variant="primary" :text="$t('general.searchSetting')" ref="dropdown" class="btn-block setting-search dropdown-menu-custom-company">
                                         <b-form-checkbox v-model="filterSetting" value="name" class="mb-1">
                                             {{ $t('general.Name') }}
                                         </b-form-checkbox>
@@ -826,7 +817,7 @@ export default {
                                     </b-button>
                                     <b-dropdown variant="primary"
                                         :html="`${$t('general.setting')} <i class='fe-settings'></i>`"
-                                        ref="dropdown" class="dropdown-custom-ali"
+                                        ref="dropdown" class="dropdown-custom-ali dropdown-menu-custom-company"
                                     >
                                         <b-form-checkbox v-model="setting.name" class="mb-1">{{
                                                 $t('general.Name')
@@ -908,6 +899,7 @@ export default {
                             :title="$t('company.addcompany')"
                             title-class="font-18"
                             dialog-class="modal-full-width"
+                            body-class="paddingUnset"
                             :hide-footer="true"
                             @show="resetModal"
                             @hidden="resetModalHidden"
@@ -984,14 +976,13 @@ export default {
                                                                     class="form-control arabicInput"
                                                                     v-model.trim="$v.create.name.$model"
                                                                     :class="{
-                                                        'is-invalid':$v.create.name.$error || errors.name,
-                                                        'is-valid':!$v.create.name.$invalid && !errors.name
-                                                    }"
+                                                                        'is-invalid':$v.create.name.$error || errors.name,
+                                                                        'is-valid':!$v.create.name.$invalid && !errors.name
+                                                                    }"
                                                                     id="field-1"
                                                                 />
                                                                 <div v-if="!$v.create.name.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.name.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                                                 <div v-if="!$v.create.name.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.name.$params.maxLength.max }} {{ $t('general.letters') }}</div>
-                                                                <div v-if="!$v.create.name.alphaArabic" class="invalid-feedback">{{ $t('general.alphaArabic') }}</div>
                                                                 <template v-if="errors.name">
                                                                     <ErrorMessage v-for="(errorMessage,index) in errors.name" :key="index">{{ errorMessage }}</ErrorMessage>
                                                                 </template>
@@ -1008,14 +999,13 @@ export default {
                                                                     class="form-control englishInput"
                                                                     v-model.trim="$v.create.name_e.$model"
                                                                     :class="{
-                                                    'is-invalid':$v.create.name_e.$error || errors.name_e,
-                                                    'is-valid':!$v.create.name_e.$invalid && !errors.name_e
-                                                }"
+                                                                        'is-invalid':$v.create.name_e.$error || errors.name_e,
+                                                                        'is-valid':!$v.create.name_e.$invalid && !errors.name_e
+                                                                    }"
                                                                     id="field-2"
                                                                 />
                                                                 <div v-if="!$v.create.name_e.minLength" class="invalid-feedback">{{ $t('general.Itmustbeatleast') }} {{ $v.create.name_e.$params.minLength.min }} {{ $t('general.letters') }}</div>
                                                                 <div v-if="!$v.create.name_e.maxLength" class="invalid-feedback">{{ $t('general.Itmustbeatmost') }}  {{ $v.create.name_e.$params.maxLength.max }} {{ $t('general.letters') }}</div>
-                                                                <div v-if="!$v.create.name_e.alphaEnglish" class="invalid-feedback">{{ $t('general.alphaEnglish') }}</div>
                                                                 <template v-if="errors.name_e">
                                                                     <ErrorMessage v-for="(errorMessage,index) in errors.name_e" :key="index">{{ errorMessage }}</ErrorMessage>
                                                                 </template>
@@ -1244,7 +1234,7 @@ export default {
                                                     type="file"
                                                     id="uploadImageCreate"
                                                     @change.prevent="onImageChanged"
-                                                    class="input-file-upload position-absolute"
+                                                    class="input-file-upload position-absolute d-none"
                                                 >
                                                 <div class="col-md-8 my-1">
                                                     <!-- file upload -->
@@ -1346,17 +1336,81 @@ export default {
                                             >
                                         </div>
                                     </th>
-                                    <th v-if="setting.name">{{ $t('general.Name') }}</th>
-                                    <th v-if="setting.name_e">{{ $t('general.Name_en') }}</th>
-                                    <th v-if="setting.email">{{ $t('login.Emailaddress') }}</th>
+                                    <th v-if="setting.name">
+                                        <div class="d-flex justify-content-center">
+                                            <span>{{ $t('general.Name') }}</span>
+                                            <div class="arrow-sort">
+                                                <i class="fas fa-arrow-up" @click="companies.sort(sortString('name'))"></i>
+                                                <i class="fas fa-arrow-down" @click="companies.sort(sortString('-name'))"></i>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th v-if="setting.name_e">
+                                        <div class="d-flex justify-content-center">
+                                            <span>{{ $t('general.Name_en') }}</span>
+                                            <div class="arrow-sort">
+                                                <i class="fas fa-arrow-up" @click="companies.sort(sortString('name_e'))"></i>
+                                                <i class="fas fa-arrow-down" @click="companies.sort(sortString('-name_e'))"></i>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th v-if="setting.email">
+                                        <div class="d-flex justify-content-center">
+                                            <span>{{ $t('login.Emailaddress') }}</span>
+                                            <div class="arrow-sort">
+                                                <i class="fas fa-arrow-up" @click="companies.sort(sortString('email'))"></i>
+                                                <i class="fas fa-arrow-down" @click="companies.sort(sortString('-email'))"></i>
+                                            </div>
+                                        </div>
+                                    </th>
                                     <th v-if="setting.partner_id">{{ $t('partner.partner') }}</th>
-                                    <th v-if="setting.phone">{{ $t('general.mobile_no') }}</th>
-                                    <th v-if="setting.vat_no">{{ $t('general.Valueaddedregistrationnumber') }}</th>
-                                    <th v-if="setting.cr">{{ $t('general.CommercialRecord') }}</th>
-                                    <th v-if="setting.tax_id">{{ $t('general.taxnumber') }}</th>
-                                    <th v-if="setting.address">{{ $t('general.address') }}</th>
+                                    <th v-if="setting.phone">
+                                        <div class="d-flex justify-content-center">
+                                            <span>{{ $t('general.mobile_no') }}</span>
+                                            <div class="arrow-sort">
+                                                <i class="fas fa-arrow-up" @click="companies.sort(sortNumber('phone'))"></i>
+                                                <i class="fas fa-arrow-down" @click="companies.sort(sortNumber('-phone'))"></i>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th v-if="setting.vat_no">
+                                        <div class="d-flex justify-content-center">
+                                            <span>{{ $t('general.Valueaddedregistrationnumber') }}</span>
+                                            <div class="arrow-sort">
+                                                <i class="fas fa-arrow-up" @click="companies.sort(sortNumber('vat_no'))"></i>
+                                                <i class="fas fa-arrow-down" @click="companies.sort(sortNumber('-vat_no'))"></i>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th v-if="setting.cr">
+                                        <div class="d-flex justify-content-center">
+                                            <span>{{ $t('general.CommercialRecord') }}</span>
+                                            <div class="arrow-sort">
+                                                <i class="fas fa-arrow-up" @click="companies.sort(sortNumber('cr'))"></i>
+                                                <i class="fas fa-arrow-down" @click="companies.sort(sortNumber('-cr'))"></i>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th v-if="setting.tax_id">
+                                        <div class="d-flex justify-content-center">
+                                            <span>{{ $t('general.taxnumber') }}</span>
+                                            <div class="arrow-sort">
+                                                <i class="fas fa-arrow-up" @click="companies.sort(sortNumber('tax_id'))"></i>
+                                                <i class="fas fa-arrow-down" @click="companies.sort(sortNumber('-tax_id'))"></i>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th v-if="setting.address">
+                                        <div class="d-flex justify-content-center">
+                                            <span> {{ $t('general.address') }}</span>
+                                            <div class="arrow-sort">
+                                                <i class="fas fa-arrow-up" @click="companies.sort(sortString('address'))"></i>
+                                                <i class="fas fa-arrow-down" @click="companies.sort(sortString('-address'))"></i>
+                                            </div>
+                                        </div>
+                                    </th>
                                     <th v-if="setting.website">{{ $t('general.website') }}</th>
-                                    <th v-if="setting.url">{{ $t('general.companysystempath') }}</th>
+                                    <th v-if="setting.url">{{ $t('general.url') }}</th>
                                     <th v-if="setting.is_active">{{ $t('general.Status') }}</th>
                                     <th>{{ $t('general.Action') }}</th>
                                     <th><i class="fas fa-ellipsis-v"></i></th>
@@ -1382,18 +1436,38 @@ export default {
                                         </div>
                                     </td>
                                     <td v-if="setting.name">
-                                        <h5 class="m-0 font-weight-normal">{{ data.name }}</h5>
+                                        {{ data.name }}
                                     </td>
-                                    <td v-if="setting.name_e">{{ data.name_e }}</td>
-                                    <td v-if="setting.email">{{ data.email }}</td>
-                                    <td v-if="setting.partner_id">{{ $i18n.locale == 'ar'? data.partner.name : data.partner.name_e}}</td>
-                                    <td v-if="setting.phone">{{ data.phone }}</td>
-                                    <td v-if="setting.vat_no">{{ data.vat_no }}</td>
-                                    <td v-if="setting.cr">{{ data.cr }}</td>
-                                    <td v-if="setting.tax_id">{{ data.tax_id }}</td>
-                                    <td v-if="setting.address">{{ data.address }}</td>
-                                    <td v-if="setting.phone">{{ data.phone }}</td>
-                                    <td v-if="setting.website">{{ data.website }}</td>
+                                    <td v-if="setting.name_e">
+                                        {{ data.name_e }}
+                                    </td>
+                                    <td v-if="setting.email">
+                                        {{ data.email }}
+                                    </td>
+                                    <td v-if="setting.partner_id">
+                                        {{ $i18n.locale == 'ar'? data.partner.name : data.partner.name_e}}
+                                    </td>
+                                    <td v-if="setting.phone">
+                                         {{ data.phone }}
+                                    </td>
+                                    <td v-if="setting.vat_no">
+                                        {{ data.vat_no }}
+                                    </td>
+                                    <td v-if="setting.cr">
+                                        {{ data.cr }}
+                                    </td>
+                                    <td v-if="setting.tax_id">
+                                         {{ data.tax_id }}
+                                    </td>
+                                    <td v-if="setting.address">
+                                        {{ data.address }}
+                                    </td>
+                                    <td v-if="setting.website">
+                                        {{ data.website }}
+                                    </td>
+                                    <td v-if="setting.url">
+                                        {{ data.url }}
+                                    </td>
                                     <td v-if="setting.is_active">
                                         <span :class="[
                                             data.is_active == 'active' ?
@@ -1449,39 +1523,31 @@ export default {
                                             title-class="font-18"
                                             :ref="`edit-${data.id}`"
                                             dialog-class="modal-full-width"
+                                            body-class="paddingUnset"
                                             :hide-footer="true"
                                             @show="resetModalEdit(data.id)"
                                             @hidden="resetModalHiddenEdit(data.id)"
                                         >
-                                            <form  @submit.stop.prevent="editSubmit(data.id,index)">
+                                            <form>
 
                                                 <div class="card-body">
                                                     <div class="mt-1 d-flex justify-content-end">
                                                         <!-- Emulate built in modal footer ok and cancel button actions -->
+
                                                         <b-button
                                                             variant="success"
-                                                            :disabled="!company_id"
-                                                            @click.prevent="resetForm"
-                                                            type="button" :class="['font-weight-bold px-2',company_id?'mx-2': '']"
+                                                            type="button" class="mx-1 font-weight-bold px-3"
+                                                            v-if="!isLoader"
+                                                            @click.prevent="editSubmit(data.id,index)"
                                                         >
-                                                            {{ $t('general.AddNewRecord') }}
+                                                            {{ $t('general.Save') }}
                                                         </b-button>
 
-                                                        <template v-if="!company_id">
-                                                            <b-button
-                                                                variant="success"
-                                                                type="button" class="mx-1 font-weight-bold px-3"
-                                                                v-if="!isLoader"
-                                                                @click.prevent="AddSubmit"
-                                                            >
-                                                                {{ $t('general.Save') }}
-                                                            </b-button>
+                                                        <b-button variant="success" class="mx-1" disabled v-else>
+                                                            <b-spinner small></b-spinner>
+                                                            <span class="sr-only">{{ $t('login.Loading') }}...</span>
+                                                        </b-button>
 
-                                                            <b-button variant="success" class="mx-1" disabled v-else>
-                                                                <b-spinner small></b-spinner>
-                                                                <span class="sr-only">{{ $t('login.Loading') }}...</span>
-                                                            </b-button>
-                                                        </template>
 
                                                         <b-button variant="danger" class="font-weight-bold" type="button" @click.prevent="resetModalHidden">
                                                             {{ $t('general.Cancel') }}
@@ -1597,7 +1663,7 @@ export default {
                                                                                 valid-color="#28a745"
                                                                                 error-color="#dc3545"
                                                                                 :preferred-countries="['FR', 'EG', 'DE']"
-                                                                                @update="updatePhone"
+                                                                                @update="updatePhoneEdit"
                                                                             />
                                                                             <template v-if="errors.phone">
                                                                                 <ErrorMessage v-for="(errorMessage,index) in errors.phone" :key="index">{{ errorMessage }}</ErrorMessage>
@@ -1784,7 +1850,7 @@ export default {
                                                                 type="file"
                                                                 id="uploadImageEdit"
                                                                 @change.prevent="onImageChanged"
-                                                                class="input-file-upload position-absolute"
+                                                                class="input-file-upload position-absolute d-none"
                                                             >
                                                             <div class="col-md-8 my-1">
                                                                 <!-- file upload -->
@@ -1819,8 +1885,8 @@ export default {
                                                                                             <a
                                                                                                 href="javascript:void(0);"
                                                                                                 :class="['btn-danger dropzone-close',
-                                                                                $i18n.locale == 'ar' ?'dropzone-close-rtl': ''
-                                                                            ]"
+                                                                                                    $i18n.locale == 'ar' ?'dropzone-close-rtl': ''
+                                                                                                ]"
                                                                                                 data-dz-remove
                                                                                                 @click.prevent="deleteImageCreate(photo.id,index)"
                                                                                             >
@@ -1835,7 +1901,7 @@ export default {
                                                                     </div>
                                                                     <div class="footer-image col-12">
                                                                         <b-button
-                                                                            @click="changePhoto"
+                                                                            @click="changePhotoEdit"
                                                                             variant="success"
                                                                             type="button" class="mx-1 font-weight-bold px-3"
                                                                             v-if="!isLoader"
@@ -1888,9 +1954,8 @@ export default {
     </Layout>
 </template>
 
-<<<<<<< HEAD
 <style>
-.dropdown .dropdown-menu {
+.dropdown-menu-custom-company.dropdown .dropdown-menu {
     padding: 5px 10px !important;
     overflow-y: scroll;
     height: 400px;
@@ -1898,7 +1963,7 @@ export default {
 .modal-dialog .card {
     margin: 0 !important;
 }
-.modal-body {
+.modal-body.paddingUnset {
     padding: 0 !important;
 }
 .modal-dialog .card-body {
@@ -1933,3 +1998,7 @@ export default {
     max-height: 400px !important;
 }
 </style>
+
+
+
+

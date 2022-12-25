@@ -2,34 +2,26 @@
 
 namespace App\Http\Controllers\Partner;
 
-use App\Http\Resources\WorkflowTree\WorkflowTreeResource1;
-use Mockery\Exception;
-use App\Models\Partner;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use App\Exceptions\NotFoundException;
-use App\Http\Resources\Log\LogResource;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Controllers\ResponseController;
-use App\Http\Resources\Partner\PartnerResource;
 use App\Http\Requests\Partner\StorePartnerRequest;
 use App\Http\Requests\Partner\UpdatePartnerRequest;
+use App\Http\Resources\Log\LogResource;
+use App\Http\Resources\Partner\PartnerResource;
 use App\Repositories\Partner\PartnerRepositoryInterface;
-use App\Http\Resources\ScreenSetting\ScreenSettingResource;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class PartnerController extends ResponseController
+class PartnerController extends Controller
 {
 
     protected $repository;
     protected $resource = PartnerResource::class;
 
-
     public function __construct(PartnerRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
-
 
     public function all(Request $request)
     {
@@ -46,109 +38,76 @@ class PartnerController extends ResponseController
             $models = $this->repository->getAllPartners($request);
         }
 
-        return  responseJson(200, 'success', ($this->resource)::collection($models['data']), $models['paginate'] ? getPaginates($models['data']) : null);
+        return responseJson(200, 'success', ($this->resource)::collection($models['data']), $models['paginate'] ? getPaginates($models['data']) : null);
     }
-
 
     public function find($id)
     {
 
-        try {
-            $model = cacheGet('Partners_' . $id);
+        $model = cacheGet('Partners_' . $id);
 
+        if (!$model) {
+            $model = $this->repository->find($id);
             if (!$model) {
-                $model = $this->repository->find($id);
-                if (!$model) {
-                    return responseJson(404, __('message.data not found'));
-                } else {
-                    cachePut('Partners_' . $id, $model);
-                }
+                return responseJson(404, __('message.data not found'));
+            } else {
+                cachePut('Partners_' . $id, $model);
             }
-            return responseJson(200, __('Done'), new PartnerResource($model),);
-        } catch (Exception $exception) {
-            return  responseJson($exception->getCode(), $exception->getMessage());
         }
-    }
+        return responseJson(200, __('Done'), new PartnerResource($model), );
 
+    }
 
     public function store(StorePartnerRequest $request)
     {
-        try {
-            return responseJson(200, __('Done'), $this->repository->create($request->validated()));
-        } catch (Exception $exception) {
-            return  responseJson($exception->getCode(), $exception->getMessage());
-        }
-    }
 
+        return responseJson(200, __('Done'), $this->repository->create($request->validated()));
+
+    }
 
     public function update(UpdatePartnerRequest $request, $id)
     {
-        try {
-            $model = $this->repository->find($id);
-            if (!$model) {
-                return  responseJson(404, __('message.data not found'));
-            }
-            $model = $this->repository->update($request->validated(), $id);
 
-            return  responseJson(200, __('Done'));
-        } catch (Exception $exception) {
-            return  responseJson($exception->getCode(), $exception->getMessage());
+        $model = $this->repository->find($id);
+        if (!$model) {
+            return responseJson(404, __('message.data not found'));
         }
-    }
+        $model = $this->repository->update($request->validated(), $id);
 
+        return responseJson(200, __('Done'));
+
+    }
 
     public function delete($id)
     {
-        try {
-            $model = $this->repository->find($id);
-            if (!$model) {
-                return  responseJson(404, __('message.data not found'));
-            }
-            $this->repository->delete($id);
-            return  responseJson(200, __('Done'));
-        } catch (Exception $exception) {
-            return  responseJson($exception->getCode(), $exception->getMessage());
+
+        $model = $this->repository->find($id);
+        if (!$model) {
+            return responseJson(404, __('message.data not found'));
         }
+        if ($model->companies()->count() > 0) {
+            return responseJson(400, __('message.data has relation cant delete'));
+        }
+        $this->repository->delete($id);
+        return responseJson(200, __('Done'));
+
     }
 
-    public function bulkDelete(Request $request){
-        foreach ($request->ids as $id){
+    public function bulkDelete(Request $request)
+    {
+        foreach ($request->ids as $id) {
             $model = $this->repository->find($id);
             $arr = [];
-            if ($model->hasChildren()){
-                $arr[]=$id;
+            if ($model->hasChildren()) {
+                $arr[] = $id;
                 continue;
             }
             $this->repository->delete($id);
         }
-        if (count ($arr) > 0){
-            return  responseJson(200, __('some items has relation cant delete'));
+        if (count($arr) > 0) {
+            return responseJson(200, __('some items has relation cant delete'));
         }
-        return  responseJson(200, __('Done'));
-    }
-
-
-
-    public function screenSetting(Request $request)
-    {
-        try {
-            return responseJson(200, __('Done'), $this->repository->setting($request->all()));
-        } catch (Exception $exception) {
-            return  responseJson($exception->getCode(), $exception->getMessage());
-        }
-    }
-
-    public function getScreenSetting($user_id, $screen_id)
-    {
-        try {
-            $screenSetting = $this->repository->getSetting($user_id, $screen_id);
-            if (!$screenSetting) {
-                return responseJson(404, __('message.data not found'));
-            }
-            return responseJson(200, __('Done'), new ScreenSettingResource($screenSetting));
-        } catch (Exception $exception) {
-            return  responseJson($exception->getCode(), $exception->getMessage());
-        }
+        return responseJson(200, __('Done'));
     }
 
     public function logs($id)

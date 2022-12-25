@@ -1,6 +1,7 @@
+
 {
   "alshamel": "Alshamel",
-  "message.name already exists":"Name already exists",
+  "message.name already exists": "Name already exists",
   "login": {
     "loginIn": "Login In",
     "Rememberme": "Remember me",
@@ -17,7 +18,15 @@
     "addmodule": "New Add Module",
     "editmodule": "Edit Module",
     "module": "Module",
-    "ModulesTable": "Modules Table"
+    "ModulesTable": "Modules Table",
+    "ScreensTable": "Screens Table",
+    "ButtonsTable": "Buttons Table"
+  },
+  "Workflow": {
+    "AddWorkflow": "Add work flow",
+    "EditWorkflow": "Edit workflow",
+    "Workflow": "Workflow",
+    "WorkflowsTable": "Workflows Table"
   },
   "DocumentType": {
     "AddDocumentType": " Add Document Type",
@@ -50,116 +59,122 @@
     "companysTable": "Companies Table",
     "LogoFileUpload": "Logo File Upload"
   },
-  "navbar": {
-    "search": {
-      "text": "Search..."
-    },
-    "dropdown": {
-      "createnew": {
-        "text": "Create New",
-        "list": {
-          "projects": "New Projects",
-          "users": "Create Users",
-          "revenue": "Revenue Report",
-          "settings": "Settings",
-          "help": "Help & Support"
-        }
-      },
-      "megamenu": {
-        "text": "Mega Menu",
-        "uicontent": {
-          "title": "UI Components",
-          "list": {
-            "widgets": "Widgets",
-            "nestable": "Nestable List",
-            "rangeslider": "Range Sliders",
-            "masonry": "Masonry Items",
-            "sweetalert": "Sweet Alerts",
-            "treeview": "Treeview Page",
-            "tour": "Tour Page"
-          }
-        },
-        "application": {
-          "title": "Applications",
-          "list": {
-            "ecommerce": "eCommerce Pages",
-            "crm": "CRM Pages",
-            "email": "Email",
-            "calendar": "Calendar",
-            "contacts": "Team Contacts",
-            "tasks": "Task Board",
-            "template": "Email Templates"
-          }
-        },
-        "extrapages": {
-          "title": "Extra Pages",
-          "list": {
-            "leftsidebaruser": "Left Sidebar with User",
-            "collapsed": "Menu Collapsed",
-            "leftsidebar": "Small Left Sidebar",
-            "header": "New Header Style",
-            "search": "Search Result",
-            "gallery": "Gallery Pages",
-            "maintenance": "Maintenance & Coming Soon"
-          }
-        },
-        "discount": "Special Discount Sale!",
-        "subtext": "Save up to 70% off.",
-        "buttontext": "Download Now"
-      },
-      "site": {
-        "list": {
-          "github": "GitHub",
-          "bitbucket": "Bitbucket",
-          "dribbble": "Dribbble",
-          "dropbox": "Dropbox",
-          "g-suite": "G Suite",
-          "slack": "Slack"
-        }
-      },
-      "notification": {
-        "badge": "5",
-        "text": "Notifications",
-        "subtext": "Clear All",
-        "1": {
-          "title": "Doug Dukes commented on Admin Dashboard",
-          "text": "1 min ago"
-        },
-        "2": {
-          "title": "Mario Drummond",
-          "text": "Hi, How are you? What about our next meeting"
-        },
-        "3": {
-          "title": "Karen Robinson",
-          "text": "Wow ! this admin looks good and awesome design"
-        },
-        "4": {
-          "title": "New user registered.",
-          "text": "5 hours ago"
-        },
-        "5": {
-          "title": "Caleb Flakelar commented on Admin",
-          "text": "4 days ago"
-        },
-        "6": {
-          "title": "Carlos Crouch liked",
-          "text": "13 days ago"
-        },
-        "button": "View all"
-      },
-      "name": {
-        "text": "Nik Patel",
-        "list": {
-          "greet": "Welcome !",
-          "account": "My Account",
-          "mywallet": "My Wallet",
-          "settings": "Settings",
-          "lockscreen": "Lock screen",
-          "logout": "Logout"
-        }
-      }
-    }
+  "companyModule": {
+    "add": "Add New Company Modules",
+    "edit": "Edit Company Modules",
+    "companyModule": "Company Modules",
+    "table": "Company Modules Table"
   },
+  "navbar": {
+        "search": {
+            "text": "Search..."
+        },
+        "dropdown": {
+            "createnew": {
+                "text": "Create New",
+                "list": {
+                    "projects": "New Projects",
+                    "users": "Create Users",
+                    "revenue": "Revenue Report",
+                    "settings": "Settings",
+                    "help": "Help & Support"
+                }
+            },
+            "megamenu": {
+                "text": "Mega Menu",
+                "uicontent": {
+                    "title": "UI Components",
+                    "list": {
+                        "widgets": "Widgets",
+                        "nestable": "Nestable List",
+                        "rangeslider": "Range Sliders",
+                        "masonry": "Masonry Items",
+                        "sweetalert": "Sweet Alerts",
+                        "treeview": "Treeview Page",
+                        "tour": "Tour Page"
+                    }
+                },
+                "application": {
+                    "title": "Applications",
+                    "list": {
+                        "ecommerce": "eCommerce Pages",
+                        "crm": "CRM Pages",
+                        "email": "Email",
+                        "calendar": "Calendar",
+                        "contacts": "Team Contacts",
+                        "tasks": "Task Board",
+                        "template": "Email Templates"
+                    }
+                },
+                "extrapages": {
+                    "title": "Extra Pages",
+                    "list": {
+                        "leftsidebaruser": "Left Sidebar with User",
+                        "collapsed": "Menu Collapsed",
+                        "leftsidebar": "Small Left Sidebar",
+                        "header": "New Header Style",
+                        "search": "Search Result",
+                        "gallery": "Gallery Pages",
+                        "maintenance": "Maintenance & Coming Soon"
+                    }
+                },
+                "discount": "Special Discount Sale!",
+                "subtext": "Save up to 70% off.",
+                "buttontext": "Download Now"
+            },
+            "site": {
+                "list": {
+                    "github": "GitHub",
+                    "bitbucket": "Bitbucket",
+                    "dribbble": "Dribbble",
+                    "dropbox": "Dropbox",
+                    "g-suite": "G Suite",
+                    "slack": "Slack"
+                }
+            },
+            "notification": {
+                "badge": "5",
+                "text": "Notifications",
+                "subtext": "Clear All",
+                "1": {
+                    "title": "Doug Dukes commented on Admin Dashboard",
+                    "text": "1 min ago"
+                },
+                "2": {
+                    "title": "Mario Drummond",
+                    "text": "Hi, How are you? What about our next meeting"
+                },
+                "3": {
+                    "title": "Karen Robinson",
+                    "text": "Wow ! this admin looks good and awesome design"
+                },
+                "4": {
+                    "title": "New user registered.",
+                    "text": "5 hours ago"
+                },
+                "5": {
+                    "title": "Caleb Flakelar commented on Admin",
+                    "text": "4 days ago"
+                },
+                "6": {
+                    "title": "Carlos Crouch liked",
+                    "text": "13 days ago"
+                },
+                "button": "View all"
+            },
+            "name": {
+                "text": "Nik Patel",
+                "list": {
+                    "greet": "Welcome !",
+                    "account": "My Account",
+                    "mywallet": "My Wallet",
+                    "settings": "Settings",
+                    "lockscreen": "Lock screen",
+                    "logout": "Logout"
+                }
+            }
+        }
+    },
   "menuitems": {
         "navigation": {
             "text": "Navigation"
@@ -173,14 +188,23 @@
         "HotFields": {
             "text": "Hot Fields"
         },
+        "companyModule": {
+            "text": "company Module"
+        },
         "DocumentType": {
             "text": "Document Types"
+        },
+        "buttons": {
+            "text": "Buttons"
         },
         "company": {
             "text": "Company"
         },
         "partner": {
             "text": "Partner"
+        },
+        "Workflow": {
+            "text": "Work Flow"
         },
         "dashboard": {
             "text": "Dashboards",
@@ -404,81 +428,106 @@
         }
     },
   "general": {
-    "Default": "Default",
-    "NonDefault": "Nondefault",
-    "Yes": "Yes",
-    "No": "No",
-    "Apply": "Apply",
-    "TableName": "Table name",
-    "FieldName": "Field name",
-    "FieldTitle": "Field title (arabic)",
-    "FieldTitleEn": "Field title (english)",
-    "Visibility": "Visibility",
-    "Screen": "Screen",
-    "Button": "Button",
-    "fieldIsRequired": "This field is required",
-    "PleaseEnterValidEmail": "Please enter valid email.",
-    "notDataFound": "Not Data Found",
-    "Create": "Create",
-    "Action": "Action",
-    "Status": "Status",
-    "Date": "Date",
-    "Active": "Active",
-    "Inactive": "Inactive",
-    "Visible": "Visible",
-    "Invisible": "Invisible",
-    "Name": "Name (arabic)",
-    "Name_en": "Name (english)",
-    "Areyousure": "Are you sure ?",
-    "Youwontbeabletoreverthis": "You won't be able to revert this!",
-    "Yesdeleteit": "Yes, delete it!",
-    "Nocancel": "No, cancel!",
-    "Error": "Error",
-    "Deleted": "Deleted!",
-    "Thereisanerrorinthesystem": "There is an error in the system !",
-    "Yourrowhasbeendeleted": "Your row has been deleted.",
-    "Previous": "Previous",
-    "Next": "Next",
-    "Looksgood": "Looks good !",
-    "Itmustbeatleast": "It must be at least",
-    "letters": "characters long",
-    "Itmustbeatmost": "It must be at most",
-    "Choose": "Choose",
-    "Add": "Add",
-    "Edit": "Edit",
-    "Cancel": "Cancel",
-    "IdParent": "Parent",
-    "Addedsuccessfully": "Added successfully",
-    "Editsuccessfully": "Edit successfully",
-    "ModulesTable": "Modules Table",
-    "samaAs": "Passwords must be identical",
-    "repeatPassword": "Repeat Password",
-    "mobile_no": "Mobile Number",
-    "Search": "Search",
-    "Show": "Show ",
-    "entries": "entries",
-    "fieldIsInteger": "This field is Integer",
-    "Itmustbeyourlink": "It must be your link",
-    "taxnumber": "Tax Number",
-    "Valueaddedregistrationnumber": "Value Added Registration Number",
-    "CommercialRecord": "Commercial Record",
-    "companysystempath": "Company System Path",
-    "website": "Website Link",
-    "address": "Address",
-    "Dropfileshereorclicktoupload": "Drop files here or click to upload.",
-    "fieldIsImage": "This field should be the picture",
-    "ItmustbeyourImage": "It must be (jpeg,png,gif,jpg)",
-    "alphaArabic": "This field must be in Arabic.",
-    "alphaEnglish": "This field must be in English.",
-    "Alpha": "This field must be alphabet.",
-    "filter": "Filter",
-    "group": "Group",
-    "setting": "Setting",
-    "commands": "Commands",
-    "delete": "Delete",
-    "edit": "Edit",
-    "searchSetting": "Search Setting",
-    "AddNewRecord": "Add New Record",
-    "Save": "Save"
-  }
+    "DeletedSuccessfully": "Deleted successfully",
+    "IdSort":"Id sort",
+      "Buttons":"Buttons",
+      "DocumentType":"Document Type",
+      "Partner":"Partner",
+      "Company":"Company",
+      "AddButton":"Add Button",
+      "AddFile":"Add File",
+      "ExistBefore":"Exist Before",
+      "Module":"Module",
+      "Visible": "Visible",
+      "Invisible": "Invisible",
+      "Alpha": "This field",
+        "Default": "Default",
+        "NonDefault": "Nondefault",
+        "Yes": "Yes",
+        "No": "No",
+        "TableName": "Table name",
+        "FieldName": "Field name",
+        "FieldTitle": "Field title (arabic)",
+        "FieldTitleEn": "Field title (english)",
+        "Visibility": "Visibility",
+        "Screen": "Screen",
+        "Button": "Button",
+        "fieldIsRequired": "This field is required",
+        "PleaseEnterValidEmail": "Please enter valid email.",
+        "notDataFound": "Not Data Found",
+        "Create": "Create",
+        "Action": "Action",
+        "Status": "Status",
+        "Date": "Date",
+        "Active": "Active",
+        "Inactive": "Inactive",
+        "Name": "Name (arabic)",
+        "Name_en": "Name (english)",
+        "Areyousure": "Are you sure ?",
+        "Youwontbeabletoreverthis": "You won't be able to revert this!",
+        "Yesdeleteit": "Yes, delete it!",
+        "Nocancel": "No, cancel!",
+        "Error": "Error",
+        "Deleted": "Deleted!",
+        "Thereisanerrorinthesystem": "There is an error in the system !",
+        "Yourrowhasbeendeleted": "Your row has been deleted.",
+        "Previous": "Previous",
+        "Next": "Next",
+        "Looksgood": "Looks good !",
+        "Itmustbeatleast": "It must be at least",
+        "letters": "characters long",
+        "Itmustbeatmost": "It must be at most",
+        "Choose": "Choose",
+        "Add": "Add",
+        "Edit": "Edit",
+        "Cancel": "Cancel",
+        "IdParent": "Parent",
+        "Addedsuccessfully": "Added successfully",
+        "Editsuccessfully": "Edit successfully",
+        "ModulesTable": "Modules Table",
+        "samaAs": "Passwords must be identical",
+        "repeatPassword": "Repeat Password",
+        "mobile_no": "Mobile Number",
+        "Search": "Search",
+        "Show": "Show ",
+        "entries": "entries",
+        "fieldIsInteger": "This field is Integer",
+        "Itmustbeyourlink": "It must be your link",
+        "taxnumber": "Tax Number",
+        "Valueaddedregistrationnumber": "Value Added Registration Number",
+        "CommercialRecord": "Commercial Record",
+        "companysystempath": "Company System Path",
+        "website": "Website Link",
+        "address": "Address",
+        "Dropfileshereorclicktoupload": "Drop files here or click to upload.",
+        "fieldIsImage": "This field should be the picture",
+        "ItmustbeyourImage": "It must be (jpeg,png,gif,jpg)",
+        "alphaArabic": "This field must be in Arabic.",
+        "alphaEnglish": "This field must be in English.",
+        "filter": "Filter",
+        "group": "Group",
+        "setting": "Setting",
+        "commands": "Commands",
+        "delete": "Delete",
+        "edit": "Edit",
+        "searchSetting": "Search Setting",
+        "AddNewRecord": "Add New Record",
+        "Save": "Save",
+        "Apply": "Apply",
+        "addButton": "Add Button",
+        "editButton": "Edit Button",
+        "ImageUploads": "Image Uploads",
+        "DataEntry": "Data Entry",
+        "screens": "Screens",
+        "title": "Title (arabic)",
+        "title_en": "Title (english)",
+        "addScreen": "Add Screen",
+        "editScreen": "Edit Screen",
+        "serial": "Serial",
+        "allowed_users_no": "Allowed Users No",
+        "startDate": "Start Date",
+        "endDate": "End Date",
+          "Thisfilehasalreadybeenuploaded": "This file has already been uploaded\n  To change the file, press Replace",
+          "Replace": "Replace"
+    }
 }
