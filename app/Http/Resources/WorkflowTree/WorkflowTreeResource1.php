@@ -38,7 +38,7 @@ class WorkflowTreeResource1 extends JsonResource
             'icon_url'   => $this->icon,
             'id_sort'    => $this->id_sort,
             'buttons' => ButtonResource::collection (Button::query ()->where ('is_active',1)->get ()),
-            'hot_fields'=>HotfieldResource::collection (HotField::query ()->where ('is_active',1)->get ())
+            'hot_fields'=> HotfieldResource::collection (HotField::query ()->where ('is_active',1)->get ())
         ];
     }
 }
