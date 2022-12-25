@@ -428,6 +428,7 @@
         }
     },
   "general": {
+    "url":"Website link",
     "DeletedSuccessfully": "Deleted successfully",
     "IdSort":"Id sort",
       "Buttons":"Buttons",

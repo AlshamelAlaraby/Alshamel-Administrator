@@ -859,7 +859,7 @@ export default {
       adminApi
         .put(`/workflow-trees/${this.workflow_id}`, { old_media })
         .then((res) => {
-          this.images = res.data.data.media ? res.data.data.media : [];
+          this.images = res.data.data.media ? res.data.data.media : this.images;
             if(this.images&&this.images.length>0){ {
             this.showPhoto = this.images[this.images.length - 1].webp;
           }
