@@ -85,7 +85,7 @@ class PartnerController extends Controller
         if (!$model) {
             return responseJson(404, __('message.data not found'));
         }
-        if ($model->companies()->count() > 0) {
+        if ($model->hasChildren()) {
             return responseJson(400, __('message.data has relation cant delete'));
         }
         $this->repository->delete($id);
