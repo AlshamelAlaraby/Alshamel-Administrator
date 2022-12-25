@@ -17,7 +17,7 @@ class Helpfile extends Model
     {
         return $this->belongsToMany(Screen::class, 'screens_helpfiles', 'helpfile_id', 'screen_id');
     }
-    
+
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -27,6 +27,10 @@ class Helpfile extends Model
             ->logAll()
             ->useLogName('Helpfile')
             ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName} by ($user)");
+    }
+
+    public function hasChildren(){
+        return $this->screens ()->count () > 0;
     }
 
 }
