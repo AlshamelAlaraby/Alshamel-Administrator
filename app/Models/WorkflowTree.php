@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class WorkflowTree extends Model implements \Spatie\MediaLibrary\HasMedia
 {
     use SoftDeletes, LogTrait, MediaTrait;
-    protected $appends = ["haveChildren"];
+    protected $appends = ["have_children"];
     protected $table = 'workflow_trees';
     protected $fillable = [
         'name',
@@ -23,7 +23,6 @@ class WorkflowTree extends Model implements \Spatie\MediaLibrary\HasMedia
         'screen_id',
         'id_sort',
     ];
-
     /**
      * return child of this parent
      */
