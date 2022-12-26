@@ -1684,18 +1684,18 @@ __webpack_require__.r(__webpack_exports__);
     },
     AddSubmit: function AddSubmit() {
       var _this9 = this;
+      if (!this.create.name) {
+        this.create.name = this.create.name_e;
+      }
+      if (!this.create.name_e) {
+        this.create.name_e = this.create.name;
+      }
       this.$v.create.$touch();
       if (this.$v.create.$invalid && !this.isVaildPhone) {
         return;
       } else {
         this.isLoader = true;
         this.errors = {};
-        if (!this.create.name_e) {
-          this.create.name_e = this.create.name;
-        }
-        if (!this.create.name) {
-          this.create.name = this.create.name_e;
-        }
         _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/partners", this.create).then(function (res) {
           _this9.getData();
           _this9.is_disabled = true;
@@ -1727,6 +1727,12 @@ __webpack_require__.r(__webpack_exports__);
      */
     editSubmit: function editSubmit(id) {
       var _this10 = this;
+      if (!this.create.name) {
+        this.create.name = this.create.name_e;
+      }
+      if (!this.create.name_e) {
+        this.create.name_e = this.create.name;
+      }
       this.$v.edit.$touch();
       if (this.$v.edit.$invalid && !this.isVaildPhone) {
         return;
