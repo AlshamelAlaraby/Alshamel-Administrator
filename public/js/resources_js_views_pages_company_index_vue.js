@@ -1899,7 +1899,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.isVaildPhone = false;
     },
     AddSubmit: function AddSubmit() {
+<<<<<<< HEAD
       var _this10 = this;
+=======
+      var _this9 = this;
+>>>>>>> dev-test
       if (!this.create.name) {
         this.create.name = this.create.name_e;
       }
@@ -1912,12 +1916,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       } else {
         this.isLoader = true;
         this.errors = {};
-        if (!this.create.name) {
-          this.create.name = this.create.name_e;
-        }
-        if (!this.create.name_e) {
-          this.create.name_e = this.create.name;
-        }
         _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/companies", this.create).then(function (res) {
           _this10.company_id = res.data.data.id;
           _this10.getData();
@@ -1948,12 +1946,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      *  edit company
      */
     editSubmit: function editSubmit(id, index) {
+<<<<<<< HEAD
       var _this11 = this;
       if (!this.edit.name) {
         this.edit.name = this.edit.name_e;
       }
       if (!this.edit.name_e) {
         this.edit.name_e = this.edit.name;
+=======
+      var _this10 = this;
+      if (!this.create.name) {
+        this.create.name = this.create.name_e;
+      }
+      if (!this.create.name_e) {
+        this.create.name_e = this.create.name;
+>>>>>>> dev-test
       }
       this.$v.edit.$touch();
       if (this.images) this.images.forEach(function (e) {

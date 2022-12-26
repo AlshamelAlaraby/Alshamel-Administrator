@@ -508,6 +508,7 @@ export default {
           this.create.name_e = this.create.name;
         }
 
+<<<<<<< HEAD
         adminApi
           .post(`/companies`, this.create)
           .then((res) => {
@@ -525,6 +526,19 @@ export default {
           .catch((err) => {
             if (err.response.data) {
               this.errors = err.response.data.errors;
+=======
+        },
+        /**
+         *  edit company
+         */
+        editSubmit(id,index){
+            if(!this.create.name){ this.create.name = this.create.name_e}
+            if(!this.create.name_e){ this.create.name_e = this.create.name}
+            this.$v.edit.$touch();
+            if(this.images) this.images.forEach(e => {this.edit.old_media.push(e.id);});
+            if (this.$v.edit.$invalid && !this.isVaildPhone) {
+                return;
+>>>>>>> dev-test
             } else {
               Swal.fire({
                 icon: "error",
@@ -2804,4 +2818,8 @@ export default {
 .img-thumbnail {
   max-height: 400px !important;
 }
+<<<<<<< HEAD
 </style>
+=======
+</style>
+>>>>>>> dev-test

@@ -36,7 +36,6 @@ class WorkflowTreeResource1 extends JsonResource
             'screen'  => new ScreenRelationResource($this->screen),
             'icon_url'   => $this->icon,
             'id_sort'    => $this->id_sort,
-
         ];
     }
 }
