@@ -97,16 +97,16 @@ class ModuleController extends Controller
     public function bulkDelete(Request $request)
     {
         foreach ($request->ids as $id) {
-            $model = $this->repository->find($id);
+            $model = $this->modelInterface->find($id);
             $arr = [];
             if ($model->have_children) {
                 $arr[] = $id;
                 continue;
             }
-            $this->repository->delete($id);
+            $this->modelInterface->delete($id);
         }
         if (count($arr) > 0) {
-            return responseJson(200, __('some items has relation cant delete'));
+            return responseJson(400, __('some items has relation cant delete'));
         }
         return responseJson(200, __('Done'));
     }
