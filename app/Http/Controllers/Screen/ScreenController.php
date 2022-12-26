@@ -39,6 +39,12 @@ class ScreenController extends ResponseController
         }
         return responseJson(200, 'success', ($this->resource)::collection($models['data']), $models['paginate'] ? getPaginates($models['data']) : null);
     }
+    public function getScreenDocumentTypes($screen_id){
+        return $this->repository->getScreenDocumentTypes($screen_id);
+    }
+    public function getScreenButtons($screen_id){
+        return $this->repository->getScreenButtons($screen_id);
+    }
 
     public function find($id)
     {
@@ -54,7 +60,7 @@ class ScreenController extends ResponseController
                     cachePut('Screens_' . $id, $model);
                 }
             }
-            return responseJson(200, __('Done'), new ScreenResource($model), );
+            return responseJson(200, __('Done'), new ScreenResource($model) );
         } catch (Exception $exception) {
             return responseJson($exception->getCode(), $exception->getMessage());
         }
@@ -92,6 +98,9 @@ class ScreenController extends ResponseController
             if (!$model) {
                 return responseJson(404, __('message.data not found'));
             }
+            if ($model->hasChildren()){
+                return responseJson(400, __('message.data has relation cant delete'));
+            }
             $this->repository->delete($id);
             return responseJson(200, __('Done'));
 
@@ -100,9 +109,29 @@ class ScreenController extends ResponseController
         }
     }
 
+    public function bulkDelete(Request $request)
+    {
+        foreach ($request->ids as $id) {
+            $model = $this->repository->find($id);
+            $arr = [];
+            if ($model->hasChildren()) {
+                $arr[] = $id;
+                continue;
+            }
+            $this->repository->delete($id);
+        }
+        if (count($arr) > 0) {
+            return responseJson(200, __('some items has relation cant delete'));
+        }
+        return responseJson(200, __('Done'));
+    }
+
     public function addScreenToDocumentType(AddScreenToDocumentTypeRequest $request)
     {
         try {
+            if($this->repository->screenDocumentExist($request->screen_id,$request->documentType_id)){
+                return response()->json(["error"=>"Screen document exist"],422);
+            }
             $this->repository->addScreenToDocumentType($request);
             return responseJson(200, 'success');
         } catch (\Exception$ex) {

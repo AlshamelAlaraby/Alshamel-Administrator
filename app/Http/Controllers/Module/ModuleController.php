@@ -6,14 +6,13 @@ use App\Http\Requests\Module\AllModuleRequest;
 use App\Http\Requests\Module\StoreModuleRequest;
 use App\Http\Requests\Module\UpdateModuleRequest;
 use App\Http\Resources\Module\ModuleResource;
-use App\Http\Resources\ScreenSetting\ScreenSettingResource;
+use App\Repositories\Module\ModuleInterface;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Mockery\Exception;
 
 class ModuleController extends Controller
 {
-    public function __construct(private \App\Repositories\Module\ModuleInterface$modelInterface)
+    public function __construct(private ModuleInterface $modelInterface)
     {
         $this->modelInterface = $modelInterface;
     }
@@ -46,7 +45,15 @@ class ModuleController extends Controller
 
         return responseJson(200, 'success', ModuleResource::collection($models['data']), $models['paginate'] ? getPaginates($models['data']) : null);
     }
+    public function getRootNodes()
+    {
+        return $this->modelInterface->getRootNodes();
+    }
 
+    public function getChildNodes($parentId)
+    {
+        return $this->modelInterface->getChildNodes($parentId);
+    }
     public function create(StoreModuleRequest $request)
     {
         $model = $this->modelInterface->create($request);
@@ -78,6 +85,32 @@ class ModuleController extends Controller
         return responseJson(200, 'success');
     }
 
+    public function logs($id)
+    {
+        $model = $this->modelInterface->find($id);
+        if (!$model) {
+            return responseJson(404, __('message.data not found'));
+        }
+        $logs = $this->modelInterface->logs($id);
+        return responseJson(200, 'success', $logs);
+    }
+    public function bulkDelete(Request $request)
+    {
+        foreach ($request->ids as $id) {
+            $model = $this->repository->find($id);
+            $arr = [];
+            if ($model->have_children) {
+                $arr[] = $id;
+                continue;
+            }
+            $this->repository->delete($id);
+        }
+        if (count($arr) > 0) {
+            return responseJson(200, __('some items has relation cant delete'));
+        }
+        return responseJson(200, __('Done'));
+    }
+
     public function addModuleToCompany(\App\Http\Requests\Module\AddCompanyToModuleRequest$request)
     {
         $this->modelInterface->addModuleToCompany($request);
@@ -90,27 +123,4 @@ class ModuleController extends Controller
         $this->modelInterface->removeModuleFromCompany($module_id, $company_id);
         return responseJson(200, 'success');
     }
-
-    public function screenSetting(Request $request)
-    {
-        try {
-            return responseJson(200 , __('Done') , $this->modelInterface->setting($request->all()));
-        } catch (Exception $exception) {
-            return  responseJson( $exception->getCode() , $exception->getMessage());
-        }
-    }
-
-    public function getScreenSetting($user_id , $screen_id)
-    {
-        try{
-            $screenSetting = $this->modelInterface->getSetting($user_id , $screen_id);
-            if (!$screenSetting) {
-                return responseJson( 404 , __('message.data not found'));
-            }
-            return responseJson( 200 , __('Done'), new ScreenSettingResource($screenSetting));
-        } catch (Exception $exception) {
-            return  responseJson( $exception->getCode() , $exception->getMessage());
-        }
-    }
-
 }

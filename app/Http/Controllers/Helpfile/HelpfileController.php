@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Helpfile;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\Helpfile\HelpfileRepositoryInterface;
-use App\Http\Resources\Helpfile\HelpfileResource;
-use Illuminate\Http\Request;
 use App\Http\Requests\Helpfile\StoreHelpfileRequest;
 use App\Http\Requests\Helpfile\UpdateHelpfileRequest;
+use App\Http\Resources\Helpfile\HelpfileResource;
+use App\Repositories\Helpfile\HelpfileRepositoryInterface;
+use Illuminate\Http\Request;
 use Mockery\Exception;
 
 class HelpfileController extends Controller
@@ -15,7 +15,6 @@ class HelpfileController extends Controller
 
     protected $repository;
     protected $resource = HelpfileResource::class;
-
 
     public function __construct(HelpfileRepositoryInterface $repository)
     {
@@ -40,66 +39,93 @@ class HelpfileController extends Controller
 
     }
 
-
     public function find($id)
     {
-        try{
+        try {
             $model = cacheGet('Helpfiles_' . $id);
 
             if (!$model) {
                 $model = $this->repository->find($id);
                 if (!$model) {
-                    return responseJson( 404 , __('message.data not found'));
+                    return responseJson(404, __('message.data not found'));
                 } else {
                     cachePut('Helpfiles_' . $id, $model);
                 }
             }
-            return responseJson(200 , __('Done'), new HelpfileResource($model));
+            return responseJson(200, __('Done'), new HelpfileResource($model));
         } catch (Exception $exception) {
-            return responseJson( $exception->getCode() , $exception->getMessage());
+            return responseJson($exception->getCode(), $exception->getMessage());
         }
     }
-
 
     public function store(StoreHelpfileRequest $request)
     {
         try {
-            return responseJson(200 , __('Done') , $this->repository->create($request->validated()));
+            return responseJson(200, __('Done'), $this->repository->create($request->validated()));
         } catch (Exception $exception) {
-            return responseJson( $exception->getCode() , $exception->getMessage());
+            return responseJson($exception->getCode(), $exception->getMessage());
         }
     }
 
-
-    public function update(UpdateHelpfileRequest $request , $id)
+    public function update(UpdateHelpfileRequest $request, $id)
     {
         try {
             $model = $this->repository->find($id);
             if (!$model) {
-                return responseJson( 404 , __('message.data not found'));
+                return responseJson(404, __('message.data not found'));
             }
             $model = $this->repository->update($request->validated(), $id);
 
-            return  responseJson(200 , __('Done'));
+            return responseJson(200, __('Done'));
         } catch (Exception $exception) {
-            return responseJson( $exception->getCode() , $exception->getMessage());
+            return responseJson($exception->getCode(), $exception->getMessage());
         }
 
     }
 
-
     public function delete($id)
     {
-        try{
+        try {
             $model = $this->repository->find($id);
             if (!$model) {
-                return responseJson( 404 , __('message.data not found'));
+                return responseJson(404, __('message.data not found'));
+            }
+            if ($model->hasChildren()){
+                return responseJson(400, __('message.data has relation cant delete'));
             }
             $this->repository->delete($id);
-            return  responseJson(200 , __('Done'));
+            return responseJson(200, __('Done'));
 
         } catch (Exception $exception) {
-            return responseJson( $exception->getCode() , $exception->getMessage());
+            return responseJson($exception->getCode(), $exception->getMessage());
         }
+    }
+
+    public function bulkDelete(Request $request)
+    {
+        foreach ($request->ids as $id) {
+            $model = $this->repository->find($id);
+            $arr = [];
+            if ($model->hasChildren()) {
+                $arr[] = $id;
+                continue;
+            }
+            $this->repository->delete($id);
+        }
+        if (count($arr) > 0) {
+            return responseJson(200, __('some items has relation cant delete'));
+        }
+        return responseJson(200, __('Done'));
+    }
+
+    public function logs($id)
+    {
+        $model = $this->repository->find($id);
+        if (!$model) {
+            return responseJson(404, __('message.data not found'));
+        }
+        $logs = $this->repository->logs($id);
+        return responseJson(200, __('Done'), \App\Http\Resources\Log\LogResource::collection($logs));
+
     }
 }

@@ -2,15 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\LogTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\Contracts\Activity;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\CausesActivity;
-use Spatie\Activitylog\Traits\LogsActivity;
+
 class Screen extends Model
 {
-    use SoftDeletes,LogsActivity, CausesActivity;
+    use SoftDeletes, LogTrait;
 
     protected $table = 'screens';
     protected $fillable = [
@@ -34,29 +32,19 @@ class Screen extends Model
     public function serial()
     {
         return $this->belongsTo(Serial::class);
-
     }
 
     public function documentTypes()
     {
         return $this->belongsToMany(DocumentType::class, 'screen_document_types');
-
     }
 
-
-    public function tapActivity(Activity $activity, string $eventName)
-    {
-        $activity->causer_id = auth()->user()->id ?? 0;
-        $activity->causer_type = auth()->user()->role ?? "admin";
+    public function workFlows(){
+        return $this->hasMany (WorkflowTree::class);
     }
 
-    public function getActivitylogOptions(): LogOptions
-    {
-        $user = auth()->user()->id ?? "system";
-
-        return \Spatie\Activitylog\LogOptions::defaults()
-            ->logAll()
-            ->useLogName('Store')
-            ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName} by ($user)");
+    public function hasChildren(){
+        $has_Children = $this->workFlows ()->count () > 0 || $this->helpfiles ()->count () > 0 || $this->buttons ()->count () > 0 || $this->documentTypes ()->count () > 0;
+        return $has_Children;
     }
 }

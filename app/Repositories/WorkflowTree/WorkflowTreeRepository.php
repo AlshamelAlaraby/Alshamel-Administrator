@@ -4,25 +4,27 @@ namespace App\Repositories\WorkflowTree;
 
 use App\Models\WorkflowTree;
 use Illuminate\Support\Facades\DB;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+
 class WorkflowTreeRepository implements WorkflowTreeRepositoryInterface
 {
 
-    private $model;
-    public function __construct(WorkflowTree $model)
+    public function __construct(private WorkflowTree $model, private Media $media)
     {
         $this->model = $model;
+        $this->media = $media;
     }
 
-    public function getAllWorkflowTrees($request)
+    public function all($request)
     {
-        $models = $this->model->where(function ($q) use ($request) {
-            return $this->filter($request , $q);
-        })->latest();
+        $models = $this->model->filter($request)->latest();
 
-        return ['data' => $models->paginate($request->per_page), 'paginate' => true];
-
+        return ['data' => $models->with(["partner", "company", "module", "screen"])->paginate($request->per_page), 'paginate' => true];
     }
-
+    public function getCompanyWorkflows($company_id)
+    {
+        return $this->model->where("company_id", $company_id)->get();
+    }
     public function find($id)
     {
         return $this->model->find($id);
@@ -30,34 +32,60 @@ class WorkflowTreeRepository implements WorkflowTreeRepositoryInterface
 
     public function create($request)
     {
-        DB::transaction(function () use ($request) {
-
-            if (isset($request['icon_url'] )) {
-                $request['icon_url'] = uploadFile($request['icon_url'], config('paths.WORKFLOW_TREE_PATH'));
+        return DB::transaction(function () use ($request) {
+            $model = $this->model->create($request->all());
+            if ($request->media) {
+                foreach ($request->media as $media) {
+                    $this->media::where('id', $media)->update([
+                        'model_id' => $model->id,
+                        'model_type' => get_class($this->model),
+                    ]);
+                }
             }
-            $this->model->create($request);
-            cacheForget("WorkflowTrees");
+            cacheForget("work_flow_trees");
+            return $model;
         });
     }
 
     public function update($request, $id)
     {
         DB::transaction(function () use ($id, $request) {
-            $resource = $this->model->where("id", $id)->first();
-            if(isset($request['icon_url'])){
-                if($resource->icon_url){
-                    $path = $resource->icon_url? public_path($resource->icon_url) : null;
-                    if(file_exists($path)){
-                        unlink($path);
-                    }
+            $model = $this->model->where("id", $id)->first();
+            if ($request->media && !$request->old_media) { // if there is new media and no old media
+                $model->clearMediaCollection('media');
+                foreach ($request->media as $media) {
+                    uploadImage($media, [
+                        'model_id' => $model->id,
+                        'model_type' => get_class($this->model),
+                    ]);
                 }
-                $request['icon_url'] = uploadFile($request['icon_url'], config('paths.WORKFLOW_TREE_PATH'));
             }
-            $resource->update($request);
+
+            if ($request->old_media && !$request->media) { // if there is old media and no new media
+                $model->media->whereNotIn('id', $request->old_media)->each(function (Media $media) {
+                    $media->delete();
+                });
+            }
+
+            if ($request->old_media && $request->media) { // if there is old media and new media
+                $model->media->whereNotIn('id', $request->old_media)->each(function (Media $media) {
+                    $media->delete();
+                });
+                foreach ($request->media as $image) {
+                    uploadImage($image, [
+                        'model_id' => $model->id,
+                        'model_type' => get_class($this->model),
+                    ]);
+                }
+            }
+
+            if (!$request->old_media && !$request->media) { // if this is no old media and new media
+                $model->clearMediaCollection('media');
+            }
+            $model->update($request->all());
+
             $this->forget($id);
-
         });
-
     }
 
     public function delete($id)
@@ -72,68 +100,23 @@ class WorkflowTreeRepository implements WorkflowTreeRepositoryInterface
         return $this->model->find($id)->activities()->orderBy('created_at', 'DESC')->get();
     }
 
-    /**
-     * this function used to make filter of query
-     * @param $request key of filter
-     * @param $q object of query
-     * @return filter query
-     */
-    private function filter($request ,$q)
+    public function getRootNodes()
     {
-        if ($request->search) {
-            $q->where('name', 'like', '%' . $request->search . '%')
-                    ->orWhere('name_e', 'like', '%' . $request->search . '%');
-        }
-
-        if ($request->name) {
-             $q->where('name', $request->name);
-        }
-
-        if ($request->name_e) {
-             $q->where('name_e', $request->name_e);
-        }
-
-        if ($request->is_active) {
-             $q->where('is_active', $request->is_active);
-        }
-
-        if ($request->parent_id) {
-             $q->where('parent_id', $request->parent_id);
-        }
-
-        if ($request->partner_id) {
-             $q->where('partner_id', $request->partner_id);
-        }
-
-        if ($request->company_id) {
-             $q->where('company_id', $request->company_id);
-        }
-
-        if ($request->module_id) {
-             $q->where('module_id', $request->module_id);
-        }
-
-        if ($request->screen_id) {
-             $q->where('screen_id', $request->screen_id);
-        }
-        if ($request->sort_id) {
-             $q->where('sort_id', $request->sort_id);
-        }
-
+        return $this->model->whereNull("parent_id")->get();
     }
-
+    public function getChildNodes($parentId)
+    {
+        return $this->model->where("parent_id", $parentId)->get();
+    }
 
     private function forget($id)
     {
         $keys = [
-            "WorkflowTrees",
-            "WorkflowTrees_" . $id,
+            "work_flow_trees",
+            "work_flow_trees_" . $id,
         ];
         foreach ($keys as $key) {
             cacheForget($key);
         }
-
     }
-
-
 }

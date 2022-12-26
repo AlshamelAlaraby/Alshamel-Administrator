@@ -4,13 +4,15 @@ namespace App\Repositories\Button;
 
 use App\Models\Button;
 use Illuminate\Support\Facades\DB;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+
 class ButtonRepository implements ButtonRepositoryInterface
 {
 
-    private $model;
-    public function __construct(Button $model)
+    public function __construct(private Button $model, private Media $media)
     {
         $this->model = $model;
+        $this->media = $media;
     }
 
     public function getAllButtons($request)
@@ -19,9 +21,14 @@ class ButtonRepository implements ButtonRepositoryInterface
 
             if ($request->search) {
                 $q->where('name', 'like', '%' . $request->search . '%')
-                  ->orWhere('name_e', 'like', '%' . $request->search . '%');
+                    ->orWhere('name_e', 'like', '%' . $request->search . '%');
             }
 
+            if ($request->search && $request->columns) {
+                foreach ($request->columns as $column) {
+                    $q->orWhere($column, 'like', '%' . $request->search . '%');
+                }
+            }
         })->latest();
 
         if ($request->per_page) {
@@ -38,36 +45,67 @@ class ButtonRepository implements ButtonRepositoryInterface
 
     public function create($request)
     {
-        DB::transaction(function () use ($request) {
-            if (isset($request['icon'] )) {
-                $request['icon'] = uploadFile($request['icon'], config('paths.BUTTON_PATH'));
+       return DB::transaction(function () use ($request) {
+
+            $model = $this->model->create($request->all());
+            if ($request->media) {
+                foreach ($request->media as $media) {
+                    $this->media::where('id', $media)->update([
+                        'model_id' => $model->id,
+                        'model_type' => get_class($this->model),
+                    ]);
+                }
             }
-            $this->model->create($request);
             cacheForget("Buttons");
+            return $model;
         });
+    }
+    public function logs($id)
+    {
+        return $this->model->find($id)->activities()->orderBy('created_at', 'DESC')->get();
     }
 
     public function update($request, $id)
     {
         DB::transaction(function () use ($id, $request) {
-           $resource =  $this->model->where("id", $id)->update($request);
-           $model = $this->model->find($id);
-            if(isset($request['icon'])){
-                if($model->icon){
-                    $path = $model->icon? public_path($model->icon) : null;
-                    if(file_exists($path)){
-                        unlink($path);
-                    }
+            $model = $this->model->find($id);
+            $model->update($request->except(["media",'old_media']));
+            if ($request->media && !$request->old_media) { // if there is new media and no old media
+                $model->clearMediaCollection('media');
+                foreach ($request->media as $media) {
+                    uploadImage($media, [
+                        'model_id' => $model->id,
+                        'model_type' => get_class($this->model),
+                    ]);
                 }
-                $request['icon'] = uploadFile($request['icon'], config('paths.BUTTON_PATH'));
+            }
+            if ($request->old_media && !$request->media) { // if there is old media and no new media
+                $model->media->whereNotIn('id', $request->old_media)->each(function (Media $media) {
+                    $media->delete();
+                });
             }
 
-            $model->update($request);
+            if ($request->old_media && $request->media) { // if there is old media and new media
+                $model->media->whereNotIn('id', $request->old_media)->each(function (Media $media) {
+                    $media->delete();
+                });
+                foreach ($request->media as $image) {
+                    uploadImage($image, [
+                        'model_id' => $model->id,
+                        'model_type' => get_class($this->model),
+                    ]);
+                }
+            }
 
+            if (!$request->old_media && !$request->media) { // if this is no old media and new media
+                $model->clearMediaCollection('media');
+            }
 
+            if ($request->is_default == 1) {
+                $this->model->where('id', '!=', $id)->update(['is_default' => 0]);
+            }
             $this->forget($id);
         });
-
     }
 
     public function delete($id)
@@ -87,6 +125,5 @@ class ButtonRepository implements ButtonRepositoryInterface
         foreach ($keys as $key) {
             cacheForget($key);
         }
-
     }
 }

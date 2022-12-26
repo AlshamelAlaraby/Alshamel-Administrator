@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\LogTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Module extends Model
 {
-    use HasFactory;
+    use HasFactory, LogTrait;
 
     protected $fillable = [
         'name',
@@ -15,21 +16,21 @@ class Module extends Model
         'parent_id',
         'is_active',
     ];
-
-    protected $hidden =['pivot'];
-
+    protected $table = 'modules';
+    protected $hidden = ['pivot'];
 
     protected $casts = [
         'is_active' => 'App\Enums\IsActive',
     ];
 
-     /**
+    protected $appends = ["have_children"];
+    /**
      * this method used to make filter of query
      * @param Query  $query
      * @param $request
      * @return $query
      */
-    public function scopeFilter($query,$request)
+    public function scopeFilter($query, $request)
     {
         return $query->where(function ($q) use ($request) {
             if ($request->search) {
@@ -46,11 +47,7 @@ class Module extends Model
             }
 
             if ($request->parent_id) {
-                $q->where('parent_id', $request->parent_id);
-            }
-
-            if ($request->is_active) {
-                $q->where('is_active', $request->is_active);
+                $q->orWhere('parent_id', $request->parent_id);
             }
         });
     }
@@ -61,7 +58,7 @@ class Module extends Model
 
     public function children()
     {
-        return $this->belongsTo(Module::class);
+        return $this->belongsTo(Module::class, 'parent_id', 'id');
     }
 
     public function companies()
@@ -69,10 +66,8 @@ class Module extends Model
         return $this->belongsToMany(Company::class, 'company_module', 'module_id', 'company_id');
     }
 
-
     public function getHaveChildrenAttribute()
     {
         return static::where("parent_id", $this->id)->count() > 0;
     }
-
 }

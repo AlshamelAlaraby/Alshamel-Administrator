@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Http\Resources\WorkflowTree\WorkflowTreeResource1;
+use App\Traits\LogTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -18,8 +20,7 @@ class Partner extends Authenticatable
 {
     use HasFactory;
     use SoftDeletes;
-    use LogsActivity;
-    use CausesActivity, HasApiTokens;
+    use LogTrait, HasApiTokens;
 
 
     public const ACTIVE = 'active';
@@ -34,11 +35,6 @@ class Partner extends Authenticatable
         'mobile_no',
     ];
 
-    public function tapActivity(Activity $activity, string $eventName)
-    {
-        $activity->causer_id = auth()->user()->id ?? 0;
-        $activity->causer_type = auth()->user()->role ?? "admin";
-    }
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -53,6 +49,22 @@ class Partner extends Authenticatable
     public function companies(): HasMany
     {
         return $this->hasMany(Company::class);
+    }
+
+    public function company()
+    {
+        return $this->hasOne(Company::class);
+    }
+
+    public function workFlows(){
+        return $this->hasMany (WorkflowTree::class);
+    }
+
+    public function hasChildren(){
+        if ($this->companies ()->count () > 0 || $this->workFlows ()->count () > 0){
+            return true;
+        }
+        return false;
     }
 
     public function scopeFilter($query, $request)
@@ -84,5 +96,15 @@ class Partner extends Authenticatable
                 $q->where('is_active', $request->is_active);
             }
         });
+    }
+
+    public function  everything_about_the_company(){
+        $company = $this->company;
+        if ($company){
+            $wf = WorkflowTree::query ()->where ('is_active',1)->where ('company_id',$company->id)->get();
+            $company->work_flow_trees = WorkflowTreeResource1::collection ($wf);
+            return $company;
+        }
+        return [];
     }
 }

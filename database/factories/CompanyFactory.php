@@ -19,7 +19,6 @@ class CompanyFactory extends Factory
             "name"       => $this->faker->name(),
             "name_e"     => $this->faker->name(),
             "url"        => $this->faker->name(),
-            "logo"       => $this->faker->name(),
             "address"    => $this->faker->name(),
             "phone"      => $this->faker->phoneNumber(),
             "cr"         => $this->faker->randomNumber(),

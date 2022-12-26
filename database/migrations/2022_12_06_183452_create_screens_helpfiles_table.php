@@ -15,8 +15,8 @@ class CreateScreensHelpfilesTable extends Migration
     {
         Schema::create('screens_helpfiles', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('screen_id')->constrained('screens')->references("id");
-            $table->foreignId('helpfile_id')->constrained('helpfiles')->references("id");
+            $table->foreignId('screen_id');
+            $table->foreignId('helpfile_id');
             $table->softDeletes();
             $table->timestamps();
         });
