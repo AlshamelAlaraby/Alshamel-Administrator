@@ -1949,6 +1949,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 _this12.images = workflow.media ? workflow.media : [];
                 if (_this12.images && _this12.images.length > 0) {
                   _this12.showPhoto = _this12.images[_this12.images.length - 1].webp;
+                } else {
+                  _this12.showPhoto = "./images/img-1.png";
                 }
                 _this12.$nextTick(function () {
                   _this12.$v.$reset();
@@ -2359,11 +2361,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].put("/workflow-trees/".concat(this.workflow_id), {
         old_media: old_media
       }).then(function (res) {
+        _this21.workflows[index] = res.data.data;
         _this21.images = res.data.data.media ? res.data.data.media : [];
         if (_this21.images && _this21.images.length > 0) {
-          {
-            _this21.showPhoto = _this21.images[_this21.images.length - 1].webp;
-          }
+          _this21.showPhoto = _this21.images[_this21.images.length - 1].webp;
+        } else {
+          _this21.showPhoto = "./images/img-1.png";
         }
       })["catch"](function (err) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({

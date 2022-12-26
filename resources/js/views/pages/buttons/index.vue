@@ -305,7 +305,7 @@ export default {
         });
       }
     },
-    
+
     /**
      *  end delete countrie
      */
@@ -486,10 +486,11 @@ export default {
       this.edit.name = country.name;
       this.edit.name_e = country.name_e;
       this.images = country.media ?? [];
-      this.showPhoto =
-        this.images.length > 0
-          ? this.images[this.images.length - 1].webp
-          : "./images/img-1.png";
+      if (this.images && this.images.length > 0) {
+        this.showPhoto = this.images[this.images.length - 1].webp;
+      } else {
+        this.showPhoto = "./images/img-1.png";
+      }
       this.errors = {};
     },
     /**
@@ -658,11 +659,13 @@ export default {
       adminApi
         .put(`/buttons/${this.button_id}`, { old_media })
         .then((res) => {
-          this.images = res.data.data.media ?? [];
-          this.showPhoto =
-            this.images.length > 0
-              ? this.images[this.images.length - 1].webp
-              : "./images/img-1.png";
+          this.buttons[index] = res.data.data;
+          this.images = res.data.data.media ? res.data.data.media : [];
+          if (this.images && this.images.length > 0) {
+            this.showPhoto = this.images[this.images.length - 1].webp;
+          } else {
+            this.showPhoto = "./images/img-1.png";
+          }
         })
         .catch((err) => {
           Swal.fire({

@@ -1899,11 +1899,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.isVaildPhone = false;
     },
     AddSubmit: function AddSubmit() {
-<<<<<<< HEAD
       var _this10 = this;
-=======
-      var _this9 = this;
->>>>>>> dev-test
       if (!this.create.name) {
         this.create.name = this.create.name_e;
       }
@@ -1916,6 +1912,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       } else {
         this.isLoader = true;
         this.errors = {};
+        if (!this.create.name) {
+          this.create.name = this.create.name_e;
+        }
+        if (!this.create.name_e) {
+          this.create.name_e = this.create.name;
+        }
         _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/companies", this.create).then(function (res) {
           _this10.company_id = res.data.data.id;
           _this10.getData();
@@ -1946,21 +1948,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      *  edit company
      */
     editSubmit: function editSubmit(id, index) {
-<<<<<<< HEAD
       var _this11 = this;
       if (!this.edit.name) {
         this.edit.name = this.edit.name_e;
       }
       if (!this.edit.name_e) {
         this.edit.name_e = this.edit.name;
-=======
-      var _this10 = this;
-      if (!this.create.name) {
-        this.create.name = this.create.name_e;
-      }
-      if (!this.create.name_e) {
-        this.create.name_e = this.create.name;
->>>>>>> dev-test
       }
       this.$v.edit.$touch();
       if (this.images) this.images.forEach(function (e) {
@@ -2061,7 +2054,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this13.edit.phone = company.phone;
                 _this13.errors = {};
                 _this13.images = (_company$media = company.media) !== null && _company$media !== void 0 ? _company$media : [];
-                if (_this13.images.length > 0) _this13.showPhoto = _this13.images[_this13.images.length - 1].webp;
+                if (_this13.images && _this13.images.length > 0) {
+                  _this13.showPhoto = _this13.images[_this13.images.length - 1].webp;
+                } else {
+                  _this13.showPhoto = "./images/img-1.png";
+                }
               case 21:
               case "end":
                 return _context3.stop();
@@ -2257,10 +2254,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/companies/".concat(this.company_id), {
         old_media: old_media
       }).then(function (res) {
-        var _res$data$data$media;
-        _this15.images = (_res$data$data$media = res.data.data.media) !== null && _res$data$data$media !== void 0 ? _res$data$data$media : [];
-        if (_this15.images.length) {
+        _this15.companies[index] = res.data.data;
+        _this15.images = res.data.data.media ? res.data.data.media : [];
+        if (_this15.images && _this15.images.length > 0) {
           _this15.showPhoto = _this15.images[_this15.images.length - 1].webp;
+        } else {
+          _this15.showPhoto = "./images/img-1.png";
         }
       })["catch"](function (err) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({

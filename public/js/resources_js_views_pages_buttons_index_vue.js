@@ -1812,7 +1812,11 @@ __webpack_require__.r(__webpack_exports__);
       this.edit.name = country.name;
       this.edit.name_e = country.name_e;
       this.images = (_country$media = country.media) !== null && _country$media !== void 0 ? _country$media : [];
-      this.showPhoto = this.images.length > 0 ? this.images[this.images.length - 1].webp : "./images/img-1.png";
+      if (this.images && this.images.length > 0) {
+        this.showPhoto = this.images[this.images.length - 1].webp;
+      } else {
+        this.showPhoto = "./images/img-1.png";
+      }
       this.errors = {};
     },
     /**
@@ -1981,9 +1985,13 @@ __webpack_require__.r(__webpack_exports__);
       _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].put("/buttons/".concat(this.button_id), {
         old_media: old_media
       }).then(function (res) {
-        var _res$data$data$media;
-        _this13.images = (_res$data$data$media = res.data.data.media) !== null && _res$data$data$media !== void 0 ? _res$data$data$media : [];
-        _this13.showPhoto = _this13.images.length > 0 ? _this13.images[_this13.images.length - 1].webp : "./images/img-1.png";
+        _this13.buttons[index] = res.data.data;
+        _this13.images = res.data.data.media ? res.data.data.media : [];
+        if (_this13.images && _this13.images.length > 0) {
+          _this13.showPhoto = _this13.images[_this13.images.length - 1].webp;
+        } else {
+          _this13.showPhoto = "./images/img-1.png";
+        }
       })["catch"](function (err) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
           icon: "error",

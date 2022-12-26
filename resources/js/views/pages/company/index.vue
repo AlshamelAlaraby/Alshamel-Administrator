@@ -46,7 +46,7 @@ export default {
       partners: [],
       enabled3: false,
       isLoader: false,
-      Tooltip:"",
+      Tooltip: "",
       create: {
         name: "",
         name_e: "",
@@ -205,11 +205,10 @@ export default {
     });
   },
   methods: {
-    
     formatDate(value) {
       return formatDateOnly(value);
     },
-        log(id) {
+    log(id) {
       this.Tooltip = "";
       adminApi
         .get(`/companies/logs/${id}`)
@@ -303,7 +302,7 @@ export default {
     /**
      *  delete company
      */
-  deletecompany(id, index) {
+    deletecompany(id, index) {
       if (Array.isArray(id)) {
         Swal.fire({
           title: `${this.$t("general.Areyousure")}`,
@@ -403,7 +402,7 @@ export default {
         });
       }
     },
-    
+
     /**
      *  reset Modal (create)
      */
@@ -508,7 +507,6 @@ export default {
           this.create.name_e = this.create.name;
         }
 
-<<<<<<< HEAD
         adminApi
           .post(`/companies`, this.create)
           .then((res) => {
@@ -526,19 +524,6 @@ export default {
           .catch((err) => {
             if (err.response.data) {
               this.errors = err.response.data.errors;
-=======
-        },
-        /**
-         *  edit company
-         */
-        editSubmit(id,index){
-            if(!this.create.name){ this.create.name = this.create.name_e}
-            if(!this.create.name_e){ this.create.name_e = this.create.name}
-            this.$v.edit.$touch();
-            if(this.images) this.images.forEach(e => {this.edit.old_media.push(e.id);});
-            if (this.$v.edit.$invalid && !this.isVaildPhone) {
-                return;
->>>>>>> dev-test
             } else {
               Swal.fire({
                 icon: "error",
@@ -645,8 +630,11 @@ export default {
       this.edit.phone = company.phone;
       this.errors = {};
       this.images = company.media ?? [];
-      if (this.images.length > 0)
+      if (this.images && this.images.length > 0) {
         this.showPhoto = this.images[this.images.length - 1].webp;
+      } else {
+        this.showPhoto = "./images/img-1.png";
+      }
     },
     /**
      *  hidden Modal (edit)
@@ -838,9 +826,12 @@ export default {
       adminApi
         .post(`/companies/${this.company_id}`, { old_media })
         .then((res) => {
-          this.images = res.data.data.media ?? [];
-          if (this.images.length) {
+          this.companies[index] = res.data.data;
+          this.images = res.data.data.media ? res.data.data.media : [];
+          if (this.images && this.images.length > 0) {
             this.showPhoto = this.images[this.images.length - 1].webp;
+          } else {
+            this.showPhoto = "./images/img-1.png";
           }
         })
         .catch((err) => {
@@ -2744,7 +2735,7 @@ export default {
                       </b-modal>
                       <!--  /edit   -->
                     </td>
-                        <td @mouseup="log(data.id)">
+                    <td @mouseup="log(data.id)">
                       <button
                         type="button"
                         class="btn"
@@ -2818,8 +2809,4 @@ export default {
 .img-thumbnail {
   max-height: 400px !important;
 }
-<<<<<<< HEAD
 </style>
-=======
-</style>
->>>>>>> dev-test

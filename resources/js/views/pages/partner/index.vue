@@ -427,7 +427,6 @@ export default {
     editSubmit(id) {
       this.$v.edit.$touch();
 
-<<<<<<< HEAD
       if (this.$v.edit.$invalid && !this.isVaildPhone) {
         return;
       } else {
@@ -450,19 +449,6 @@ export default {
           .catch((err) => {
             if (err.response.data) {
               this.errors = err.response.data.errors;
-=======
-        },
-        /**
-         *  edit Partner
-         */
-        editSubmit(id){
-            if(!this.create.name){ this.create.name = this.create.name_e}
-            if(!this.create.name_e){ this.create.name_e = this.create.name}
-            this.$v.edit.$touch();
-
-            if (this.$v.edit.$invalid && !this.isVaildPhone) {
-                return;
->>>>>>> dev-test
             } else {
               Swal.fire({
                 icon: "error",
