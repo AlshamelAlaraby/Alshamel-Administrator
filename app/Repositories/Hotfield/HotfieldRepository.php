@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Hotfield;
 
-use App\Models\Hotfield;
+use App\Models\HotField;
 use App\Models\UserSettingScreen;
 use Illuminate\Support\Facades\DB;
 
@@ -12,7 +12,7 @@ class HotfieldRepository implements HotfieldRepositoryInterface
     private $model;
     public function __construct(Hotfield $model)
     {
-        $this->model = $model;
+    $this->model = $model;
     }
 
     public function getAllHotfields($request)
