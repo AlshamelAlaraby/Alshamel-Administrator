@@ -40,6 +40,7 @@ export default {
             isLoader: false,
             companies: [],
             modules: [],
+            Tooltip:"",
             create: {
                 company_id: null,
                 module_id: null,
@@ -148,6 +149,34 @@ export default {
         });
     },
     methods: {
+        formatDate(value) {
+      return formatDateOnly(value);
+    },
+         log(id) {
+      this.Tooltip = "";
+      adminApi
+        .get(`/company-modules/logs/${id}`)
+        .then((res) => {
+          let l = res.data.data;
+          l.forEach((e) => {
+            this.Tooltip += `Created By: ${e.causer_type}; Event: ${
+              e.event
+            }; Description: ${e.description} ;Created At: ${this.formatDate(
+              e.created_at
+            )} \n`;
+          });
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: `${this.$t("general.Error")}`,
+            text: `${this.$t("general.Thereisanerrorinthesystem")}`,
+          });
+        })
+        .finally(() => {
+          this.isLoader = false;
+        });
+    },
         /**
          *  get Data companyModule
          */
@@ -607,10 +636,10 @@ export default {
                                             {{ $t('general.allowed_users_no') }}
                                         </b-form-checkbox>
                                         <b-form-checkbox v-model="setting.start_date" class="mb-1">
-                                            {{ $t('general.start_date') }}
+                                            {{ $t('general.startDate') }}
                                         </b-form-checkbox>
                                         <b-form-checkbox v-model="setting.end_date" class="mb-1">
-                                            {{ $t('general.end_date') }}
+                                            {{ $t('general.endDate') }}
                                         </b-form-checkbox>
                                         <div class="d-flex justify-content-end">
                                             <a href="javascript:void(0)" class="btn btn-primary btn-sm">Apply</a>
@@ -1030,9 +1059,17 @@ export default {
                                         </b-modal>
                                         <!--  /edit   -->
                                     </td>
-                                    <td>
-                                        <i class="fe-info" style="font-size: 22px;"></i>
-                                    </td>
+                                    <td @mouseup="log(data.id)">
+                      <button
+                        type="button"
+                        class="btn"
+                        data-toggle="tooltip"
+                        :data-placement="$i18n.locale == 'en' ? 'left' : 'right'"
+                        :title="Tooltip"
+                      >
+                        <i class="fe-info" style="font-size: 22px"></i>
+                      </button>
+                    </td>
                                 </tr>
                                 </tbody>
                                 <tbody v-else>

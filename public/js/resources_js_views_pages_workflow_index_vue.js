@@ -1330,7 +1330,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Page_header__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../components/Page-header */ "./resources/js/components/Page-header.vue");
 /* harmony import */ var _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../api/adminAxios */ "./resources/js/api/adminAxios.js");
 /* harmony import */ var vue_switches__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-switches */ "./node_modules/vue-switches/src/switches.vue");
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _components_widgets_errorMessage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../components/widgets/errorMessage */ "./resources/js/components/widgets/errorMessage.vue");
@@ -1338,6 +1338,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helper_tableSort__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../helper/tableSort */ "./resources/js/helper/tableSort.js");
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.js");
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _helper_startDate__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../helper/startDate */ "./resources/js/helper/startDate.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -1349,6 +1350,7 @@ function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyri
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -1394,6 +1396,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       modules: [],
       screens: [],
       isLoader: false,
+      Tooltip: "",
       create: (_create = {
         name: "",
         name_e: ""
@@ -1435,52 +1438,52 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   validations: {
     create: {
       name: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(2),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(100)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.minLength)(2),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.maxLength)(100)
       },
       name_e: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(2),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(100)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.minLength)(2),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.maxLength)(100)
       },
       partner_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.required
       },
       company_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.required
       },
       module_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.required
       },
       is_active: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.required
       },
       media: {}
     },
     edit: {
       name: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(2),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(100)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.minLength)(2),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.maxLength)(100)
       },
       name_e: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(2),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(100)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.minLength)(2),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.maxLength)(100)
       },
       is_active: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.required
       },
       media: {},
       partner_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.required
       },
       company_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.required
       },
       module_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_10__.required
       }
     }
   },
@@ -1549,7 +1552,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       this.isLoader = true;
       var filter = "";
-      for (var i = 0; i > this.filterSetting.length; ++i) {
+      for (var i = 0; i < this.filterSetting.length; i++) {
         filter += "columns[".concat(i, "]=").concat(this.filterSetting[i], "&");
       }
       _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/workflow-trees?page=".concat(page, "&per_page=").concat(this.per_page, "&search=").concat(this.search, "&").concat(filter)).then(function (res) {
@@ -1573,7 +1576,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (this.current_page <= this.workflowsPagination.last_page && this.current_page != this.workflowsPagination.current_page && this.current_page) {
         this.isLoader = true;
         var filter = "";
-        for (var i = 0; i > this.filterSetting.length; ++i) {
+        for (var i = 0; i < this.filterSetting.length; i++) {
           filter += "columns[".concat(i, "]=").concat(this.filterSetting[i], "&");
         }
         _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/workflow-trees?page=".concat(this.current_page, "&per_page=").concat(this.per_page, "&search=").concat(this.search, "&").concat(filter)).then(function (res) {
@@ -1598,42 +1601,98 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     /**
      *  start delete workflow
      */
-    deleteCountry: function deleteCountry(id) {
+    deleteCountry: function deleteCountry(id, index) {
       var _this5 = this;
-      sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-        title: "".concat(this.$t("general.Areyousure")),
-        text: "".concat(this.$t("general.Youwontbeabletoreverthis")),
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonText: "".concat(this.$t("general.Yesdeleteit")),
-        cancelButtonText: "".concat(this.$t("general.Nocancel")),
-        confirmButtonClass: "btn btn-success mt-2",
-        cancelButtonClass: "btn btn-danger ml-2 mt-2",
-        buttonsStyling: false
-      }).then(function (result) {
-        if (result.value) {
-          _this5.isLoader = true;
-          _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"]["delete"]("/workflow-trees/".concat(id)).then(function (res) {
-            _this5.getData();
-            _this5.checkAll = [];
-            sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-              icon: "success",
-              title: "".concat(_this5.$t("general.Deleted")),
-              text: "".concat(_this5.$t("general.Yourrowhasbeendeleted")),
-              showConfirmButton: false,
-              timer: 1500
+      if (Array.isArray(id)) {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+          title: "".concat(this.$t("general.Areyousure")),
+          text: "".concat(this.$t("general.Youwontbeabletoreverthis")),
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonText: "".concat(this.$t("general.Yesdeleteit")),
+          cancelButtonText: "".concat(this.$t("general.Nocancel")),
+          confirmButtonClass: "btn btn-success mt-2",
+          cancelButtonClass: "btn btn-danger ml-2 mt-2",
+          buttonsStyling: false
+        }).then(function (result) {
+          if (result.value) {
+            _this5.isLoader = true;
+            _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].post("/workflow-trees/bulk-delete", {
+              ids: id
+            }).then(function (res) {
+              _this5.checkAll = [];
+              _this5.getData();
+              sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+                icon: "success",
+                title: "".concat(_this5.$t("general.Deleted")),
+                text: "".concat(_this5.$t("general.Yourrowhasbeendeleted")),
+                showConfirmButton: false,
+                timer: 1500
+              });
+            })["catch"](function (err) {
+              if (err.response.status == 400) {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+                  icon: "error",
+                  title: "".concat(_this5.$t("general.Error")),
+                  text: "".concat(_this5.$t("general.CantDeleteRelation"))
+                });
+                _this5.getData();
+              } else {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+                  icon: "error",
+                  title: "".concat(_this5.$t("general.Error")),
+                  text: "".concat(_this5.$t("general.Thereisanerrorinthesystem"))
+                });
+              }
+            })["finally"](function () {
+              _this5.isLoader = false;
             });
-          })["catch"](function (err) {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-              icon: "error",
-              title: "".concat(_this5.$t("general.Error")),
-              text: "".concat(_this5.$t("general.Thereisanerrorinthesystem"))
+          }
+        });
+      } else {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+          title: "".concat(this.$t("general.Areyousure")),
+          text: "".concat(this.$t("general.Youwontbeabletoreverthis")),
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonText: "".concat(this.$t("general.Yesdeleteit")),
+          cancelButtonText: "".concat(this.$t("general.Nocancel")),
+          confirmButtonClass: "btn btn-success mt-2",
+          cancelButtonClass: "btn btn-danger ml-2 mt-2",
+          buttonsStyling: false
+        }).then(function (result) {
+          if (result.value) {
+            _this5.isLoader = true;
+            _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"]["delete"]("/workflow-trees/".concat(id)).then(function (res) {
+              _this5.checkAll = [];
+              _this5.getData();
+              sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+                icon: "success",
+                title: "".concat(_this5.$t("general.Deleted")),
+                text: "".concat(_this5.$t("general.Yourrowhasbeendeleted")),
+                showConfirmButton: false,
+                timer: 1500
+              });
+            })["catch"](function (err) {
+              if (err.response.status == 400) {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+                  icon: "error",
+                  title: "".concat(_this5.$t("general.Error")),
+                  text: "".concat(_this5.$t("general.CantDeleteRelation"))
+                });
+              } else {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+                  icon: "error",
+                  title: "".concat(_this5.$t("general.Error")),
+                  text: "".concat(_this5.$t("general.Thereisanerrorinthesystem"))
+                });
+              }
+            })["finally"](function () {
+              _this5.isLoader = false;
             });
-          })["finally"](function () {
-            _this5.isLoader = false;
-          });
-        }
-      });
+          }
+        });
+      }
     },
     /**
      *  end delete workflow
@@ -1827,20 +1886,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     /*
      *  log workflow
      * */
+    formatDate: function formatDate(value) {
+      return (0,_helper_startDate__WEBPACK_IMPORTED_MODULE_9__.formatDateOnly)(value);
+    },
     log: function log(id) {
       var _this11 = this;
+      this.Tooltip = "";
       _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/workflow-trees/logs/".concat(id)).then(function (res) {
-        console.log(res.data.data);
+        var l = res.data.data;
+        l.forEach(function (e) {
+          _this11.Tooltip += "Created By: ".concat(e.causer_type, "; Event: ").concat(e.event, "; Description: ").concat(e.description, " ;Created At: ").concat(_this11.formatDate(e.created_at), " \n");
+        });
       })["catch"](function (err) {
-        if (err.response.data) {
-          _this11.errors = err.response.data.errors;
-        } else {
-          sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-            icon: "error",
-            title: "".concat(_this11.$t("general.Error")),
-            text: "".concat(_this11.$t("general.Thereisanerrorinthesystem"))
-          });
-        }
+        sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+          icon: "error",
+          title: "".concat(_this11.$t("general.Error")),
+          text: "".concat(_this11.$t("general.Thereisanerrorinthesystem"))
+        });
+      })["finally"](function () {
+        _this11.isLoader = false;
       });
     },
     /**
@@ -3548,6 +3612,33 @@ var menuItems = [{
 //     ]
 // }
 ];
+
+/***/ }),
+
+/***/ "./resources/js/helper/startDate.js":
+/*!******************************************!*\
+  !*** ./resources/js/helper/startDate.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "formatDateOnly": () => (/* binding */ formatDateOnly),
+/* harmony export */   "formatDateTime": () => (/* binding */ formatDateTime)
+/* harmony export */ });
+function formatDateTime(item) {
+  var now = new Date(item);
+  var st = now.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/);
+  return st[1] + ' ' + st[2];
+}
+;
+function formatDateOnly(item) {
+  var now = new Date(item);
+  var st = now.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/);
+  return st[1];
+}
+;
 
 /***/ }),
 
@@ -15388,7 +15479,7 @@ var render = function () {
                                   on: {
                                     click: function ($event) {
                                       $event.preventDefault()
-                                      return _vm.deleteCountry(_vm.checkAll)
+                                      return _vm.deleteCountry(_vm.checkAll[0])
                                     },
                                   },
                                 },
@@ -20790,16 +20881,41 @@ var render = function () {
                                       1
                                     ),
                                     _vm._v(" "),
-                                    _c("td", [
-                                      _c("i", {
-                                        staticClass: "fe-info",
+                                    _c(
+                                      "td",
+                                      {
                                         on: {
-                                          mouseenter: function ($event) {
+                                          mouseup: function ($event) {
                                             return _vm.log(data.id)
                                           },
                                         },
-                                      }),
-                                    ]),
+                                      },
+                                      [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass: "btn",
+                                            attrs: {
+                                              type: "button",
+                                              "data-toggle": "tooltip",
+                                              "data-placement":
+                                                _vm.$i18n.locale == "en"
+                                                  ? "left"
+                                                  : "right",
+                                              title: _vm.Tooltip,
+                                            },
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fe-info",
+                                              staticStyle: {
+                                                "font-size": "22px",
+                                              },
+                                            }),
+                                          ]
+                                        ),
+                                      ]
+                                    ),
                                   ]
                                 )
                               }),
