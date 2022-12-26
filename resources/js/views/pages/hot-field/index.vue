@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import ErrorMessage from "../../../components/widgets/errorMessage";
 import loader from "../../../components/loader";
 import { dynamicSortString } from "../../../helper/tableSort";
+import { formatDateOnly } from "../../../helper/startDate";
 
 /**
  * Advanced Table component
@@ -49,6 +50,7 @@ export default {
       hotfields: [],
       enabled3: false,
       isLoader: false,
+      Tooltip:"",
       create: {
         table_name: "",
         field_name: "",
@@ -167,6 +169,34 @@ export default {
     this.getData();
   },
   methods: {
+     formatDate(value) {
+      return formatDateOnly(value);
+    },
+    log(id) {
+      this.Tooltip = "";
+      adminApi
+        .get(`/hotfields/logs/${id}`)
+        .then((res) => {
+          let l = res.data.data;
+          l.forEach((e) => {
+            this.Tooltip += `Created By: ${e.causer_type}; Event: ${
+              e.event
+            }; Description: ${e.description} ;Created At: ${this.formatDate(
+              e.created_at
+            )} \n`;
+          });
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: `${this.$t("general.Error")}`,
+            text: `${this.$t("general.Thereisanerrorinthesystem")}`,
+          });
+        })
+        .finally(() => {
+          this.isLoader = false;
+        });
+    },
     /**
      *  get Data hot field
      */
@@ -174,7 +204,7 @@ export default {
       this.isLoader = true;
 
       let filter = "";
-      for (let i = 0; i > this.filterSetting.length; ++i) {
+      for (let i = 0; i < this.filterSetting.length; i++) {
         filter += `columns[${i}]=${this.filterSetting[i]}&`;
       }
 
@@ -207,7 +237,7 @@ export default {
       ) {
         this.isLoader = true;
         let filter = "";
-        for (let i = 0; i > this.filterSetting.length; ++i) {
+        for (let i = 0; i < this.filterSetting.length; i++) {
           filter += `columns[${i}]=${this.filterSetting[i]}&`;
         }
 
@@ -236,46 +266,105 @@ export default {
     /**
      *  delete hot field
      */
-    deleteHotField(id) {
-      Swal.fire({
-        title: `${this.$t("general.Areyousure")}`,
-        text: `${this.$t("general.Youwontbeabletoreverthis")}`,
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonText: `${this.$t("general.Yesdeleteit")}`,
-        cancelButtonText: `${this.$t("general.Nocancel")}`,
-        confirmButtonClass: "btn btn-success mt-2",
-        cancelButtonClass: "btn btn-danger ml-2 mt-2",
-        buttonsStyling: false,
-      }).then((result) => {
-        if (result.value) {
-          this.isLoader = true;
+  deleteHotField(id, index) {
+      if (Array.isArray(id)) {
+        Swal.fire({
+          title: `${this.$t("general.Areyousure")}`,
+          text: `${this.$t("general.Youwontbeabletoreverthis")}`,
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonText: `${this.$t("general.Yesdeleteit")}`,
+          cancelButtonText: `${this.$t("general.Nocancel")}`,
+          confirmButtonClass: "btn btn-success mt-2",
+          cancelButtonClass: "btn btn-danger ml-2 mt-2",
+          buttonsStyling: false,
+        }).then((result) => {
+          if (result.value) {
+            this.isLoader = true;
+            adminApi
+              .post(`/hotfields/bulk-delete`, { ids: id })
+              .then((res) => {
+                this.checkAll = [];
+                this.getData();
+                Swal.fire({
+                  icon: "success",
+                  title: `${this.$t("general.Deleted")}`,
+                  text: `${this.$t("general.Yourrowhasbeendeleted")}`,
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+              })
+              .catch((err) => {
+                if (err.response.status == 400) {
+                  Swal.fire({
+                    icon: "error",
+                    title: `${this.$t("general.Error")}`,
+                    text: `${this.$t("general.CantDeleteRelation")}`,
+                  });
+                this.getData();
+                } else {
+                  Swal.fire({
+                    icon: "error",
+                    title: `${this.$t("general.Error")}`,
+                    text: `${this.$t("general.Thereisanerrorinthesystem")}`,
+                  });
+                }
+              })
+              .finally(() => {
+                this.isLoader = false;
+              });
+          }
+        });
+      } else {
+        Swal.fire({
+          title: `${this.$t("general.Areyousure")}`,
+          text: `${this.$t("general.Youwontbeabletoreverthis")}`,
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonText: `${this.$t("general.Yesdeleteit")}`,
+          cancelButtonText: `${this.$t("general.Nocancel")}`,
+          confirmButtonClass: "btn btn-success mt-2",
+          cancelButtonClass: "btn btn-danger ml-2 mt-2",
+          buttonsStyling: false,
+        }).then((result) => {
+          if (result.value) {
+            this.isLoader = true;
 
-          adminApi
-            .delete(`/hotfields/${id}`)
-            .then((res) => {
-              this.getData();
-              this.checkAll = [];
-              Swal.fire({
-                icon: "success",
-                title: `${this.$t("general.Deleted")}`,
-                text: `${this.$t("general.Yourrowhasbeendeleted")}`,
-                showConfirmButton: false,
-                timer: 1500,
+            adminApi
+              .delete(`/hotfields/${id}`)
+              .then((res) => {
+                this.checkAll = [];
+                this.getData();
+                Swal.fire({
+                  icon: "success",
+                  title: `${this.$t("general.Deleted")}`,
+                  text: `${this.$t("general.Yourrowhasbeendeleted")}`,
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+              })
+
+              .catch((err) => {
+                if (err.response.status == 400) {
+                  Swal.fire({
+                    icon: "error",
+                    title: `${this.$t("general.Error")}`,
+                    text: `${this.$t("general.CantDeleteRelation")}`,
+                  });
+                } else {
+                  Swal.fire({
+                    icon: "error",
+                    title: `${this.$t("general.Error")}`,
+                    text: `${this.$t("general.Thereisanerrorinthesystem")}`,
+                  });
+                }
+              })
+              .finally(() => {
+                this.isLoader = false;
               });
-            })
-            .catch((err) => {
-              Swal.fire({
-                icon: "error",
-                title: `${this.$t("general.Error")}`,
-                text: `${this.$t("general.Thereisanerrorinthesystem")}`,
-              });
-            })
-            .finally(() => {
-              this.isLoader = false;
-            });
-        }
-      });
+          }
+        });
+      }
     },
     /**
      *  reset Modal (create)
@@ -586,7 +675,7 @@ export default {
                   <button
                     class="custom-btn-dowonload"
                     v-if="checkAll.length == 1"
-                    @click.prevent="deleteHotField(checkAll)"
+                    @click.prevent="deleteHotField(checkAll[0])"
                   >
                     <i class="fas fa-trash-alt"></i>
                   </button>
@@ -1378,8 +1467,16 @@ export default {
                       </b-modal>
                       <!--  /edit   -->
                     </td>
-                    <td>
-                      <i class="fe-info" style="font-size: 22px"></i>
+                         <td @mouseup="log(data.id)">
+                      <button
+                        type="button"
+                        class="btn"
+                        data-toggle="tooltip"
+                        :data-placement="$i18n.locale == 'en' ? 'left' : 'right'"
+                        :title="Tooltip"
+                      >
+                        <i class="fe-info" style="font-size: 22px"></i>
+                      </button>
                     </td>
                   </tr>
                 </tbody>

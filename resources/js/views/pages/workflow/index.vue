@@ -9,6 +9,7 @@ import ErrorMessage from "../../../components/widgets/errorMessage";
 import loader from "../../../components/loader";
 import { dynamicSortString } from "../../../helper/tableSort";
 import Multiselect from "vue-multiselect";
+import { formatDateOnly } from "../../../helper/startDate";
 
 /**
  * Advanced Table component
@@ -40,6 +41,7 @@ export default {
       modules: [],
       screens: [],
       isLoader: false,
+      Tooltip:"",
       create: {
         name: "",
         name_e: "",
@@ -175,7 +177,7 @@ export default {
       this.isLoader = true;
 
       let filter = "";
-      for (let i = 0; i > this.filterSetting.length; ++i) {
+      for (let i = 0; i < this.filterSetting.length; i++) {
         filter += `columns[${i}]=${this.filterSetting[i]}&`;
       }
 
@@ -208,7 +210,7 @@ export default {
       ) {
         this.isLoader = true;
         let filter = "";
-        for (let i = 0; i > this.filterSetting.length; ++i) {
+        for (let i = 0; i < this.filterSetting.length; i++) {
           filter += `columns[${i}]=${this.filterSetting[i]}&`;
         }
 
@@ -240,46 +242,105 @@ export default {
     /**
      *  start delete workflow
      */
-    deleteCountry(id) {
-      Swal.fire({
-        title: `${this.$t("general.Areyousure")}`,
-        text: `${this.$t("general.Youwontbeabletoreverthis")}`,
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonText: `${this.$t("general.Yesdeleteit")}`,
-        cancelButtonText: `${this.$t("general.Nocancel")}`,
-        confirmButtonClass: "btn btn-success mt-2",
-        cancelButtonClass: "btn btn-danger ml-2 mt-2",
-        buttonsStyling: false,
-      }).then((result) => {
-        if (result.value) {
-          this.isLoader = true;
+    deleteCountry(id, index) {
+      if (Array.isArray(id)) {
+        Swal.fire({
+          title: `${this.$t("general.Areyousure")}`,
+          text: `${this.$t("general.Youwontbeabletoreverthis")}`,
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonText: `${this.$t("general.Yesdeleteit")}`,
+          cancelButtonText: `${this.$t("general.Nocancel")}`,
+          confirmButtonClass: "btn btn-success mt-2",
+          cancelButtonClass: "btn btn-danger ml-2 mt-2",
+          buttonsStyling: false,
+        }).then((result) => {
+          if (result.value) {
+            this.isLoader = true;
+            adminApi
+              .post(`/workflow-trees/bulk-delete`, { ids: id })
+              .then((res) => {
+                this.checkAll = [];
+                this.getData();
+                Swal.fire({
+                  icon: "success",
+                  title: `${this.$t("general.Deleted")}`,
+                  text: `${this.$t("general.Yourrowhasbeendeleted")}`,
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+              })
+              .catch((err) => {
+                if (err.response.status == 400) {
+                  Swal.fire({
+                    icon: "error",
+                    title: `${this.$t("general.Error")}`,
+                    text: `${this.$t("general.CantDeleteRelation")}`,
+                  });
+                  this.getData();
+                } else {
+                  Swal.fire({
+                    icon: "error",
+                    title: `${this.$t("general.Error")}`,
+                    text: `${this.$t("general.Thereisanerrorinthesystem")}`,
+                  });
+                }
+              })
+              .finally(() => {
+                this.isLoader = false;
+              });
+          }
+        });
+      } else {
+        Swal.fire({
+          title: `${this.$t("general.Areyousure")}`,
+          text: `${this.$t("general.Youwontbeabletoreverthis")}`,
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonText: `${this.$t("general.Yesdeleteit")}`,
+          cancelButtonText: `${this.$t("general.Nocancel")}`,
+          confirmButtonClass: "btn btn-success mt-2",
+          cancelButtonClass: "btn btn-danger ml-2 mt-2",
+          buttonsStyling: false,
+        }).then((result) => {
+          if (result.value) {
+            this.isLoader = true;
 
-          adminApi
-            .delete(`/workflow-trees/${id}`)
-            .then((res) => {
-              this.getData();
-              this.checkAll = [];
-              Swal.fire({
-                icon: "success",
-                title: `${this.$t("general.Deleted")}`,
-                text: `${this.$t("general.Yourrowhasbeendeleted")}`,
-                showConfirmButton: false,
-                timer: 1500,
+            adminApi
+              .delete(`/workflow-trees/${id}`)
+              .then((res) => {
+                this.checkAll = [];
+                this.getData();
+                Swal.fire({
+                  icon: "success",
+                  title: `${this.$t("general.Deleted")}`,
+                  text: `${this.$t("general.Yourrowhasbeendeleted")}`,
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+              })
+
+              .catch((err) => {
+                if (err.response.status == 400) {
+                  Swal.fire({
+                    icon: "error",
+                    title: `${this.$t("general.Error")}`,
+                    text: `${this.$t("general.CantDeleteRelation")}`,
+                  });
+                } else {
+                  Swal.fire({
+                    icon: "error",
+                    title: `${this.$t("general.Error")}`,
+                    text: `${this.$t("general.Thereisanerrorinthesystem")}`,
+                  });
+                }
+              })
+              .finally(() => {
+                this.isLoader = false;
               });
-            })
-            .catch((err) => {
-              Swal.fire({
-                icon: "error",
-                title: `${this.$t("general.Error")}`,
-                text: `${this.$t("general.Thereisanerrorinthesystem")}`,
-              });
-            })
-            .finally(() => {
-              this.isLoader = false;
-            });
-        }
-      });
+          }
+        });
+      }
     },
     /**
      *  end delete workflow
@@ -456,22 +517,33 @@ export default {
     /*
      *  log workflow
      * */
+        formatDate(value) {
+      return formatDateOnly(value);
+    },
+
     log(id) {
+      this.Tooltip = "";
       adminApi
         .get(`/workflow-trees/logs/${id}`)
         .then((res) => {
-          console.log(res.data.data);
+          let l = res.data.data;
+          l.forEach((e) => {
+            this.Tooltip += `Created By: ${e.causer_type}; Event: ${
+              e.event
+            }; Description: ${e.description} ;Created At: ${this.formatDate(
+              e.created_at
+            )} \n`;
+          });
         })
         .catch((err) => {
-          if (err.response.data) {
-            this.errors = err.response.data.errors;
-          } else {
-            Swal.fire({
-              icon: "error",
-              title: `${this.$t("general.Error")}`,
-              text: `${this.$t("general.Thereisanerrorinthesystem")}`,
-            });
-          }
+          Swal.fire({
+            icon: "error",
+            title: `${this.$t("general.Error")}`,
+            text: `${this.$t("general.Thereisanerrorinthesystem")}`,
+          });
+        })
+        .finally(() => {
+          this.isLoader = false;
         });
     },
     /**
@@ -495,8 +567,11 @@ export default {
       this.edit.id_sort = workflow.id_sort;
       this.edit.is_active = workflow.is_active;
       this.images = workflow.media ? workflow.media : [];
-      if (this.images&&this.images.length>0) {
+      if (this.images && this.images.length > 0) {
         this.showPhoto = this.images[this.images.length - 1].webp;
+      }
+      else{
+        this.showPhoto="./images/img-1.png";
       }
       this.$nextTick(() => {
         this.$v.$reset();
@@ -759,9 +834,10 @@ export default {
                 .then((res) => {
                   console.log(res);
                   this.images = res.data.data.media ? res.data.data.media : [];
-                  if (this.images&&this.images.length>0) {
+                  if (this.images && this.images.length > 0) {
                     this.showPhoto = this.images[this.images.length - 1].webp;
                   }
+    
                   this.getData();
                 })
                 .catch((err) => {
@@ -858,11 +934,14 @@ export default {
       adminApi
         .put(`/workflow-trees/${this.workflow_id}`, { old_media })
         .then((res) => {
+          this.workflows[index]=res.data.data;
           this.images = res.data.data.media ? res.data.data.media : [];
-            if(this.images&&this.images.length>0){ {
-            this.showPhoto = this.images[this.images.length - 1].webp;
+          if (this.images && this.images.length > 0) {
+              this.showPhoto = this.images[this.images.length - 1].webp;
           }
-            }
+          else{
+            this.showPhoto="./images/img-1.png";
+          }
         })
         .catch((err) => {
           Swal.fire({
@@ -967,7 +1046,7 @@ export default {
                   <button
                     class="custom-btn-dowonload"
                     v-if="checkAll.length == 1"
-                    @click.prevent="deleteCountry(checkAll)"
+                    @click.prevent="deleteCountry(checkAll[0])"
                   >
                     <i class="fas fa-trash-alt"></i>
                   </button>
@@ -2414,8 +2493,16 @@ export default {
                       </b-modal>
                       <!--  /edit   -->
                     </td>
-                    <td>
-                      <i @mouseenter="log(data.id)" class="fe-info"></i>
+                    <td @mouseup="log(data.id)">
+                      <button
+                        type="button"
+                        class="btn"
+                        data-toggle="tooltip"
+                        :data-placement="$i18n.locale == 'en' ? 'left' : 'right'"
+                        :title="Tooltip"
+                      >
+                        <i class="fe-info" style="font-size: 22px"></i>
+                      </button>
                     </td>
                   </tr>
                 </tbody>

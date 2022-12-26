@@ -428,6 +428,7 @@
         }
     },
   "general": {
+    "CantDeleteRelation":"You cannot delete an element that has a relationship with another element",
     "url":"Website link",
     "DeletedSuccessfully": "Deleted successfully",
     "IdSort":"Id sort",
