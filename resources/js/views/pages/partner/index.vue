@@ -300,6 +300,9 @@ export default {
             this.is_disabled = false;
         },
         AddSubmit(){
+
+            if(!this.create.name){ this.create.name = this.create.name_e}
+            if(!this.create.name_e){ this.create.name_e = this.create.name}
             this.$v.create.$touch();
 
             if (this.$v.create.$invalid && !this.isVaildPhone) {
@@ -307,8 +310,6 @@ export default {
             } else {
                 this.isLoader = true;
                 this.errors = {};
-                if(!this.create.name_e){ this.create.name_e = this.create.name}
-                if(!this.create.name){ this.create.name = this.create.name_e}
 
                 adminApi.post(`/partners`,this.create)
                     .then((res) => {
@@ -343,6 +344,8 @@ export default {
          *  edit Partner
          */
         editSubmit(id){
+            if(!this.create.name){ this.create.name = this.create.name_e}
+            if(!this.create.name_e){ this.create.name_e = this.create.name}
             this.$v.edit.$touch();
 
             if (this.$v.edit.$invalid && !this.isVaildPhone) {

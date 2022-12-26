@@ -369,6 +369,9 @@ export default {
             this.isVaildPhone = false;
         },
         AddSubmit(){
+
+            if(!this.create.name){ this.create.name = this.create.name_e}
+            if(!this.create.name_e){ this.create.name_e = this.create.name}
             this.$v.create.$touch();
 
             if (this.$v.create.$invalid && !this.isVaildPhone) {
@@ -376,8 +379,6 @@ export default {
             } else {
                 this.isLoader = true;
                 this.errors = {};
-                if(!this.create.name){ this.create.name = this.create.name_e}
-                if(!this.create.name_e){ this.create.name_e = this.create.name}
 
                 adminApi.post(`/companies`,this.create)
                     .then((res) => {
@@ -412,6 +413,8 @@ export default {
          *  edit company
          */
         editSubmit(id,index){
+            if(!this.create.name){ this.create.name = this.create.name_e}
+            if(!this.create.name_e){ this.create.name_e = this.create.name}
             this.$v.edit.$touch();
             if(this.images) this.images.forEach(e => {this.edit.old_media.push(e.id);});
             if (this.$v.edit.$invalid && !this.isVaildPhone) {
@@ -1998,7 +2001,3 @@ export default {
     max-height: 400px !important;
 }
 </style>
-
-
-
-

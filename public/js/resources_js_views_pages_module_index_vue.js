@@ -3343,7 +3343,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "ul[data-v-54f21bce],\n#myUL[data-v-54f21bce] {\n  list-style-type: none;\n}\n#myUL[data-v-54f21bce] {\n  margin: 0;\n  padding: 0;\n}\n#myUL span i[data-v-54f21bce] {\n  font-size: 20px;\n  position: relative;\n  top: 3px;\n  color: black;\n}\n#myUL span span[data-v-54f21bce]:hover,\n#myUL span i[data-v-54f21bce]:hover {\n  cursor: pointer;\n}\n.nested[data-v-54f21bce] {\n  display: block;\n}\n.active[data-v-54f21bce] {\n  color: #1abc9c;\n}\n.rtl #myUL .without-children[data-v-54f21bce] {\n  padding-right: 10px;\n}\n.rtl #myUL .nested[data-v-54f21bce] {\n  padding-right: 40px;\n}\n.ltr #myUL .without-children[data-v-54f21bce] {\n  padding-left: 10px;\n}\n\n/* Remove default bullets */", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "ul[data-v-54f21bce],\n#myUL[data-v-54f21bce] {\n  list-style-type: none;\n}\n#myUL[data-v-54f21bce] {\n  margin: 0;\n  padding: 0;\n}\n#myUL span i[data-v-54f21bce] {\n  font-size: 20px;\n  position: relative;\n  top: 3px;\n  color: black;\n}\n#myUL span span[data-v-54f21bce]:hover,\n#myUL span i[data-v-54f21bce]:hover {\n  cursor: pointer;\n}\n.nested[data-v-54f21bce] {\n  display: block;\n}\n.active[data-v-54f21bce] {\n  color: #1abc9c;\n}\n.rtl #myUL .without-children[data-v-54f21bce] {\n  padding-right: 10px;\n}\n.rtl #myUL .nested[data-v-54f21bce] {\n  padding-right: 40px;\n}\n.ltr #myUL .without-children[data-v-54f21bce] {\n  padding-left: 10px;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

@@ -1820,18 +1820,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     AddSubmit: function AddSubmit() {
       var _this9 = this;
+      if (!this.create.name) {
+        this.create.name = this.create.name_e;
+      }
+      if (!this.create.name_e) {
+        this.create.name_e = this.create.name;
+      }
       this.$v.create.$touch();
       if (this.$v.create.$invalid && !this.isVaildPhone) {
         return;
       } else {
         this.isLoader = true;
         this.errors = {};
-        if (!this.create.name) {
-          this.create.name = this.create.name_e;
-        }
-        if (!this.create.name_e) {
-          this.create.name_e = this.create.name;
-        }
         _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/companies", this.create).then(function (res) {
           _this9.company_id = res.data.data.id;
           _this9.getData();
@@ -1863,6 +1863,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      */
     editSubmit: function editSubmit(id, index) {
       var _this10 = this;
+      if (!this.create.name) {
+        this.create.name = this.create.name_e;
+      }
+      if (!this.create.name_e) {
+        this.create.name_e = this.create.name;
+      }
       this.$v.edit.$touch();
       if (this.images) this.images.forEach(function (e) {
         _this10.edit.old_media.push(e.id);
