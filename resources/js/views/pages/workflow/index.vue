@@ -428,7 +428,6 @@ export default {
           .then((res) => {
             this.$bvModal.hide(`modal-edit-${id}`);
             this.getData();
-            this.getRootNodes();
             setTimeout(() => {
               Swal.fire({
                 icon: "success",
@@ -859,7 +858,7 @@ export default {
       adminApi
         .put(`/workflow-trees/${this.workflow_id}`, { old_media })
         .then((res) => {
-          this.images = res.data.data.media ? res.data.data.media : this.images;
+          this.images = res.data.data.media ? res.data.data.media : [];
             if(this.images&&this.images.length>0){ {
             this.showPhoto = this.images[this.images.length - 1].webp;
           }

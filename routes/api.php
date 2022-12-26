@@ -9,7 +9,7 @@ use App\Http\Controllers\CompanyModule\CompanyModuleController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\DocumentType\DocumentTypeController;
 use App\Http\Controllers\Helpfile\HelpfileController;
-use App\Http\Controllers\hotfield\HotfieldController;
+use App\Http\Controllers\Hotfield\HotfieldController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\Partner\PartnerController;
 use App\Http\Controllers\ScreenButton\ScreenButtonController;
@@ -49,6 +49,7 @@ Route::group(['prefix' => 'auth'], function () {
 
 Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
     Route::post('/logout', [LogoutController::class, "logout"]);
+    Route::post("/partner/logout", [LogoutController::class, "partnerLogout"]);
 });
 
 Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function () {
@@ -99,6 +100,7 @@ Route::group(['prefix' => 'modules'], function () {
 Route::group(['prefix' => 'partners'], function () {
     Route::controller(PartnerController::class)->group(function () {
         Route::get('/', 'all')->name('partners.index');
+
         Route::get('/{id}', 'find');
         Route::get('logs/{id}', "logs");
         Route::post('/', 'store')->name('partners.store');
@@ -211,6 +213,7 @@ Route::group(['prefix' => 'workflow-trees'], function () {
         Route::delete('/{id}', 'delete')->name('WorkflowTree.destroy');
         Route::get('logs/{id}', 'logs')->name('WorkflowTree.logs');
         Route::post('bulk-delete', 'bulkDelete');
+        Route::get("company-workflows/{company_id}","getCompanyWorkflows");
     });
 });
 

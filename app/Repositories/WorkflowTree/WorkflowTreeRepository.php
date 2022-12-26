@@ -19,9 +19,12 @@ class WorkflowTreeRepository implements WorkflowTreeRepositoryInterface
     {
         $models = $this->model->filter($request)->latest();
 
-        return ['data' => $models->with(["partner","company","module","screen"])->paginate($request->per_page), 'paginate' => true];
+        return ['data' => $models->with(["partner", "company", "module", "screen"])->paginate($request->per_page), 'paginate' => true];
     }
-
+    public function getCompanyWorkflows($company_id)
+    {
+        return $this->model->where("company_id", $company_id)->get();
+    }
     public function find($id)
     {
         return $this->model->find($id);
@@ -105,7 +108,7 @@ class WorkflowTreeRepository implements WorkflowTreeRepositoryInterface
     {
         return $this->model->where("parent_id", $parentId)->get();
     }
-    
+
     private function forget($id)
     {
         $keys = [
