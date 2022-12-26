@@ -5,9 +5,15 @@ namespace App\Http\Controllers\WorkflowTree;
 use App\Http\Controllers\ResponseController;
 use App\Http\Requests\WorkflowTree\StoreWorkflowTreeRequest;
 use App\Http\Requests\WorkflowTree\UpdateWorkflowTreeRequest;
+use App\Http\Resources\Button\ButtonResource;
+use App\Http\Resources\Hotfield\HotfieldResource;
+use App\Http\Resources\Screen\ScreenRelationResource;
 use App\Http\Resources\WorkflowTree\WorkflowTreeResource1;
 use App\Http\Resources\WorkflowTree\WorkflowTreeResource;
+use App\Models\Button;
 use App\Models\Company;
+use App\Models\HotField;
+use App\Models\Screen;
 use App\Models\WorkflowTree;
 use App\Repositories\WorkflowTree\WorkflowTreeRepositoryInterface;
 use Illuminate\Http\Request;
@@ -63,8 +69,13 @@ class WorkflowTreeController extends ResponseController
         if (!$company) {
             return responseJson(404, __('message.data not found'));
         }
-        $wf = WorkflowTree::query()->where('is_active', 1)->where('company_id', $company->id)->get();
+        $wf = WorkflowTree::query()->where('is_active', 'active')->where('company_id', $company->id)->get();
+
         $company->work_flow_trees = WorkflowTreeResource1::collection($wf);
+        $company->screen_all = ScreenRelationResource::collection (Screen::query ()->get ());
+        $company->buttons = ButtonResource::collection (Button::query ()->get ());
+        $company->hot_fields = HotfieldResource::collection (HotField::query ()->get ());
+
         return responseJson(200, __(''), $company);
     }
 

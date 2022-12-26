@@ -56,8 +56,12 @@ class Partner extends Authenticatable
         return $this->hasOne(Company::class);
     }
 
+    public function workFlows(){
+        return $this->hasMany (WorkflowTree::class);
+    }
+
     public function hasChildren(){
-        if ($this->companies ()->count () > 0){
+        if ($this->companies ()->count () > 0 || $this->workFlows ()->count () > 0){
             return true;
         }
         return false;

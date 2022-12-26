@@ -24,4 +24,5 @@ class ScreenHelpfile extends Model
             ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName} by ($user)");
     }
 
+
 }

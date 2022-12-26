@@ -90,6 +90,9 @@ class HelpfileController extends Controller
             if (!$model) {
                 return responseJson(404, __('message.data not found'));
             }
+            if ($model->hasChildren()){
+                return responseJson(400, __('message.data has relation cant delete'));
+            }
             $this->repository->delete($id);
             return responseJson(200, __('Done'));
 
@@ -101,7 +104,16 @@ class HelpfileController extends Controller
     public function bulkDelete(Request $request)
     {
         foreach ($request->ids as $id) {
+            $model = $this->repository->find($id);
+            $arr = [];
+            if ($model->hasChildren()) {
+                $arr[] = $id;
+                continue;
+            }
             $this->repository->delete($id);
+        }
+        if (count($arr) > 0) {
+            return responseJson(200, __('some items has relation cant delete'));
         }
         return responseJson(200, __('Done'));
     }

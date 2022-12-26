@@ -36,9 +36,18 @@ class Company extends Model implements \Spatie\MediaLibrary\HasMedia
         return $this->hasMany(Store::class);
     }
 
+    public function workFlows(){
+        return $this->hasMany (WorkflowTree::class);
+    }
+
     public function branches()
     {
         return $this->hasMany(Branch::class);
+    }
+
+    public function hasChildren(){
+        $hasChildren = $this->branches ()->count () > 0 || $this->workFlows ()->count () > 0 || $this->stores ()->count () > 0;
+        return $hasChildren;
     }
 
     public function getActivitylogOptions(): LogOptions
