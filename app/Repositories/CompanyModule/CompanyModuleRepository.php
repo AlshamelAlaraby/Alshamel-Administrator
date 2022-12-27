@@ -3,10 +3,7 @@
 namespace App\Repositories\CompanyModule;
 
 use App\Models\CompanyModule;
-
-use App\Traits\ApiResponser;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
 class CompanyModuleRepository implements CompanyModuleRepositoryInterface
 {
@@ -21,8 +18,8 @@ class CompanyModuleRepository implements CompanyModuleRepositoryInterface
     public function getCompanyModules($request)
     {
         $models = $this->model->where(function ($q) use ($request) {
-            $this->model->scopeFilter($q , $request);
-        })->orderBy($request->order ? $request->order : 'updated_at', $request->sort ? $request->sort : 'DESC');;
+            $this->model->scopeFilter($q, $request);
+        })->orderBy($request->order ? $request->order : 'updated_at', $request->sort ? $request->sort : 'DESC');
 
         return ['data' => $models->paginate($request->per_page), 'paginate' => true];
 
@@ -62,14 +59,10 @@ class CompanyModuleRepository implements CompanyModuleRepositoryInterface
         $model->delete();
     }
 
-
-
-
     public function logs($id)
     {
         return $this->model->find($id)->activities()->orderBy('created_at', 'DESC')->get();
     }
-
 
     private function forget($id)
     {

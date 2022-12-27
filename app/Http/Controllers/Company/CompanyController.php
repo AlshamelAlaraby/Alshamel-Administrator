@@ -100,7 +100,7 @@ class CompanyController extends Controller
         }
 
         if ($model->modules()->count() > 0 || $model->stores()->count() > 0 || $model->branches()->count() > 0) {
-            return responseJson(400, __('message.cant delete this data'));
+            return responseJson(400, __('message.can not delete this data'));
         }
 
         return responseJson(200, 'success');

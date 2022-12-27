@@ -19,5 +19,6 @@ return [
     "allowed user num is required" => "allowed user num is required",
     "allowed user num is not valid" => "allowed user num is not valid",
     "can not delete this button because it has screens" => "can not delete this button because it has screens",
+    "can not delete this data" => "can not delete this data",
 
 ];
