@@ -58,7 +58,8 @@ export default {
       isLoader: false,
       rootNodes: [],
       childNodes: [],
-      Tooltip:"",
+      Tooltip: "",
+      mouseEnter: "",
       create: {
         name: "",
         name_e: "",
@@ -141,33 +142,34 @@ export default {
     this.getData();
   },
   methods: {
-     log(id) {
-      this.Tooltip = "";
-      adminApi
-        .get(`/modules/logs/${id}`)
-        .then((res) => {
-          let l = res.data.data;
-          l.forEach((e) => {
-            this.Tooltip += `Created By: ${e.causer_type}; Event: ${
-              e.event
-            }; Description: ${e.description} ;Created At: ${this.formatDate(
-              e.created_at
-            )} \n`;
-          });
-        })
-        .catch((err) => {
-          Swal.fire({
-            icon: "error",
-            title: `${this.$t("general.Error")}`,
-            text: `${this.$t("general.Thereisanerrorinthesystem")}`,
-          });
-        })
-        .finally(() => {
-          this.isLoader = false;
-        });
-    },
-        formatDate(value) {
+    formatDate(value) {
       return formatDateOnly(value);
+    },
+    log(id) {
+      if (this.mouseEnter != id) {
+        this.Tooltip = "";
+        this.mouseEnter = id;
+        adminApi
+          .get(`/modules/logs/${id}`)
+          .then((res) => {
+            let l = res.data.data;
+            l.forEach((e) => {
+              this.Tooltip += `Created By: ${e.causer_type}; Event: ${
+                e.event
+              }; Description: ${e.description} ;Created At: ${this.formatDate(
+                e.created_at
+              )} \n`;
+            });
+          })
+          .catch((err) => {
+            Swal.fire({
+              icon: "error",
+              title: `${this.$t("general.Error")}`,
+              text: `${this.$t("general.Thereisanerrorinthesystem")}`,
+            });
+          });
+      } else {
+      }
     },
     /**
      *  get Data module
@@ -238,7 +240,7 @@ export default {
     /**
      *  delete module
      */
-   deleteModule(id, index) {
+    deleteModule(id, index) {
       if (Array.isArray(id)) {
         Swal.fire({
           title: `${this.$t("general.Areyousure")}`,
@@ -273,7 +275,7 @@ export default {
                     title: `${this.$t("general.Error")}`,
                     text: `${this.$t("general.CantDeleteRelation")}`,
                   });
-                this.getData();
+                  this.getData();
                 } else {
                   Swal.fire({
                     icon: "error",
@@ -1441,8 +1443,10 @@ export default {
                       </b-modal>
                       <!--  /edit   -->
                     </td>
-                       <td @mouseup="log(data.id)">
+                    <td>
                       <button
+                        @mouseover="log(data.id)"
+                        @mousemove="log(data.id)"
                         type="button"
                         class="btn"
                         data-toggle="tooltip"
@@ -1515,9 +1519,3 @@ ul,
   }
 }
 </style>
-
-
-
-
-
-

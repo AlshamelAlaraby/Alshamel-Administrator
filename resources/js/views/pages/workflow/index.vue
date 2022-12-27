@@ -41,7 +41,8 @@ export default {
       modules: [],
       screens: [],
       isLoader: false,
-      Tooltip:"",
+      Tooltip: "",
+      mouseEnter: "",
       create: {
         name: "",
         name_e: "",
@@ -517,34 +518,34 @@ export default {
     /*
      *  log workflow
      * */
-        formatDate(value) {
+    formatDate(value) {
       return formatDateOnly(value);
     },
-
     log(id) {
-      this.Tooltip = "";
-      adminApi
-        .get(`/workflow-trees/logs/${id}`)
-        .then((res) => {
-          let l = res.data.data;
-          l.forEach((e) => {
-            this.Tooltip += `Created By: ${e.causer_type}; Event: ${
-              e.event
-            }; Description: ${e.description} ;Created At: ${this.formatDate(
-              e.created_at
-            )} \n`;
+      if (this.mouseEnter != id) {
+        this.Tooltip = "";
+        this.mouseEnter = id;
+        adminApi
+          .get(`/workflow-trees/logs/${id}`)
+          .then((res) => {
+            let l = res.data.data;
+            l.forEach((e) => {
+              this.Tooltip += `Created By: ${e.causer_type}; Event: ${
+                e.event
+              }; Description: ${e.description} ;Created At: ${this.formatDate(
+                e.created_at
+              )} \n`;
+            });
+          })
+          .catch((err) => {
+            Swal.fire({
+              icon: "error",
+              title: `${this.$t("general.Error")}`,
+              text: `${this.$t("general.Thereisanerrorinthesystem")}`,
+            });
           });
-        })
-        .catch((err) => {
-          Swal.fire({
-            icon: "error",
-            title: `${this.$t("general.Error")}`,
-            text: `${this.$t("general.Thereisanerrorinthesystem")}`,
-          });
-        })
-        .finally(() => {
-          this.isLoader = false;
-        });
+      } else {
+      }
     },
     /**
      *   show Modal (edit)
@@ -569,9 +570,8 @@ export default {
       this.images = workflow.media ? workflow.media : [];
       if (this.images && this.images.length > 0) {
         this.showPhoto = this.images[this.images.length - 1].webp;
-      }
-      else{
-        this.showPhoto="./images/img-1.png";
+      } else {
+        this.showPhoto = "./images/img-1.png";
       }
       this.$nextTick(() => {
         this.$v.$reset();
@@ -837,7 +837,7 @@ export default {
                   if (this.images && this.images.length > 0) {
                     this.showPhoto = this.images[this.images.length - 1].webp;
                   }
-    
+
                   this.getData();
                 })
                 .catch((err) => {
@@ -934,13 +934,12 @@ export default {
       adminApi
         .put(`/workflow-trees/${this.workflow_id}`, { old_media })
         .then((res) => {
-          this.workflows[index]=res.data.data;
+          this.workflows[index] = res.data.data;
           this.images = res.data.data.media ? res.data.data.media : [];
           if (this.images && this.images.length > 0) {
-              this.showPhoto = this.images[this.images.length - 1].webp;
-          }
-          else{
-            this.showPhoto="./images/img-1.png";
+            this.showPhoto = this.images[this.images.length - 1].webp;
+          } else {
+            this.showPhoto = "./images/img-1.png";
           }
         })
         .catch((err) => {
@@ -2493,8 +2492,10 @@ export default {
                       </b-modal>
                       <!--  /edit   -->
                     </td>
-                    <td @mouseup="log(data.id)">
+                    <td>
                       <button
+                        @mouseover="log(data.id)"
+                        @mousemove="log(data.id)"
                         type="button"
                         class="btn"
                         data-toggle="tooltip"

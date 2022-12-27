@@ -1376,6 +1376,7 @@ __webpack_require__.r(__webpack_exports__);
       buttons: [],
       isLoader: false,
       Tooltip: "",
+      mouseEnter: "",
       create: {
         name: "",
         name_e: "",
@@ -1492,9 +1493,6 @@ __webpack_require__.r(__webpack_exports__);
     /**
      *  start get Data countrie && pagination
      */
-    formatDate: function formatDate(value) {
-      return (0,_helper_startDate__WEBPACK_IMPORTED_MODULE_8__.formatDateOnly)(value);
-    },
     getData: function getData() {
       var _this3 = this;
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
@@ -1782,23 +1780,27 @@ __webpack_require__.r(__webpack_exports__);
     /*
      *  log country
      * */
+    formatDate: function formatDate(value) {
+      return (0,_helper_startDate__WEBPACK_IMPORTED_MODULE_8__.formatDateOnly)(value);
+    },
     log: function log(id) {
       var _this11 = this;
-      this.Tooltip = "";
-      _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/buttons/logs/".concat(id)).then(function (res) {
-        var l = res.data.data;
-        l.forEach(function (e) {
-          _this11.Tooltip += "Created By: ".concat(e.causer_type, "; Event: ").concat(e.event, "; Description: ").concat(e.description, " ;Created At: ").concat(_this11.formatDate(e.created_at), " \n");
+      if (this.mouseEnter != id) {
+        this.Tooltip = "";
+        this.mouseEnter = id;
+        _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/buttons/logs/".concat(id)).then(function (res) {
+          var l = res.data.data;
+          l.forEach(function (e) {
+            _this11.Tooltip += "Created By: ".concat(e.causer_type, "; Event: ").concat(e.event, "; Description: ").concat(e.description, " ;Created At: ").concat(_this11.formatDate(e.created_at), " \n");
+          });
+        })["catch"](function (err) {
+          sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+            icon: "error",
+            title: "".concat(_this11.$t("general.Error")),
+            text: "".concat(_this11.$t("general.Thereisanerrorinthesystem"))
+          });
         });
-      })["catch"](function (err) {
-        sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-          icon: "error",
-          title: "".concat(_this11.$t("general.Error")),
-          text: "".concat(_this11.$t("general.Thereisanerrorinthesystem"))
-        });
-      })["finally"](function () {
-        _this11.isLoader = false;
-      });
+      } else {}
     },
     /**
      *   show Modal (edit)
@@ -17979,41 +17981,39 @@ var render = function () {
                                       1
                                     ),
                                     _vm._v(" "),
-                                    _c(
-                                      "td",
-                                      {
-                                        on: {
-                                          mouseup: function ($event) {
-                                            return _vm.log(data.id)
+                                    _c("td", [
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass: "btn",
+                                          attrs: {
+                                            type: "button",
+                                            "data-toggle": "tooltip",
+                                            "data-placement":
+                                              _vm.$i18n.locale == "en"
+                                                ? "left"
+                                                : "right",
+                                            title: _vm.Tooltip,
                                           },
-                                        },
-                                      },
-                                      [
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass: "btn",
-                                            attrs: {
-                                              type: "button",
-                                              "data-toggle": "tooltip",
-                                              "data-placement":
-                                                _vm.$i18n.locale == "en"
-                                                  ? "left"
-                                                  : "right",
-                                              title: _vm.Tooltip,
+                                          on: {
+                                            mouseover: function ($event) {
+                                              return _vm.log(data.id)
+                                            },
+                                            mousemove: function ($event) {
+                                              return _vm.log(data.id)
                                             },
                                           },
-                                          [
-                                            _c("i", {
-                                              staticClass: "fe-info",
-                                              staticStyle: {
-                                                "font-size": "22px",
-                                              },
-                                            }),
-                                          ]
-                                        ),
-                                      ]
-                                    ),
+                                        },
+                                        [
+                                          _c("i", {
+                                            staticClass: "fe-info",
+                                            staticStyle: {
+                                              "font-size": "22px",
+                                            },
+                                          }),
+                                        ]
+                                      ),
+                                    ]),
                                   ]
                                 )
                               }),
