@@ -41,7 +41,8 @@ export default {
       documents: [],
       screenDocuments: [],
       screenButtons: [],
-      Tooltip:"",
+      Tooltip: "",
+      mouseEnter: "",
       create: {
         name: "",
         name_e: "",
@@ -166,35 +167,36 @@ export default {
     });
   },
   methods: {
-     formatDate(value) {
+    formatDate(value) {
       return formatDateOnly(value);
     },
     log(id) {
-      this.Tooltip = "";
-      adminApi
-        .get(`/screens/logs/${id}`)
-        .then((res) => {
-          let l = res.data.data;
-          l.forEach((e) => {
-            this.Tooltip += `Created By: ${e.causer_type}; Event: ${
-              e.event
-            }; Description: ${e.description} ;Created At: ${this.formatDate(
-              e.created_at
-            )} \n`;
+      if (this.mouseEnter != id) {
+        this.Tooltip = "";
+        this.mouseEnter = id;
+        adminApi
+          .get(`/screens/logs/${id}`)
+          .then((res) => {
+            let l = res.data.data;
+            l.forEach((e) => {
+              this.Tooltip += `Created By: ${e.causer_type}; Event: ${
+                e.event
+              }; Description: ${e.description} ;Created At: ${this.formatDate(
+                e.created_at
+              )} \n`;
+            });
+          })
+          .catch((err) => {
+            Swal.fire({
+              icon: "error",
+              title: `${this.$t("general.Error")}`,
+              text: `${this.$t("general.Thereisanerrorinthesystem")}`,
+            });
           });
-        })
-        .catch((err) => {
-          Swal.fire({
-            icon: "error",
-            title: `${this.$t("general.Error")}`,
-            text: `${this.$t("general.Thereisanerrorinthesystem")}`,
-          });
-        })
-        .finally(() => {
-          this.isLoader = false;
-        });
+      } else {
+      }
     },
-addDocument(id) {
+    addDocument(id) {
       this.isLoader = true;
       adminApi
         .post(`/screenDocumentType/add`, {
@@ -411,7 +413,7 @@ addDocument(id) {
     /**
      *  delete module
      */
-     deleteModule(id, index) {
+    deleteModule(id, index) {
       if (Array.isArray(id)) {
         Swal.fire({
           title: `${this.$t("general.Areyousure")}`,
@@ -446,7 +448,7 @@ addDocument(id) {
                     title: `${this.$t("general.Error")}`,
                     text: `${this.$t("general.CantDeleteRelation")}`,
                   });
-                this.getData();
+                  this.getData();
                 } else {
                   Swal.fire({
                     icon: "error",
@@ -2027,8 +2029,10 @@ addDocument(id) {
                       </b-modal>
                       <!--  /edit   -->
                     </td>
-                    <td @mouseup="log(data.id)">
+                    <td>
                       <button
+                        @mouseover="log(data.id)"
+                        @mousemove="log(data.id)"
                         type="button"
                         class="btn"
                         data-toggle="tooltip"
