@@ -864,6 +864,7 @@ export default {
               :title="$t('general.addButton')"
               title-class="font-18"
               size="lg"
+              dialog-class="modal-full-width"
               body-class="paddingUnset"
               :hide-footer="true"
               @show="resetModal"
@@ -914,7 +915,7 @@ export default {
                   <b-tabs nav-class="nav-tabs nav-bordered">
                     <b-tab :title="$t('general.DataEntry')" active>
                       <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                           <div class="row">
                             <div class="col-md-6">
                               <div class="form-group">
@@ -1259,6 +1260,7 @@ export default {
                         :id="`modal-edit-${data.id}`"
                         :title="$t('general.editButton')"
                         title-class="font-18"
+                        dialog-class="modal-full-width"
                         body-class="paddingUnset"
                         size="lg"
                         :ref="`edit-${data.id}`"
@@ -1284,7 +1286,6 @@ export default {
                                 <b-spinner small></b-spinner>
                                 <span class="sr-only">{{ $t("login.Loading") }}...</span>
                               </b-button>
-
                               <b-button
                                 variant="danger"
                                 class="font-weight-bold"
@@ -1298,7 +1299,7 @@ export default {
                           <b-tabs nav-class="nav-tabs nav-bordered">
                             <b-tab :title="$t('general.DataEntry')" active>
                               <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                   <div class="row">
                                     <div class="col-md-6">
                                       <div class="form-group">

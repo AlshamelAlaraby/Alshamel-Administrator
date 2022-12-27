@@ -41,6 +41,7 @@ export default {
       documents: [],
       screenDocuments: [],
       screenButtons: [],
+      Tooltip:"",
       create: {
         name: "",
         name_e: "",

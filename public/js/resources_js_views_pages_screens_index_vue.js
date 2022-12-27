@@ -1388,6 +1388,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       documents: [],
       screenDocuments: [],
       screenButtons: [],
+      Tooltip: "",
       create: {
         name: "",
         name_e: "",
