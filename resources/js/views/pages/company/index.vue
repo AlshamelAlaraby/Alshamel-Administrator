@@ -47,6 +47,7 @@ export default {
       enabled3: false,
       isLoader: false,
       Tooltip: "",
+      mouseEnter: "",
       create: {
         name: "",
         name_e: "",
@@ -209,30 +210,32 @@ export default {
       return formatDateOnly(value);
     },
     log(id) {
-      this.Tooltip = "";
-      adminApi
-        .get(`/companies/logs/${id}`)
-        .then((res) => {
-          let l = res.data.data;
-          l.forEach((e) => {
-            this.Tooltip += `Created By: ${e.causer_type}; Event: ${
-              e.event
-            }; Description: ${e.description} ;Created At: ${this.formatDate(
-              e.created_at
-            )} \n`;
+      if (this.mouseEnter != id) {
+        this.Tooltip = "";
+        this.mouseEnter = id;
+        adminApi
+          .get(`/companies/logs/${id}`)
+          .then((res) => {
+            let l = res.data.data;
+            l.forEach((e) => {
+              this.Tooltip += `Created By: ${e.causer_type}; Event: ${
+                e.event
+              }; Description: ${e.description} ;Created At: ${this.formatDate(
+                e.created_at
+              )} \n`;
+            });
+          })
+          .catch((err) => {
+            Swal.fire({
+              icon: "error",
+              title: `${this.$t("general.Error")}`,
+              text: `${this.$t("general.Thereisanerrorinthesystem")}`,
+            });
           });
-        })
-        .catch((err) => {
-          Swal.fire({
-            icon: "error",
-            title: `${this.$t("general.Error")}`,
-            text: `${this.$t("general.Thereisanerrorinthesystem")}`,
-          });
-        })
-        .finally(() => {
-          this.isLoader = false;
-        });
+      } else {
+      }
     },
+
     /**
      *  get Data company
      */
@@ -2735,8 +2738,10 @@ export default {
                       </b-modal>
                       <!--  /edit   -->
                     </td>
-                    <td @mouseup="log(data.id)">
+                    <td>
                       <button
+                        @mouseover="log(data.id)"
+                        @mousemove="log(data.id)"
                         type="button"
                         class="btn"
                         data-toggle="tooltip"
