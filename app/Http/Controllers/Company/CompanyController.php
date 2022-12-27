@@ -73,7 +73,7 @@ class CompanyController extends Controller
                 $arr[] = $id;
                 continue;
             }
-            $this->modelInterface->destroy($id);
+            $this->modelInterface->delete($id);
         }
         if (count($arr) > 0) {
             return responseJson(400, __('some items has relation cant delete'));
@@ -100,9 +100,10 @@ class CompanyController extends Controller
         }
 
         if ($model->modules()->count() > 0 || $model->stores()->count() > 0 || $model->branches()->count() > 0) {
-            return responseJson(400, __('message.cant delete this data'));
+            return responseJson(400, __('message.can not delete this data'));
         }
 
+        $this->modelInterface->delete($id);
         return responseJson(200, 'success');
     }
 }
