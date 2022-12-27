@@ -50,7 +50,7 @@ export default {
       hotfields: [],
       enabled3: false,
       isLoader: false,
-      Tooltip:"",
+      Tooltip: "",
       create: {
         table_name: "",
         field_name: "",
@@ -169,7 +169,7 @@ export default {
     this.getData();
   },
   methods: {
-     formatDate(value) {
+    formatDate(value) {
       return formatDateOnly(value);
     },
     log(id) {
@@ -266,7 +266,7 @@ export default {
     /**
      *  delete hot field
      */
-  deleteHotField(id, index) {
+    deleteHotField(id, index) {
       if (Array.isArray(id)) {
         Swal.fire({
           title: `${this.$t("general.Areyousure")}`,
@@ -301,7 +301,7 @@ export default {
                     title: `${this.$t("general.Error")}`,
                     text: `${this.$t("general.CantDeleteRelation")}`,
                   });
-                this.getData();
+                  this.getData();
                 } else {
                   Swal.fire({
                     icon: "error",
@@ -1467,7 +1467,7 @@ export default {
                       </b-modal>
                       <!--  /edit   -->
                     </td>
-                         <td @mouseup="log(data.id)">
+                    <td @mouseup="log(data.id)">
                       <button
                         type="button"
                         class="btn"

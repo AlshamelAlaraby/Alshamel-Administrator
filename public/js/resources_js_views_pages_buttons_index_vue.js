@@ -15362,6 +15362,7 @@ var render = function () {
                       title: _vm.$t("general.addButton"),
                       "title-class": "font-18",
                       size: "lg",
+                      "dialog-class": "modal-full-width",
                       "body-class": "paddingUnset",
                       "hide-footer": true,
                     },
@@ -15519,7 +15520,7 @@ var render = function () {
                                 },
                                 [
                                   _c("div", { staticClass: "row" }, [
-                                    _c("div", { staticClass: "col-md-12" }, [
+                                    _c("div", { staticClass: "col-md-6" }, [
                                       _c("div", { staticClass: "row" }, [
                                         _c("div", { staticClass: "col-md-6" }, [
                                           _c(
@@ -16722,6 +16723,8 @@ var render = function () {
                                               title:
                                                 _vm.$t("general.editButton"),
                                               "title-class": "font-18",
+                                              "dialog-class":
+                                                "modal-full-width",
                                               "body-class": "paddingUnset",
                                               size: "lg",
                                               "hide-footer": true,
@@ -16901,7 +16904,7 @@ var render = function () {
                                                               "div",
                                                               {
                                                                 staticClass:
-                                                                  "col-md-12",
+                                                                  "col-md-6",
                                                               },
                                                               [
                                                                 _c(
