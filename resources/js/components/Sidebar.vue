@@ -233,21 +233,21 @@ export default {
         <div class="logo-box">
             <router-link to="/" class="logo logo-dark text-center">
             <span class="logo-sm">
-                <img src="../assets/images/logo-sm-dark.png" alt height="24" />
+          <img src="/images/shamel-logo-006.png" alt height="24" />
                 <!-- <span class="logo-lg-text-light">Minton</span> -->
             </span>
                 <span class="logo-lg">
-                <img src="../assets/images/logo-dark.png" alt height="20" />
+          <img src="/images/shamel-logo-006.png" alt height="24" />
                     <!-- <span class="logo-lg-text-light">M</span> -->
             </span>
             </router-link>
 
             <router-link to="/" class="logo logo-light text-center">
             <span class="logo-sm">
-                <img src="../assets/images/logo-sm.png" alt height="24" />
+          <img src="/images/shamel-logo-006.png" alt height="24" />
             </span>
                 <span class="logo-lg">
-                <img src="../assets/images/logo-light.png" alt height="20" />
+          <img src="/images/shamel-logo-006.png" alt height="24" />
             </span>
             </router-link>
         </div>
@@ -339,3 +339,14 @@ export default {
     </div>
     <!-- Left Sidebar End -->
 </template>
+<style scoped>
+.logo-lg img {
+  width: 70px;
+  height: 45px;
+}
+.logo-sm img {
+  width: 70px;
+  height: 45px;
+}
+</style>
+
