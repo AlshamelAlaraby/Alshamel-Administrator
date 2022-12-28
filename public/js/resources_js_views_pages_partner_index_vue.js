@@ -1337,7 +1337,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_loader__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../components/loader */ "./resources/js/components/loader.vue");
 /* harmony import */ var _helper_tableSort__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../helper/tableSort */ "./resources/js/helper/tableSort.js");
 /* harmony import */ var _helper_startDate__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../helper/startDate */ "./resources/js/helper/startDate.js");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
@@ -1368,7 +1367,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     ErrorMessage: _components_widgets_errorMessage__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   data: function data() {
-    return _defineProperty({
+    return {
       per_page: 50,
       search: "",
       debounce: {},
@@ -1414,7 +1413,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       checkAll: [],
       is_disabled: false,
       current_page: 1
-    }, "Tooltip", "");
+    };
   },
   validations: {
     create: {

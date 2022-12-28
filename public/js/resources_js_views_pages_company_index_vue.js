@@ -1444,7 +1444,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         is_active: true
       },
       idDelete: null,
-      filterSetting: ["name", "name_e", "email", "partner_id", "url", "phone", "tax_id", "vat_no", "cr", "address", "website"]
+      filterSetting: ["name", "name_e", "email", this.$i18n.locale == 'ar' ? 'partner.name' : 'partner.name_e', "url", "phone", "tax_id", "vat_no", "cr", "address", "website"]
     };
   },
   validations: {
@@ -15013,7 +15013,12 @@ var render = function () {
                                   "b-form-checkbox",
                                   {
                                     staticClass: "mb-1",
-                                    attrs: { value: "partner_id" },
+                                    attrs: {
+                                      value:
+                                        _vm.$i18n.locale == "ar"
+                                          ? "partner.name"
+                                          : "partner.name_e",
+                                    },
                                     model: {
                                       value: _vm.filterSetting,
                                       callback: function ($$v) {

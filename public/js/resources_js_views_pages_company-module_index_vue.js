@@ -1417,7 +1417,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         start_date: true,
         end_date: true
       },
-      filterSetting: ["company_id", "module_id", "allowed_users_no", "start_date", "end_date"],
+      filterSetting: [this.$i18n.locale == 'ar' ? 'company.name' : 'company.name_e', this.$i18n.locale == 'ar' ? 'module.name' : 'module.name_e', "allowed_users_no"],
       errors: {},
       isEye: false,
       isEyeEdit: false,
@@ -15698,7 +15698,12 @@ var render = function () {
                                   "b-form-checkbox",
                                   {
                                     staticClass: "mb-1",
-                                    attrs: { value: "company_id" },
+                                    attrs: {
+                                      value:
+                                        _vm.$i18n.locale == "ar"
+                                          ? "company.name"
+                                          : "company.name_e",
+                                    },
                                     model: {
                                       value: _vm.filterSetting,
                                       callback: function ($$v) {
@@ -15714,7 +15719,12 @@ var render = function () {
                                   "b-form-checkbox",
                                   {
                                     staticClass: "mb-1",
-                                    attrs: { value: "module_id" },
+                                    attrs: {
+                                      value:
+                                        _vm.$i18n.locale == "ar"
+                                          ? "module.name"
+                                          : "module.name_e",
+                                    },
                                     model: {
                                       value: _vm.filterSetting,
                                       callback: function ($$v) {
