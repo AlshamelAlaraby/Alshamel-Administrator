@@ -19,7 +19,7 @@ export default {
     </div>
     <!-- end page -->
     <footer class="footer footer-alt">
-      {{ new Date().getFullYear() }} &copy; Minton theme by
+      {{ new Date().getFullYear() }} &copy; {{$t("general.elshamel")}}
       <a href="">Themesbrand</a>
     </footer>
   </div>
