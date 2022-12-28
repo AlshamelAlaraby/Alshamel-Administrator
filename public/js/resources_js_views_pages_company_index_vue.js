@@ -1330,17 +1330,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Page_header__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../components/Page-header */ "./resources/js/components/Page-header.vue");
 /* harmony import */ var _components_widgets_errorMessage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../components/widgets/errorMessage */ "./resources/js/components/widgets/errorMessage.vue");
 /* harmony import */ var _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../api/adminAxios */ "./resources/js/api/adminAxios.js");
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _components_loader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../components/loader */ "./resources/js/components/loader.vue");
 /* harmony import */ var _helper_tableSort__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../helper/tableSort */ "./resources/js/helper/tableSort.js");
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.js");
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _helper_startDate__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../helper/startDate */ "./resources/js/helper/startDate.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 
 
 
@@ -1362,7 +1364,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     title: "Companies",
     meta: [{
       name: "description",
-      content: 'Companies'
+      content: "Companies"
     }]
   },
   components: {
@@ -1375,43 +1377,45 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       per_page: 50,
-      search: '',
+      search: "",
       debounce: {},
       companiesPagination: {},
       companies: [],
       partners: [],
       enabled3: false,
       isLoader: false,
+      Tooltip: "",
+      mouseEnter: "",
       create: {
-        name: '',
-        name_e: '',
-        email: '',
+        name: "",
+        name_e: "",
+        email: "",
         partner_id: null,
-        url: '',
-        phone: '',
+        url: "",
+        phone: "",
         tax_id: null,
         vat_no: null,
-        cr: '',
-        address: '',
-        website: '',
-        phone_code: '',
-        country_code: '',
+        cr: "",
+        address: "",
+        website: "",
+        phone_code: "",
+        country_code: "",
         is_active: null
       },
       edit: {
-        name: '',
-        name_e: '',
-        email: '',
+        name: "",
+        name_e: "",
+        email: "",
         partner_id: null,
-        url: '',
-        phone: '',
+        url: "",
+        phone: "",
         tax_id: null,
         vat_no: null,
-        cr: '',
-        address: '',
-        website: '',
-        phone_code: '',
-        country_code: '',
+        cr: "",
+        address: "",
+        website: "",
+        phone_code: "",
+        country_code: "",
         is_active: null,
         old_media: []
       },
@@ -1424,7 +1428,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       company_id: null,
       isVaildPhone: false,
       saveImageName: [],
-      showPhoto: './images/img-1.png',
+      showPhoto: "./images/img-1.png",
       setting: {
         name: true,
         name_e: true,
@@ -1440,134 +1444,134 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         is_active: true
       },
       idDelete: null,
-      filterSetting: ['name', 'name_e', 'email', 'partner_id', 'url', 'phone', 'tax_id', 'vat_no', 'cr', 'address', 'website']
+      filterSetting: ["name", "name_e", "email", this.$i18n.locale == 'ar' ? 'partner.name' : 'partner.name_e', "url", "phone", "tax_id", "vat_no", "cr", "address", "website"]
     };
   },
   validations: {
     create: {
       name: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(100)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(100)
       },
       name_e: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(100)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(100)
       },
       email: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.email,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(100)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.email,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(100)
       },
       phone: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.integer
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.integer
       },
       tax_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(1),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(10),
-        integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.integer
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(1),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(10),
+        integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.integer
       },
       vat_no: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(1),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(10),
-        integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.integer
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(1),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(10),
+        integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.integer
       },
       url: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        url: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.url,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(10),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(200)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        url: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.url,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(10),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(200)
       },
       website: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        url: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.url,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(10),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(200)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        url: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.url,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(10),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(200)
       },
       cr: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(100)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(100)
       },
       address: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(10),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(200)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(10),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(200)
       },
       partner_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.integer
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.integer
       },
       is_active: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required
       }
     },
     edit: {
       name: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(100)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(100)
       },
       name_e: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(100)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(100)
       },
       email: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.email,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(100)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.email,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(100)
       },
       phone: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.integer
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.integer
       },
       tax_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(1),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(10),
-        integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.integer
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(1),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(10),
+        integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.integer
       },
       vat_no: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(1),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(10),
-        integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.integer
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(1),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(10),
+        integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.integer
       },
       url: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        url: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.url,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(10),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(200)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        url: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.url,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(10),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(200)
       },
       website: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        url: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.url,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(10),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(200)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        url: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.url,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(10),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(200)
       },
       cr: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(100)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(100)
       },
       address: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(10),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(200)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(10),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(200)
       },
       partner_id: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.integer
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        integer: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.integer
       },
       is_active: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required
       }
     }
   },
@@ -1628,54 +1632,76 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     });
   },
   methods: {
+    formatDate: function formatDate(value) {
+      return (0,_helper_startDate__WEBPACK_IMPORTED_MODULE_8__.formatDateOnly)(value);
+    },
+    log: function log(id) {
+      var _this3 = this;
+      if (this.mouseEnter != id) {
+        this.Tooltip = "";
+        this.mouseEnter = id;
+        _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].get("/companies/logs/".concat(id)).then(function (res) {
+          var l = res.data.data;
+          l.forEach(function (e) {
+            _this3.Tooltip += "Created By: ".concat(e.causer_type, "; Event: ").concat(e.event, "; Description: ").concat(e.description, " ;Created At: ").concat(_this3.formatDate(e.created_at), " \n");
+          });
+        })["catch"](function (err) {
+          sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+            icon: "error",
+            title: "".concat(_this3.$t("general.Error")),
+            text: "".concat(_this3.$t("general.Thereisanerrorinthesystem"))
+          });
+        });
+      } else {}
+    },
     /**
      *  get Data company
      */
     getData: function getData() {
-      var _this3 = this;
+      var _this4 = this;
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       this.isLoader = true;
-      var filter = '';
-      for (var i = 0; i > this.filterSetting.length; ++i) {
+      var filter = "";
+      for (var i = 0; i < this.filterSetting.length; i++) {
         filter += "columns[".concat(i, "]=").concat(this.filterSetting[i], "&");
       }
       _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].get("/companies?page=".concat(page, "&per_page=").concat(this.per_page, "&search=").concat(this.search, "&").concat(filter)).then(function (res) {
         var l = res.data;
-        _this3.companies = l.data;
-        _this3.companiesPagination = l.pagination;
-        _this3.current_page = l.pagination.current_page;
+        _this4.companies = l.data;
+        _this4.companiesPagination = l.pagination;
+        _this4.current_page = l.pagination.current_page;
       })["catch"](function (err) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-          icon: 'error',
-          title: "".concat(_this3.$t('general.Error')),
-          text: "".concat(_this3.$t('general.Thereisanerrorinthesystem'))
+          icon: "error",
+          title: "".concat(_this4.$t("general.Error")),
+          text: "".concat(_this4.$t("general.Thereisanerrorinthesystem"))
         });
       })["finally"](function () {
-        _this3.isLoader = false;
+        _this4.isLoader = false;
       });
     },
     getDataCurrentPage: function getDataCurrentPage() {
-      var _this4 = this;
+      var _this5 = this;
       if (this.current_page <= this.companiesPagination.last_page && this.current_page != this.companiesPagination.current_page && this.current_page) {
         this.isLoader = true;
-        var filter = '';
-        for (var i = 0; i > this.filterSetting.length; ++i) {
+        var filter = "";
+        for (var i = 0; i < this.filterSetting.length; i++) {
           filter += "columns[".concat(i, "]=").concat(this.filterSetting[i], "&");
         }
         _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].get("/companies?page=".concat(this.current_page, "&per_page=").concat(this.per_page, "&search=").concat(this.search, "&").concat(filter)).then(function (res) {
           var l = res.data;
-          _this4.companies = l.data;
-          _this4.companiesPagination = l.pagination;
-          _this4.current_page = l.pagination.current_page;
-          _this4.current_page = l.pagination.current_page;
+          _this5.companies = l.data;
+          _this5.companiesPagination = l.pagination;
+          _this5.current_page = l.pagination.current_page;
+          _this5.current_page = l.pagination.current_page;
         })["catch"](function (err) {
           sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-            icon: 'error',
-            title: "".concat(_this4.$t('general.Error')),
-            text: "".concat(_this4.$t('general.Thereisanerrorinthesystem'))
+            icon: "error",
+            title: "".concat(_this5.$t("general.Error")),
+            text: "".concat(_this5.$t("general.Thereisanerrorinthesystem"))
           });
         })["finally"](function () {
-          _this4.isLoader = false;
+          _this5.isLoader = false;
         });
       }
     },
@@ -1683,69 +1709,125 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      *  delete company
      */
     deletecompany: function deletecompany(id, index) {
-      var _this5 = this;
-      sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-        title: "".concat(this.$t('general.Areyousure')),
-        text: "".concat(this.$t('general.Youwontbeabletoreverthis')),
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonText: "".concat(this.$t('general.Yesdeleteit')),
-        cancelButtonText: "".concat(this.$t('general.Nocancel')),
-        confirmButtonClass: "btn btn-success mt-2",
-        cancelButtonClass: "btn btn-danger ml-2 mt-2",
-        buttonsStyling: false
-      }).then(function (result) {
-        if (result.value) {
-          _this5.isLoader = true;
-          _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"]["delete"]("/companies/".concat(id)).then(function (res) {
-            _this5.checkAll = [];
-            _this5.getData();
-            sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-              icon: 'success',
-              title: "".concat(_this5.$t('general.Deleted')),
-              text: "".concat(_this5.$t('general.Yourrowhasbeendeleted')),
-              showConfirmButton: false,
-              timer: 1500
+      var _this6 = this;
+      if (Array.isArray(id)) {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+          title: "".concat(this.$t("general.Areyousure")),
+          text: "".concat(this.$t("general.Youwontbeabletoreverthis")),
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonText: "".concat(this.$t("general.Yesdeleteit")),
+          cancelButtonText: "".concat(this.$t("general.Nocancel")),
+          confirmButtonClass: "btn btn-success mt-2",
+          cancelButtonClass: "btn btn-danger ml-2 mt-2",
+          buttonsStyling: false
+        }).then(function (result) {
+          if (result.value) {
+            _this6.isLoader = true;
+            _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/companies/bulk-delete", {
+              ids: id
+            }).then(function (res) {
+              _this6.checkAll = [];
+              _this6.getData();
+              sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+                icon: "success",
+                title: "".concat(_this6.$t("general.Deleted")),
+                text: "".concat(_this6.$t("general.Yourrowhasbeendeleted")),
+                showConfirmButton: false,
+                timer: 1500
+              });
+            })["catch"](function (err) {
+              if (err.response.status == 400) {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+                  icon: "error",
+                  title: "".concat(_this6.$t("general.Error")),
+                  text: "".concat(_this6.$t("general.CantDeleteRelation"))
+                });
+                _this6.getData();
+              } else {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+                  icon: "error",
+                  title: "".concat(_this6.$t("general.Error")),
+                  text: "".concat(_this6.$t("general.Thereisanerrorinthesystem"))
+                });
+              }
+            })["finally"](function () {
+              _this6.isLoader = false;
             });
-          })["catch"](function (err) {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-              icon: 'error',
-              title: "".concat(_this5.$t('general.Error')),
-              text: "".concat(_this5.$t('general.Thereisanerrorinthesystem'))
+          }
+        });
+      } else {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+          title: "".concat(this.$t("general.Areyousure")),
+          text: "".concat(this.$t("general.Youwontbeabletoreverthis")),
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonText: "".concat(this.$t("general.Yesdeleteit")),
+          cancelButtonText: "".concat(this.$t("general.Nocancel")),
+          confirmButtonClass: "btn btn-success mt-2",
+          cancelButtonClass: "btn btn-danger ml-2 mt-2",
+          buttonsStyling: false
+        }).then(function (result) {
+          if (result.value) {
+            _this6.isLoader = true;
+            _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"]["delete"]("/companies/".concat(id)).then(function (res) {
+              _this6.checkAll = [];
+              _this6.getData();
+              sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+                icon: "success",
+                title: "".concat(_this6.$t("general.Deleted")),
+                text: "".concat(_this6.$t("general.Yourrowhasbeendeleted")),
+                showConfirmButton: false,
+                timer: 1500
+              });
+            })["catch"](function (err) {
+              if (err.response.status == 400) {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+                  icon: "error",
+                  title: "".concat(_this6.$t("general.Error")),
+                  text: "".concat(_this6.$t("general.CantDeleteRelation"))
+                });
+              } else {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+                  icon: "error",
+                  title: "".concat(_this6.$t("general.Error")),
+                  text: "".concat(_this6.$t("general.Thereisanerrorinthesystem"))
+                });
+              }
+            })["finally"](function () {
+              _this6.isLoader = false;
             });
-          })["finally"](function () {
-            _this5.isLoader = false;
-          });
-        }
-      });
+          }
+        });
+      }
     },
     /**
      *  reset Modal (create)
      */
     resetModalHidden: function resetModalHidden() {
-      var _this6 = this;
+      var _this7 = this;
       this.create = {
-        name: '',
-        name_e: '',
-        email: '',
+        name: "",
+        name_e: "",
+        email: "",
         partner_id: null,
-        url: '',
-        phone: '',
+        url: "",
+        phone: "",
         tax_id: null,
         vat_no: null,
-        cr: '',
-        address: '',
-        website: '',
-        phone_code: '',
-        country_code: '',
+        cr: "",
+        address: "",
+        website: "",
+        phone_code: "",
+        country_code: "",
         is_active: null
       };
       this.$nextTick(function () {
-        _this6.$v.$reset();
+        _this7.$v.$reset();
       });
       this.errors = {};
       this.isDrop = false;
-      this.image = '';
+      this.image = "";
       this.dropDownSenders = [];
       this.$bvModal.hide("create");
     },
@@ -1753,36 +1835,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      *  hidden Modal (create)
      */
     resetModal: function resetModal() {
-      var _this7 = this;
+      var _this8 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _this7.getPartner();
+                return _this8.getPartner();
               case 2:
-                _this7.create = {
-                  name: '',
-                  name_e: '',
-                  email: '',
+                _this8.create = {
+                  name: "",
+                  name_e: "",
+                  email: "",
                   partner_id: null,
-                  url: '',
-                  phone: '',
+                  url: "",
+                  phone: "",
                   tax_id: null,
                   vat_no: null,
-                  cr: '',
-                  address: '',
-                  website: '',
-                  phone_code: '',
-                  country_code: '',
-                  is_active: 'active'
+                  cr: "",
+                  address: "",
+                  website: "",
+                  phone_code: "",
+                  country_code: "",
+                  is_active: "active"
                 };
-                _this7.$nextTick(function () {
-                  _this7.$v.$reset();
+                _this8.$nextTick(function () {
+                  _this8.$v.$reset();
                 });
-                _this7.errors = {};
-                _this7.company_id = null;
+                _this8.errors = {};
+                _this8.company_id = null;
               case 6:
               case "end":
                 return _context.stop();
@@ -1795,31 +1877,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      *  create company
      */
     resetForm: function resetForm() {
-      var _this8 = this;
+      var _this9 = this;
       this.create = {
-        name: '',
-        name_e: '',
-        email: '',
+        name: "",
+        name_e: "",
+        email: "",
         partner_id: null,
-        url: '',
-        phone: '',
+        url: "",
+        phone: "",
         tax_id: null,
         vat_no: null,
-        cr: '',
-        address: '',
-        website: '',
-        phone_code: '',
-        country_code: '',
-        is_active: 'active'
+        cr: "",
+        address: "",
+        website: "",
+        phone_code: "",
+        country_code: "",
+        is_active: "active"
       };
       this.$nextTick(function () {
-        _this8.$v.$reset();
+        _this9.$v.$reset();
       });
       this.company_id = null;
       this.isVaildPhone = false;
     },
     AddSubmit: function AddSubmit() {
-      var _this9 = this;
+      var _this10 = this;
       if (!this.create.name) {
         this.create.name = this.create.name_e;
       }
@@ -1832,59 +1914,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       } else {
         this.isLoader = true;
         this.errors = {};
+        if (!this.create.name) {
+          this.create.name = this.create.name_e;
+        }
+        if (!this.create.name_e) {
+          this.create.name_e = this.create.name;
+        }
         _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/companies", this.create).then(function (res) {
-          _this9.company_id = res.data.data.id;
-          _this9.getData();
-          setTimeout(function () {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-              icon: 'success',
-              text: "".concat(_this9.$t('general.Addedsuccessfully')),
-              showConfirmButton: false,
-              timer: 1500
-            });
-          }, 500);
-        })["catch"](function (err) {
-          if (err.response.data) {
-            _this9.errors = err.response.data.errors;
-          } else {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-              icon: 'error',
-              title: "".concat(_this9.$t('general.Error')),
-              text: "".concat(_this9.$t('general.Thereisanerrorinthesystem'))
-            });
-          }
-        })["finally"](function () {
-          _this9.isLoader = false;
-        });
-      }
-    },
-    /**
-     *  edit company
-     */
-    editSubmit: function editSubmit(id, index) {
-      var _this10 = this;
-      if (!this.create.name) {
-        this.create.name = this.create.name_e;
-      }
-      if (!this.create.name_e) {
-        this.create.name_e = this.create.name;
-      }
-      this.$v.edit.$touch();
-      if (this.images) this.images.forEach(function (e) {
-        _this10.edit.old_media.push(e.id);
-      });
-      if (this.$v.edit.$invalid && !this.isVaildPhone) {
-        return;
-      } else {
-        this.isLoader = true;
-        this.errors = {};
-        _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/companies/".concat(id), this.edit).then(function (res) {
+          _this10.company_id = res.data.data.id;
           _this10.getData();
-          _this10.$bvModal.hide("modal-edit-".concat(id));
           setTimeout(function () {
             sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-              icon: 'success',
-              text: "".concat(_this10.$t('general.Editsuccessfully')),
+              icon: "success",
+              text: "".concat(_this10.$t("general.Addedsuccessfully")),
               showConfirmButton: false,
               timer: 1500
             });
@@ -1894,9 +1936,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             _this10.errors = err.response.data.errors;
           } else {
             sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-              icon: 'error',
-              title: "".concat(_this10.$t('general.Error')),
-              text: "".concat(_this10.$t('general.Thereisanerrorinthesystem'))
+              icon: "error",
+              title: "".concat(_this10.$t("general.Error")),
+              text: "".concat(_this10.$t("general.Thereisanerrorinthesystem"))
             });
           }
         })["finally"](function () {
@@ -1905,10 +1947,56 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     /**
+     *  edit company
+     */
+    editSubmit: function editSubmit(id, index) {
+      var _this11 = this;
+      if (!this.edit.name) {
+        this.edit.name = this.edit.name_e;
+      }
+      if (!this.edit.name_e) {
+        this.edit.name_e = this.edit.name;
+      }
+      this.$v.edit.$touch();
+      if (this.images) this.images.forEach(function (e) {
+        _this11.edit.old_media.push(e.id);
+      });
+      if (this.$v.edit.$invalid && !this.isVaildPhone) {
+        return;
+      } else {
+        this.isLoader = true;
+        this.errors = {};
+        _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/companies/".concat(id), this.edit).then(function (res) {
+          _this11.getData();
+          _this11.$bvModal.hide("modal-edit-".concat(id));
+          setTimeout(function () {
+            sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+              icon: "success",
+              text: "".concat(_this11.$t("general.Editsuccessfully")),
+              showConfirmButton: false,
+              timer: 1500
+            });
+          }, 500);
+        })["catch"](function (err) {
+          if (err.response.data) {
+            _this11.errors = err.response.data.errors;
+          } else {
+            sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+              icon: "error",
+              title: "".concat(_this11.$t("general.Error")),
+              text: "".concat(_this11.$t("general.Thereisanerrorinthesystem"))
+            });
+          }
+        })["finally"](function () {
+          _this11.isLoader = false;
+        });
+      }
+    },
+    /**
      *  get parent
      */
     getPartner: function getPartner() {
-      var _this11 = this;
+      var _this12 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) {
@@ -1917,12 +2005,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context2.next = 2;
                 return _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].get("/partners").then(function (res) {
                   var l = res.data;
-                  _this11.partners = l.data;
+                  _this12.partners = l.data;
                 })["catch"](function (err) {
                   sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-                    icon: 'error',
-                    title: "".concat(_this11.$t('general.Error')),
-                    text: "".concat(_this11.$t('general.Thereisanerrorinthesystem'))
+                    icon: "error",
+                    title: "".concat(_this12.$t("general.Error")),
+                    text: "".concat(_this12.$t("general.Thereisanerrorinthesystem"))
                   });
                 });
               case 2:
@@ -1937,7 +2025,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      *   show Modal (edit)
      */
     resetModalEdit: function resetModalEdit(id) {
-      var _this12 = this;
+      var _this13 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         var _company$media;
         var company;
@@ -1945,30 +2033,34 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                company = _this12.companies.find(function (e) {
+                company = _this13.companies.find(function (e) {
                   return id == e.id;
                 });
                 _context3.next = 3;
-                return _this12.getPartner();
+                return _this13.getPartner();
               case 3:
-                _this12.company_id = company.id;
-                _this12.isVaildPhone = false;
-                _this12.company_id = company.id;
-                _this12.edit.name = company.name;
-                _this12.edit.name_e = company.name_e;
-                _this12.edit.is_active = company.is_active;
-                _this12.edit.email = company.email;
-                _this12.edit.address = company.address;
-                _this12.edit.cr = company.cr;
-                _this12.edit.partner_id = company.partner.id;
-                _this12.edit.tax_id = company.tax_id;
-                _this12.edit.url = company.url;
-                _this12.edit.website = company.website;
-                _this12.edit.vat_no = company.vat_no;
-                _this12.edit.phone = company.phone;
-                _this12.errors = {};
-                _this12.images = (_company$media = company.media) !== null && _company$media !== void 0 ? _company$media : [];
-                if (_this12.images.length > 0) _this12.showPhoto = _this12.images[_this12.images.length - 1].webp;
+                _this13.company_id = company.id;
+                _this13.isVaildPhone = false;
+                _this13.company_id = company.id;
+                _this13.edit.name = company.name;
+                _this13.edit.name_e = company.name_e;
+                _this13.edit.is_active = company.is_active;
+                _this13.edit.email = company.email;
+                _this13.edit.address = company.address;
+                _this13.edit.cr = company.cr;
+                _this13.edit.partner_id = company.partner.id;
+                _this13.edit.tax_id = company.tax_id;
+                _this13.edit.url = company.url;
+                _this13.edit.website = company.website;
+                _this13.edit.vat_no = company.vat_no;
+                _this13.edit.phone = company.phone;
+                _this13.errors = {};
+                _this13.images = (_company$media = company.media) !== null && _company$media !== void 0 ? _company$media : [];
+                if (_this13.images && _this13.images.length > 0) {
+                  _this13.showPhoto = _this13.images[_this13.images.length - 1].webp;
+                } else {
+                  _this13.showPhoto = "./images/img-1.png";
+                }
               case 21:
               case "end":
                 return _context3.stop();
@@ -1982,20 +2074,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      */
     resetModalHiddenEdit: function resetModalHiddenEdit(id) {
       this.edit = {
-        name: '',
-        name_e: '',
-        email: '',
+        name: "",
+        name_e: "",
+        email: "",
         partner_id: null,
-        url: '',
-        phone: '',
+        url: "",
+        phone: "",
         tax_id: null,
         vat_no: null,
-        cr: '',
-        address: '',
-        website: '',
-        phone_code: '',
-        country_code: '',
-        is_active: 'active',
+        cr: "",
+        address: "",
+        website: "",
+        phone_code: "",
+        country_code: "",
+        is_active: "active",
         old_media: []
       };
       this.errors = {};
@@ -2038,115 +2130,115 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      *  start Image ceate
      */
     changePhoto: function changePhoto() {
-      document.getElementById('uploadImageCreate').click();
+      document.getElementById("uploadImageCreate").click();
     },
     changePhotoEdit: function changePhotoEdit() {
-      document.getElementById('uploadImageEdit').click();
+      document.getElementById("uploadImageEdit").click();
     },
     onImageChanged: function onImageChanged(e) {
       var file = e.target.files[0];
       this.addImage(file);
     },
     addImage: function addImage(file) {
-      var _this13 = this;
+      var _this14 = this;
       this.media = file; //upload
       if (file) {
         this.idDelete = null;
         var is_media = this.images.find(function (e) {
-          return e.name == file.name.slice(0, file.name.indexOf('.'));
+          return e.name == file.name.slice(0, file.name.indexOf("."));
         });
         this.idDelete = is_media ? is_media.id : null;
         if (!this.idDelete) {
           this.isLoader = true;
           var formDate = new FormData();
-          formDate.append('media[0]', this.media);
+          formDate.append("media[0]", this.media);
           _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/media", formDate).then(function (res) {
             var old_media = [];
-            if (_this13.images) _this13.images.forEach(function (e) {
+            if (_this14.images) _this14.images.forEach(function (e) {
               return old_media.push(e.id);
             });
             var new_media = [];
             res.data.data.forEach(function (e) {
               return new_media.push(e.id);
             });
-            _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/companies/".concat(_this13.company_id), {
+            _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/companies/".concat(_this14.company_id), {
               old_media: old_media,
-              'media': new_media
+              media: new_media
             }).then(function (res) {
-              _this13.images = res.data.data.media;
-              _this13.showPhoto = _this13.images[_this13.images.length - 1].webp;
-              _this13.getData();
+              _this14.images = res.data.data.media;
+              _this14.showPhoto = _this14.images[_this14.images.length - 1].webp;
+              _this14.getData();
             })["catch"](function (err) {
               sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-                icon: 'error',
-                title: "".concat(_this13.$t('general.Error')),
-                text: "".concat(_this13.$t('general.Thereisanerrorinthesystem'))
+                icon: "error",
+                title: "".concat(_this14.$t("general.Error")),
+                text: "".concat(_this14.$t("general.Thereisanerrorinthesystem"))
               });
             });
           })["catch"](function (err) {
             if (err.response.data) {
-              _this13.errors = err.response.data.errors;
+              _this14.errors = err.response.data.errors;
             } else {
               sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-                icon: 'error',
-                title: "".concat(_this13.$t('general.Error')),
-                text: "".concat(_this13.$t('general.Thereisanerrorinthesystem'))
+                icon: "error",
+                title: "".concat(_this14.$t("general.Error")),
+                text: "".concat(_this14.$t("general.Thereisanerrorinthesystem"))
               });
             }
           })["finally"](function () {
-            _this13.isLoader = false;
+            _this14.isLoader = false;
           });
         } else {
           sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-            title: "".concat(this.$t('general.Thisfilehasalreadybeenuploaded')),
+            title: "".concat(this.$t("general.Thisfilehasalreadybeenuploaded")),
             type: "warning",
             showCancelButton: true,
-            confirmButtonText: "".concat(this.$t('general.Replace')),
-            cancelButtonText: "".concat(this.$t('general.Nocancel')),
+            confirmButtonText: "".concat(this.$t("general.Replace")),
+            cancelButtonText: "".concat(this.$t("general.Nocancel")),
             confirmButtonClass: "btn btn-success mt-2",
             cancelButtonClass: "btn btn-danger ml-2 mt-2",
             buttonsStyling: false
           }).then(function (result) {
             if (result.value) {
-              _this13.isLoader = true;
+              _this14.isLoader = true;
               var _formDate = new FormData();
-              _formDate.append('media[0]', _this13.media);
+              _formDate.append("media[0]", _this14.media);
               _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/media", _formDate).then(function (res) {
                 var old_media = [];
-                _this13.images.forEach(function (e) {
+                _this14.images.forEach(function (e) {
                   return old_media.push(e.id);
                 });
-                old_media.splice(old_media.indexOf(_this13.idDelete), 1);
+                old_media.splice(old_media.indexOf(_this14.idDelete), 1);
                 var new_media = [];
                 res.data.data.forEach(function (e) {
                   return new_media.push(e.id);
                 });
-                _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/companies/".concat(_this13.company_id), {
+                _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/companies/".concat(_this14.company_id), {
                   old_media: old_media,
-                  'media': new_media
+                  media: new_media
                 }).then(function (res) {
-                  _this13.images = res.data.data.media;
-                  _this13.showPhoto = _this13.images[_this13.images.length - 1].webp;
-                  _this13.getData();
+                  _this14.images = res.data.data.media;
+                  _this14.showPhoto = _this14.images[_this14.images.length - 1].webp;
+                  _this14.getData();
                 })["catch"](function (err) {
                   sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-                    icon: 'error',
-                    title: "".concat(_this13.$t('general.Error')),
-                    text: "".concat(_this13.$t('general.Thereisanerrorinthesystem'))
+                    icon: "error",
+                    title: "".concat(_this14.$t("general.Error")),
+                    text: "".concat(_this14.$t("general.Thereisanerrorinthesystem"))
                   });
                 });
               })["catch"](function (err) {
                 if (err.response.data) {
-                  _this13.errors = err.response.data.errors;
+                  _this14.errors = err.response.data.errors;
                 } else {
                   sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-                    icon: 'error',
-                    title: "".concat(_this13.$t('general.Error')),
-                    text: "".concat(_this13.$t('general.Thereisanerrorinthesystem'))
+                    icon: "error",
+                    title: "".concat(_this14.$t("general.Error")),
+                    text: "".concat(_this14.$t("general.Thereisanerrorinthesystem"))
                   });
                 }
               })["finally"](function () {
-                _this13.isLoader = false;
+                _this14.isLoader = false;
               });
             }
           });
@@ -2154,7 +2246,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     deleteImageCreate: function deleteImageCreate(id, index) {
-      var _this14 = this;
+      var _this15 = this;
       var old_media = [];
       this.images.forEach(function (e) {
         if (e.id != id) {
@@ -2164,16 +2256,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/companies/".concat(this.company_id), {
         old_media: old_media
       }).then(function (res) {
-        var _res$data$data$media;
-        _this14.images = (_res$data$data$media = res.data.data.media) !== null && _res$data$data$media !== void 0 ? _res$data$data$media : [];
-        if (_this14.images.length) {
-          _this14.showPhoto = _this14.images[_this14.images.length - 1].webp;
+        _this15.companies[index] = res.data.data;
+        _this15.images = res.data.data.media ? res.data.data.media : [];
+        if (_this15.images && _this15.images.length > 0) {
+          _this15.showPhoto = _this15.images[_this15.images.length - 1].webp;
+        } else {
+          _this15.showPhoto = "./images/img-1.png";
         }
       })["catch"](function (err) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-          icon: 'error',
-          title: "".concat(_this14.$t('general.Error')),
-          text: "".concat(_this14.$t('general.Thereisanerrorinthesystem'))
+          icon: "error",
+          title: "".concat(_this15.$t("general.Error")),
+          text: "".concat(_this15.$t("general.Thereisanerrorinthesystem"))
         });
       });
     }
@@ -3419,6 +3513,33 @@ var menuItems = [{
 
 /***/ }),
 
+/***/ "./resources/js/helper/startDate.js":
+/*!******************************************!*\
+  !*** ./resources/js/helper/startDate.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "formatDateOnly": () => (/* binding */ formatDateOnly),
+/* harmony export */   "formatDateTime": () => (/* binding */ formatDateTime)
+/* harmony export */ });
+function formatDateTime(item) {
+  var now = new Date(item);
+  var st = now.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/);
+  return st[1] + ' ' + st[2];
+}
+;
+function formatDateOnly(item) {
+  var now = new Date(item);
+  var st = now.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/);
+  return st[1];
+}
+;
+
+/***/ }),
+
 /***/ "./resources/js/helper/tableSort.js":
 /*!******************************************!*\
   !*** ./resources/js/helper/tableSort.js ***!
@@ -3623,7 +3744,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.dropdown-menu-custom-company.dropdown .dropdown-menu {\r\n    padding: 5px 10px !important;\r\n    overflow-y: scroll;\r\n    height: 400px;\n}\n.modal-dialog .card {\r\n    margin: 0 !important;\n}\n.modal-body.paddingUnset {\r\n    padding: 0 !important;\n}\n.modal-dialog .card-body {\r\n    padding: 1.5rem 1.5rem 0 1.5rem !important;\n}\n.nav-bordered{\r\n    border: unset !important;\n}\n.nav {\r\n    background-color: #dff0fe;\n}\n.tab-content {\r\n    padding: 70px 60px 40px;\r\n    min-height: 300px;\r\n    background-color: #f5f5f5;\r\n    position: relative;\n}\n.nav-tabs .nav-link {\r\n    border: 1px solid #b7b7b7 !important;\r\n    background-color: #d7e5f2;\r\n    border-bottom: 0 !important;\r\n    margin-bottom: 1px;\n}\n.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {\r\n    color: #000;\r\n    background-color: hsl(0deg 0% 96%);\r\n    border-bottom: 0 !important;\n}\n.img-thumbnail {\r\n    max-height: 400px !important;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.dropdown-menu-custom-company.dropdown .dropdown-menu {\n  padding: 5px 10px !important;\n  overflow-y: scroll;\n  height: 400px;\n}\n.modal-dialog .card {\n  margin: 0 !important;\n}\n.modal-body.paddingUnset {\n  padding: 0 !important;\n}\n.modal-dialog .card-body {\n  padding: 1.5rem 1.5rem 0 1.5rem !important;\n}\n.nav-bordered {\n  border: unset !important;\n}\n.nav {\n  background-color: #dff0fe;\n}\n.tab-content {\n  padding: 70px 60px 40px;\n  min-height: 300px;\n  background-color: #f5f5f5;\n  position: relative;\n}\n.nav-tabs .nav-link {\n  border: 1px solid #b7b7b7 !important;\n  background-color: #d7e5f2;\n  border-bottom: 0 !important;\n  margin-bottom: 1px;\n}\n.nav-tabs .nav-link.active,\n.nav-tabs .nav-item.show .nav-link {\n  color: #000;\n  background-color: hsl(0deg 0% 96%);\n  border-bottom: 0 !important;\n}\n.img-thumbnail {\n  max-height: 400px !important;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -14724,7 +14845,7 @@ var render = function () {
                   },
                   [
                     _c("h4", { staticClass: "header-title" }, [
-                      _vm._v(" " + _vm._s(_vm.$t("company.companysTable"))),
+                      _vm._v(_vm._s(_vm.$t("company.companysTable"))),
                     ]),
                     _vm._v(" "),
                     _c(
@@ -14768,9 +14889,9 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                        " +
+                                      "\n                    " +
                                         _vm._s(_vm.$t("general.Name")) +
-                                        "\n                                    "
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -14790,9 +14911,9 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                        " +
+                                      "\n                    " +
                                         _vm._s(_vm.$t("general.Name_en")) +
-                                        "\n                                    "
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -14812,9 +14933,9 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                        " +
+                                      "\n                    " +
                                         _vm._s(_vm.$t("login.Emailaddress")) +
-                                        "\n                                    "
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -14823,7 +14944,12 @@ var render = function () {
                                   "b-form-checkbox",
                                   {
                                     staticClass: "mb-1",
-                                    attrs: { value: "partner_id" },
+                                    attrs: {
+                                      value:
+                                        _vm.$i18n.locale == "ar"
+                                          ? "partner.name"
+                                          : "partner.name_e",
+                                    },
                                     model: {
                                       value: _vm.filterSetting,
                                       callback: function ($$v) {
@@ -14834,9 +14960,9 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                        " +
+                                      "\n                    " +
                                         _vm._s(_vm.$t("partner.partner")) +
-                                        "\n                                    "
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -14856,9 +14982,9 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                        " +
+                                      "\n                    " +
                                         _vm._s(_vm.$t("general.url")) +
-                                        "\n                                    "
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -14878,9 +15004,9 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                        " +
+                                      "\n                    " +
                                         _vm._s(_vm.$t("general.mobile_no")) +
-                                        "\n                                    "
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -14901,7 +15027,7 @@ var render = function () {
                                   [
                                     _vm._v(
                                       _vm._s(_vm.$t("general.taxnumber")) +
-                                        "\n                                    "
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -14923,8 +15049,7 @@ var render = function () {
                                     _vm._v(
                                       _vm._s(
                                         _vm.$t("general.CommercialRecord")
-                                      ) +
-                                        "\n                                    "
+                                      ) + "\n                  "
                                     ),
                                   ]
                                 ),
@@ -14948,8 +15073,7 @@ var render = function () {
                                         _vm.$t(
                                           "general.Valueaddedregistrationnumber"
                                         )
-                                      ) +
-                                        "\n                                    "
+                                      ) + "\n                  "
                                     ),
                                   ]
                                 ),
@@ -14970,7 +15094,7 @@ var render = function () {
                                   [
                                     _vm._v(
                                       _vm._s(_vm.$t("general.address")) +
-                                        "\n                                    "
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -14991,7 +15115,7 @@ var render = function () {
                                   [
                                     _vm._v(
                                       _vm._s(_vm.$t("general.website")) +
-                                        "\n                                    "
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -15091,9 +15215,9 @@ var render = function () {
                           },
                           [
                             _vm._v(
-                              "\n                                " +
+                              "\n                " +
                                 _vm._s(_vm.$t("general.Create")) +
-                                "\n                                "
+                                "\n                "
                             ),
                             _c("i", { staticClass: "fas fa-plus" }),
                           ]
@@ -15157,7 +15281,7 @@ var render = function () {
                                   on: {
                                     click: function ($event) {
                                       $event.preventDefault()
-                                      return _vm.deletecompany(_vm.checkAll)
+                                      return _vm.deletecompany(_vm.checkAll[0])
                                     },
                                   },
                                 },
@@ -15184,9 +15308,9 @@ var render = function () {
                               { staticClass: "mx-1 custom-btn-background" },
                               [
                                 _vm._v(
-                                  "\n                                    " +
+                                  "\n                  " +
                                     _vm._s(_vm.$t("general.filter")) +
-                                    "\n                                    "
+                                    "\n                  "
                                 ),
                                 _c("i", { staticClass: "fas fa-filter" }),
                               ]
@@ -15197,9 +15321,9 @@ var render = function () {
                               { staticClass: "mx-1 custom-btn-background" },
                               [
                                 _vm._v(
-                                  "\n                                    " +
+                                  "\n                  " +
                                     _vm._s(_vm.$t("general.group")) +
-                                    "\n                                    "
+                                    "\n                  "
                                 ),
                                 _c("i", { staticClass: "fe-menu" }),
                               ]
@@ -15234,7 +15358,7 @@ var render = function () {
                                   [
                                     _vm._v(
                                       _vm._s(_vm.$t("general.Name")) +
-                                        "\n                                    "
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -15253,9 +15377,9 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                        " +
+                                      "\n                    " +
                                         _vm._s(_vm.$t("general.Name_en")) +
-                                        "\n                                    "
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -15274,9 +15398,9 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                        " +
+                                      "\n                    " +
                                         _vm._s(_vm.$t("login.Emailaddress")) +
-                                        "\n                                    "
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -15295,9 +15419,9 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                        " +
+                                      "\n                    " +
                                         _vm._s(_vm.$t("general.address")) +
-                                        "\n                                    "
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -15316,9 +15440,9 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                        " +
+                                      "\n                    " +
                                         _vm._s(_vm.$t("general.mobile_no")) +
-                                        "\n                                    "
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -15337,9 +15461,9 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                        " +
+                                      "\n                    " +
                                         _vm._s(_vm.$t("partner.partner")) +
-                                        "\n                                    "
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -15358,11 +15482,11 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                        " +
+                                      "\n                    " +
                                         _vm._s(
                                           _vm.$t("general.CommercialRecord")
                                         ) +
-                                        "\n                                    "
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -15381,9 +15505,9 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                        " +
+                                      "\n                    " +
                                         _vm._s(_vm.$t("general.taxnumber")) +
-                                        "\n                                    "
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -15402,9 +15526,9 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                        " +
+                                      "\n                    " +
                                         _vm._s(_vm.$t("general.Status")) +
-                                        "\n                                    "
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -15423,13 +15547,13 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                        " +
+                                      "\n                    " +
                                         _vm._s(
                                           _vm.$t(
                                             "general.Valueaddedregistrationnumber"
                                           )
                                         ) +
-                                        "\n                                    "
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -15448,9 +15572,9 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                        " +
+                                      "\n                    " +
                                         _vm._s(_vm.$t("general.website")) +
-                                        "\n                                    "
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -15469,11 +15593,11 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                        " +
+                                      "\n                    " +
                                         _vm._s(
                                           _vm.$t("general.companysystempath")
                                         ) +
-                                        "\n                                    "
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -15511,13 +15635,13 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                        " +
+                                      "\n                    " +
                                         _vm._s(_vm.companiesPagination.from) +
                                         "-" +
                                         _vm._s(_vm.companiesPagination.to) +
-                                        " / " +
+                                        " /\n                    " +
                                         _vm._s(_vm.companiesPagination.total) +
-                                        "\n                                    "
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -15680,11 +15804,11 @@ var render = function () {
                                     },
                                     [
                                       _vm._v(
-                                        "\n                                            " +
+                                        "\n                      " +
                                           _vm._s(
                                             _vm.$t("general.AddNewRecord")
                                           ) +
-                                          "\n                                        "
+                                          "\n                    "
                                       ),
                                     ]
                                   ),
@@ -15713,11 +15837,11 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                                " +
+                                                  "\n                        " +
                                                     _vm._s(
                                                       _vm.$t("general.Save")
                                                     ) +
-                                                    "\n                                            "
+                                                    "\n                      "
                                                 ),
                                               ]
                                             )
@@ -15772,9 +15896,9 @@ var render = function () {
                                     },
                                     [
                                       _vm._v(
-                                        "\n                                            " +
+                                        "\n                      " +
                                           _vm._s(_vm.$t("general.Cancel")) +
-                                          "\n                                        "
+                                          "\n                    "
                                       ),
                                     ]
                                   ),
@@ -15826,13 +15950,13 @@ var render = function () {
                                                       },
                                                       [
                                                         _vm._v(
-                                                          "\n                                                                " +
+                                                          "\n                                " +
                                                             _vm._s(
                                                               _vm.$t(
                                                                 "partner.partner"
                                                               )
                                                             ) +
-                                                            "\n                                                                "
+                                                            "\n                                "
                                                         ),
                                                         _c(
                                                           "span",
@@ -15902,11 +16026,13 @@ var render = function () {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              _vm._s(
-                                                                _vm.$t(
-                                                                  "general.fieldIsInteger"
-                                                                )
-                                                              )
+                                                              "\n                                " +
+                                                                _vm._s(
+                                                                  _vm.$t(
+                                                                    "general.fieldIsInteger"
+                                                                  )
+                                                                ) +
+                                                                "\n                              "
                                                             ),
                                                           ]
                                                         )
@@ -15966,13 +16092,13 @@ var render = function () {
                                                       },
                                                       [
                                                         _vm._v(
-                                                          "\n                                                                " +
+                                                          "\n                                " +
                                                             _vm._s(
                                                               _vm.$t(
                                                                 "general.Name"
                                                               )
                                                             ) +
-                                                            "\n                                                                "
+                                                            "\n                                "
                                                         ),
                                                         _c(
                                                           "span",
@@ -16056,12 +16182,13 @@ var render = function () {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              _vm._s(
-                                                                _vm.$t(
-                                                                  "general.Itmustbeatleast"
-                                                                )
-                                                              ) +
-                                                                " " +
+                                                              "\n                                " +
+                                                                _vm._s(
+                                                                  _vm.$t(
+                                                                    "general.Itmustbeatleast"
+                                                                  )
+                                                                ) +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$v.create
                                                                     .name
@@ -16069,12 +16196,13 @@ var render = function () {
                                                                     .minLength
                                                                     .min
                                                                 ) +
-                                                                " " +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$t(
                                                                     "general.letters"
                                                                   )
-                                                                )
+                                                                ) +
+                                                                "\n                              "
                                                             ),
                                                           ]
                                                         )
@@ -16090,12 +16218,13 @@ var render = function () {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              _vm._s(
-                                                                _vm.$t(
-                                                                  "general.Itmustbeatmost"
-                                                                )
-                                                              ) +
-                                                                "  " +
+                                                              "\n                                " +
+                                                                _vm._s(
+                                                                  _vm.$t(
+                                                                    "general.Itmustbeatmost"
+                                                                  )
+                                                                ) +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$v.create
                                                                     .name
@@ -16103,12 +16232,13 @@ var render = function () {
                                                                     .maxLength
                                                                     .max
                                                                 ) +
-                                                                " " +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$t(
                                                                     "general.letters"
                                                                   )
-                                                                )
+                                                                ) +
+                                                                "\n                              "
                                                             ),
                                                           ]
                                                         )
@@ -16164,13 +16294,13 @@ var render = function () {
                                                       },
                                                       [
                                                         _vm._v(
-                                                          "\n                                                                " +
+                                                          "\n                                " +
                                                             _vm._s(
                                                               _vm.$t(
                                                                 "general.Name_en"
                                                               )
                                                             ) +
-                                                            "\n                                                                "
+                                                            "\n                                "
                                                         ),
                                                         _c(
                                                           "span",
@@ -16255,12 +16385,13 @@ var render = function () {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              _vm._s(
-                                                                _vm.$t(
-                                                                  "general.Itmustbeatleast"
-                                                                )
-                                                              ) +
-                                                                " " +
+                                                              "\n                                " +
+                                                                _vm._s(
+                                                                  _vm.$t(
+                                                                    "general.Itmustbeatleast"
+                                                                  )
+                                                                ) +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$v.create
                                                                     .name_e
@@ -16268,12 +16399,13 @@ var render = function () {
                                                                     .minLength
                                                                     .min
                                                                 ) +
-                                                                " " +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$t(
                                                                     "general.letters"
                                                                   )
-                                                                )
+                                                                ) +
+                                                                "\n                              "
                                                             ),
                                                           ]
                                                         )
@@ -16289,12 +16421,13 @@ var render = function () {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              _vm._s(
-                                                                _vm.$t(
-                                                                  "general.Itmustbeatmost"
-                                                                )
-                                                              ) +
-                                                                "  " +
+                                                              "\n                                " +
+                                                                _vm._s(
+                                                                  _vm.$t(
+                                                                    "general.Itmustbeatmost"
+                                                                  )
+                                                                ) +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$v.create
                                                                     .name_e
@@ -16302,12 +16435,13 @@ var render = function () {
                                                                     .maxLength
                                                                     .max
                                                                 ) +
-                                                                " " +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$t(
                                                                     "general.letters"
                                                                   )
-                                                                )
+                                                                ) +
+                                                                "\n                              "
                                                             ),
                                                           ]
                                                         )
@@ -16359,13 +16493,13 @@ var render = function () {
                                                       },
                                                       [
                                                         _vm._v(
-                                                          "\n                                                                " +
+                                                          "\n                                " +
                                                             _vm._s(
                                                               _vm.$t(
                                                                 "login.Emailaddress"
                                                               )
                                                             ) +
-                                                            "\n                                                                "
+                                                            "\n                                "
                                                         ),
                                                         _c(
                                                           "span",
@@ -16448,11 +16582,13 @@ var render = function () {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              _vm._s(
-                                                                _vm.$t(
-                                                                  "general.PleaseEnterValidEmail"
-                                                                )
-                                                              )
+                                                              "\n                                " +
+                                                                _vm._s(
+                                                                  _vm.$t(
+                                                                    "general.PleaseEnterValidEmail"
+                                                                  )
+                                                                ) +
+                                                                "\n                              "
                                                             ),
                                                           ]
                                                         )
@@ -16468,12 +16604,13 @@ var render = function () {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              _vm._s(
-                                                                _vm.$t(
-                                                                  "general.Itmustbeatleast"
-                                                                )
-                                                              ) +
-                                                                " " +
+                                                              "\n                                " +
+                                                                _vm._s(
+                                                                  _vm.$t(
+                                                                    "general.Itmustbeatleast"
+                                                                  )
+                                                                ) +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$v.create
                                                                     .email
@@ -16481,12 +16618,13 @@ var render = function () {
                                                                     .minLength
                                                                     .min
                                                                 ) +
-                                                                " " +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$t(
                                                                     "general.letters"
                                                                   )
-                                                                )
+                                                                ) +
+                                                                "\n                              "
                                                             ),
                                                           ]
                                                         )
@@ -16502,12 +16640,13 @@ var render = function () {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              _vm._s(
-                                                                _vm.$t(
-                                                                  "general.Itmustbeatmost"
-                                                                )
-                                                              ) +
-                                                                "  " +
+                                                              "\n                                " +
+                                                                _vm._s(
+                                                                  _vm.$t(
+                                                                    "general.Itmustbeatmost"
+                                                                  )
+                                                                ) +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$v.create
                                                                     .email
@@ -16515,12 +16654,13 @@ var render = function () {
                                                                     .maxLength
                                                                     .max
                                                                 ) +
-                                                                " " +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$t(
                                                                     "general.letters"
                                                                   )
-                                                                )
+                                                                ) +
+                                                                "\n                              "
                                                             ),
                                                           ]
                                                         )
@@ -16569,13 +16709,13 @@ var render = function () {
                                                       },
                                                       [
                                                         _vm._v(
-                                                          "\n                                                                " +
+                                                          "\n                                " +
                                                             _vm._s(
                                                               _vm.$t(
                                                                 "general.mobile_no"
                                                               )
                                                             ) +
-                                                            "\n                                                                "
+                                                            "\n                                "
                                                         ),
                                                         _c(
                                                           "span",
@@ -16669,13 +16809,13 @@ var render = function () {
                                                       },
                                                       [
                                                         _vm._v(
-                                                          "\n                                                                " +
+                                                          "\n                                " +
                                                             _vm._s(
                                                               _vm.$t(
                                                                 "general.address"
                                                               )
                                                             ) +
-                                                            "\n                                                                "
+                                                            "\n                                "
                                                         ),
                                                         _c(
                                                           "span",
@@ -16763,12 +16903,13 @@ var render = function () {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              _vm._s(
-                                                                _vm.$t(
-                                                                  "general.Itmustbeatleast"
-                                                                )
-                                                              ) +
-                                                                " " +
+                                                              "\n                                " +
+                                                                _vm._s(
+                                                                  _vm.$t(
+                                                                    "general.Itmustbeatleast"
+                                                                  )
+                                                                ) +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$v.create
                                                                     .address
@@ -16776,12 +16917,13 @@ var render = function () {
                                                                     .minLength
                                                                     .min
                                                                 ) +
-                                                                " " +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$t(
                                                                     "general.letters"
                                                                   )
-                                                                )
+                                                                ) +
+                                                                "\n                              "
                                                             ),
                                                           ]
                                                         )
@@ -16797,12 +16939,13 @@ var render = function () {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              _vm._s(
-                                                                _vm.$t(
-                                                                  "general.Itmustbeatmost"
-                                                                )
-                                                              ) +
-                                                                "  " +
+                                                              "\n                                " +
+                                                                _vm._s(
+                                                                  _vm.$t(
+                                                                    "general.Itmustbeatmost"
+                                                                  )
+                                                                ) +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$v.create
                                                                     .address
@@ -16810,12 +16953,13 @@ var render = function () {
                                                                     .maxLength
                                                                     .max
                                                                 ) +
-                                                                " " +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$t(
                                                                     "general.letters"
                                                                   )
-                                                                )
+                                                                ) +
+                                                                "\n                              "
                                                             ),
                                                           ]
                                                         )
@@ -16867,13 +17011,13 @@ var render = function () {
                                                       },
                                                       [
                                                         _vm._v(
-                                                          "\n                                                                " +
+                                                          "\n                                " +
                                                             _vm._s(
                                                               _vm.$t(
                                                                 "general.website"
                                                               )
                                                             ) +
-                                                            "\n                                                                "
+                                                            "\n                                "
                                                         ),
                                                         _c(
                                                           "span",
@@ -16961,12 +17105,13 @@ var render = function () {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              _vm._s(
-                                                                _vm.$t(
-                                                                  "general.Itmustbeatleast"
-                                                                )
-                                                              ) +
-                                                                " " +
+                                                              "\n                                " +
+                                                                _vm._s(
+                                                                  _vm.$t(
+                                                                    "general.Itmustbeatleast"
+                                                                  )
+                                                                ) +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$v.create
                                                                     .website
@@ -16974,12 +17119,13 @@ var render = function () {
                                                                     .minLength
                                                                     .min
                                                                 ) +
-                                                                " " +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$t(
                                                                     "general.letters"
                                                                   )
-                                                                )
+                                                                ) +
+                                                                "\n                              "
                                                             ),
                                                           ]
                                                         )
@@ -16995,12 +17141,13 @@ var render = function () {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              _vm._s(
-                                                                _vm.$t(
-                                                                  "general.Itmustbeatmost"
-                                                                )
-                                                              ) +
-                                                                "  " +
+                                                              "\n                                " +
+                                                                _vm._s(
+                                                                  _vm.$t(
+                                                                    "general.Itmustbeatmost"
+                                                                  )
+                                                                ) +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$v.create
                                                                     .website
@@ -17008,12 +17155,13 @@ var render = function () {
                                                                     .maxLength
                                                                     .max
                                                                 ) +
-                                                                " " +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$t(
                                                                     "general.letters"
                                                                   )
-                                                                )
+                                                                ) +
+                                                                "\n                              "
                                                             ),
                                                           ]
                                                         )
@@ -17028,11 +17176,13 @@ var render = function () {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              _vm._s(
-                                                                _vm.$t(
-                                                                  "general.Itmustbeyourlink"
-                                                                )
-                                                              )
+                                                              "\n                                " +
+                                                                _vm._s(
+                                                                  _vm.$t(
+                                                                    "general.Itmustbeyourlink"
+                                                                  )
+                                                                ) +
+                                                                "\n                              "
                                                             ),
                                                           ]
                                                         )
@@ -17098,13 +17248,13 @@ var render = function () {
                                                       },
                                                       [
                                                         _vm._v(
-                                                          "\n                                                                " +
+                                                          "\n                                " +
                                                             _vm._s(
                                                               _vm.$t(
                                                                 "general.taxnumber"
                                                               )
                                                             ) +
-                                                            "\n                                                                "
+                                                            "\n                                "
                                                         ),
                                                         _c(
                                                           "span",
@@ -17192,12 +17342,13 @@ var render = function () {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              _vm._s(
-                                                                _vm.$t(
-                                                                  "general.Itmustbeatleast"
-                                                                )
-                                                              ) +
-                                                                " " +
+                                                              "\n                                " +
+                                                                _vm._s(
+                                                                  _vm.$t(
+                                                                    "general.Itmustbeatleast"
+                                                                  )
+                                                                ) +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$v.create
                                                                     .tax_id
@@ -17205,12 +17356,13 @@ var render = function () {
                                                                     .minLength
                                                                     .min
                                                                 ) +
-                                                                " " +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$t(
                                                                     "general.letters"
                                                                   )
-                                                                )
+                                                                ) +
+                                                                "\n                              "
                                                             ),
                                                           ]
                                                         )
@@ -17226,12 +17378,13 @@ var render = function () {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              _vm._s(
-                                                                _vm.$t(
-                                                                  "general.Itmustbeatmost"
-                                                                )
-                                                              ) +
-                                                                "  " +
+                                                              "\n                                " +
+                                                                _vm._s(
+                                                                  _vm.$t(
+                                                                    "general.Itmustbeatmost"
+                                                                  )
+                                                                ) +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$v.create
                                                                     .tax_id
@@ -17239,12 +17392,13 @@ var render = function () {
                                                                     .maxLength
                                                                     .max
                                                                 ) +
-                                                                " " +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$t(
                                                                     "general.letters"
                                                                   )
-                                                                )
+                                                                ) +
+                                                                "\n                              "
                                                             ),
                                                           ]
                                                         )
@@ -17260,11 +17414,13 @@ var render = function () {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              _vm._s(
-                                                                _vm.$t(
-                                                                  "general.fieldIsInteger"
-                                                                )
-                                                              )
+                                                              "\n                                " +
+                                                                _vm._s(
+                                                                  _vm.$t(
+                                                                    "general.fieldIsInteger"
+                                                                  )
+                                                                ) +
+                                                                "\n                              "
                                                             ),
                                                           ]
                                                         )
@@ -17316,13 +17472,13 @@ var render = function () {
                                                       },
                                                       [
                                                         _vm._v(
-                                                          "\n                                                                " +
+                                                          "\n                                " +
                                                             _vm._s(
                                                               _vm.$t(
                                                                 "general.CommercialRecord"
                                                               )
                                                             ) +
-                                                            "\n                                                                "
+                                                            "\n                                "
                                                         ),
                                                         _c(
                                                           "span",
@@ -17405,24 +17561,26 @@ var render = function () {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              _vm._s(
-                                                                _vm.$t(
-                                                                  "general.Itmustbeatleast"
-                                                                )
-                                                              ) +
-                                                                " " +
+                                                              "\n                                " +
+                                                                _vm._s(
+                                                                  _vm.$t(
+                                                                    "general.Itmustbeatleast"
+                                                                  )
+                                                                ) +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$v.create
                                                                     .cr.$params
                                                                     .minLength
                                                                     .min
                                                                 ) +
-                                                                " " +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$t(
                                                                     "general.letters"
                                                                   )
-                                                                )
+                                                                ) +
+                                                                "\n                              "
                                                             ),
                                                           ]
                                                         )
@@ -17437,24 +17595,26 @@ var render = function () {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              _vm._s(
-                                                                _vm.$t(
-                                                                  "general.Itmustbeatmost"
-                                                                )
-                                                              ) +
-                                                                "  " +
+                                                              "\n                                " +
+                                                                _vm._s(
+                                                                  _vm.$t(
+                                                                    "general.Itmustbeatmost"
+                                                                  )
+                                                                ) +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$v.create
                                                                     .cr.$params
                                                                     .maxLength
                                                                     .max
                                                                 ) +
-                                                                " " +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$t(
                                                                     "general.letters"
                                                                   )
-                                                                )
+                                                                ) +
+                                                                "\n                              "
                                                             ),
                                                           ]
                                                         )
@@ -17506,13 +17666,13 @@ var render = function () {
                                                       },
                                                       [
                                                         _vm._v(
-                                                          "\n                                                                " +
+                                                          "\n                                " +
                                                             _vm._s(
                                                               _vm.$t(
                                                                 "general.companysystempath"
                                                               )
                                                             ) +
-                                                            "\n                                                                "
+                                                            "\n                                "
                                                         ),
                                                         _c(
                                                           "span",
@@ -17598,24 +17758,26 @@ var render = function () {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              _vm._s(
-                                                                _vm.$t(
-                                                                  "general.Itmustbeatleast"
-                                                                )
-                                                              ) +
-                                                                " " +
+                                                              "\n                                " +
+                                                                _vm._s(
+                                                                  _vm.$t(
+                                                                    "general.Itmustbeatleast"
+                                                                  )
+                                                                ) +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$v.create
                                                                     .url.$params
                                                                     .minLength
                                                                     .min
                                                                 ) +
-                                                                " " +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$t(
                                                                     "general.letters"
                                                                   )
-                                                                )
+                                                                ) +
+                                                                "\n                              "
                                                             ),
                                                           ]
                                                         )
@@ -17630,24 +17792,26 @@ var render = function () {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              _vm._s(
-                                                                _vm.$t(
-                                                                  "general.Itmustbeatmost"
-                                                                )
-                                                              ) +
-                                                                "  " +
+                                                              "\n                                " +
+                                                                _vm._s(
+                                                                  _vm.$t(
+                                                                    "general.Itmustbeatmost"
+                                                                  )
+                                                                ) +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$v.create
                                                                     .url.$params
                                                                     .maxLength
                                                                     .max
                                                                 ) +
-                                                                " " +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$t(
                                                                     "general.letters"
                                                                   )
-                                                                )
+                                                                ) +
+                                                                "\n                              "
                                                             ),
                                                           ]
                                                         )
@@ -17662,11 +17826,13 @@ var render = function () {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              _vm._s(
-                                                                _vm.$t(
-                                                                  "general.Itmustbeyourlink"
-                                                                )
-                                                              )
+                                                              "\n                                " +
+                                                                _vm._s(
+                                                                  _vm.$t(
+                                                                    "general.Itmustbeyourlink"
+                                                                  )
+                                                                ) +
+                                                                "\n                              "
                                                             ),
                                                           ]
                                                         )
@@ -17721,13 +17887,13 @@ var render = function () {
                                                       },
                                                       [
                                                         _vm._v(
-                                                          "\n                                                                " +
+                                                          "\n                                " +
                                                             _vm._s(
                                                               _vm.$t(
                                                                 "general.Valueaddedregistrationnumber"
                                                               )
                                                             ) +
-                                                            "\n                                                                "
+                                                            "\n                                "
                                                         ),
                                                         _c(
                                                           "span",
@@ -17815,12 +17981,13 @@ var render = function () {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              _vm._s(
-                                                                _vm.$t(
-                                                                  "general.Itmustbeatleast"
-                                                                )
-                                                              ) +
-                                                                " " +
+                                                              "\n                                " +
+                                                                _vm._s(
+                                                                  _vm.$t(
+                                                                    "general.Itmustbeatleast"
+                                                                  )
+                                                                ) +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$v.create
                                                                     .vat_no
@@ -17828,12 +17995,13 @@ var render = function () {
                                                                     .minLength
                                                                     .min
                                                                 ) +
-                                                                " " +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$t(
                                                                     "general.letters"
                                                                   )
-                                                                )
+                                                                ) +
+                                                                "\n                              "
                                                             ),
                                                           ]
                                                         )
@@ -17849,12 +18017,13 @@ var render = function () {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              _vm._s(
-                                                                _vm.$t(
-                                                                  "general.Itmustbeatmost"
-                                                                )
-                                                              ) +
-                                                                "  " +
+                                                              "\n                                " +
+                                                                _vm._s(
+                                                                  _vm.$t(
+                                                                    "general.Itmustbeatmost"
+                                                                  )
+                                                                ) +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$v.create
                                                                     .vat_no
@@ -17862,12 +18031,13 @@ var render = function () {
                                                                     .maxLength
                                                                     .max
                                                                 ) +
-                                                                " " +
+                                                                "\n                                " +
                                                                 _vm._s(
                                                                   _vm.$t(
                                                                     "general.letters"
                                                                   )
-                                                                )
+                                                                ) +
+                                                                "\n                              "
                                                             ),
                                                           ]
                                                         )
@@ -17883,11 +18053,13 @@ var render = function () {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              _vm._s(
-                                                                _vm.$t(
-                                                                  "general.fieldIsInteger"
-                                                                )
-                                                              )
+                                                              "\n                                " +
+                                                                _vm._s(
+                                                                  _vm.$t(
+                                                                    "general.fieldIsInteger"
+                                                                  )
+                                                                ) +
+                                                                "\n                              "
                                                             ),
                                                           ]
                                                         )
@@ -17933,13 +18105,13 @@ var render = function () {
                                                       { staticClass: "mr-2" },
                                                       [
                                                         _vm._v(
-                                                          "\n                                                                " +
+                                                          "\n                                " +
                                                             _vm._s(
                                                               _vm.$t(
                                                                 "general.Status"
                                                               )
                                                             ) +
-                                                            "\n                                                                "
+                                                            "\n                                "
                                                         ),
                                                         _c(
                                                           "span",
@@ -18067,7 +18239,7 @@ var render = function () {
                                                                   _vm._s(
                                                                     errorMessage
                                                                   ) +
-                                                                    "\n                                                                "
+                                                                    "\n                                "
                                                                 ),
                                                               ]
                                                             )
@@ -18254,11 +18426,11 @@ var render = function () {
                                                                               },
                                                                               [
                                                                                 _vm._v(
-                                                                                  "\n                                                                                    " +
+                                                                                  "\n                                          " +
                                                                                     _vm._s(
                                                                                       photo.name
                                                                                     ) +
-                                                                                    "\n                                                                                "
+                                                                                    "\n                                        "
                                                                                 ),
                                                                               ]
                                                                             ),
@@ -18348,13 +18520,13 @@ var render = function () {
                                                         },
                                                         [
                                                           _vm._v(
-                                                            "\n                                                            " +
+                                                            "\n                              " +
                                                               _vm._s(
                                                                 _vm.$t(
                                                                   "general.Add"
                                                                 )
                                                               ) +
-                                                              "\n                                                        "
+                                                              "\n                            "
                                                           ),
                                                         ]
                                                       )
@@ -18990,9 +19162,9 @@ var render = function () {
                                     _vm.setting.name
                                       ? _c("td", [
                                           _vm._v(
-                                            "\n                                    " +
+                                            "\n                    " +
                                               _vm._s(data.name) +
-                                              "\n                                "
+                                              "\n                  "
                                           ),
                                         ])
                                       : _vm._e(),
@@ -19000,9 +19172,9 @@ var render = function () {
                                     _vm.setting.name_e
                                       ? _c("td", [
                                           _vm._v(
-                                            "\n                                    " +
+                                            "\n                    " +
                                               _vm._s(data.name_e) +
-                                              "\n                                "
+                                              "\n                  "
                                           ),
                                         ])
                                       : _vm._e(),
@@ -19010,9 +19182,9 @@ var render = function () {
                                     _vm.setting.email
                                       ? _c("td", [
                                           _vm._v(
-                                            "\n                                    " +
+                                            "\n                    " +
                                               _vm._s(data.email) +
-                                              "\n                                "
+                                              "\n                  "
                                           ),
                                         ])
                                       : _vm._e(),
@@ -19020,13 +19192,13 @@ var render = function () {
                                     _vm.setting.partner_id
                                       ? _c("td", [
                                           _vm._v(
-                                            "\n                                    " +
+                                            "\n                    " +
                                               _vm._s(
                                                 _vm.$i18n.locale == "ar"
                                                   ? data.partner.name
                                                   : data.partner.name_e
                                               ) +
-                                              "\n                                "
+                                              "\n                  "
                                           ),
                                         ])
                                       : _vm._e(),
@@ -19034,9 +19206,9 @@ var render = function () {
                                     _vm.setting.phone
                                       ? _c("td", [
                                           _vm._v(
-                                            "\n                                     " +
+                                            "\n                    " +
                                               _vm._s(data.phone) +
-                                              "\n                                "
+                                              "\n                  "
                                           ),
                                         ])
                                       : _vm._e(),
@@ -19044,9 +19216,9 @@ var render = function () {
                                     _vm.setting.vat_no
                                       ? _c("td", [
                                           _vm._v(
-                                            "\n                                    " +
+                                            "\n                    " +
                                               _vm._s(data.vat_no) +
-                                              "\n                                "
+                                              "\n                  "
                                           ),
                                         ])
                                       : _vm._e(),
@@ -19054,9 +19226,9 @@ var render = function () {
                                     _vm.setting.cr
                                       ? _c("td", [
                                           _vm._v(
-                                            "\n                                    " +
+                                            "\n                    " +
                                               _vm._s(data.cr) +
-                                              "\n                                "
+                                              "\n                  "
                                           ),
                                         ])
                                       : _vm._e(),
@@ -19064,9 +19236,9 @@ var render = function () {
                                     _vm.setting.tax_id
                                       ? _c("td", [
                                           _vm._v(
-                                            "\n                                     " +
+                                            "\n                    " +
                                               _vm._s(data.tax_id) +
-                                              "\n                                "
+                                              "\n                  "
                                           ),
                                         ])
                                       : _vm._e(),
@@ -19074,9 +19246,9 @@ var render = function () {
                                     _vm.setting.address
                                       ? _c("td", [
                                           _vm._v(
-                                            "\n                                    " +
+                                            "\n                    " +
                                               _vm._s(data.address) +
-                                              "\n                                "
+                                              "\n                  "
                                           ),
                                         ])
                                       : _vm._e(),
@@ -19084,9 +19256,9 @@ var render = function () {
                                     _vm.setting.website
                                       ? _c("td", [
                                           _vm._v(
-                                            "\n                                    " +
+                                            "\n                    " +
                                               _vm._s(data.website) +
-                                              "\n                                "
+                                              "\n                  "
                                           ),
                                         ])
                                       : _vm._e(),
@@ -19094,9 +19266,9 @@ var render = function () {
                                     _vm.setting.url
                                       ? _c("td", [
                                           _vm._v(
-                                            "\n                                    " +
+                                            "\n                    " +
                                               _vm._s(data.url) +
-                                              "\n                                "
+                                              "\n                  "
                                           ),
                                         ])
                                       : _vm._e(),
@@ -19115,7 +19287,7 @@ var render = function () {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                                        " +
+                                                "\n                      " +
                                                   _vm._s(
                                                     data.is_active == "active"
                                                       ? "" +
@@ -19127,7 +19299,7 @@ var render = function () {
                                                             "general.Inactive"
                                                           )
                                                   ) +
-                                                  "\n                                    "
+                                                  "\n                    "
                                               ),
                                             ]
                                           ),
@@ -19154,11 +19326,11 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                            " +
+                                                  "\n                        " +
                                                     _vm._s(
                                                       _vm.$t("general.commands")
                                                     ) +
-                                                    "\n                                            "
+                                                    "\n                        "
                                                 ),
                                                 _c("i", {
                                                   staticClass:
@@ -19332,13 +19504,13 @@ var render = function () {
                                                               },
                                                               [
                                                                 _vm._v(
-                                                                  "\n                                                        " +
+                                                                  "\n                              " +
                                                                     _vm._s(
                                                                       _vm.$t(
                                                                         "general.Save"
                                                                       )
                                                                     ) +
-                                                                    "\n                                                    "
+                                                                    "\n                            "
                                                                 ),
                                                               ]
                                                             )
@@ -19397,22 +19569,22 @@ var render = function () {
                                                                 $event
                                                               ) {
                                                                 $event.preventDefault()
-                                                                return _vm.resetModalHidden.apply(
-                                                                  null,
-                                                                  arguments
+                                                                return _vm.$bvModal.hide(
+                                                                  "modal-edit-" +
+                                                                    data.id
                                                                 )
                                                               },
                                                             },
                                                           },
                                                           [
                                                             _vm._v(
-                                                              "\n                                                        " +
+                                                              "\n                              " +
                                                                 _vm._s(
                                                                   _vm.$t(
                                                                     "general.Cancel"
                                                                   )
                                                                 ) +
-                                                                "\n                                                    "
+                                                                "\n                            "
                                                             ),
                                                           ]
                                                         ),
@@ -19486,13 +19658,13 @@ var render = function () {
                                                                               },
                                                                               [
                                                                                 _vm._v(
-                                                                                  "\n                                                                            " +
+                                                                                  "\n                                        " +
                                                                                     _vm._s(
                                                                                       _vm.$t(
                                                                                         "partner.partner"
                                                                                       )
                                                                                     ) +
-                                                                                    "\n                                                                            "
+                                                                                    "\n                                        "
                                                                                 ),
                                                                                 _c(
                                                                                   "span",
@@ -19592,11 +19764,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      _vm._s(
-                                                                                        _vm.$t(
-                                                                                          "general.fieldIsInteger"
-                                                                                        )
-                                                                                      )
+                                                                                      "\n                                        " +
+                                                                                        _vm._s(
+                                                                                          _vm.$t(
+                                                                                            "general.fieldIsInteger"
+                                                                                          )
+                                                                                        ) +
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -19671,13 +19845,13 @@ var render = function () {
                                                                               },
                                                                               [
                                                                                 _vm._v(
-                                                                                  "\n                                                                            " +
+                                                                                  "\n                                        " +
                                                                                     _vm._s(
                                                                                       _vm.$t(
                                                                                         "general.Name"
                                                                                       )
                                                                                     ) +
-                                                                                    "\n                                                                            "
+                                                                                    "\n                                        "
                                                                                 ),
                                                                                 _c(
                                                                                   "span",
@@ -19801,12 +19975,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      _vm._s(
-                                                                                        _vm.$t(
-                                                                                          "general.Itmustbeatleast"
-                                                                                        )
-                                                                                      ) +
-                                                                                        " " +
+                                                                                      "\n                                        " +
+                                                                                        _vm._s(
+                                                                                          _vm.$t(
+                                                                                            "general.Itmustbeatleast"
+                                                                                          )
+                                                                                        ) +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm
                                                                                             .$v
@@ -19816,12 +19991,13 @@ var render = function () {
                                                                                             .minLength
                                                                                             .min
                                                                                         ) +
-                                                                                        " " +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm.$t(
                                                                                             "general.letters"
                                                                                           )
-                                                                                        )
+                                                                                        ) +
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -19842,12 +20018,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      _vm._s(
-                                                                                        _vm.$t(
-                                                                                          "general.Itmustbeatmost"
-                                                                                        )
-                                                                                      ) +
-                                                                                        "  " +
+                                                                                      "\n                                        " +
+                                                                                        _vm._s(
+                                                                                          _vm.$t(
+                                                                                            "general.Itmustbeatmost"
+                                                                                          )
+                                                                                        ) +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm
                                                                                             .$v
@@ -19857,12 +20034,13 @@ var render = function () {
                                                                                             .maxLength
                                                                                             .max
                                                                                         ) +
-                                                                                        " " +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm.$t(
                                                                                             "general.letters"
                                                                                           )
-                                                                                        )
+                                                                                        ) +
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -19883,11 +20061,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      _vm._s(
-                                                                                        _vm.$t(
-                                                                                          "general.alphaArabic"
-                                                                                        )
-                                                                                      )
+                                                                                      "\n                                        " +
+                                                                                        _vm._s(
+                                                                                          _vm.$t(
+                                                                                            "general.alphaArabic"
+                                                                                          )
+                                                                                        ) +
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -19957,13 +20137,13 @@ var render = function () {
                                                                               },
                                                                               [
                                                                                 _vm._v(
-                                                                                  "\n                                                                            " +
+                                                                                  "\n                                        " +
                                                                                     _vm._s(
                                                                                       _vm.$t(
                                                                                         "general.Name_en"
                                                                                       )
                                                                                     ) +
-                                                                                    "\n                                                                            "
+                                                                                    "\n                                        "
                                                                                 ),
                                                                                 _c(
                                                                                   "span",
@@ -20087,12 +20267,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      _vm._s(
-                                                                                        _vm.$t(
-                                                                                          "general.Itmustbeatleast"
-                                                                                        )
-                                                                                      ) +
-                                                                                        " " +
+                                                                                      "\n                                        " +
+                                                                                        _vm._s(
+                                                                                          _vm.$t(
+                                                                                            "general.Itmustbeatleast"
+                                                                                          )
+                                                                                        ) +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm
                                                                                             .$v
@@ -20102,12 +20283,13 @@ var render = function () {
                                                                                             .minLength
                                                                                             .min
                                                                                         ) +
-                                                                                        " " +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm.$t(
                                                                                             "general.letters"
                                                                                           )
-                                                                                        )
+                                                                                        ) +
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -20128,12 +20310,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      _vm._s(
-                                                                                        _vm.$t(
-                                                                                          "general.Itmustbeatmost"
-                                                                                        )
-                                                                                      ) +
-                                                                                        "  " +
+                                                                                      "\n                                        " +
+                                                                                        _vm._s(
+                                                                                          _vm.$t(
+                                                                                            "general.Itmustbeatmost"
+                                                                                          )
+                                                                                        ) +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm
                                                                                             .$v
@@ -20143,12 +20326,13 @@ var render = function () {
                                                                                             .maxLength
                                                                                             .max
                                                                                         ) +
-                                                                                        " " +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm.$t(
                                                                                             "general.letters"
                                                                                           )
-                                                                                        )
+                                                                                        ) +
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -20169,11 +20353,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      _vm._s(
-                                                                                        _vm.$t(
-                                                                                          "general.alphaEnglish"
-                                                                                        )
-                                                                                      )
+                                                                                      "\n                                        " +
+                                                                                        _vm._s(
+                                                                                          _vm.$t(
+                                                                                            "general.alphaEnglish"
+                                                                                          )
+                                                                                        ) +
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -20240,13 +20426,13 @@ var render = function () {
                                                                               },
                                                                               [
                                                                                 _vm._v(
-                                                                                  "\n                                                                            " +
+                                                                                  "\n                                        " +
                                                                                     _vm._s(
                                                                                       _vm.$t(
                                                                                         "login.Emailaddress"
                                                                                       )
                                                                                     ) +
-                                                                                    "\n                                                                            "
+                                                                                    "\n                                        "
                                                                                 ),
                                                                                 _c(
                                                                                   "span",
@@ -20370,11 +20556,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      _vm._s(
-                                                                                        _vm.$t(
-                                                                                          "general.PleaseEnterValidEmail"
-                                                                                        )
-                                                                                      )
+                                                                                      "\n                                        " +
+                                                                                        _vm._s(
+                                                                                          _vm.$t(
+                                                                                            "general.PleaseEnterValidEmail"
+                                                                                          )
+                                                                                        ) +
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -20395,12 +20583,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      _vm._s(
-                                                                                        _vm.$t(
-                                                                                          "general.Itmustbeatleast"
-                                                                                        )
-                                                                                      ) +
-                                                                                        " " +
+                                                                                      "\n                                        " +
+                                                                                        _vm._s(
+                                                                                          _vm.$t(
+                                                                                            "general.Itmustbeatleast"
+                                                                                          )
+                                                                                        ) +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm
                                                                                             .$v
@@ -20410,12 +20599,13 @@ var render = function () {
                                                                                             .minLength
                                                                                             .min
                                                                                         ) +
-                                                                                        " " +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm.$t(
                                                                                             "general.letters"
                                                                                           )
-                                                                                        )
+                                                                                        ) +
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -20436,12 +20626,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      _vm._s(
-                                                                                        _vm.$t(
-                                                                                          "general.Itmustbeatmost"
-                                                                                        )
-                                                                                      ) +
-                                                                                        "  " +
+                                                                                      "\n                                        " +
+                                                                                        _vm._s(
+                                                                                          _vm.$t(
+                                                                                            "general.Itmustbeatmost"
+                                                                                          )
+                                                                                        ) +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm
                                                                                             .$v
@@ -20451,12 +20642,13 @@ var render = function () {
                                                                                             .maxLength
                                                                                             .max
                                                                                         ) +
-                                                                                        " " +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm.$t(
                                                                                             "general.letters"
                                                                                           )
-                                                                                        )
+                                                                                        ) +
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -20519,13 +20711,13 @@ var render = function () {
                                                                               },
                                                                               [
                                                                                 _vm._v(
-                                                                                  "\n                                                                            " +
+                                                                                  "\n                                        " +
                                                                                     _vm._s(
                                                                                       _vm.$t(
                                                                                         "general.mobile_no"
                                                                                       )
                                                                                     ) +
-                                                                                    "\n                                                                            "
+                                                                                    "\n                                        "
                                                                                 ),
                                                                                 _c(
                                                                                   "span",
@@ -20654,13 +20846,13 @@ var render = function () {
                                                                               },
                                                                               [
                                                                                 _vm._v(
-                                                                                  "\n                                                                            " +
+                                                                                  "\n                                        " +
                                                                                     _vm._s(
                                                                                       _vm.$t(
                                                                                         "general.address"
                                                                                       )
                                                                                     ) +
-                                                                                    "\n                                                                            "
+                                                                                    "\n                                        "
                                                                                 ),
                                                                                 _c(
                                                                                   "span",
@@ -20788,12 +20980,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      _vm._s(
-                                                                                        _vm.$t(
-                                                                                          "general.Itmustbeatleast"
-                                                                                        )
-                                                                                      ) +
-                                                                                        " " +
+                                                                                      "\n                                        " +
+                                                                                        _vm._s(
+                                                                                          _vm.$t(
+                                                                                            "general.Itmustbeatleast"
+                                                                                          )
+                                                                                        ) +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm
                                                                                             .$v
@@ -20803,12 +20996,13 @@ var render = function () {
                                                                                             .minLength
                                                                                             .min
                                                                                         ) +
-                                                                                        " " +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm.$t(
                                                                                             "general.letters"
                                                                                           )
-                                                                                        )
+                                                                                        ) +
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -20829,12 +21023,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      _vm._s(
-                                                                                        _vm.$t(
-                                                                                          "general.Itmustbeatmost"
-                                                                                        )
-                                                                                      ) +
-                                                                                        "  " +
+                                                                                      "\n                                        " +
+                                                                                        _vm._s(
+                                                                                          _vm.$t(
+                                                                                            "general.Itmustbeatmost"
+                                                                                          )
+                                                                                        ) +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm
                                                                                             .$v
@@ -20844,12 +21039,13 @@ var render = function () {
                                                                                             .maxLength
                                                                                             .max
                                                                                         ) +
-                                                                                        " " +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm.$t(
                                                                                             "general.letters"
                                                                                           )
-                                                                                        )
+                                                                                        ) +
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -20916,13 +21112,13 @@ var render = function () {
                                                                               },
                                                                               [
                                                                                 _vm._v(
-                                                                                  "\n                                                                            " +
+                                                                                  "\n                                        " +
                                                                                     _vm._s(
                                                                                       _vm.$t(
                                                                                         "general.website"
                                                                                       )
                                                                                     ) +
-                                                                                    "\n                                                                            "
+                                                                                    "\n                                        "
                                                                                 ),
                                                                                 _c(
                                                                                   "span",
@@ -21050,12 +21246,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      _vm._s(
-                                                                                        _vm.$t(
-                                                                                          "general.Itmustbeatleast"
-                                                                                        )
-                                                                                      ) +
-                                                                                        " " +
+                                                                                      "\n                                        " +
+                                                                                        _vm._s(
+                                                                                          _vm.$t(
+                                                                                            "general.Itmustbeatleast"
+                                                                                          )
+                                                                                        ) +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm
                                                                                             .$v
@@ -21065,12 +21262,13 @@ var render = function () {
                                                                                             .minLength
                                                                                             .min
                                                                                         ) +
-                                                                                        " " +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm.$t(
                                                                                             "general.letters"
                                                                                           )
-                                                                                        )
+                                                                                        ) +
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -21091,12 +21289,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      _vm._s(
-                                                                                        _vm.$t(
-                                                                                          "general.Itmustbeatmost"
-                                                                                        )
-                                                                                      ) +
-                                                                                        "  " +
+                                                                                      "\n                                        " +
+                                                                                        _vm._s(
+                                                                                          _vm.$t(
+                                                                                            "general.Itmustbeatmost"
+                                                                                          )
+                                                                                        ) +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm
                                                                                             .$v
@@ -21106,12 +21305,13 @@ var render = function () {
                                                                                             .maxLength
                                                                                             .max
                                                                                         ) +
-                                                                                        " " +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm.$t(
                                                                                             "general.letters"
                                                                                           )
-                                                                                        )
+                                                                                        ) +
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -21132,11 +21332,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      _vm._s(
-                                                                                        _vm.$t(
-                                                                                          "general.Itmustbeyourlink"
-                                                                                        )
-                                                                                      )
+                                                                                      "\n                                        " +
+                                                                                        _vm._s(
+                                                                                          _vm.$t(
+                                                                                            "general.Itmustbeyourlink"
+                                                                                          )
+                                                                                        ) +
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -21241,13 +21443,13 @@ var render = function () {
                                                                               },
                                                                               [
                                                                                 _vm._v(
-                                                                                  "\n                                                                            " +
+                                                                                  "\n                                        " +
                                                                                     _vm._s(
                                                                                       _vm.$t(
                                                                                         "general.taxnumber"
                                                                                       )
                                                                                     ) +
-                                                                                    "\n                                                                            "
+                                                                                    "\n                                        "
                                                                                 ),
                                                                                 _c(
                                                                                   "span",
@@ -21375,12 +21577,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      _vm._s(
-                                                                                        _vm.$t(
-                                                                                          "general.Itmustbeatleast"
-                                                                                        )
-                                                                                      ) +
-                                                                                        " " +
+                                                                                      "\n                                        " +
+                                                                                        _vm._s(
+                                                                                          _vm.$t(
+                                                                                            "general.Itmustbeatleast"
+                                                                                          )
+                                                                                        ) +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm
                                                                                             .$v
@@ -21390,12 +21593,13 @@ var render = function () {
                                                                                             .minLength
                                                                                             .min
                                                                                         ) +
-                                                                                        " " +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm.$t(
                                                                                             "general.letters"
                                                                                           )
-                                                                                        )
+                                                                                        ) +
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -21416,12 +21620,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      _vm._s(
-                                                                                        _vm.$t(
-                                                                                          "general.Itmustbeatmost"
-                                                                                        )
-                                                                                      ) +
-                                                                                        "  " +
+                                                                                      "\n                                        " +
+                                                                                        _vm._s(
+                                                                                          _vm.$t(
+                                                                                            "general.Itmustbeatmost"
+                                                                                          )
+                                                                                        ) +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm
                                                                                             .$v
@@ -21431,12 +21636,13 @@ var render = function () {
                                                                                             .maxLength
                                                                                             .max
                                                                                         ) +
-                                                                                        " " +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm.$t(
                                                                                             "general.letters"
                                                                                           )
-                                                                                        )
+                                                                                        ) +
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -21457,11 +21663,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      _vm._s(
-                                                                                        _vm.$t(
-                                                                                          "general.fieldIsInteger"
-                                                                                        )
-                                                                                      )
+                                                                                      "\n                                        " +
+                                                                                        _vm._s(
+                                                                                          _vm.$t(
+                                                                                            "general.fieldIsInteger"
+                                                                                          )
+                                                                                        ) +
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -21528,13 +21736,13 @@ var render = function () {
                                                                               },
                                                                               [
                                                                                 _vm._v(
-                                                                                  "\n                                                                            " +
+                                                                                  "\n                                        " +
                                                                                     _vm._s(
                                                                                       _vm.$t(
                                                                                         "general.CommercialRecord"
                                                                                       )
                                                                                     ) +
-                                                                                    "\n                                                                            "
+                                                                                    "\n                                        "
                                                                                 ),
                                                                                 _c(
                                                                                   "span",
@@ -21658,12 +21866,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      _vm._s(
-                                                                                        _vm.$t(
-                                                                                          "general.Itmustbeatleast"
-                                                                                        )
-                                                                                      ) +
-                                                                                        " " +
+                                                                                      "\n                                        " +
+                                                                                        _vm._s(
+                                                                                          _vm.$t(
+                                                                                            "general.Itmustbeatleast"
+                                                                                          )
+                                                                                        ) +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm
                                                                                             .$v
@@ -21673,12 +21882,13 @@ var render = function () {
                                                                                             .minLength
                                                                                             .min
                                                                                         ) +
-                                                                                        " " +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm.$t(
                                                                                             "general.letters"
                                                                                           )
-                                                                                        )
+                                                                                        ) +
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -21699,12 +21909,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      _vm._s(
-                                                                                        _vm.$t(
-                                                                                          "general.Itmustbeatmost"
-                                                                                        )
-                                                                                      ) +
-                                                                                        "  " +
+                                                                                      "\n                                        " +
+                                                                                        _vm._s(
+                                                                                          _vm.$t(
+                                                                                            "general.Itmustbeatmost"
+                                                                                          )
+                                                                                        ) +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm
                                                                                             .$v
@@ -21714,12 +21925,13 @@ var render = function () {
                                                                                             .maxLength
                                                                                             .max
                                                                                         ) +
-                                                                                        " " +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm.$t(
                                                                                             "general.letters"
                                                                                           )
-                                                                                        )
+                                                                                        ) +
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -21786,13 +21998,13 @@ var render = function () {
                                                                               },
                                                                               [
                                                                                 _vm._v(
-                                                                                  "\n                                                                            " +
+                                                                                  "\n                                        " +
                                                                                     _vm._s(
                                                                                       _vm.$t(
                                                                                         "general.companysystempath"
                                                                                       )
                                                                                     ) +
-                                                                                    "\n                                                                            "
+                                                                                    "\n                                        "
                                                                                 ),
                                                                                 _c(
                                                                                   "span",
@@ -21920,12 +22132,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      _vm._s(
-                                                                                        _vm.$t(
-                                                                                          "general.Itmustbeatleast"
-                                                                                        )
-                                                                                      ) +
-                                                                                        " " +
+                                                                                      "\n                                        " +
+                                                                                        _vm._s(
+                                                                                          _vm.$t(
+                                                                                            "general.Itmustbeatleast"
+                                                                                          )
+                                                                                        ) +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm
                                                                                             .$v
@@ -21935,12 +22148,13 @@ var render = function () {
                                                                                             .minLength
                                                                                             .min
                                                                                         ) +
-                                                                                        " " +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm.$t(
                                                                                             "general.letters"
                                                                                           )
-                                                                                        )
+                                                                                        ) +
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -21961,12 +22175,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      _vm._s(
-                                                                                        _vm.$t(
-                                                                                          "general.Itmustbeatmost"
-                                                                                        )
-                                                                                      ) +
-                                                                                        "  " +
+                                                                                      "\n                                        " +
+                                                                                        _vm._s(
+                                                                                          _vm.$t(
+                                                                                            "general.Itmustbeatmost"
+                                                                                          )
+                                                                                        ) +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm
                                                                                             .$v
@@ -21976,12 +22191,13 @@ var render = function () {
                                                                                             .maxLength
                                                                                             .max
                                                                                         ) +
-                                                                                        " " +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm.$t(
                                                                                             "general.letters"
                                                                                           )
-                                                                                        )
+                                                                                        ) +
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -22002,11 +22218,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      _vm._s(
-                                                                                        _vm.$t(
-                                                                                          "general.Itmustbeyourlink"
-                                                                                        )
-                                                                                      )
+                                                                                      "\n                                        " +
+                                                                                        _vm._s(
+                                                                                          _vm.$t(
+                                                                                            "general.Itmustbeyourlink"
+                                                                                          )
+                                                                                        ) +
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -22078,13 +22296,13 @@ var render = function () {
                                                                               },
                                                                               [
                                                                                 _vm._v(
-                                                                                  "\n                                                                            " +
+                                                                                  "\n                                        " +
                                                                                     _vm._s(
                                                                                       _vm.$t(
                                                                                         "general.Valueaddedregistrationnumber"
                                                                                       )
                                                                                     ) +
-                                                                                    "\n                                                                            "
+                                                                                    "\n                                        "
                                                                                 ),
                                                                                 _c(
                                                                                   "span",
@@ -22212,12 +22430,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      _vm._s(
-                                                                                        _vm.$t(
-                                                                                          "general.Itmustbeatleast"
-                                                                                        )
-                                                                                      ) +
-                                                                                        " " +
+                                                                                      "\n                                        " +
+                                                                                        _vm._s(
+                                                                                          _vm.$t(
+                                                                                            "general.Itmustbeatleast"
+                                                                                          )
+                                                                                        ) +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm
                                                                                             .$v
@@ -22227,12 +22446,13 @@ var render = function () {
                                                                                             .minLength
                                                                                             .min
                                                                                         ) +
-                                                                                        " " +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm.$t(
                                                                                             "general.letters"
                                                                                           )
-                                                                                        )
+                                                                                        ) +
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -22253,12 +22473,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      _vm._s(
-                                                                                        _vm.$t(
-                                                                                          "general.Itmustbeatmost"
-                                                                                        )
-                                                                                      ) +
-                                                                                        "  " +
+                                                                                      "\n                                        " +
+                                                                                        _vm._s(
+                                                                                          _vm.$t(
+                                                                                            "general.Itmustbeatmost"
+                                                                                          )
+                                                                                        ) +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm
                                                                                             .$v
@@ -22268,12 +22489,13 @@ var render = function () {
                                                                                             .maxLength
                                                                                             .max
                                                                                         ) +
-                                                                                        " " +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm.$t(
                                                                                             "general.letters"
                                                                                           )
-                                                                                        )
+                                                                                        ) +
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -22294,11 +22516,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      _vm._s(
-                                                                                        _vm.$t(
-                                                                                          "general.fieldIsInteger"
-                                                                                        )
-                                                                                      )
+                                                                                      "\n                                        " +
+                                                                                        _vm._s(
+                                                                                          _vm.$t(
+                                                                                            "general.fieldIsInteger"
+                                                                                          )
+                                                                                        ) +
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -22361,13 +22585,13 @@ var render = function () {
                                                                               },
                                                                               [
                                                                                 _vm._v(
-                                                                                  "\n                                                                            " +
+                                                                                  "\n                                        " +
                                                                                     _vm._s(
                                                                                       _vm.$t(
                                                                                         "general.Status"
                                                                                       )
                                                                                     ) +
-                                                                                    "\n                                                                            "
+                                                                                    "\n                                        "
                                                                                 ),
                                                                                 _c(
                                                                                   "span",
@@ -22534,7 +22758,7 @@ var render = function () {
                                                                                           _vm._s(
                                                                                             errorMessage
                                                                                           ) +
-                                                                                            "\n                                                                            "
+                                                                                            "\n                                        "
                                                                                         ),
                                                                                       ]
                                                                                     )
@@ -22747,11 +22971,11 @@ var render = function () {
                                                                                                     },
                                                                                                     [
                                                                                                       _vm._v(
-                                                                                                        "\n                                                                                                " +
+                                                                                                        "\n                                                  " +
                                                                                                           _vm._s(
                                                                                                             photo.name
                                                                                                           ) +
-                                                                                                          "\n                                                                                            "
+                                                                                                          "\n                                                "
                                                                                                       ),
                                                                                                     ]
                                                                                                   ),
@@ -22843,13 +23067,13 @@ var render = function () {
                                                                               },
                                                                               [
                                                                                 _vm._v(
-                                                                                  "\n                                                                        " +
+                                                                                  "\n                                      " +
                                                                                     _vm._s(
                                                                                       _vm.$t(
                                                                                         "general.Add"
                                                                                       )
                                                                                     ) +
-                                                                                    "\n                                                                    "
+                                                                                    "\n                                    "
                                                                                 ),
                                                                               ]
                                                                             )
@@ -22959,10 +23183,37 @@ var render = function () {
                                     ),
                                     _vm._v(" "),
                                     _c("td", [
-                                      _c("i", {
-                                        staticClass: "fe-info",
-                                        staticStyle: { "font-size": "22px" },
-                                      }),
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass: "btn",
+                                          attrs: {
+                                            type: "button",
+                                            "data-toggle": "tooltip",
+                                            "data-placement":
+                                              _vm.$i18n.locale == "en"
+                                                ? "left"
+                                                : "right",
+                                            title: _vm.Tooltip,
+                                          },
+                                          on: {
+                                            mouseover: function ($event) {
+                                              return _vm.log(data.id)
+                                            },
+                                            mousemove: function ($event) {
+                                              return _vm.log(data.id)
+                                            },
+                                          },
+                                        },
+                                        [
+                                          _c("i", {
+                                            staticClass: "fe-info",
+                                            staticStyle: {
+                                              "font-size": "22px",
+                                            },
+                                          }),
+                                        ]
+                                      ),
                                     ]),
                                   ]
                                 )
@@ -22979,7 +23230,9 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      _vm._s(_vm.$t("general.notDataFound"))
+                                      "\n                    " +
+                                        _vm._s(_vm.$t("general.notDataFound")) +
+                                        "\n                  "
                                     ),
                                   ]
                                 ),

@@ -1330,12 +1330,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Page_header__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../components/Page-header */ "./resources/js/components/Page-header.vue");
 /* harmony import */ var _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../api/adminAxios */ "./resources/js/api/adminAxios.js");
 /* harmony import */ var vue_switches__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-switches */ "./node_modules/vue-switches/src/switches.vue");
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _components_widgets_errorMessage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../components/widgets/errorMessage */ "./resources/js/components/widgets/errorMessage.vue");
 /* harmony import */ var _components_loader__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../components/loader */ "./resources/js/components/loader.vue");
 /* harmony import */ var _helper_tableSort__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../helper/tableSort */ "./resources/js/helper/tableSort.js");
+/* harmony import */ var _helper_startDate__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../helper/startDate */ "./resources/js/helper/startDate.js");
+
 
 
 
@@ -1355,7 +1357,7 @@ __webpack_require__.r(__webpack_exports__);
     title: "Buttons",
     meta: [{
       name: "description",
-      content: 'Buttons'
+      content: "Buttons"
     }]
   },
   components: {
@@ -1368,19 +1370,21 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       per_page: 50,
-      search: '',
+      search: "",
       debounce: {},
       buttonsPagination: {},
       buttons: [],
       isLoader: false,
+      Tooltip: "",
+      mouseEnter: "",
       create: {
-        name: '',
-        name_e: '',
+        name: "",
+        name_e: "",
         media: []
       },
       edit: {
-        name: '',
-        name_e: '',
+        name: "",
+        name_e: "",
         old_media: []
       },
       errors: {},
@@ -1391,40 +1395,40 @@ __webpack_require__.r(__webpack_exports__);
       button_id: null,
       saveImageName: [],
       current_page: 1,
-      showPhoto: './images/img-1.png',
+      showPhoto: "./images/img-1.png",
       changeImage: false,
       setting: {
         name: true,
         name_e: true
       },
       idDelete: null,
-      filterSetting: ['name', 'name_e']
+      filterSetting: ["name", "name_e"]
     };
   },
   validations: {
     create: {
       name: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(2),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(100)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(2),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(100)
       },
       name_e: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(2),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(100)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(2),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(100)
       },
       media: {}
     },
     edit: {
       name: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(2),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(100)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(2),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(100)
       },
       name_e: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(2),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(100)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.minLength)(2),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_9__.maxLength)(100)
       },
       media: {}
     }
@@ -1493,8 +1497,8 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       this.isLoader = true;
-      var filter = '';
-      for (var i = 0; i < this.filterSetting.length; ++i) {
+      var filter = "";
+      for (var i = 0; i < this.filterSetting.length; i++) {
         filter += "columns[".concat(i, "]=").concat(this.filterSetting[i], "&");
       }
       _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/buttons?page=".concat(page, "&per_page=").concat(this.per_page, "&search=").concat(this.search, "&").concat(filter)).then(function (res) {
@@ -1504,9 +1508,9 @@ __webpack_require__.r(__webpack_exports__);
         _this3.current_page = l.pagination.current_page;
       })["catch"](function (err) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-          icon: 'error',
-          title: "".concat(_this3.$t('general.Error')),
-          text: "".concat(_this3.$t('general.Thereisanerrorinthesystem'))
+          icon: "error",
+          title: "".concat(_this3.$t("general.Error")),
+          text: "".concat(_this3.$t("general.Thereisanerrorinthesystem"))
         });
       })["finally"](function () {
         _this3.isLoader = false;
@@ -1517,8 +1521,8 @@ __webpack_require__.r(__webpack_exports__);
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       if (this.current_page <= this.buttonsPagination.last_page && this.current_page != this.buttonsPagination.current_page && this.current_page) {
         this.isLoader = true;
-        var filter = '';
-        for (var i = 0; i < this.filterSetting.length; ++i) {
+        var filter = "";
+        for (var i = 0; i < this.filterSetting.length; i++) {
           filter += "columns[".concat(i, "]=").concat(this.filterSetting[i], "&");
         }
         _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/buttons?page=".concat(page, "&per_page=").concat(this.per_page, "&search=").concat(this.search, "&").concat(filter)).then(function (res) {
@@ -1528,9 +1532,9 @@ __webpack_require__.r(__webpack_exports__);
           _this4.current_page = l.pagination.current_page;
         })["catch"](function (err) {
           sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-            icon: 'error',
-            title: "".concat(_this4.$t('general.Error')),
-            text: "".concat(_this4.$t('general.Thereisanerrorinthesystem'))
+            icon: "error",
+            title: "".concat(_this4.$t("general.Error")),
+            text: "".concat(_this4.$t("general.Thereisanerrorinthesystem"))
           });
         })["finally"](function () {
           _this4.isLoader = false;
@@ -1543,42 +1547,98 @@ __webpack_require__.r(__webpack_exports__);
     /**
      *  start delete countrie
      */
-    deleteCountry: function deleteCountry(id) {
+    deleteCountry: function deleteCountry(id, index) {
       var _this5 = this;
-      sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-        title: "".concat(this.$t('general.Areyousure')),
-        text: "".concat(this.$t('general.Youwontbeabletoreverthis')),
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonText: "".concat(this.$t('general.Yesdeleteit')),
-        cancelButtonText: "".concat(this.$t('general.Nocancel')),
-        confirmButtonClass: "btn btn-success mt-2",
-        cancelButtonClass: "btn btn-danger ml-2 mt-2",
-        buttonsStyling: false
-      }).then(function (result) {
-        if (result.value) {
-          _this5.isLoader = true;
-          _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"]["delete"]("/buttons/".concat(id)).then(function (res) {
-            _this5.getData();
-            _this5.checkAll = [];
-            sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-              icon: 'success',
-              title: "".concat(_this5.$t('general.Deleted')),
-              text: "".concat(_this5.$t('general.Yourrowhasbeendeleted')),
-              showConfirmButton: false,
-              timer: 1500
+      if (Array.isArray(id)) {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+          title: "".concat(this.$t("general.Areyousure")),
+          text: "".concat(this.$t("general.Youwontbeabletoreverthis")),
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonText: "".concat(this.$t("general.Yesdeleteit")),
+          cancelButtonText: "".concat(this.$t("general.Nocancel")),
+          confirmButtonClass: "btn btn-success mt-2",
+          cancelButtonClass: "btn btn-danger ml-2 mt-2",
+          buttonsStyling: false
+        }).then(function (result) {
+          if (result.value) {
+            _this5.isLoader = true;
+            _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].post("/buttons/bulk-delete", {
+              ids: id
+            }).then(function (res) {
+              _this5.checkAll = [];
+              _this5.getData();
+              sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+                icon: "success",
+                title: "".concat(_this5.$t("general.Deleted")),
+                text: "".concat(_this5.$t("general.Yourrowhasbeendeleted")),
+                showConfirmButton: false,
+                timer: 1500
+              });
+            })["catch"](function (err) {
+              if (err.response.status == 400) {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+                  icon: "error",
+                  title: "".concat(_this5.$t("general.Error")),
+                  text: "".concat(_this5.$t("general.CantDeleteRelation"))
+                });
+                _this5.getData();
+              } else {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+                  icon: "error",
+                  title: "".concat(_this5.$t("general.Error")),
+                  text: "".concat(_this5.$t("general.Thereisanerrorinthesystem"))
+                });
+              }
+            })["finally"](function () {
+              _this5.isLoader = false;
             });
-          })["catch"](function (err) {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-              icon: 'error',
-              title: "".concat(_this5.$t('general.Error')),
-              text: "".concat(_this5.$t('general.Thereisanerrorinthesystem'))
+          }
+        });
+      } else {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+          title: "".concat(this.$t("general.Areyousure")),
+          text: "".concat(this.$t("general.Youwontbeabletoreverthis")),
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonText: "".concat(this.$t("general.Yesdeleteit")),
+          cancelButtonText: "".concat(this.$t("general.Nocancel")),
+          confirmButtonClass: "btn btn-success mt-2",
+          cancelButtonClass: "btn btn-danger ml-2 mt-2",
+          buttonsStyling: false
+        }).then(function (result) {
+          if (result.value) {
+            _this5.isLoader = true;
+            _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"]["delete"]("/buttons/".concat(id)).then(function (res) {
+              _this5.checkAll = [];
+              _this5.getData();
+              sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+                icon: "success",
+                title: "".concat(_this5.$t("general.Deleted")),
+                text: "".concat(_this5.$t("general.Yourrowhasbeendeleted")),
+                showConfirmButton: false,
+                timer: 1500
+              });
+            })["catch"](function (err) {
+              if (err.response.status == 400) {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+                  icon: "error",
+                  title: "".concat(_this5.$t("general.Error")),
+                  text: "".concat(_this5.$t("general.CantDeleteRelation"))
+                });
+              } else {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+                  icon: "error",
+                  title: "".concat(_this5.$t("general.Error")),
+                  text: "".concat(_this5.$t("general.Thereisanerrorinthesystem"))
+                });
+              }
+            })["finally"](function () {
+              _this5.isLoader = false;
             });
-          })["finally"](function () {
-            _this5.isLoader = false;
-          });
-        }
-      });
+          }
+        });
+      }
     },
     /**
      *  end delete countrie
@@ -1589,8 +1649,8 @@ __webpack_require__.r(__webpack_exports__);
     resetModalHidden: function resetModalHidden() {
       var _this6 = this;
       this.create = {
-        name: '',
-        name_e: '',
+        name: "",
+        name_e: "",
         media: null
       };
       this.$nextTick(function () {
@@ -1607,10 +1667,10 @@ __webpack_require__.r(__webpack_exports__);
     resetModal: function resetModal() {
       var _this7 = this;
       this.create = {
-        name: '',
-        name_e: ''
+        name: "",
+        name_e: ""
       };
-      this.showPhoto = './images/img-1.png';
+      this.showPhoto = "./images/img-1.png";
       this.$nextTick(function () {
         _this7.$v.$reset();
       });
@@ -1625,8 +1685,8 @@ __webpack_require__.r(__webpack_exports__);
     resetForm: function resetForm() {
       var _this8 = this;
       this.create = {
-        name: '',
-        name_e: ''
+        name: "",
+        name_e: ""
       };
       this.$nextTick(function () {
         _this8.$v.$reset();
@@ -1653,8 +1713,8 @@ __webpack_require__.r(__webpack_exports__);
           _this9.button_id = res.data.data.id;
           setTimeout(function () {
             sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-              icon: 'success',
-              text: "".concat(_this9.$t('general.Addedsuccessfully')),
+              icon: "success",
+              text: "".concat(_this9.$t("general.Addedsuccessfully")),
               showConfirmButton: false,
               timer: 1500
             });
@@ -1665,9 +1725,9 @@ __webpack_require__.r(__webpack_exports__);
             _this9.errors = err.response.data.errors;
           } else {
             sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-              icon: 'error',
-              title: "".concat(_this9.$t('general.Error')),
-              text: "".concat(_this9.$t('general.Thereisanerrorinthesystem'))
+              icon: "error",
+              title: "".concat(_this9.$t("general.Error")),
+              text: "".concat(_this9.$t("general.Thereisanerrorinthesystem"))
             });
           }
         })["finally"](function () {
@@ -1696,8 +1756,8 @@ __webpack_require__.r(__webpack_exports__);
           _this10.getData();
           setTimeout(function () {
             sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-              icon: 'success',
-              text: "".concat(_this10.$t('general.Editsuccessfully')),
+              icon: "success",
+              text: "".concat(_this10.$t("general.Editsuccessfully")),
               showConfirmButton: false,
               timer: 1500
             });
@@ -1707,9 +1767,9 @@ __webpack_require__.r(__webpack_exports__);
             _this10.errors = err.response.data.errors;
           } else {
             sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-              icon: 'error',
-              title: "".concat(_this10.$t('general.Error')),
-              text: "".concat(_this10.$t('general.Thereisanerrorinthesystem'))
+              icon: "error",
+              title: "".concat(_this10.$t("general.Error")),
+              text: "".concat(_this10.$t("general.Thereisanerrorinthesystem"))
             });
           }
         })["finally"](function () {
@@ -1718,23 +1778,29 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     /*
-    *  log country
-    * */
+     *  log country
+     * */
+    formatDate: function formatDate(value) {
+      return (0,_helper_startDate__WEBPACK_IMPORTED_MODULE_8__.formatDateOnly)(value);
+    },
     log: function log(id) {
       var _this11 = this;
-      _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/buttons/logs/".concat(id)).then(function (res) {
-        console.log(res.data.data);
-      })["catch"](function (err) {
-        if (err.response.data) {
-          _this11.errors = err.response.data.errors;
-        } else {
-          sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-            icon: 'error',
-            title: "".concat(_this11.$t('general.Error')),
-            text: "".concat(_this11.$t('general.Thereisanerrorinthesystem'))
+      if (this.mouseEnter != id) {
+        this.Tooltip = "";
+        this.mouseEnter = id;
+        _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/buttons/logs/".concat(id)).then(function (res) {
+          var l = res.data.data;
+          l.forEach(function (e) {
+            _this11.Tooltip += "Created By: ".concat(e.causer_type, "; Event: ").concat(e.event, "; Description: ").concat(e.description, " ;Created At: ").concat(_this11.formatDate(e.created_at), " \n");
           });
-        }
-      });
+        })["catch"](function (err) {
+          sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+            icon: "error",
+            title: "".concat(_this11.$t("general.Error")),
+            text: "".concat(_this11.$t("general.Thereisanerrorinthesystem"))
+          });
+        });
+      } else {}
     },
     /**
      *   show Modal (edit)
@@ -1748,7 +1814,11 @@ __webpack_require__.r(__webpack_exports__);
       this.edit.name = country.name;
       this.edit.name_e = country.name_e;
       this.images = (_country$media = country.media) !== null && _country$media !== void 0 ? _country$media : [];
-      this.showPhoto = this.images.length > 0 ? this.images[this.images.length - 1].webp : './images/img-1.png';
+      if (this.images && this.images.length > 0) {
+        this.showPhoto = this.images[this.images.length - 1].webp;
+      } else {
+        this.showPhoto = "./images/img-1.png";
+      }
       this.errors = {};
     },
     /**
@@ -1757,8 +1827,8 @@ __webpack_require__.r(__webpack_exports__);
     resetModalHiddenEdit: function resetModalHiddenEdit(id) {
       this.errors = {};
       this.edit = {
-        name: '',
-        name_e: '',
+        name: "",
+        name_e: "",
         old_media: []
       };
       this.button_id = null;
@@ -1791,10 +1861,10 @@ __webpack_require__.r(__webpack_exports__);
      *  start Image ceate
      */
     changePhoto: function changePhoto() {
-      document.getElementById('uploadImageCreate').click();
+      document.getElementById("uploadImageCreate").click();
     },
     changePhotoEdit: function changePhotoEdit() {
-      document.getElementById('uploadImageEdit').click();
+      document.getElementById("uploadImageEdit").click();
     },
     onImageChanged: function onImageChanged(e) {
       var file = e.target.files[0];
@@ -1806,13 +1876,13 @@ __webpack_require__.r(__webpack_exports__);
       if (file) {
         this.idDelete = null;
         var is_media = this.images.find(function (e) {
-          return e.name == file.name.slice(0, file.name.indexOf('.'));
+          return e.name == file.name.slice(0, file.name.indexOf("."));
         });
         this.idDelete = is_media ? is_media.id : null;
         if (!this.idDelete) {
           this.isLoader = true;
           var formDate = new FormData();
-          formDate.append('media[0]', this.media);
+          formDate.append("media[0]", this.media);
           _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].post("/media", formDate).then(function (res) {
             var old_media = [];
             _this12.images.forEach(function (e) {
@@ -1824,16 +1894,16 @@ __webpack_require__.r(__webpack_exports__);
             });
             _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].put("/buttons/".concat(_this12.button_id), {
               old_media: old_media,
-              'media': new_media
+              media: new_media
             }).then(function (res) {
               _this12.images = res.data.data.media;
               _this12.showPhoto = _this12.images[_this12.images.length - 1].webp;
               _this12.getData();
             })["catch"](function (err) {
               sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-                icon: 'error',
-                title: "".concat(_this12.$t('general.Error')),
-                text: "".concat(_this12.$t('general.Thereisanerrorinthesystem'))
+                icon: "error",
+                title: "".concat(_this12.$t("general.Error")),
+                text: "".concat(_this12.$t("general.Thereisanerrorinthesystem"))
               });
             });
           })["catch"](function (err) {
@@ -1841,9 +1911,9 @@ __webpack_require__.r(__webpack_exports__);
               _this12.errors = err.response.data.errors;
             } else {
               sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-                icon: 'error',
-                title: "".concat(_this12.$t('general.Error')),
-                text: "".concat(_this12.$t('general.Thereisanerrorinthesystem'))
+                icon: "error",
+                title: "".concat(_this12.$t("general.Error")),
+                text: "".concat(_this12.$t("general.Thereisanerrorinthesystem"))
               });
             }
           })["finally"](function () {
@@ -1851,11 +1921,11 @@ __webpack_require__.r(__webpack_exports__);
           });
         } else {
           sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-            title: "".concat(this.$t('general.Thisfilehasalreadybeenuploaded')),
+            title: "".concat(this.$t("general.Thisfilehasalreadybeenuploaded")),
             type: "warning",
             showCancelButton: true,
-            confirmButtonText: "".concat(this.$t('general.Replace')),
-            cancelButtonText: "".concat(this.$t('general.Nocancel')),
+            confirmButtonText: "".concat(this.$t("general.Replace")),
+            cancelButtonText: "".concat(this.$t("general.Nocancel")),
             confirmButtonClass: "btn btn-success mt-2",
             cancelButtonClass: "btn btn-danger ml-2 mt-2",
             buttonsStyling: false
@@ -1863,7 +1933,7 @@ __webpack_require__.r(__webpack_exports__);
             if (result.value) {
               _this12.isLoader = true;
               var _formDate = new FormData();
-              _formDate.append('media[0]', _this12.media);
+              _formDate.append("media[0]", _this12.media);
               _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].post("/media", _formDate).then(function (res) {
                 var old_media = [];
                 _this12.images.forEach(function (e) {
@@ -1876,16 +1946,16 @@ __webpack_require__.r(__webpack_exports__);
                 });
                 _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].put("/buttons/".concat(_this12.button_id), {
                   old_media: old_media,
-                  'media': new_media
+                  media: new_media
                 }).then(function (res) {
                   _this12.images = res.data.data.media;
                   _this12.showPhoto = _this12.images[_this12.images.length - 1].webp;
                   _this12.getData();
                 })["catch"](function (err) {
                   sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-                    icon: 'error',
-                    title: "".concat(_this12.$t('general.Error')),
-                    text: "".concat(_this12.$t('general.Thereisanerrorinthesystem'))
+                    icon: "error",
+                    title: "".concat(_this12.$t("general.Error")),
+                    text: "".concat(_this12.$t("general.Thereisanerrorinthesystem"))
                   });
                 });
               })["catch"](function (err) {
@@ -1893,9 +1963,9 @@ __webpack_require__.r(__webpack_exports__);
                   _this12.errors = err.response.data.errors;
                 } else {
                   sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-                    icon: 'error',
-                    title: "".concat(_this12.$t('general.Error')),
-                    text: "".concat(_this12.$t('general.Thereisanerrorinthesystem'))
+                    icon: "error",
+                    title: "".concat(_this12.$t("general.Error")),
+                    text: "".concat(_this12.$t("general.Thereisanerrorinthesystem"))
                   });
                 }
               })["finally"](function () {
@@ -1917,14 +1987,18 @@ __webpack_require__.r(__webpack_exports__);
       _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].put("/buttons/".concat(this.button_id), {
         old_media: old_media
       }).then(function (res) {
-        var _res$data$data$media;
-        _this13.images = (_res$data$data$media = res.data.data.media) !== null && _res$data$data$media !== void 0 ? _res$data$data$media : [];
-        _this13.showPhoto = _this13.images.length > 0 ? _this13.images[_this13.images.length - 1].webp : './images/img-1.png';
+        _this13.buttons[index] = res.data.data;
+        _this13.images = res.data.data.media ? res.data.data.media : [];
+        if (_this13.images && _this13.images.length > 0) {
+          _this13.showPhoto = _this13.images[_this13.images.length - 1].webp;
+        } else {
+          _this13.showPhoto = "./images/img-1.png";
+        }
       })["catch"](function (err) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-          icon: 'error',
-          title: "".concat(_this13.$t('general.Error')),
-          text: "".concat(_this13.$t('general.Thereisanerrorinthesystem'))
+          icon: "error",
+          title: "".concat(_this13.$t("general.Error")),
+          text: "".concat(_this13.$t("general.Thereisanerrorinthesystem"))
         });
       });
     }
@@ -3170,6 +3244,33 @@ var menuItems = [{
 
 /***/ }),
 
+/***/ "./resources/js/helper/startDate.js":
+/*!******************************************!*\
+  !*** ./resources/js/helper/startDate.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "formatDateOnly": () => (/* binding */ formatDateOnly),
+/* harmony export */   "formatDateTime": () => (/* binding */ formatDateTime)
+/* harmony export */ });
+function formatDateTime(item) {
+  var now = new Date(item);
+  var st = now.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/);
+  return st[1] + ' ' + st[2];
+}
+;
+function formatDateOnly(item) {
+  var now = new Date(item);
+  var st = now.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/);
+  return st[1];
+}
+;
+
+/***/ }),
+
 /***/ "./resources/js/helper/tableSort.js":
 /*!******************************************!*\
   !*** ./resources/js/helper/tableSort.js ***!
@@ -3374,7 +3475,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-dialog .card {\r\n    margin: 0 !important;\n}\n.modal-body.paddingUnset {\r\n    padding: 0 !important;\n}\n.modal-dialog .card-body {\r\n    padding: 1.5rem 1.5rem 0 1.5rem !important;\n}\n.nav-bordered{\r\n    border: unset !important;\n}\n.nav {\r\n    background-color: #dff0fe;\n}\n.tab-content {\r\n    padding: 70px 60px 40px;\r\n    min-height: 300px;\r\n    background-color: #f5f5f5;\r\n    position: relative;\n}\n.nav-tabs .nav-link {\r\n    border: 1px solid #b7b7b7 !important;\r\n    background-color: #d7e5f2;\r\n    border-bottom: 0 !important;\r\n    margin-bottom: 1px;\n}\n.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {\r\n    color: #000;\r\n    background-color: hsl(0deg 0% 96%);\r\n    border-bottom: 0 !important;\n}\n.img-thumbnail {\r\n    max-height: 400px !important;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-dialog .card {\r\n  margin: 0 !important;\n}\n.modal-body.paddingUnset {\r\n  padding: 0 !important;\n}\n.modal-dialog .card-body {\r\n  padding: 1.5rem 1.5rem 0 1.5rem !important;\n}\n.nav-bordered {\r\n  border: unset !important;\n}\n.nav {\r\n  background-color: #dff0fe;\n}\n.tab-content {\r\n  padding: 70px 60px 40px;\r\n  min-height: 300px;\r\n  background-color: #f5f5f5;\r\n  position: relative;\n}\n.nav-tabs .nav-link {\r\n  border: 1px solid #b7b7b7 !important;\r\n  background-color: #d7e5f2;\r\n  border-bottom: 0 !important;\r\n  margin-bottom: 1px;\n}\n.nav-tabs .nav-link.active,\r\n.nav-tabs .nav-item.show .nav-link {\r\n  color: #000;\r\n  background-color: hsl(0deg 0% 96%);\r\n  border-bottom: 0 !important;\n}\n.img-thumbnail {\r\n  max-height: 400px !important;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -14774,7 +14875,7 @@ var render = function () {
                   },
                   [
                     _c("h4", { staticClass: "header-title" }, [
-                      _vm._v(" " + _vm._s(_vm.$t("module.ButtonsTable"))),
+                      _vm._v(_vm._s(_vm.$t("module.ButtonsTable"))),
                     ]),
                     _vm._v(" "),
                     _c(
@@ -14817,9 +14918,9 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                        " +
+                                      "\n                    " +
                                         _vm._s(_vm.$t("general.Name")) +
-                                        "\n                                    "
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -14839,9 +14940,9 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                        " +
+                                      "\n                    " +
                                         _vm._s(_vm.$t("general.Name_en")) +
-                                        "\n                                    "
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -14941,9 +15042,9 @@ var render = function () {
                           },
                           [
                             _vm._v(
-                              "\n                                " +
+                              "\n                " +
                                 _vm._s(_vm.$t("general.Create")) +
-                                "\n                                "
+                                "\n                "
                             ),
                             _c("i", { staticClass: "fas fa-plus" }),
                           ]
@@ -15007,7 +15108,7 @@ var render = function () {
                                   on: {
                                     click: function ($event) {
                                       $event.preventDefault()
-                                      return _vm.deleteCountry(_vm.checkAll)
+                                      return _vm.deleteCountry(_vm.checkAll[0])
                                     },
                                   },
                                 },
@@ -15036,9 +15137,9 @@ var render = function () {
                                 { staticClass: "mx-1 custom-btn-background" },
                                 [
                                   _vm._v(
-                                    "\n                                        " +
+                                    "\n                    " +
                                       _vm._s(_vm.$t("general.filter")) +
-                                      "\n                                        "
+                                      "\n                    "
                                   ),
                                   _c("i", { staticClass: "fas fa-filter" }),
                                 ]
@@ -15049,9 +15150,9 @@ var render = function () {
                                 { staticClass: "mx-1 custom-btn-background" },
                                 [
                                   _vm._v(
-                                    "\n                                        " +
+                                    "\n                    " +
                                       _vm._s(_vm.$t("general.group")) +
-                                      "\n                                        "
+                                      "\n                    "
                                   ),
                                   _c("i", { staticClass: "fe-menu" }),
                                 ]
@@ -15085,7 +15186,7 @@ var render = function () {
                                     [
                                       _vm._v(
                                         _vm._s(_vm.$t("general.Name")) +
-                                          "\n                                        "
+                                          "\n                    "
                                       ),
                                     ]
                                   ),
@@ -15104,9 +15205,9 @@ var render = function () {
                                     },
                                     [
                                       _vm._v(
-                                        "\n                                            " +
+                                        "\n                      " +
                                           _vm._s(_vm.$t("general.Name_en")) +
-                                          "\n                                        "
+                                          "\n                    "
                                       ),
                                     ]
                                   ),
@@ -15153,13 +15254,13 @@ var render = function () {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                                        " +
+                                    "\n                    " +
                                       _vm._s(_vm.buttonsPagination.from) +
                                       "-" +
                                       _vm._s(_vm.buttonsPagination.to) +
-                                      " /\n                                        " +
+                                      " /\n                    " +
                                       _vm._s(_vm.buttonsPagination.total) +
-                                      "\n                                    "
+                                      "\n                  "
                                   ),
                                 ]
                               ),
@@ -15263,6 +15364,7 @@ var render = function () {
                       title: _vm.$t("general.addButton"),
                       "title-class": "font-18",
                       size: "lg",
+                      "dialog-class": "modal-full-width",
                       "body-class": "paddingUnset",
                       "hide-footer": true,
                     },
@@ -15305,9 +15407,9 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                            " +
+                                      "\n                      " +
                                         _vm._s(_vm.$t("general.AddNewRecord")) +
-                                        "\n                                        "
+                                        "\n                    "
                                     ),
                                   ]
                                 ),
@@ -15336,11 +15438,11 @@ var render = function () {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                                                " +
+                                                "\n                        " +
                                                   _vm._s(
                                                     _vm.$t("general.Add")
                                                   ) +
-                                                  "\n                                            "
+                                                  "\n                      "
                                               ),
                                             ]
                                           )
@@ -15395,9 +15497,9 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                            " +
+                                      "\n                      " +
                                         _vm._s(_vm.$t("general.Cancel")) +
-                                        "\n                                        "
+                                        "\n                    "
                                     ),
                                   ]
                                 ),
@@ -15420,7 +15522,7 @@ var render = function () {
                                 },
                                 [
                                   _c("div", { staticClass: "row" }, [
-                                    _c("div", { staticClass: "col-md-12" }, [
+                                    _c("div", { staticClass: "col-md-6" }, [
                                       _c("div", { staticClass: "row" }, [
                                         _c("div", { staticClass: "col-md-6" }, [
                                           _c(
@@ -15435,11 +15537,11 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                                " +
+                                                    "\n                                " +
                                                       _vm._s(
                                                         _vm.$t("general.Name")
                                                       ) +
-                                                      "\n                                                                "
+                                                      "\n                                "
                                                   ),
                                                   _c(
                                                     "span",
@@ -15541,25 +15643,25 @@ var render = function () {
                                                     },
                                                     [
                                                       _vm._v(
-                                                        "\n                                                                " +
+                                                        "\n                                " +
                                                           _vm._s(
                                                             _vm.$t(
                                                               "general.Itmustbeatleast"
                                                             )
                                                           ) +
-                                                          "\n                                                                " +
+                                                          "\n                                " +
                                                           _vm._s(
                                                             _vm.$v.create.name
                                                               .$params.minLength
                                                               .min
                                                           ) +
-                                                          "\n                                                                " +
+                                                          "\n                                " +
                                                           _vm._s(
                                                             _vm.$t(
                                                               "general.letters"
                                                             )
                                                           ) +
-                                                          "\n                                                            "
+                                                          "\n                              "
                                                       ),
                                                     ]
                                                   )
@@ -15574,25 +15676,25 @@ var render = function () {
                                                     },
                                                     [
                                                       _vm._v(
-                                                        "\n                                                                " +
+                                                        "\n                                " +
                                                           _vm._s(
                                                             _vm.$t(
                                                               "general.Itmustbeatmost"
                                                             )
                                                           ) +
-                                                          "\n                                                                " +
+                                                          "\n                                " +
                                                           _vm._s(
                                                             _vm.$v.create.name
                                                               .$params.maxLength
                                                               .max
                                                           ) +
-                                                          "\n                                                                " +
+                                                          "\n                                " +
                                                           _vm._s(
                                                             _vm.$t(
                                                               "general.letters"
                                                             )
                                                           ) +
-                                                          "\n                                                            "
+                                                          "\n                              "
                                                       ),
                                                     ]
                                                   )
@@ -15613,7 +15715,7 @@ var render = function () {
                                                             _vm._s(
                                                               errorMessage
                                                             ) +
-                                                              "\n                                                                "
+                                                              "\n                                "
                                                           ),
                                                         ]
                                                       )
@@ -15638,13 +15740,13 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                                " +
+                                                    "\n                                " +
                                                       _vm._s(
                                                         _vm.$t(
                                                           "general.Name_en"
                                                         )
                                                       ) +
-                                                      "\n                                                                "
+                                                      "\n                                "
                                                   ),
                                                   _c(
                                                     "span",
@@ -15746,25 +15848,25 @@ var render = function () {
                                                     },
                                                     [
                                                       _vm._v(
-                                                        "\n                                                                " +
+                                                        "\n                                " +
                                                           _vm._s(
                                                             _vm.$t(
                                                               "general.Itmustbeatleast"
                                                             )
                                                           ) +
-                                                          "\n                                                                " +
+                                                          "\n                                " +
                                                           _vm._s(
                                                             _vm.$v.create.name_e
                                                               .$params.minLength
                                                               .min
                                                           ) +
-                                                          "\n                                                                " +
+                                                          "\n                                " +
                                                           _vm._s(
                                                             _vm.$t(
                                                               "general.letters"
                                                             )
                                                           ) +
-                                                          "\n                                                            "
+                                                          "\n                              "
                                                       ),
                                                     ]
                                                   )
@@ -15779,25 +15881,25 @@ var render = function () {
                                                     },
                                                     [
                                                       _vm._v(
-                                                        "\n                                                                " +
+                                                        "\n                                " +
                                                           _vm._s(
                                                             _vm.$t(
                                                               "general.Itmustbeatmost"
                                                             )
                                                           ) +
-                                                          "\n                                                                " +
+                                                          "\n                                " +
                                                           _vm._s(
                                                             _vm.$v.create.name_e
                                                               .$params.maxLength
                                                               .max
                                                           ) +
-                                                          "\n                                                                " +
+                                                          "\n                                " +
                                                           _vm._s(
                                                             _vm.$t(
                                                               "general.letters"
                                                             )
                                                           ) +
-                                                          "\n                                                            "
+                                                          "\n                              "
                                                       ),
                                                     ]
                                                   )
@@ -15818,7 +15920,7 @@ var render = function () {
                                                             _vm._s(
                                                               errorMessage
                                                             ) +
-                                                              "\n                                                                "
+                                                              "\n                                "
                                                           ),
                                                         ]
                                                       )
@@ -16014,11 +16116,11 @@ var render = function () {
                                                                             },
                                                                             [
                                                                               _vm._v(
-                                                                                "\n                                                                                    " +
+                                                                                "\n                                          " +
                                                                                   _vm._s(
                                                                                     photo.name
                                                                                   ) +
-                                                                                  "\n                                                                                "
+                                                                                  "\n                                        "
                                                                               ),
                                                                             ]
                                                                           ),
@@ -16108,13 +16210,13 @@ var render = function () {
                                                       },
                                                       [
                                                         _vm._v(
-                                                          "\n                                                            " +
+                                                          "\n                              " +
                                                             _vm._s(
                                                               _vm.$t(
                                                                 "general.Add"
                                                               )
                                                             ) +
-                                                            "\n                                                        "
+                                                            "\n                            "
                                                         ),
                                                       ]
                                                     )
@@ -16356,9 +16458,9 @@ var render = function () {
                             _vm._v(" "),
                             _c("th", [
                               _vm._v(
-                                "\n                                    " +
+                                "\n                    " +
                                   _vm._s(_vm.$t("general.Action")) +
-                                  "\n                                "
+                                  "\n                  "
                               ),
                             ]),
                             _vm._v(" "),
@@ -16505,11 +16607,11 @@ var render = function () {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                            " +
+                                                  "\n                        " +
                                                     _vm._s(
                                                       _vm.$t("general.commands")
                                                     ) +
-                                                    "\n                                            "
+                                                    "\n                        "
                                                 ),
                                                 _c("i", {
                                                   staticClass:
@@ -16623,6 +16725,8 @@ var render = function () {
                                               title:
                                                 _vm.$t("general.editButton"),
                                               "title-class": "font-18",
+                                              "dialog-class":
+                                                "modal-full-width",
                                               "body-class": "paddingUnset",
                                               size: "lg",
                                               "hide-footer": true,
@@ -16681,13 +16785,13 @@ var render = function () {
                                                               },
                                                               [
                                                                 _vm._v(
-                                                                  "\n                                                        " +
+                                                                  "\n                              " +
                                                                     _vm._s(
                                                                       _vm.$t(
                                                                         "general.Add"
                                                                       )
                                                                     ) +
-                                                                    "\n                                                    "
+                                                                    "\n                            "
                                                                 ),
                                                               ]
                                                             )
@@ -16755,13 +16859,13 @@ var render = function () {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              "\n                                                        " +
+                                                              "\n                              " +
                                                                 _vm._s(
                                                                   _vm.$t(
                                                                     "general.Cancel"
                                                                   )
                                                                 ) +
-                                                                "\n                                                    "
+                                                                "\n                            "
                                                             ),
                                                           ]
                                                         ),
@@ -16802,7 +16906,7 @@ var render = function () {
                                                               "div",
                                                               {
                                                                 staticClass:
-                                                                  "col-md-12",
+                                                                  "col-md-6",
                                                               },
                                                               [
                                                                 _c(
@@ -16838,13 +16942,13 @@ var render = function () {
                                                                               },
                                                                               [
                                                                                 _vm._v(
-                                                                                  "\n                                                                            " +
+                                                                                  "\n                                        " +
                                                                                     _vm._s(
                                                                                       _vm.$t(
                                                                                         "general.Name"
                                                                                       )
                                                                                     ) +
-                                                                                    "\n                                                                            "
+                                                                                    "\n                                        "
                                                                                 ),
                                                                                 _c(
                                                                                   "span",
@@ -16998,13 +17102,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      "\n                                                                            " +
+                                                                                      "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm.$t(
                                                                                             "general.Itmustbeatleast"
                                                                                           )
                                                                                         ) +
-                                                                                        "\n                                                                            " +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm
                                                                                             .$v
@@ -17014,13 +17118,13 @@ var render = function () {
                                                                                             .minLength
                                                                                             .min
                                                                                         ) +
-                                                                                        "\n                                                                            " +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm.$t(
                                                                                             "general.letters"
                                                                                           )
                                                                                         ) +
-                                                                                        "\n                                                                        "
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -17041,13 +17145,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      "\n                                                                            " +
+                                                                                      "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm.$t(
                                                                                             "general.Itmustbeatmost"
                                                                                           )
                                                                                         ) +
-                                                                                        "\n                                                                            " +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm
                                                                                             .$v
@@ -17057,13 +17161,13 @@ var render = function () {
                                                                                             .maxLength
                                                                                             .max
                                                                                         ) +
-                                                                                        "\n                                                                            " +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm.$t(
                                                                                             "general.letters"
                                                                                           )
                                                                                         ) +
-                                                                                        "\n                                                                        "
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -17084,12 +17188,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      _vm._s(
-                                                                                        _vm.$t(
-                                                                                          "general.alphaArabic"
-                                                                                        )
-                                                                                      ) +
-                                                                                        "\n                                                                        "
+                                                                                      "\n                                        " +
+                                                                                        _vm._s(
+                                                                                          _vm.$t(
+                                                                                            "general.alphaArabic"
+                                                                                          )
+                                                                                        ) +
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -17118,7 +17223,7 @@ var render = function () {
                                                                                           _vm._s(
                                                                                             errorMessage
                                                                                           ) +
-                                                                                            "\n                                                                            "
+                                                                                            "\n                                        "
                                                                                         ),
                                                                                       ]
                                                                                     )
@@ -17157,13 +17262,13 @@ var render = function () {
                                                                               },
                                                                               [
                                                                                 _vm._v(
-                                                                                  "\n                                                                            " +
+                                                                                  "\n                                        " +
                                                                                     _vm._s(
                                                                                       _vm.$t(
                                                                                         "general.Name_en"
                                                                                       )
                                                                                     ) +
-                                                                                    "\n                                                                            "
+                                                                                    "\n                                        "
                                                                                 ),
                                                                                 _c(
                                                                                   "span",
@@ -17317,13 +17422,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      "\n                                                                            " +
+                                                                                      "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm.$t(
                                                                                             "general.Itmustbeatleast"
                                                                                           )
                                                                                         ) +
-                                                                                        "\n                                                                            " +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm
                                                                                             .$v
@@ -17333,13 +17438,13 @@ var render = function () {
                                                                                             .minLength
                                                                                             .min
                                                                                         ) +
-                                                                                        "\n                                                                            " +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm.$t(
                                                                                             "general.letters"
                                                                                           )
                                                                                         ) +
-                                                                                        "\n                                                                        "
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -17360,13 +17465,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      "\n                                                                            " +
+                                                                                      "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm.$t(
                                                                                             "general.Itmustbeatmost"
                                                                                           )
                                                                                         ) +
-                                                                                        "\n                                                                            " +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm
                                                                                             .$v
@@ -17376,13 +17481,13 @@ var render = function () {
                                                                                             .maxLength
                                                                                             .max
                                                                                         ) +
-                                                                                        "\n                                                                            " +
+                                                                                        "\n                                        " +
                                                                                         _vm._s(
                                                                                           _vm.$t(
                                                                                             "general.letters"
                                                                                           )
                                                                                         ) +
-                                                                                        "\n                                                                        "
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -17403,12 +17508,13 @@ var render = function () {
                                                                                   },
                                                                                   [
                                                                                     _vm._v(
-                                                                                      _vm._s(
-                                                                                        _vm.$t(
-                                                                                          "general.alphaEnglish"
-                                                                                        )
-                                                                                      ) +
-                                                                                        "\n                                                                        "
+                                                                                      "\n                                        " +
+                                                                                        _vm._s(
+                                                                                          _vm.$t(
+                                                                                            "general.alphaEnglish"
+                                                                                          )
+                                                                                        ) +
+                                                                                        "\n                                      "
                                                                                     ),
                                                                                   ]
                                                                                 )
@@ -17437,7 +17543,7 @@ var render = function () {
                                                                                           _vm._s(
                                                                                             errorMessage
                                                                                           ) +
-                                                                                            "\n                                                                            "
+                                                                                            "\n                                        "
                                                                                         ),
                                                                                       ]
                                                                                     )
@@ -17664,11 +17770,11 @@ var render = function () {
                                                                                                     },
                                                                                                     [
                                                                                                       _vm._v(
-                                                                                                        "\n                                                                                                " +
+                                                                                                        "\n                                                  " +
                                                                                                           _vm._s(
                                                                                                             photo.name
                                                                                                           ) +
-                                                                                                          "\n                                                                                            "
+                                                                                                          "\n                                                "
                                                                                                       ),
                                                                                                     ]
                                                                                                   ),
@@ -17760,13 +17866,13 @@ var render = function () {
                                                                               },
                                                                               [
                                                                                 _vm._v(
-                                                                                  "\n                                                                        " +
+                                                                                  "\n                                      " +
                                                                                     _vm._s(
                                                                                       _vm.$t(
                                                                                         "general.Add"
                                                                                       )
                                                                                     ) +
-                                                                                    "\n                                                                    "
+                                                                                    "\n                                    "
                                                                                 ),
                                                                               ]
                                                                             )
@@ -17876,14 +17982,37 @@ var render = function () {
                                     ),
                                     _vm._v(" "),
                                     _c("td", [
-                                      _c("i", {
-                                        staticClass: "fe-info",
-                                        on: {
-                                          mouseenter: function ($event) {
-                                            return _vm.log(data.id)
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass: "btn",
+                                          attrs: {
+                                            type: "button",
+                                            "data-toggle": "tooltip",
+                                            "data-placement":
+                                              _vm.$i18n.locale == "en"
+                                                ? "left"
+                                                : "right",
+                                            title: _vm.Tooltip,
+                                          },
+                                          on: {
+                                            mouseover: function ($event) {
+                                              return _vm.log(data.id)
+                                            },
+                                            mousemove: function ($event) {
+                                              return _vm.log(data.id)
+                                            },
                                           },
                                         },
-                                      }),
+                                        [
+                                          _c("i", {
+                                            staticClass: "fe-info",
+                                            staticStyle: {
+                                              "font-size": "22px",
+                                            },
+                                          }),
+                                        ]
+                                      ),
                                     ]),
                                   ]
                                 )
@@ -17900,7 +18029,9 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      _vm._s(_vm.$t("general.notDataFound"))
+                                      "\n                    " +
+                                        _vm._s(_vm.$t("general.notDataFound")) +
+                                        "\n                  "
                                     ),
                                   ]
                                 ),

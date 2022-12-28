@@ -3,7 +3,6 @@
 namespace App\Repositories\Hotfield;
 
 use App\Models\HotField;
-use App\Models\UserSettingScreen;
 use Illuminate\Support\Facades\DB;
 
 class HotfieldRepository implements HotfieldRepositoryInterface
@@ -12,7 +11,7 @@ class HotfieldRepository implements HotfieldRepositoryInterface
     private $model;
     public function __construct(Hotfield $model)
     {
-    $this->model = $model;
+        $this->model = $model;
     }
 
     public function getAllHotfields($request)
@@ -62,25 +61,6 @@ class HotfieldRepository implements HotfieldRepositoryInterface
         $model = $this->find($id);
         $this->forget($id);
         $model->delete();
-    }
-
-    public function setting($request)
-    {
-        DB::transaction(function () use ($request) {
-            $screenSetting = UserSettingScreen::where('user_id', $request['user_id'])->where('screen_id', $request['screen_id'])->first();
-            $request['data_json'] = json_encode($request['data_json']);
-            if (!$screenSetting) {
-                UserSettingScreen::create($request);
-            } else {
-                $screenSetting->update($request);
-            }
-        });
-        return $this->successResponse([], __('Done'));
-    }
-
-    public function getSetting($user_id, $screen_id)
-    {
-        return UserSettingScreen::where('user_id', $user_id)->where('screen_id', $screen_id)->first();
     }
 
     public function logs($id)

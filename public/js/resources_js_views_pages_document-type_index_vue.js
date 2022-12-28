@@ -1329,15 +1329,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _layouts_main__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../layouts/main */ "./resources/js/views/layouts/main.vue");
 /* harmony import */ var _components_Page_header__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../components/Page-header */ "./resources/js/components/Page-header.vue");
 /* harmony import */ var _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../api/adminAxios */ "./resources/js/api/adminAxios.js");
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _components_widgets_errorMessage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../components/widgets/errorMessage */ "./resources/js/components/widgets/errorMessage.vue");
 /* harmony import */ var _components_loader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../components/loader */ "./resources/js/components/loader.vue");
 /* harmony import */ var _helper_tableSort__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../helper/tableSort */ "./resources/js/helper/tableSort.js");
+/* harmony import */ var _helper_startDate__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../helper/startDate */ "./resources/js/helper/startDate.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -1392,6 +1394,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       documentTypes: [],
       enabled3: false,
       isLoader: false,
+      Tooltip: "",
+      mouseEnter: "",
       create: {
         name: "",
         name_e: "",
@@ -1418,32 +1422,32 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   validations: {
     create: {
       name: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.maxLength)(255)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(255)
       },
       name_e: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.maxLength)(255)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(255)
       },
       is_default: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required
       }
     },
     edit: {
       name: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.maxLength)(255)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(255)
       },
       name_e: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.required,
-        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.minLength)(3),
-        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.maxLength)(255)
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required,
+        minLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.minLength)(3),
+        maxLength: (0,vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.maxLength)(255)
       },
       is_default: {
-        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_7__.required
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_8__.required
       }
     }
   },
@@ -1484,108 +1488,186 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.getData();
   },
   methods: {
+    formatDate: function formatDate(value) {
+      return (0,_helper_startDate__WEBPACK_IMPORTED_MODULE_7__.formatDateOnly)(value);
+    },
+    log: function log(id) {
+      var _this3 = this;
+      if (this.mouseEnter != id) {
+        this.Tooltip = "";
+        this.mouseEnter = id;
+        _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/document-type/logs/".concat(id)).then(function (res) {
+          var l = res.data.data;
+          l.forEach(function (e) {
+            _this3.Tooltip += "Created By: ".concat(e.causer_type, "; Event: ").concat(e.event, "; Description: ").concat(e.description, " ;Created At: ").concat(_this3.formatDate(e.created_at), " \n");
+          });
+        })["catch"](function (err) {
+          sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire({
+            icon: "error",
+            title: "".concat(_this3.$t("general.Error")),
+            text: "".concat(_this3.$t("general.Thereisanerrorinthesystem"))
+          });
+        });
+      } else {}
+    },
     /**
      *  get Data document type
      */
     getData: function getData() {
-      var _this3 = this;
+      var _this4 = this;
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       this.isLoader = true;
       var filter = "";
-      for (var i = 0; i > this.filterSetting.length; ++i) {
+      for (var i = 0; i < this.filterSetting.length; i++) {
         filter += "columns[".concat(i, "]=").concat(this.filterSetting[i], "&");
       }
       _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/document-type?page=".concat(page, "&per_page=").concat(this.per_page, "&search=").concat(this.search, "&").concat(filter)).then(function (res) {
         var l = res.data;
-        _this3.documentTypes = l.data;
-        _this3.documentTypePagination = l.pagination;
-        _this3.current_page = l.pagination.current_page;
+        _this4.documentTypes = l.data;
+        _this4.documentTypePagination = l.pagination;
+        _this4.current_page = l.pagination.current_page;
       })["catch"](function (err) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire({
           icon: "error",
-          title: "".concat(_this3.$t("general.Error")),
-          text: "".concat(_this3.$t("general.Thereisanerrorinthesystem"))
+          title: "".concat(_this4.$t("general.Error")),
+          text: "".concat(_this4.$t("general.Thereisanerrorinthesystem"))
         });
       })["finally"](function () {
-        _this3.isLoader = false;
+        _this4.isLoader = false;
       });
     },
     getDataCurrentPage: function getDataCurrentPage() {
-      var _this4 = this;
+      var _this5 = this;
       if (this.current_page <= this.documentTypePagination.last_page && this.current_page != this.documentTypePagination.current_page && this.current_page) {
         this.isLoader = true;
         var filter = "";
-        for (var i = 0; i > this.filterSetting.length; ++i) {
+        for (var i = 0; i < this.filterSetting.length; i++) {
           filter += "columns[".concat(i, "]=").concat(this.filterSetting[i], "&");
         }
         _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/document-type?page=".concat(this.current_page, "&per_page=").concat(this.per_page, "&search=").concat(this.search, "&").concat(filter)).then(function (res) {
           var l = res.data;
-          _this4.documentTypes = l.data;
-          _this4.documentTypePagination = l.pagination;
-          _this4.current_page = l.pagination.current_page;
+          _this5.documentTypes = l.data;
+          _this5.documentTypePagination = l.pagination;
+          _this5.current_page = l.pagination.current_page;
         })["catch"](function (err) {
           sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire({
             icon: "error",
-            title: "".concat(_this4.$t("general.Error")),
-            text: "".concat(_this4.$t("general.Thereisanerrorinthesystem"))
+            title: "".concat(_this5.$t("general.Error")),
+            text: "".concat(_this5.$t("general.Thereisanerrorinthesystem"))
           });
         })["finally"](function () {
-          _this4.isLoader = false;
+          _this5.isLoader = false;
         });
       }
     },
     /**
      *  delete document type
      */
-    deleteDocumentType: function deleteDocumentType(id) {
-      var _this5 = this;
-      sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire({
-        title: "".concat(this.$t("general.Areyousure")),
-        text: "".concat(this.$t("general.Youwontbeabletoreverthis")),
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonText: "".concat(this.$t("general.Yesdeleteit")),
-        cancelButtonText: "".concat(this.$t("general.Nocancel")),
-        confirmButtonClass: "btn btn-success mt-2",
-        cancelButtonClass: "btn btn-danger ml-2 mt-2",
-        buttonsStyling: false
-      }).then(function (result) {
-        if (result.value) {
-          _this5.isLoader = true;
-          _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"]["delete"]("/document-type/".concat(id)).then(function (res) {
-            _this5.getData();
-            _this5.checkAll = [];
-            sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire({
-              icon: "success",
-              title: "".concat(_this5.$t("general.Deleted")),
-              text: "".concat(_this5.$t("general.Yourrowhasbeendeleted")),
-              showConfirmButton: false,
-              timer: 1500
+    deleteDocumentType: function deleteDocumentType(id, index) {
+      var _this6 = this;
+      if (Array.isArray(id)) {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire({
+          title: "".concat(this.$t("general.Areyousure")),
+          text: "".concat(this.$t("general.Youwontbeabletoreverthis")),
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonText: "".concat(this.$t("general.Yesdeleteit")),
+          cancelButtonText: "".concat(this.$t("general.Nocancel")),
+          confirmButtonClass: "btn btn-success mt-2",
+          cancelButtonClass: "btn btn-danger ml-2 mt-2",
+          buttonsStyling: false
+        }).then(function (result) {
+          if (result.value) {
+            _this6.isLoader = true;
+            _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].post("/document-type/bulk-delete", {
+              ids: id
+            }).then(function (res) {
+              _this6.checkAll = [];
+              _this6.getData();
+              sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire({
+                icon: "success",
+                title: "".concat(_this6.$t("general.Deleted")),
+                text: "".concat(_this6.$t("general.Yourrowhasbeendeleted")),
+                showConfirmButton: false,
+                timer: 1500
+              });
+            })["catch"](function (err) {
+              if (err.response.status == 400) {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire({
+                  icon: "error",
+                  title: "".concat(_this6.$t("general.Error")),
+                  text: "".concat(_this6.$t("general.CantDeleteRelation"))
+                });
+                _this6.getData();
+              } else {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire({
+                  icon: "error",
+                  title: "".concat(_this6.$t("general.Error")),
+                  text: "".concat(_this6.$t("general.Thereisanerrorinthesystem"))
+                });
+              }
+            })["finally"](function () {
+              _this6.isLoader = false;
             });
-          })["catch"](function (err) {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire({
-              icon: "error",
-              title: "".concat(_this5.$t("general.Error")),
-              text: "".concat(_this5.$t("general.Thereisanerrorinthesystem"))
+          }
+        });
+      } else {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire({
+          title: "".concat(this.$t("general.Areyousure")),
+          text: "".concat(this.$t("general.Youwontbeabletoreverthis")),
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonText: "".concat(this.$t("general.Yesdeleteit")),
+          cancelButtonText: "".concat(this.$t("general.Nocancel")),
+          confirmButtonClass: "btn btn-success mt-2",
+          cancelButtonClass: "btn btn-danger ml-2 mt-2",
+          buttonsStyling: false
+        }).then(function (result) {
+          if (result.value) {
+            _this6.isLoader = true;
+            _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"]["delete"]("/document-type/".concat(id)).then(function (res) {
+              _this6.checkAll = [];
+              _this6.getData();
+              sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire({
+                icon: "success",
+                title: "".concat(_this6.$t("general.Deleted")),
+                text: "".concat(_this6.$t("general.Yourrowhasbeendeleted")),
+                showConfirmButton: false,
+                timer: 1500
+              });
+            })["catch"](function (err) {
+              if (err.response.status == 400) {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire({
+                  icon: "error",
+                  title: "".concat(_this6.$t("general.Error")),
+                  text: "".concat(_this6.$t("general.CantDeleteRelation"))
+                });
+              } else {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire({
+                  icon: "error",
+                  title: "".concat(_this6.$t("general.Error")),
+                  text: "".concat(_this6.$t("general.Thereisanerrorinthesystem"))
+                });
+              }
+            })["finally"](function () {
+              _this6.isLoader = false;
             });
-          })["finally"](function () {
-            _this5.isLoader = false;
-          });
-        }
-      });
+          }
+        });
+      }
     },
     /**
      *  reset Modal (create)
      */
     resetModalHidden: function resetModalHidden() {
-      var _this6 = this;
+      var _this7 = this;
       this.create = {
         name: "",
         name_e: "",
         is_default: ""
       };
       this.$nextTick(function () {
-        _this6.$v.$reset();
+        _this7.$v.$reset();
       });
       this.errors = {};
     },
@@ -1593,22 +1675,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
      *  hidden Modal (create)
      */
     resetModal: function resetModal() {
-      var _this7 = this;
-      this.create = {
-        name: "",
-        name_e: "",
-        is_default: ""
-      };
-      this.is_disabled = false;
-      this.$nextTick(function () {
-        _this7.$v.$reset();
-      });
-      this.errors = {};
-    },
-    /**
-     *  create document type
-     */
-    resetForm: function resetForm() {
       var _this8 = this;
       this.create = {
         name: "",
@@ -1619,9 +1685,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.$nextTick(function () {
         _this8.$v.$reset();
       });
+      this.errors = {};
+    },
+    /**
+     *  create document type
+     */
+    resetForm: function resetForm() {
+      var _this9 = this;
+      this.create = {
+        name: "",
+        name_e: "",
+        is_default: ""
+      };
+      this.is_disabled = false;
+      this.$nextTick(function () {
+        _this9.$v.$reset();
+      });
     },
     AddSubmit: function AddSubmit() {
-      var _this9 = this;
+      var _this10 = this;
       if (this.create.name || this.create.name_e) {
         this.create.name = this.create.name ? this.create.name : this.create.name_e;
         this.create.name_e = this.create.name_e ? this.create.name_e : this.create.name;
@@ -1636,28 +1718,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].post("/document-type", _objectSpread(_objectSpread({}, this.create), {}, {
           is_default: this.create.is_default == "active" ? 1 : 0
         })).then(function (res) {
-          _this9.getData();
-          _this9.is_disabled = true;
+          _this10.getData();
+          _this10.is_disabled = true;
           setTimeout(function () {
             sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire({
               icon: "success",
-              text: "".concat(_this9.$t("general.Addedsuccessfully")),
+              text: "".concat(_this10.$t("general.Addedsuccessfully")),
               showConfirmButton: false,
               timer: 1500
             });
           }, 500);
         })["catch"](function (err) {
           if (err.response.data) {
-            _this9.errors = err.response.data.errors;
+            _this10.errors = err.response.data.errors;
           } else {
             sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire({
               icon: "error",
-              title: "".concat(_this9.$t("general.Error")),
-              text: "".concat(_this9.$t("general.Thereisanerrorinthesystem"))
+              title: "".concat(_this10.$t("general.Error")),
+              text: "".concat(_this10.$t("general.Thereisanerrorinthesystem"))
             });
           }
         })["finally"](function () {
-          _this9.isLoader = false;
+          _this10.isLoader = false;
         });
       }
     },
@@ -1665,7 +1747,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
      *  edit document type
      */
     editSubmit: function editSubmit(id) {
-      var _this10 = this;
+      var _this11 = this;
       if (this.edit.name || this.edit.name_e) {
         this.edit.name = this.edit.name ? this.edit.name : this.edit.name_e;
         this.edit.name_e = this.edit.name_e ? this.edit.name_e : this.create.name;
@@ -1685,28 +1767,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           name_e: name_e,
           is_default: is_default == "active" ? 1 : 0
         }).then(function (res) {
-          _this10.$bvModal.hide("modal-edit-".concat(id));
-          _this10.getData();
+          _this11.$bvModal.hide("modal-edit-".concat(id));
+          _this11.getData();
           setTimeout(function () {
             sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire({
               icon: "success",
-              text: "".concat(_this10.$t("general.Editsuccessfully")),
+              text: "".concat(_this11.$t("general.Editsuccessfully")),
               showConfirmButton: false,
               timer: 1500
             });
           }, 500);
         })["catch"](function (err) {
           if (err.response.data) {
-            _this10.errors = err.response.data.errors;
+            _this11.errors = err.response.data.errors;
           } else {
             sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire({
               icon: "error",
-              title: "".concat(_this10.$t("general.Error")),
-              text: "".concat(_this10.$t("general.Thereisanerrorinthesystem"))
+              title: "".concat(_this11.$t("general.Error")),
+              text: "".concat(_this11.$t("general.Thereisanerrorinthesystem"))
             });
           }
         })["finally"](function () {
-          _this10.isLoader = false;
+          _this11.isLoader = false;
         });
       }
     },
@@ -2983,6 +3065,33 @@ var menuItems = [{
 //     ]
 // }
 ];
+
+/***/ }),
+
+/***/ "./resources/js/helper/startDate.js":
+/*!******************************************!*\
+  !*** ./resources/js/helper/startDate.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "formatDateOnly": () => (/* binding */ formatDateOnly),
+/* harmony export */   "formatDateTime": () => (/* binding */ formatDateTime)
+/* harmony export */ });
+function formatDateTime(item) {
+  var now = new Date(item);
+  var st = now.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/);
+  return st[1] + ' ' + st[2];
+}
+;
+function formatDateOnly(item) {
+  var now = new Date(item);
+  var st = now.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/);
+  return st[1];
+}
+;
 
 /***/ }),
 
@@ -14446,7 +14555,7 @@ var render = function () {
                                     click: function ($event) {
                                       $event.preventDefault()
                                       return _vm.deleteDocumentType(
-                                        _vm.checkAll
+                                        _vm.checkAll[0]
                                       )
                                     },
                                   },
@@ -16502,10 +16611,37 @@ var render = function () {
                                     ),
                                     _vm._v(" "),
                                     _c("td", [
-                                      _c("i", {
-                                        staticClass: "fe-info",
-                                        staticStyle: { "font-size": "22px" },
-                                      }),
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass: "btn",
+                                          attrs: {
+                                            type: "button",
+                                            "data-toggle": "tooltip",
+                                            "data-placement":
+                                              _vm.$i18n.locale == "en"
+                                                ? "left"
+                                                : "right",
+                                            title: _vm.Tooltip,
+                                          },
+                                          on: {
+                                            mouseover: function ($event) {
+                                              return _vm.log(data.id)
+                                            },
+                                            mousemove: function ($event) {
+                                              return _vm.log(data.id)
+                                            },
+                                          },
+                                        },
+                                        [
+                                          _c("i", {
+                                            staticClass: "fe-info",
+                                            staticStyle: {
+                                              "font-size": "22px",
+                                            },
+                                          }),
+                                        ]
+                                      ),
                                     ]),
                                   ]
                                 )

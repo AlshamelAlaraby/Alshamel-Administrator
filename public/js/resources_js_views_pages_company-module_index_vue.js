@@ -1341,6 +1341,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.js");
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_10__);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+var _methods;
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -1365,7 +1367,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     title: "Company Module",
     meta: [{
       name: "description",
-      content: 'Company Module'
+      content: "Company Module"
     }]
   },
   components: {
@@ -1380,7 +1382,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       per_page: 50,
-      search: '',
+      search: "",
       debounce: {},
       companyModulesPagination: {},
       companyModules: [],
@@ -1388,10 +1390,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       isLoader: false,
       companies: [],
       modules: [],
+      Tooltip: "",
+      mouseEnter: "",
       create: {
         company_id: null,
         module_id: null,
-        allowed_users_no: '',
+        allowed_users_no: "",
         start_date: null,
         end_date: null,
         custom_date_start: new Date(),
@@ -1400,7 +1404,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       edit: {
         company_id: null,
         module_id: null,
-        allowed_users_no: '',
+        allowed_users_no: "",
         start_date: null,
         end_date: null,
         custom_date_start: null,
@@ -1413,7 +1417,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         start_date: true,
         end_date: true
       },
-      filterSetting: ['company_id', 'module_id', 'allowed_users_no', 'start_date', 'end_date'],
+      filterSetting: [this.$i18n.locale == 'ar' ? 'company.name' : 'company.name_e', this.$i18n.locale == 'ar' ? 'module.name' : 'module.name_e', "allowed_users_no"],
       errors: {},
       isEye: false,
       isEyeEdit: false,
@@ -1511,55 +1515,77 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     });
   },
-  methods: {
+  methods: (_methods = {
+    formatDate: function formatDate(value) {
+      return (0,_helper_startDate__WEBPACK_IMPORTED_MODULE_8__.formatDateOnly)(value);
+    },
+    log: function log(id) {
+      var _this3 = this;
+      if (this.mouseEnter != id) {
+        this.Tooltip = "";
+        this.mouseEnter = id;
+        _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].get("/company-modules/logs/".concat(id)).then(function (res) {
+          var l = res.data.data;
+          l.forEach(function (e) {
+            _this3.Tooltip += "Created By: ".concat(e.causer_type, "; Event: ").concat(e.event, "; Description: ").concat(e.description, " ;Created At: ").concat(_this3.formatDate(e.created_at), " \n");
+          });
+        })["catch"](function (err) {
+          sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
+            icon: "error",
+            title: "".concat(_this3.$t("general.Error")),
+            text: "".concat(_this3.$t("general.Thereisanerrorinthesystem"))
+          });
+        });
+      } else {}
+    },
     /**
      *  get Data companyModule
      */
     getData: function getData() {
-      var _this3 = this;
+      var _this4 = this;
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       this.isLoader = true;
-      var filter = '';
+      var filter = "";
       for (var i = 0; i > this.filterSetting.length; ++i) {
         filter += "columns[".concat(i, "]=").concat(this.filterSetting[i], "&");
       }
       _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].get("/company-modules?page=".concat(page, "&per_page=").concat(this.per_page, "&search=").concat(this.search, "&").concat(filter)).then(function (res) {
         var l = res.data;
-        _this3.companyModules = l.data;
-        _this3.companyModulesPagination = l.pagination;
-        _this3.current_page = l.pagination.current_page;
+        _this4.companyModules = l.data;
+        _this4.companyModulesPagination = l.pagination;
+        _this4.current_page = l.pagination.current_page;
       })["catch"](function (err) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
-          icon: 'error',
-          title: "".concat(_this3.$t('general.Error')),
-          text: "".concat(_this3.$t('general.Thereisanerrorinthesystem'))
+          icon: "error",
+          title: "".concat(_this4.$t("general.Error")),
+          text: "".concat(_this4.$t("general.Thereisanerrorinthesystem"))
         });
       })["finally"](function () {
-        _this3.isLoader = false;
+        _this4.isLoader = false;
       });
     },
     getDataCurrentPage: function getDataCurrentPage() {
-      var _this4 = this;
+      var _this5 = this;
       if (this.current_page <= this.companyModulesPagination.last_page && this.current_page != this.companyModulesPagination.current_page && this.current_page) {
         this.isLoader = true;
-        var filter = '';
+        var filter = "";
         for (var i = 0; i > this.filterSetting.length; ++i) {
           filter += "columns[".concat(i, "]=").concat(this.filterSetting[i], "&");
         }
         _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].get("/company-modules?page=".concat(this.current_page, "&per_page=").concat(this.per_page, "&search=").concat(this.search, "&").concat(filter)).then(function (res) {
           var l = res.data;
-          _this4.companyModules = l.data;
-          _this4.current_page = l.pagination.current_page;
-          _this4.companyModulesPagination = l.pagination;
-          _this4.current_page = l.pagination.current_page;
+          _this5.companyModules = l.data;
+          _this5.current_page = l.pagination.current_page;
+          _this5.companyModulesPagination = l.pagination;
+          _this5.current_page = l.pagination.current_page;
         })["catch"](function (err) {
           sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
-            icon: 'error',
-            title: "".concat(_this4.$t('general.Error')),
-            text: "".concat(_this4.$t('general.Thereisanerrorinthesystem'))
+            icon: "error",
+            title: "".concat(_this5.$t("general.Error")),
+            text: "".concat(_this5.$t("general.Thereisanerrorinthesystem"))
           });
         })["finally"](function () {
-          _this4.isLoader = false;
+          _this5.isLoader = false;
         });
       }
     },
@@ -1567,58 +1593,114 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      *  delete companyModule
      */
     deleteCompanyModule: function deleteCompanyModule(id, index) {
-      var _this5 = this;
-      sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
-        title: "".concat(this.$t('general.Areyousure')),
-        text: "".concat(this.$t('general.Youwontbeabletoreverthis')),
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonText: "".concat(this.$t('general.Yesdeleteit')),
-        cancelButtonText: "".concat(this.$t('general.Nocancel')),
-        confirmButtonClass: "btn btn-success mt-2",
-        cancelButtonClass: "btn btn-danger ml-2 mt-2",
-        buttonsStyling: false
-      }).then(function (result) {
-        if (result.value) {
-          _this5.isLoader = true;
-          _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"]["delete"]("/company-modules/".concat(id)).then(function (res) {
-            _this5.checkAll = [];
-            _this5.getData();
-            sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
-              icon: 'success',
-              title: "".concat(_this5.$t('general.Deleted')),
-              text: "".concat(_this5.$t('general.Yourrowhasbeendeleted')),
-              showConfirmButton: false,
-              timer: 1500
+      var _this6 = this;
+      if (Array.isArray(id)) {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
+          title: "".concat(this.$t("general.Areyousure")),
+          text: "".concat(this.$t("general.Youwontbeabletoreverthis")),
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonText: "".concat(this.$t("general.Yesdeleteit")),
+          cancelButtonText: "".concat(this.$t("general.Nocancel")),
+          confirmButtonClass: "btn btn-success mt-2",
+          cancelButtonClass: "btn btn-danger ml-2 mt-2",
+          buttonsStyling: false
+        }).then(function (result) {
+          if (result.value) {
+            _this6.isLoader = true;
+            _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/company-modules/bulk-delete", {
+              ids: id
+            }).then(function (res) {
+              _this6.checkAll = [];
+              _this6.getData();
+              sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
+                icon: "success",
+                title: "".concat(_this6.$t("general.Deleted")),
+                text: "".concat(_this6.$t("general.Yourrowhasbeendeleted")),
+                showConfirmButton: false,
+                timer: 1500
+              });
+            })["catch"](function (err) {
+              if (err.response.status == 400) {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
+                  icon: "error",
+                  title: "".concat(_this6.$t("general.Error")),
+                  text: "".concat(_this6.$t("general.CantDeleteRelation"))
+                });
+                _this6.getData();
+              } else {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
+                  icon: "error",
+                  title: "".concat(_this6.$t("general.Error")),
+                  text: "".concat(_this6.$t("general.Thereisanerrorinthesystem"))
+                });
+              }
+            })["finally"](function () {
+              _this6.isLoader = false;
             });
-          })["catch"](function (err) {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
-              icon: 'error',
-              title: "".concat(_this5.$t('general.Error')),
-              text: "".concat(_this5.$t('general.Thereisanerrorinthesystem'))
+          }
+        });
+      } else {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
+          title: "".concat(this.$t("general.Areyousure")),
+          text: "".concat(this.$t("general.Youwontbeabletoreverthis")),
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonText: "".concat(this.$t("general.Yesdeleteit")),
+          cancelButtonText: "".concat(this.$t("general.Nocancel")),
+          confirmButtonClass: "btn btn-success mt-2",
+          cancelButtonClass: "btn btn-danger ml-2 mt-2",
+          buttonsStyling: false
+        }).then(function (result) {
+          if (result.value) {
+            _this6.isLoader = true;
+            _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"]["delete"]("/company-modules/".concat(id)).then(function (res) {
+              _this6.checkAll = [];
+              _this6.getData();
+              sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
+                icon: "success",
+                title: "".concat(_this6.$t("general.Deleted")),
+                text: "".concat(_this6.$t("general.Yourrowhasbeendeleted")),
+                showConfirmButton: false,
+                timer: 1500
+              });
+            })["catch"](function (err) {
+              if (err.response.status == 400) {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
+                  icon: "error",
+                  title: "".concat(_this6.$t("general.Error")),
+                  text: "".concat(_this6.$t("general.CantDeleteRelation"))
+                });
+              } else {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
+                  icon: "error",
+                  title: "".concat(_this6.$t("general.Error")),
+                  text: "".concat(_this6.$t("general.Thereisanerrorinthesystem"))
+                });
+              }
+            })["finally"](function () {
+              _this6.isLoader = false;
             });
-          })["finally"](function () {
-            _this5.isLoader = false;
-          });
-        }
-      });
+          }
+        });
+      }
     },
     /**
      *  reset Modal (create)
      */
     resetModalHidden: function resetModalHidden() {
-      var _this6 = this;
+      var _this7 = this;
       this.create = {
         company_id: null,
         module_id: null,
-        allowed_users_no: '',
+        allowed_users_no: "",
         start_date: null,
         end_date: null,
         custom_date_start: new Date(),
         custom_date_end: null
       };
       this.$nextTick(function () {
-        _this6.$v.$reset();
+        _this7.$v.$reset();
       });
       this.$bvModal.hide("create");
       this.errors = {};
@@ -1629,32 +1711,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      *  hidden Modal (create)
      */
     resetModal: function resetModal() {
-      var _this7 = this;
+      var _this8 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _this7.getCompany();
+                return _this8.getCompany();
               case 2:
                 _context.next = 4;
-                return _this7.getModule();
+                return _this8.getModule();
               case 4:
-                _this7.create = {
+                _this8.create = {
                   company_id: null,
                   module_id: null,
-                  allowed_users_no: '',
-                  start_date: (0,_helper_startDate__WEBPACK_IMPORTED_MODULE_8__.formatDateTime)(_this7.create.custom_date_start),
+                  allowed_users_no: "",
+                  start_date: (0,_helper_startDate__WEBPACK_IMPORTED_MODULE_8__.formatDateTime)(_this8.create.custom_date_start),
                   end_date: null,
                   custom_date_start: new Date(),
                   custom_date_end: null
                 };
-                _this7.$nextTick(function () {
-                  _this7.$v.$reset();
+                _this8.$nextTick(function () {
+                  _this8.$v.$reset();
                 });
-                _this7.errors = {};
-                _this7.is_disabled = false;
+                _this8.errors = {};
+                _this8.is_disabled = false;
               case 8:
               case "end":
                 return _context.stop();
@@ -1667,31 +1749,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      *  create companyModule
      */
     resetForm: function resetForm() {
-      var _this8 = this;
+      var _this9 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return _this8.getCompany();
+                return _this9.getCompany();
               case 2:
                 _context2.next = 4;
-                return _this8.getModule();
+                return _this9.getModule();
               case 4:
-                _this8.create = {
-                  company_id: '',
-                  module_id: '',
-                  allowed_users_no: '',
+                _this9.create = {
+                  company_id: "",
+                  module_id: "",
+                  allowed_users_no: "",
                   start_date: (0,_helper_startDate__WEBPACK_IMPORTED_MODULE_8__.formatDateTime)(new Date()),
                   end_date: null,
                   custom_date_start: new Date(),
                   custom_date_end: null
                 };
-                _this8.$nextTick(function () {
-                  _this8.$v.$reset();
+                _this9.$nextTick(function () {
+                  _this9.$v.$reset();
                 });
-                _this8.is_disabled = false;
+                _this9.is_disabled = false;
               case 7:
               case "end":
                 return _context2.stop();
@@ -1701,7 +1783,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     AddSubmit: function AddSubmit() {
-      var _this9 = this;
+      var _this10 = this;
       this.$v.create.$touch();
       if (this.$v.create.$invalid) {
         return;
@@ -1709,49 +1791,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.isLoader = true;
         this.errors = {};
         _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/company-modules", this.create).then(function (res) {
-          _this9.getData();
-          _this9.is_disabled = true;
-          setTimeout(function () {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
-              icon: 'success',
-              text: "".concat(_this9.$t('general.Addedsuccessfully')),
-              showConfirmButton: false,
-              timer: 1500
-            });
-          }, 500);
-        })["catch"](function (err) {
-          if (err.response.data) {
-            _this9.errors = err.response.data.errors;
-          } else {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
-              icon: 'error',
-              title: "".concat(_this9.$t('general.Error')),
-              text: "".concat(_this9.$t('general.Thereisanerrorinthesystem'))
-            });
-          }
-        })["finally"](function () {
-          _this9.isLoader = false;
-        });
-      }
-    },
-    /**
-     *  edit companyModule
-     */
-    editSubmit: function editSubmit(id) {
-      var _this10 = this;
-      this.$v.edit.$touch();
-      if (this.$v.edit.$invalid) {
-        return;
-      } else {
-        this.isLoader = true;
-        this.errors = {};
-        _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].put("/company-modules/".concat(id), this.edit).then(function (res) {
-          _this10.$bvModal.hide("modal-edit-".concat(id));
           _this10.getData();
+          _this10.is_disabled = true;
           setTimeout(function () {
             sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
-              icon: 'success',
-              text: "".concat(_this10.$t('general.Editsuccessfully')),
+              icon: "success",
+              text: "".concat(_this10.$t("general.Addedsuccessfully")),
               showConfirmButton: false,
               timer: 1500
             });
@@ -1761,9 +1806,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             _this10.errors = err.response.data.errors;
           } else {
             sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
-              icon: 'error',
-              title: "".concat(_this10.$t('general.Error')),
-              text: "".concat(_this10.$t('general.Thereisanerrorinthesystem'))
+              icon: "error",
+              title: "".concat(_this10.$t("general.Error")),
+              text: "".concat(_this10.$t("general.Thereisanerrorinthesystem"))
             });
           }
         })["finally"](function () {
@@ -1772,32 +1817,69 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     /**
+     *  edit companyModule
+     */
+    editSubmit: function editSubmit(id) {
+      var _this11 = this;
+      this.$v.edit.$touch();
+      if (this.$v.edit.$invalid) {
+        return;
+      } else {
+        this.isLoader = true;
+        this.errors = {};
+        _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].put("/company-modules/".concat(id), this.edit).then(function (res) {
+          _this11.$bvModal.hide("modal-edit-".concat(id));
+          _this11.getData();
+          setTimeout(function () {
+            sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
+              icon: "success",
+              text: "".concat(_this11.$t("general.Editsuccessfully")),
+              showConfirmButton: false,
+              timer: 1500
+            });
+          }, 500);
+        })["catch"](function (err) {
+          if (err.response.data) {
+            _this11.errors = err.response.data.errors;
+          } else {
+            sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
+              icon: "error",
+              title: "".concat(_this11.$t("general.Error")),
+              text: "".concat(_this11.$t("general.Thereisanerrorinthesystem"))
+            });
+          }
+        })["finally"](function () {
+          _this11.isLoader = false;
+        });
+      }
+    },
+    /**
      *   show Modal (edit)
      */
     resetModalEdit: function resetModalEdit(id) {
-      var _this11 = this;
+      var _this12 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         var companyModule;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                companyModule = _this11.companyModules.find(function (e) {
+                companyModule = _this12.companyModules.find(function (e) {
                   return id == e.id;
                 });
                 _context3.next = 3;
-                return _this11.getCompany();
+                return _this12.getCompany();
               case 3:
                 _context3.next = 5;
-                return _this11.getModule();
+                return _this12.getModule();
               case 5:
-                _this11.edit.company_id = companyModule.company.id;
-                _this11.edit.module_id = companyModule.module.id;
-                _this11.edit.allowed_users_no = companyModule.allowed_users_no;
-                _this11.edit.custom_date_start = new Date(companyModule.start_date);
-                _this11.edit.custom_date_end = new Date(companyModule.end_date);
-                _this11.edit.start_date = (0,_helper_startDate__WEBPACK_IMPORTED_MODULE_8__.formatDateTime)(companyModule.start_date);
-                _this11.edit.end_date = (0,_helper_startDate__WEBPACK_IMPORTED_MODULE_8__.formatDateTime)(companyModule.end_date);
+                _this12.edit.company_id = companyModule.company.id;
+                _this12.edit.module_id = companyModule.module.id;
+                _this12.edit.allowed_users_no = companyModule.allowed_users_no;
+                _this12.edit.custom_date_start = new Date(companyModule.start_date);
+                _this12.edit.custom_date_end = new Date(companyModule.end_date);
+                _this12.edit.start_date = (0,_helper_startDate__WEBPACK_IMPORTED_MODULE_8__.formatDateTime)(companyModule.start_date);
+                _this12.edit.end_date = (0,_helper_startDate__WEBPACK_IMPORTED_MODULE_8__.formatDateTime)(companyModule.end_date);
               case 12:
               case "end":
                 return _context3.stop();
@@ -1811,9 +1893,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      */
     resetModalHiddenEdit: function resetModalHiddenEdit() {
       this.edit = {
-        company_id: '',
-        module_id: '',
-        allowed_users_no: '',
+        company_id: "",
+        module_id: "",
+        allowed_users_no: "",
         start_date: null,
         end_date: null,
         custom_date_start: null,
@@ -1860,69 +1942,66 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.create.end_date = null;
         this.edit.end_date = null;
       }
-    },
-    formatDate: function formatDate(value) {
-      return (0,_helper_startDate__WEBPACK_IMPORTED_MODULE_8__.formatDateOnly)(value);
-    },
-    getCompany: function getCompany() {
-      var _this12 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                _this12.isLoader = true;
-                _context4.next = 3;
-                return _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].get("/companies").then(function (res) {
-                  var l = res.data;
-                  _this12.companies = l.data;
-                })["catch"](function (err) {
-                  sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
-                    icon: 'error',
-                    title: "".concat(_this12.$t('general.Error')),
-                    text: "".concat(_this12.$t('general.Thereisanerrorinthesystem'))
-                  });
-                })["finally"](function () {
-                  _this12.isLoader = false;
-                });
-              case 3:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4);
-      }))();
-    },
-    getModule: function getModule() {
-      var _this13 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
-        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                _this13.isLoader = true;
-                _context5.next = 3;
-                return _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].get("/modules?is_active=active").then(function (res) {
-                  var l = res.data;
-                  _this13.modules = l.data;
-                })["catch"](function (err) {
-                  sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
-                    icon: 'error',
-                    title: "".concat(_this13.$t('general.Error')),
-                    text: "".concat(_this13.$t('general.Thereisanerrorinthesystem'))
-                  });
-                })["finally"](function () {
-                  _this13.isLoader = false;
-                });
-              case 3:
-              case "end":
-                return _context5.stop();
-            }
-          }
-        }, _callee5);
-      }))();
     }
-  }
+  }, _defineProperty(_methods, "formatDate", function formatDate(value) {
+    return (0,_helper_startDate__WEBPACK_IMPORTED_MODULE_8__.formatDateOnly)(value);
+  }), _defineProperty(_methods, "getCompany", function getCompany() {
+    var _this13 = this;
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+      return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              _this13.isLoader = true;
+              _context4.next = 3;
+              return _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].get("/companies").then(function (res) {
+                var l = res.data;
+                _this13.companies = l.data;
+              })["catch"](function (err) {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
+                  icon: "error",
+                  title: "".concat(_this13.$t("general.Error")),
+                  text: "".concat(_this13.$t("general.Thereisanerrorinthesystem"))
+                });
+              })["finally"](function () {
+                _this13.isLoader = false;
+              });
+            case 3:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4);
+    }))();
+  }), _defineProperty(_methods, "getModule", function getModule() {
+    var _this14 = this;
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
+      return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              _this14.isLoader = true;
+              _context5.next = 3;
+              return _api_adminAxios__WEBPACK_IMPORTED_MODULE_3__["default"].get("/modules?is_active=active").then(function (res) {
+                var l = res.data;
+                _this14.modules = l.data;
+              })["catch"](function (err) {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_5___default().fire({
+                  icon: "error",
+                  title: "".concat(_this14.$t("general.Error")),
+                  text: "".concat(_this14.$t("general.Thereisanerrorinthesystem"))
+                });
+              })["finally"](function () {
+                _this14.isLoader = false;
+              });
+            case 3:
+            case "end":
+              return _context5.stop();
+          }
+        }
+      }, _callee5);
+    }))();
+  }), _methods)
 });
 
 /***/ }),
@@ -3392,7 +3471,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-body {\r\n    padding: 2.25rem !important;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-body {\n  padding: 2.25rem !important;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15518,7 +15597,7 @@ var render = function () {
                   },
                   [
                     _c("h4", { staticClass: "header-title" }, [
-                      _vm._v(" " + _vm._s(_vm.$t("companyModule.table"))),
+                      _vm._v(_vm._s(_vm.$t("companyModule.table"))),
                     ]),
                     _vm._v(" "),
                     _c(
@@ -15550,7 +15629,12 @@ var render = function () {
                                   "b-form-checkbox",
                                   {
                                     staticClass: "mb-1",
-                                    attrs: { value: "company_id" },
+                                    attrs: {
+                                      value:
+                                        _vm.$i18n.locale == "ar"
+                                          ? "company.name"
+                                          : "company.name_e",
+                                    },
                                     model: {
                                       value: _vm.filterSetting,
                                       callback: function ($$v) {
@@ -15566,7 +15650,12 @@ var render = function () {
                                   "b-form-checkbox",
                                   {
                                     staticClass: "mb-1",
-                                    attrs: { value: "module_id" },
+                                    attrs: {
+                                      value:
+                                        _vm.$i18n.locale == "ar"
+                                          ? "module.name"
+                                          : "module.name_e",
+                                    },
                                     model: {
                                       value: _vm.filterSetting,
                                       callback: function ($$v) {
@@ -15693,9 +15782,9 @@ var render = function () {
                           },
                           [
                             _vm._v(
-                              "\n                                " +
+                              "\n                " +
                                 _vm._s(_vm.$t("general.Create")) +
-                                "\n                                "
+                                "\n                "
                             ),
                             _c("i", { staticClass: "fas fa-plus" }),
                           ]
@@ -15762,7 +15851,7 @@ var render = function () {
                                     click: function ($event) {
                                       $event.preventDefault()
                                       return _vm.deleteCompanyModule(
-                                        _vm.checkAll
+                                        _vm.checkAll[0]
                                       )
                                     },
                                   },
@@ -15790,9 +15879,9 @@ var render = function () {
                               { staticClass: "mx-1 custom-btn-background" },
                               [
                                 _vm._v(
-                                  "\n                                    " +
+                                  "\n                  " +
                                     _vm._s(_vm.$t("general.filter")) +
-                                    "\n                                    "
+                                    "\n                  "
                                 ),
                                 _c("i", { staticClass: "fas fa-filter" }),
                               ]
@@ -15803,9 +15892,9 @@ var render = function () {
                               { staticClass: "mx-1 custom-btn-background" },
                               [
                                 _vm._v(
-                                  "\n                                    " +
+                                  "\n                  " +
                                     _vm._s(_vm.$t("general.group")) +
-                                    "\n                                    "
+                                    "\n                  "
                                 ),
                                 _c("i", { staticClass: "fe-menu" }),
                               ]
@@ -15839,7 +15928,7 @@ var render = function () {
                                   [
                                     _vm._v(
                                       _vm._s(_vm.$t("company.company")) +
-                                        "\n                                    "
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -15858,9 +15947,9 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                        " +
+                                      "\n                    " +
                                         _vm._s(_vm.$t("module.module")) +
-                                        "\n                                    "
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -15883,11 +15972,11 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                        " +
+                                      "\n                    " +
                                         _vm._s(
                                           _vm.$t("general.allowed_users_no")
                                         ) +
-                                        "\n                                    "
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -15906,9 +15995,9 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                        " +
-                                        _vm._s(_vm.$t("general.start_date")) +
-                                        "\n                                    "
+                                      "\n                    " +
+                                        _vm._s(_vm.$t("general.startDate")) +
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -15927,9 +16016,9 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                        " +
-                                        _vm._s(_vm.$t("general.end_date")) +
-                                        "\n                                    "
+                                      "\n                    " +
+                                        _vm._s(_vm.$t("general.endDate")) +
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -15967,7 +16056,7 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                        " +
+                                      "\n                    " +
                                         _vm._s(
                                           _vm.companyModulesPagination.from
                                         ) +
@@ -15975,11 +16064,11 @@ var render = function () {
                                         _vm._s(
                                           _vm.companyModulesPagination.to
                                         ) +
-                                        " / " +
+                                        "\n                    / " +
                                         _vm._s(
                                           _vm.companyModulesPagination.total
                                         ) +
-                                        "\n                                    "
+                                        "\n                  "
                                     ),
                                   ]
                                 ),
@@ -16121,9 +16210,9 @@ var render = function () {
                             },
                             [
                               _vm._v(
-                                "\n                                    " +
+                                "\n                  " +
                                   _vm._s(_vm.$t("general.AddNewRecord")) +
-                                  "\n                                "
+                                  "\n                "
                               ),
                             ]
                           ),
@@ -16151,9 +16240,9 @@ var render = function () {
                                       },
                                       [
                                         _vm._v(
-                                          "\n                                        " +
+                                          "\n                    " +
                                             _vm._s(_vm.$t("general.Add")) +
-                                            "\n                                    "
+                                            "\n                  "
                                         ),
                                       ]
                                     )
@@ -16196,9 +16285,9 @@ var render = function () {
                             },
                             [
                               _vm._v(
-                                "\n                                    " +
+                                "\n                  " +
                                   _vm._s(_vm.$t("general.Cancel")) +
-                                  "\n                                "
+                                  "\n                "
                               ),
                             ]
                           ),
@@ -16214,9 +16303,9 @@ var render = function () {
                             [
                               _c("label", { staticClass: "control-label" }, [
                                 _vm._v(
-                                  "\n                                            " +
+                                  "\n                      " +
                                     _vm._s(_vm.$t("company.company")) +
-                                    "\n                                            "
+                                    "\n                      "
                                 ),
                                 _c("span", { staticClass: "text-danger" }, [
                                   _vm._v("*"),
@@ -16257,9 +16346,11 @@ var render = function () {
                                     { staticClass: "invalid-feedback" },
                                     [
                                       _vm._v(
-                                        _vm._s(
-                                          _vm.$t("general.fieldIsRequired")
-                                        )
+                                        "\n                      " +
+                                          _vm._s(
+                                            _vm.$t("general.fieldIsRequired")
+                                          ) +
+                                          "\n                    "
                                       ),
                                     ]
                                   )
@@ -16289,9 +16380,9 @@ var render = function () {
                             [
                               _c("label", { staticClass: "control-label" }, [
                                 _vm._v(
-                                  "\n                                            " +
+                                  "\n                      " +
                                     _vm._s(_vm.$t("module.module")) +
-                                    "\n                                            "
+                                    "\n                      "
                                 ),
                                 _c("span", { staticClass: "text-danger" }, [
                                   _vm._v("*"),
@@ -16332,9 +16423,11 @@ var render = function () {
                                     { staticClass: "invalid-feedback" },
                                     [
                                       _vm._v(
-                                        _vm._s(
-                                          _vm.$t("general.fieldIsRequired")
-                                        )
+                                        "\n                      " +
+                                          _vm._s(
+                                            _vm.$t("general.fieldIsRequired")
+                                          ) +
+                                          "\n                    "
                                       ),
                                     ]
                                   )
@@ -16364,9 +16457,9 @@ var render = function () {
                             [
                               _c("label", { staticClass: "control-label" }, [
                                 _vm._v(
-                                  "\n                                            " +
+                                  "\n                      " +
                                     _vm._s(_vm.$t("general.allowed_users_no")) +
-                                    "\n                                            "
+                                    "\n                      "
                                 ),
                                 _c("span", { staticClass: "text-danger" }, [
                                   _vm._v("*"),
@@ -16439,9 +16532,9 @@ var render = function () {
                             [
                               _c("label", { staticClass: "control-label" }, [
                                 _vm._v(
-                                  "\n                                            " +
+                                  "\n                      " +
                                     _vm._s(_vm.$t("general.startDate")) +
-                                    "\n                                            "
+                                    "\n                      "
                                 ),
                                 _c("span", { staticClass: "text-danger" }, [
                                   _vm._v("*"),
@@ -16474,9 +16567,11 @@ var render = function () {
                                     { staticClass: "invalid-feedback" },
                                     [
                                       _vm._v(
-                                        _vm._s(
-                                          _vm.$t("general.fieldIsRequired")
-                                        )
+                                        "\n                      " +
+                                          _vm._s(
+                                            _vm.$t("general.fieldIsRequired")
+                                          ) +
+                                          "\n                    "
                                       ),
                                     ]
                                   )
@@ -16506,9 +16601,9 @@ var render = function () {
                             [
                               _c("label", { staticClass: "control-label" }, [
                                 _vm._v(
-                                  "\n                                            " +
+                                  "\n                      " +
                                     _vm._s(_vm.$t("general.endDate")) +
-                                    "\n                                            "
+                                    "\n                      "
                                 ),
                                 _c("span", { staticClass: "text-danger" }, [
                                   _vm._v("*"),
@@ -16906,13 +17001,13 @@ var render = function () {
                                       _vm.setting.company_id
                                         ? _c("td", [
                                             _vm._v(
-                                              "\n                                    " +
+                                              "\n                    " +
                                                 _vm._s(
                                                   _vm.$i18n.locale == "ar"
                                                     ? data.company.name
                                                     : data.company.name_e
                                                 ) +
-                                                "\n                                "
+                                                "\n                  "
                                             ),
                                           ])
                                         : _vm._e(),
@@ -16920,13 +17015,13 @@ var render = function () {
                                       _vm.setting.module_id
                                         ? _c("td", [
                                             _vm._v(
-                                              "\n                                    " +
+                                              "\n                    " +
                                                 _vm._s(
                                                   _vm.$i18n.locale == "ar"
                                                     ? data.module.name
                                                     : data.module.name_e
                                                 ) +
-                                                "\n                                "
+                                                "\n                  "
                                             ),
                                           ])
                                         : _vm._e(),
@@ -16979,13 +17074,13 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                            " +
+                                                    "\n                        " +
                                                       _vm._s(
                                                         _vm.$t(
                                                           "general.commands"
                                                         )
                                                       ) +
-                                                      "\n                                            "
+                                                      "\n                        "
                                                   ),
                                                   _c("i", {
                                                     staticClass:
@@ -17151,13 +17246,13 @@ var render = function () {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              "\n                                                    " +
+                                                              "\n                            " +
                                                                 _vm._s(
                                                                   _vm.$t(
                                                                     "general.Add"
                                                                   )
                                                                 ) +
-                                                                "\n                                                "
+                                                                "\n                          "
                                                             ),
                                                           ]
                                                         )
@@ -17219,13 +17314,13 @@ var render = function () {
                                                       },
                                                       [
                                                         _vm._v(
-                                                          "\n                                                    " +
+                                                          "\n                            " +
                                                             _vm._s(
                                                               _vm.$t(
                                                                 "general.Cancel"
                                                               )
                                                             ) +
-                                                            "\n                                                "
+                                                            "\n                          "
                                                         ),
                                                       ]
                                                     ),
@@ -17259,13 +17354,13 @@ var render = function () {
                                                               },
                                                               [
                                                                 _vm._v(
-                                                                  "\n                                                            " +
+                                                                  "\n                                " +
                                                                     _vm._s(
                                                                       _vm.$t(
                                                                         "company.company"
                                                                       )
                                                                     ) +
-                                                                    "\n                                                            "
+                                                                    "\n                                "
                                                                 ),
                                                                 _c(
                                                                   "span",
@@ -17351,11 +17446,13 @@ var render = function () {
                                                                   },
                                                                   [
                                                                     _vm._v(
-                                                                      _vm._s(
-                                                                        _vm.$t(
-                                                                          "general.fieldIsRequired"
-                                                                        )
-                                                                      )
+                                                                      "\n                                " +
+                                                                        _vm._s(
+                                                                          _vm.$t(
+                                                                            "general.fieldIsRequired"
+                                                                          )
+                                                                        ) +
+                                                                        "\n                              "
                                                                     ),
                                                                   ]
                                                                 )
@@ -17414,13 +17511,13 @@ var render = function () {
                                                               },
                                                               [
                                                                 _vm._v(
-                                                                  "\n                                                            " +
+                                                                  "\n                                " +
                                                                     _vm._s(
                                                                       _vm.$t(
                                                                         "module.module"
                                                                       )
                                                                     ) +
-                                                                    "\n                                                            "
+                                                                    "\n                                "
                                                                 ),
                                                                 _c(
                                                                   "span",
@@ -17506,11 +17603,13 @@ var render = function () {
                                                                   },
                                                                   [
                                                                     _vm._v(
-                                                                      _vm._s(
-                                                                        _vm.$t(
-                                                                          "general.fieldIsRequired"
-                                                                        )
-                                                                      )
+                                                                      "\n                                " +
+                                                                        _vm._s(
+                                                                          _vm.$t(
+                                                                            "general.fieldIsRequired"
+                                                                          )
+                                                                        ) +
+                                                                        "\n                              "
                                                                     ),
                                                                   ]
                                                                 )
@@ -17568,13 +17667,13 @@ var render = function () {
                                                               },
                                                               [
                                                                 _vm._v(
-                                                                  "\n                                                            " +
+                                                                  "\n                                " +
                                                                     _vm._s(
                                                                       _vm.$t(
                                                                         "general.allowed_users_no"
                                                                       )
                                                                     ) +
-                                                                    "\n                                                            "
+                                                                    "\n                                "
                                                                 ),
                                                                 _c(
                                                                   "span",
@@ -17710,13 +17809,13 @@ var render = function () {
                                                               },
                                                               [
                                                                 _vm._v(
-                                                                  "\n                                                            " +
+                                                                  "\n                                " +
                                                                     _vm._s(
                                                                       _vm.$t(
                                                                         "general.startDate"
                                                                       )
                                                                     ) +
-                                                                    "\n                                                            "
+                                                                    "\n                                "
                                                                 ),
                                                                 _c(
                                                                   "span",
@@ -17771,11 +17870,13 @@ var render = function () {
                                                                   },
                                                                   [
                                                                     _vm._v(
-                                                                      _vm._s(
-                                                                        _vm.$t(
-                                                                          "general.fieldIsRequired"
-                                                                        )
-                                                                      )
+                                                                      "\n                                " +
+                                                                        _vm._s(
+                                                                          _vm.$t(
+                                                                            "general.fieldIsRequired"
+                                                                          )
+                                                                        ) +
+                                                                        "\n                              "
                                                                     ),
                                                                   ]
                                                                 )
@@ -17834,13 +17935,13 @@ var render = function () {
                                                               },
                                                               [
                                                                 _vm._v(
-                                                                  "\n                                                            " +
+                                                                  "\n                                " +
                                                                     _vm._s(
                                                                       _vm.$t(
                                                                         "general.endDate"
                                                                       )
                                                                     ) +
-                                                                    "\n                                                            "
+                                                                    "\n                                "
                                                                 ),
                                                                 _c(
                                                                   "span",
@@ -17920,10 +18021,37 @@ var render = function () {
                                       ),
                                       _vm._v(" "),
                                       _c("td", [
-                                        _c("i", {
-                                          staticClass: "fe-info",
-                                          staticStyle: { "font-size": "22px" },
-                                        }),
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass: "btn",
+                                            attrs: {
+                                              type: "button",
+                                              "data-toggle": "tooltip",
+                                              "data-placement":
+                                                _vm.$i18n.locale == "en"
+                                                  ? "left"
+                                                  : "right",
+                                              title: _vm.Tooltip,
+                                            },
+                                            on: {
+                                              mouseover: function ($event) {
+                                                return _vm.log(data.id)
+                                              },
+                                              mousemove: function ($event) {
+                                                return _vm.log(data.id)
+                                              },
+                                            },
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fe-info",
+                                              staticStyle: {
+                                                "font-size": "22px",
+                                              },
+                                            }),
+                                          ]
+                                        ),
                                       ]),
                                     ]
                                   )
@@ -17941,7 +18069,9 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      _vm._s(_vm.$t("general.notDataFound"))
+                                      "\n                    " +
+                                        _vm._s(_vm.$t("general.notDataFound")) +
+                                        "\n                  "
                                     ),
                                   ]
                                 ),

@@ -63,7 +63,6 @@ Route::group(['prefix' => 'companies'], function () {
     Route::post('/', [CompanyController::class, "create"])->name('companies.store');
     Route::post('/{id}', [CompanyController::class, "update"])->name('companies.update');
     Route::delete('/{id}', [CompanyController::class, "destroy"])->name('companies.delete');
-    Route::delete('/logs/{id}', [CompanyController::class, "logs"])->name('companies.logs.delete');
     Route::post('bulk-delete', [CompanyController::class, 'bulkDelete']);
 });
 
@@ -145,6 +144,8 @@ Route::group(['prefix' => 'company-modules'], function () {
         Route::put('/{id}', 'update')->name('company_modules.update');
         Route::delete('/{id}', 'delete')->name('company_modules.destroy');
         Route::get('logs/{id}', 'logs')->name('company_modules.logs');
+        Route::post('bulk-delete', 'bulkDelete');
+
     });
 });
 // api of helpfiles
@@ -183,7 +184,7 @@ Route::group(['prefix' => 'screen-button'], function () {
         Route::post('/', 'store')->name('screenbutton.store');
         Route::post('/{id}', 'update')->name('screenbutton.update');
         Route::delete('/{id}', 'delete')->name('screenbutton.destroy');
-        Route::delete('/remove/{screen_id}/{button_id}',"removeScreenFromButton");
+        Route::delete('/remove/{screen_id}/{button_id}', "removeScreenFromButton");
         Route::post('bulk-delete', 'bulkDelete');
     });
 });
@@ -213,7 +214,7 @@ Route::group(['prefix' => 'workflow-trees'], function () {
         Route::delete('/{id}', 'delete')->name('WorkflowTree.destroy');
         Route::get('logs/{id}', 'logs')->name('WorkflowTree.logs');
         Route::post('bulk-delete', 'bulkDelete');
-        Route::get("company-workflows/{company_id}","getCompanyWorkflows");
+        Route::get("company-workflows/{company_id}", "getCompanyWorkflows");
     });
 });
 

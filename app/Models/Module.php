@@ -23,7 +23,7 @@ class Module extends Model
         'is_active' => 'App\Enums\IsActive',
     ];
 
-    protected $appends = ["have_children"];
+    protected $appends = ["haveChildren"];
     /**
      * this method used to make filter of query
      * @param Query  $query
