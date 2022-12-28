@@ -1462,14 +1462,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       childNodes: [],
       Tooltip: "",
       mouseEnter: "",
-<<<<<<< HEAD
       current_id: null,
-=======
-<<<<<<< HEAD
-      current_id: null,
-=======
->>>>>>> b57413aa284197b747707185754119632edf7eee
->>>>>>> dev-test
       create: {
         name: "",
         name_e: "",

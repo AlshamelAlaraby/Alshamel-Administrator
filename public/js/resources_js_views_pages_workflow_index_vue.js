@@ -1398,14 +1398,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       isLoader: false,
       Tooltip: "",
       mouseEnter: "",
-<<<<<<< HEAD
       current_id: null,
-=======
-<<<<<<< HEAD
-      current_id: null,
-=======
->>>>>>> b57413aa284197b747707185754119632edf7eee
->>>>>>> dev-test
       create: (_create = {
         name: "",
         name_e: ""
