@@ -79,11 +79,9 @@ export default {
         end_date: true,
       },
       filterSetting: [
-        "company_id",
-        "module_id",
+          this.$i18n.locale  == 'ar'?'company.name':'company.name_e',
+          this.$i18n.locale  == 'ar'?'module.name':'module.name_e',
         "allowed_users_no",
-        "start_date",
-        "end_date",
       ],
       errors: {},
       isEye: false,
@@ -636,16 +634,14 @@ export default {
                   >
                     <b-form-checkbox
                       v-model="filterSetting"
-                      value="company_id"
+                      :value="$i18n.locale  == 'ar'?'company.name':'company.name_e'"
                       class="mb-1"
-                      >{{ $t("company.company") }}</b-form-checkbox
-                    >
+                      >{{ $t("company.company") }}</b-form-checkbox>
                     <b-form-checkbox
                       v-model="filterSetting"
-                      value="module_id"
+                      :value="$i18n.locale  == 'ar'?'module.name':'module.name_e'"
                       class="mb-1"
-                      >{{ $t("module.module") }}</b-form-checkbox
-                    >
+                      >{{ $t("module.module") }}</b-form-checkbox>
                     <b-form-checkbox
                       v-model="filterSetting"
                       value="allowed_users_no"

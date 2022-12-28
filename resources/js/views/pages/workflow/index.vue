@@ -94,7 +94,12 @@ export default {
         id_integer: true,
       },
       idDelete: null,
-      filterSetting: ["name", "name_e"],
+      filterSetting: [
+          "name", "name_e",
+          this.$i18n.locale  == 'ar'?'company.name':'company.name_e',
+          this.$i18n.locale  == 'ar'?'module.name':'module.name_e',
+          this.$i18n.locale  == 'ar'?'screen.name':'screen.name_e'
+      ],
     };
   },
   validations: {
@@ -1002,6 +1007,21 @@ export default {
                     <b-form-checkbox v-model="filterSetting" value="name_e" class="mb-1">
                       {{ $t("general.Name_en") }}
                     </b-form-checkbox>
+                      <b-form-checkbox
+                          v-model="filterSetting"
+                          :value="$i18n.locale  == 'ar'?'company.name':'company.name_e'"
+                          class="mb-1"
+                      >{{ $t("company.company") }}</b-form-checkbox>
+                      <b-form-checkbox
+                          v-model="filterSetting"
+                          :value="$i18n.locale  == 'ar'?'module.name':'module.name_e'"
+                          class="mb-1"
+                      >{{ $t("module.module") }}</b-form-checkbox>
+                      <b-form-checkbox
+                          v-model="filterSetting"
+                          :value="$i18n.locale  == 'ar'?'screen.name':'screen.name_e'"
+                          class="mb-1"
+                      >{{ $t("module.Screen") }}</b-form-checkbox>
                   </b-dropdown>
                   <!-- Basic dropdown -->
                 </div>

@@ -40,7 +40,15 @@ trait LogTrait
 
             if ($request->search && $request->columns) {
                 foreach ($request->columns as $column) {
-                    $q->orWhere($column, 'like', '%' . $request->search . '%');
+                    if (strpos($column, ".") > 0) {
+                        $column = explode(".", $column);
+                        $q->orWhereRelation($column[0], $column[1], 'like', '%' . $request->search . '%');
+                        // $q->orWhereHas($column[0], function ($q) use ($column, $request) {
+                        //     $q->where($column[1], 'like', '%' . $request->search . '%');
+                        // });
+                    } else {
+                        $q->orWhere($column, 'like', '%' . $request->search . '%');
+                    }
                 }
             }
 

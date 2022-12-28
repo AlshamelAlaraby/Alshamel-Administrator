@@ -1434,7 +1434,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         id_integer: true
       },
       idDelete: null,
-      filterSetting: ["name", "name_e"]
+      filterSetting: ["name", "name_e", this.$i18n.locale == 'ar' ? 'company.name' : 'company.name_e', this.$i18n.locale == 'ar' ? 'module.name' : 'module.name_e', this.$i18n.locale == 'ar' ? 'screen.name' : 'screen.name_e']
     };
   },
   validations: {
@@ -15408,6 +15408,69 @@ var render = function () {
                                         "\n                  "
                                     ),
                                   ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "b-form-checkbox",
+                                  {
+                                    staticClass: "mb-1",
+                                    attrs: {
+                                      value:
+                                        _vm.$i18n.locale == "ar"
+                                          ? "company.name"
+                                          : "company.name_e",
+                                    },
+                                    model: {
+                                      value: _vm.filterSetting,
+                                      callback: function ($$v) {
+                                        _vm.filterSetting = $$v
+                                      },
+                                      expression: "filterSetting",
+                                    },
+                                  },
+                                  [_vm._v(_vm._s(_vm.$t("company.company")))]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "b-form-checkbox",
+                                  {
+                                    staticClass: "mb-1",
+                                    attrs: {
+                                      value:
+                                        _vm.$i18n.locale == "ar"
+                                          ? "module.name"
+                                          : "module.name_e",
+                                    },
+                                    model: {
+                                      value: _vm.filterSetting,
+                                      callback: function ($$v) {
+                                        _vm.filterSetting = $$v
+                                      },
+                                      expression: "filterSetting",
+                                    },
+                                  },
+                                  [_vm._v(_vm._s(_vm.$t("module.module")))]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "b-form-checkbox",
+                                  {
+                                    staticClass: "mb-1",
+                                    attrs: {
+                                      value:
+                                        _vm.$i18n.locale == "ar"
+                                          ? "screen.name"
+                                          : "screen.name_e",
+                                    },
+                                    model: {
+                                      value: _vm.filterSetting,
+                                      callback: function ($$v) {
+                                        _vm.filterSetting = $$v
+                                      },
+                                      expression: "filterSetting",
+                                    },
+                                  },
+                                  [_vm._v(_vm._s(_vm.$t("module.Screen")))]
                                 ),
                               ],
                               1
