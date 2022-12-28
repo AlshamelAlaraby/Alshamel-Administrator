@@ -1397,6 +1397,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       screens: [],
       isLoader: false,
       Tooltip: "",
+      mouseEnter: "",
+      current_id: null,
       create: (_create = {
         name: "",
         name_e: ""
@@ -1891,21 +1893,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     log: function log(id) {
       var _this11 = this;
-      this.Tooltip = "";
-      _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/workflow-trees/logs/".concat(id)).then(function (res) {
-        var l = res.data.data;
-        l.forEach(function (e) {
-          _this11.Tooltip += "Created By: ".concat(e.causer_type, "; Event: ").concat(e.event, "; Description: ").concat(e.description, " ;Created At: ").concat(_this11.formatDate(e.created_at), " \n");
+      if (this.mouseEnter != id) {
+        this.Tooltip = "";
+        this.mouseEnter = id;
+        _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/workflow-trees/logs/".concat(id)).then(function (res) {
+          var l = res.data.data;
+          l.forEach(function (e) {
+            _this11.Tooltip += "Created By: ".concat(e.causer_type, "; Event: ").concat(e.event, "; Description: ").concat(e.description, " ;Created At: ").concat(_this11.formatDate(e.created_at), " \n");
+          });
+        })["catch"](function (err) {
+          sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+            icon: "error",
+            title: "".concat(_this11.$t("general.Error")),
+            text: "".concat(_this11.$t("general.Thereisanerrorinthesystem"))
+          });
         });
-      })["catch"](function (err) {
-        sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-          icon: "error",
-          title: "".concat(_this11.$t("general.Error")),
-          text: "".concat(_this11.$t("general.Thereisanerrorinthesystem"))
-        });
-      })["finally"](function () {
-        _this11.isLoader = false;
-      });
+      } else {}
     },
     /**
      *   show Modal (edit)
@@ -1956,7 +1959,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   _this12.$v.$reset();
                 });
                 _this12.errors = {};
-              case 25:
+                _this12.current_id = id;
+              case 26:
               case "end":
                 return _context2.stop();
             }
@@ -2196,7 +2200,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.create.parent_id = null;
       }
     },
-    setUpdateParentId: function setUpdateParentId(node) {
+    setUpdateParentId: function setUpdateParentId(parents, node) {
+      if (parents.includes(this.current_id)) {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+          icon: "error",
+          title: "".concat(this.$t("general.Error")),
+          text: "".concat(this.$t("general.cantSelectChildToBeParent"))
+        });
+        return;
+      }
+      if (this.current_id == node.id) {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+          icon: "error",
+          title: "".concat(this.$t("general.Error")),
+          text: "".concat(this.$t("general.cantSelectSelfParent"))
+        });
+        return;
+      }
       if (this.edit.parent_id != node.id) {
         this.edit.parent_id = node.id;
       } else {
@@ -18765,6 +18785,7 @@ var render = function () {
                                                                                         $event
                                                                                       ) {
                                                                                         return _vm.setUpdateParentId(
+                                                                                          [],
                                                                                           node
                                                                                         )
                                                                                       },
@@ -18863,6 +18884,9 @@ var render = function () {
                                                                                                       $event
                                                                                                     ) {
                                                                                                       return _vm.setUpdateParentId(
+                                                                                                        [
+                                                                                                          node.id,
+                                                                                                        ],
                                                                                                         childNode
                                                                                                       )
                                                                                                     },
@@ -20884,41 +20908,39 @@ var render = function () {
                                       1
                                     ),
                                     _vm._v(" "),
-                                    _c(
-                                      "td",
-                                      {
-                                        on: {
-                                          mouseup: function ($event) {
-                                            return _vm.log(data.id)
+                                    _c("td", [
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass: "btn",
+                                          attrs: {
+                                            type: "button",
+                                            "data-toggle": "tooltip",
+                                            "data-placement":
+                                              _vm.$i18n.locale == "en"
+                                                ? "left"
+                                                : "right",
+                                            title: _vm.Tooltip,
                                           },
-                                        },
-                                      },
-                                      [
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass: "btn",
-                                            attrs: {
-                                              type: "button",
-                                              "data-toggle": "tooltip",
-                                              "data-placement":
-                                                _vm.$i18n.locale == "en"
-                                                  ? "left"
-                                                  : "right",
-                                              title: _vm.Tooltip,
+                                          on: {
+                                            mouseover: function ($event) {
+                                              return _vm.log(data.id)
+                                            },
+                                            mousemove: function ($event) {
+                                              return _vm.log(data.id)
                                             },
                                           },
-                                          [
-                                            _c("i", {
-                                              staticClass: "fe-info",
-                                              staticStyle: {
-                                                "font-size": "22px",
-                                              },
-                                            }),
-                                          ]
-                                        ),
-                                      ]
-                                    ),
+                                        },
+                                        [
+                                          _c("i", {
+                                            staticClass: "fe-info",
+                                            staticStyle: {
+                                              "font-size": "22px",
+                                            },
+                                          }),
+                                        ]
+                                      ),
+                                    ]),
                                   ]
                                 )
                               }),

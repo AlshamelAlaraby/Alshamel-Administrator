@@ -1461,6 +1461,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       rootNodes: [],
       childNodes: [],
       Tooltip: "",
+      mouseEnter: "",
+      current_id: null,
       create: {
         name: "",
         name_e: "",
@@ -1557,26 +1559,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.getData();
   },
   methods: {
-    log: function log(id) {
-      var _this3 = this;
-      this.Tooltip = "";
-      _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/modules/logs/".concat(id)).then(function (res) {
-        var l = res.data.data;
-        l.forEach(function (e) {
-          _this3.Tooltip += "Created By: ".concat(e.causer_type, "; Event: ").concat(e.event, "; Description: ").concat(e.description, " ;Created At: ").concat(_this3.formatDate(e.created_at), " \n");
-        });
-      })["catch"](function (err) {
-        sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-          icon: "error",
-          title: "".concat(_this3.$t("general.Error")),
-          text: "".concat(_this3.$t("general.Thereisanerrorinthesystem"))
-        });
-      })["finally"](function () {
-        _this3.isLoader = false;
-      });
-    },
     formatDate: function formatDate(value) {
       return (0,_helper_startDate__WEBPACK_IMPORTED_MODULE_10__.formatDateOnly)(value);
+    },
+    log: function log(id) {
+      var _this3 = this;
+      if (this.mouseEnter != id) {
+        this.Tooltip = "";
+        this.mouseEnter = id;
+        _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/modules/logs/".concat(id)).then(function (res) {
+          var l = res.data.data;
+          l.forEach(function (e) {
+            _this3.Tooltip += "Created By: ".concat(e.causer_type, "; Event: ").concat(e.event, "; Description: ").concat(e.description, " ;Created At: ").concat(_this3.formatDate(e.created_at), " \n");
+          });
+        })["catch"](function (err) {
+          sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+            icon: "error",
+            title: "".concat(_this3.$t("general.Error")),
+            text: "".concat(_this3.$t("general.Thereisanerrorinthesystem"))
+          });
+        });
+      } else {}
     },
     /**
      *  get Data module
@@ -1951,7 +1954,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.create.parent_id = null;
       }
     },
-    setUpdateParentId: function setUpdateParentId(node) {
+    setUpdateParentId: function setUpdateParentId(parents, node) {
+      if (parents.includes(this.current_id)) {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+          icon: "error",
+          title: "".concat(this.$t("general.Error")),
+          text: "".concat(this.$t("general.cantSelectChildToBeParent"))
+        });
+        return;
+      }
+      if (this.current_id == node.id) {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+          icon: "error",
+          title: "".concat(this.$t("general.Error")),
+          text: "".concat(this.$t("general.cantSelectSelfParent"))
+        });
+        return;
+      }
       if (this.edit.parent_id != node.id) {
         this.edit.parent_id = node.id;
       } else {
@@ -1978,7 +1997,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this15.edit.is_active = module.is_active;
                 _this15.edit.parent_id = module.parent_id;
                 _this15.errors = {};
-              case 7:
+                _this15.current_id = id;
+              case 8:
               case "end":
                 return _context3.stop();
             }
@@ -17009,6 +17029,7 @@ var render = function () {
                                                                             $event
                                                                           ) {
                                                                             return _vm.setUpdateParentId(
+                                                                              [],
                                                                               node
                                                                             )
                                                                           },
@@ -17103,6 +17124,9 @@ var render = function () {
                                                                                             $event
                                                                                           ) {
                                                                                             return _vm.setUpdateParentId(
+                                                                                              [
+                                                                                                node.id,
+                                                                                              ],
                                                                                               childNode
                                                                                             )
                                                                                           },
@@ -17149,47 +17173,17 @@ var render = function () {
                                                                                             key: child.id,
                                                                                           },
                                                                                           [
-                                                                                            _c(
-                                                                                              "span",
-                                                                                              [
-                                                                                                _c(
-                                                                                                  "span",
-                                                                                                  {
-                                                                                                    class:
-                                                                                                      {
-                                                                                                        active:
-                                                                                                          child.id ==
-                                                                                                          _vm
-                                                                                                            .edit
-                                                                                                            .parent_id,
-                                                                                                      },
-                                                                                                    on: {
-                                                                                                      click:
-                                                                                                        function (
-                                                                                                          $event
-                                                                                                        ) {
-                                                                                                          return _vm.setUpdateParentId(
-                                                                                                            child
-                                                                                                          )
-                                                                                                        },
-                                                                                                    },
-                                                                                                  },
-                                                                                                  [
-                                                                                                    _vm._v(
-                                                                                                      "\n                                            " +
-                                                                                                        _vm._s(
-                                                                                                          _vm
-                                                                                                            .$i18n
-                                                                                                            .locale ==
-                                                                                                            "ar"
-                                                                                                            ? child.name
-                                                                                                            : child.name_e
-                                                                                                        ) +
-                                                                                                        "\n                                          "
-                                                                                                    ),
-                                                                                                  ]
-                                                                                                ),
-                                                                                              ]
+                                                                                            _vm._v(
+                                                                                              "\n                                        " +
+                                                                                                _vm._s(
+                                                                                                  _vm
+                                                                                                    .$i18n
+                                                                                                    .locale ==
+                                                                                                    "ar"
+                                                                                                    ? child.name
+                                                                                                    : child.name_e
+                                                                                                ) +
+                                                                                                "\n                                      "
                                                                                             ),
                                                                                           ]
                                                                                         )
@@ -17919,41 +17913,39 @@ var render = function () {
                                       1
                                     ),
                                     _vm._v(" "),
-                                    _c(
-                                      "td",
-                                      {
-                                        on: {
-                                          mouseup: function ($event) {
-                                            return _vm.log(data.id)
+                                    _c("td", [
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass: "btn",
+                                          attrs: {
+                                            type: "button",
+                                            "data-toggle": "tooltip",
+                                            "data-placement":
+                                              _vm.$i18n.locale == "en"
+                                                ? "left"
+                                                : "right",
+                                            title: _vm.Tooltip,
                                           },
-                                        },
-                                      },
-                                      [
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass: "btn",
-                                            attrs: {
-                                              type: "button",
-                                              "data-toggle": "tooltip",
-                                              "data-placement":
-                                                _vm.$i18n.locale == "en"
-                                                  ? "left"
-                                                  : "right",
-                                              title: _vm.Tooltip,
+                                          on: {
+                                            mouseover: function ($event) {
+                                              return _vm.log(data.id)
+                                            },
+                                            mousemove: function ($event) {
+                                              return _vm.log(data.id)
                                             },
                                           },
-                                          [
-                                            _c("i", {
-                                              staticClass: "fe-info",
-                                              staticStyle: {
-                                                "font-size": "22px",
-                                              },
-                                            }),
-                                          ]
-                                        ),
-                                      ]
-                                    ),
+                                        },
+                                        [
+                                          _c("i", {
+                                            staticClass: "fe-info",
+                                            staticStyle: {
+                                              "font-size": "22px",
+                                            },
+                                          }),
+                                        ]
+                                      ),
+                                    ]),
                                   ]
                                 )
                               }),
