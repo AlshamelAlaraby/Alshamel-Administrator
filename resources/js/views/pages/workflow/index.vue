@@ -43,6 +43,8 @@ export default {
       isLoader: false,
       Tooltip: "",
       mouseEnter: "",
+            current_id: null,
+
       create: {
         name: "",
         name_e: "",
@@ -92,7 +94,12 @@ export default {
         id_integer: true,
       },
       idDelete: null,
-      filterSetting: ["name", "name_e"],
+      filterSetting: [
+          "name", "name_e",
+          this.$i18n.locale  == 'ar'?'company.name':'company.name_e',
+          this.$i18n.locale  == 'ar'?'module.name':'module.name_e',
+          this.$i18n.locale  == 'ar'?'screen.name':'screen.name_e'
+      ],
     };
   },
   validations: {
@@ -577,6 +584,7 @@ export default {
         this.$v.$reset();
       });
       this.errors = {};
+      this.current_id=id;
     },
     /**
      *  hidden Modal (edit)
@@ -763,13 +771,30 @@ export default {
         this.create.parent_id = null;
       }
     },
-    setUpdateParentId(node) {
+    setUpdateParentId(parents, node) {
+      if (parents.includes(this.current_id)) {
+        Swal.fire({
+          icon: "error",
+          title: `${this.$t("general.Error")}`,
+          text: `${this.$t("general.cantSelectChildToBeParent")}`,
+        });
+        return;
+      }
+      if (this.current_id == node.id) {
+        Swal.fire({
+          icon: "error",
+          title: `${this.$t("general.Error")}`,
+          text: `${this.$t("general.cantSelectSelfParent")}`,
+        });
+        return;
+      }
       if (this.edit.parent_id != node.id) {
         this.edit.parent_id = node.id;
       } else {
         this.edit.parent_id = null;
       }
     },
+
     /**
      *  start  dynamicSortString
      */
@@ -982,6 +1007,21 @@ export default {
                     <b-form-checkbox v-model="filterSetting" value="name_e" class="mb-1">
                       {{ $t("general.Name_en") }}
                     </b-form-checkbox>
+                      <b-form-checkbox
+                          v-model="filterSetting"
+                          :value="$i18n.locale  == 'ar'?'company.name':'company.name_e'"
+                          class="mb-1"
+                      >{{ $t("company.company") }}</b-form-checkbox>
+                      <b-form-checkbox
+                          v-model="filterSetting"
+                          :value="$i18n.locale  == 'ar'?'module.name':'module.name_e'"
+                          class="mb-1"
+                      >{{ $t("module.module") }}</b-form-checkbox>
+                      <b-form-checkbox
+                          v-model="filterSetting"
+                          :value="$i18n.locale  == 'ar'?'screen.name':'screen.name_e'"
+                          class="mb-1"
+                      >{{ $t("module.Screen") }}</b-form-checkbox>
                   </b-dropdown>
                   <!-- Basic dropdown -->
                 </div>
@@ -2018,7 +2058,7 @@ export default {
                                           "
                                         ></i>
                                         <span
-                                          @click="setUpdateParentId(node)"
+                                          @click="setUpdateParentId([],node)"
                                           :class="{
                                             'without-children': !node.haveChildren,
                                             active: node.id == edit.parent_id,
@@ -2053,7 +2093,7 @@ export default {
                                             >
                                             </i>
                                             <span
-                                              @click="setUpdateParentId(childNode)"
+                                              @click="setUpdateParentId([node.id],childNode)"
                                               :class="{
                                                 'without-children': !childNode.haveChildren,
                                                 active: childNode.id == edit.parent_id,

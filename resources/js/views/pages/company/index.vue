@@ -110,7 +110,7 @@ export default {
         "name",
         "name_e",
         "email",
-        "partner_id",
+        this.$i18n.locale  == 'ar'?'partner.name':'partner.name_e',
         "url",
         "phone",
         "tax_id",
@@ -881,7 +881,7 @@ export default {
                     </b-form-checkbox>
                     <b-form-checkbox
                       v-model="filterSetting"
-                      value="partner_id"
+                      :value="$i18n.locale  == 'ar'?'partner.name':'partner.name_e'"
                       class="mb-1"
                     >
                       {{ $t("partner.partner") }}

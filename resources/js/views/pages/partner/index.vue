@@ -80,7 +80,6 @@ export default {
       checkAll: [],
       is_disabled: false,
       current_page: 1,
-      Tooltip: "",
     };
   },
   validations: {
@@ -1486,3 +1485,6 @@ export default {
     </div>
   </Layout>
 </template>
+
+
+

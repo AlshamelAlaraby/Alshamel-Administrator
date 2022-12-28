@@ -60,6 +60,8 @@ export default {
       childNodes: [],
       Tooltip: "",
       mouseEnter: "",
+      current_id: null,
+
       create: {
         name: "",
         name_e: "",
@@ -529,7 +531,23 @@ export default {
         this.create.parent_id = null;
       }
     },
-    setUpdateParentId(node) {
+    setUpdateParentId(parents, node) {
+      if (parents.includes(this.current_id)) {
+        Swal.fire({
+          icon: "error",
+          title: `${this.$t("general.Error")}`,
+          text: `${this.$t("general.cantSelectChildToBeParent")}`,
+        });
+        return;
+      }
+      if (this.current_id == node.id) {
+        Swal.fire({
+          icon: "error",
+          title: `${this.$t("general.Error")}`,
+          text: `${this.$t("general.cantSelectSelfParent")}`,
+        });
+        return;
+      }
       if (this.edit.parent_id != node.id) {
         this.edit.parent_id = node.id;
       } else {
@@ -547,6 +565,7 @@ export default {
       this.edit.is_active = module.is_active;
       this.edit.parent_id = module.parent_id;
       this.errors = {};
+      this.current_id = id;
     },
     /**
      *  hidden Modal (edit)
@@ -1231,7 +1250,7 @@ export default {
                                       "
                                     ></i>
                                     <span
-                                      @click="setUpdateParentId(node)"
+                                      @click="setUpdateParentId([], node)"
                                       :class="{
                                         'without-children': !node.haveChildren,
                                         active: node.id == edit.parent_id,
@@ -1264,7 +1283,7 @@ export default {
                                         >
                                         </i>
                                         <span
-                                          @click="setUpdateParentId(childNode)"
+                                          @click="setUpdateParentId([node.id], childNode)"
                                           :class="{
                                             'without-children': !childNode.haveChildren,
                                             active: childNode.id == edit.parent_id,
@@ -1287,20 +1306,11 @@ export default {
                                           v-for="child in childNode.children"
                                           :key="child.id"
                                         >
-                                          <span>
-                                            <span
-                                              @click="setUpdateParentId(child)"
-                                              :class="{
-                                                active: child.id == edit.parent_id,
-                                              }"
-                                            >
-                                              {{
-                                                $i18n.locale == "ar"
-                                                  ? child.name
-                                                  : child.name_e
-                                              }}
-                                            </span>
-                                          </span>
+                                          {{
+                                            $i18n.locale == "ar"
+                                              ? child.name
+                                              : child.name_e
+                                          }}
                                         </li>
                                       </ul>
                                     </li>
