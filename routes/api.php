@@ -100,6 +100,11 @@ Route::group(['prefix' => 'partners'], function () {
     Route::controller(PartnerController::class)->group(function () {
         Route::get('/', 'all')->name('partners.index');
 
+        Route::middleware ('auth:sanctum')->group (function (){
+            Route::get('/profile', 'profile');
+            Route::get('/logout', 'logout');
+        });
+
         Route::get('/{id}', 'find');
         Route::get('logs/{id}', "logs");
         Route::post('/', 'store')->name('partners.store');

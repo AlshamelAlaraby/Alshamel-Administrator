@@ -133,6 +133,19 @@ class PartnerController extends Controller
         ]);
     }
 
+    public function profile(Request $request){
+        $user = $request->user ();
+        return responseJson(200, '', [
+            "partner" => new PartnerResource($user),
+        ]);
+    }
+
+    public function logout(Request $request){
+        $user = $request->user ();
+        $user->tokens()->delete();
+        return responseJson(200,'logged out');
+    }
+
 
 
 
