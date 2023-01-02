@@ -60,7 +60,7 @@ class ScreenButtonRepository implements ScreenButtonRepositoryInterface
 
     public function screenButtonExist($screen_id, $button_id)
     {
-        return $this->model->where("screen_id",$screen_id)->where("button_id", $button_id)->count() > 0;
+        return $this->model->where("screen_id", $screen_id)->where("button_id", $button_id)->count() > 0;
     }
 
     public function removeScreenFromButton($screen_id, $button_id)

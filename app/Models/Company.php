@@ -36,8 +36,9 @@ class Company extends Model implements \Spatie\MediaLibrary\HasMedia
         return $this->hasMany(Store::class);
     }
 
-    public function workFlows(){
-        return $this->hasMany (WorkflowTree::class);
+    public function workFlows()
+    {
+        return $this->hasMany(WorkflowTree::class);
     }
 
     public function branches()
@@ -45,8 +46,9 @@ class Company extends Model implements \Spatie\MediaLibrary\HasMedia
         return $this->hasMany(Branch::class);
     }
 
-    public function hasChildren(){
-        $hasChildren = $this->branches ()->count () > 0 || $this->workFlows ()->count () > 0 || $this->stores ()->count () > 0;
+    public function hasChildren()
+    {
+        $hasChildren = $this->branches()->count() > 0 || $this->workFlows()->count() > 0 || $this->stores()->count() > 0;
         return $hasChildren;
     }
 
@@ -57,6 +59,6 @@ class Company extends Model implements \Spatie\MediaLibrary\HasMedia
         return \Spatie\Activitylog\LogOptions::defaults()
             ->logAll()
             ->useLogName('Company')
-            ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName} by ($user)");
+            ->setDescriptionForEvent(fn (string $eventName) => "This model has been {$eventName} by ($user)");
     }
 }
