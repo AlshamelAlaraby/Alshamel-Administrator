@@ -13,7 +13,7 @@ class CompanyModule extends Migration
      */
     public function up()
     {
-        Schema::create('company_modules', function (Blueprint $table) {
+        Schema::create('company_module', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('module_id');
@@ -31,6 +31,6 @@ class CompanyModule extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('company_module');
     }
 }
