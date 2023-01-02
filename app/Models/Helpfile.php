@@ -26,11 +26,11 @@ class Helpfile extends Model
         return \Spatie\Activitylog\LogOptions::defaults()
             ->logAll()
             ->useLogName('Helpfile')
-            ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName} by ($user)");
+            ->setDescriptionForEvent(fn (string $eventName) => "This model has been {$eventName} by ($user)");
     }
 
-    public function hasChildren(){
-        return $this->screens ()->count () > 0;
+    public function hasChildren()
+    {
+        return $this->screens()->count() > 0;
     }
-
 }

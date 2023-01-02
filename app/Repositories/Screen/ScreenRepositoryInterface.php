@@ -19,9 +19,11 @@ interface ScreenRepositoryInterface
 
     public function logs($id);
 
-
     public function removeScreenFromDocumentType($screen_id, $documentType_id);
 
+    public function screenDocumentExist($screen_id, $documentType_id);
 
+    public function getScreenDocumentTypes($id);
 
+    public function getScreenButtons($id);
 }

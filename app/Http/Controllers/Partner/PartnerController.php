@@ -54,15 +54,13 @@ class PartnerController extends Controller
                 cachePut('Partners_' . $id, $model);
             }
         }
-        return responseJson(200, __('Done'), new PartnerResource($model), );
-
+        return responseJson(200, __('Done'), new PartnerResource($model),);
     }
 
     public function store(StorePartnerRequest $request)
     {
 
         return responseJson(200, __('Done'), $this->repository->create($request->validated()));
-
     }
 
     public function update(UpdatePartnerRequest $request, $id)
@@ -75,7 +73,6 @@ class PartnerController extends Controller
         $model = $this->repository->update($request->validated(), $id);
 
         return responseJson(200, __('Done'));
-
     }
 
     public function delete($id)
@@ -90,7 +87,6 @@ class PartnerController extends Controller
         }
         $this->repository->delete($id);
         return responseJson(200, __('Done'));
-
     }
 
     public function bulkDelete(Request $request)
@@ -133,20 +129,18 @@ class PartnerController extends Controller
         ]);
     }
 
-    public function profile(Request $request){
-        $user = $request->user ();
-        return responseJson(200, '', [
+    public function profile(Request $request)
+    {
+        $user = $request->user();
+        return responseJson(200, '', [  
             "partner" => new PartnerResource($user),
         ]);
     }
 
-    public function logout(Request $request){
-        $user = $request->user ();
+    public function logout(Request $request)
+    {
+        $user = $request->user();
         $user->tokens()->delete();
-        return responseJson(200,'logged out');
+        return responseJson(200, 'logged out');
     }
-
-
-
-
 }

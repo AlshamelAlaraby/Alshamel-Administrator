@@ -78,6 +78,8 @@ class WorkflowTree extends Model implements \Spatie\MediaLibrary\HasMedia
     }
 
 
+
+
     public function getActivitylogOptions(): \Spatie\Activitylog\LogOptions
     {
         $user = @auth()->user()->id ?: "system";
@@ -85,7 +87,6 @@ class WorkflowTree extends Model implements \Spatie\MediaLibrary\HasMedia
         return \Spatie\Activitylog\LogOptions::defaults()
             ->logAll()
             ->useLogName('Workflow Tree')
-            ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName} by ($user)");
+            ->setDescriptionForEvent(fn (string $eventName) => "This model has been {$eventName} by ($user)");
     }
-
 }
