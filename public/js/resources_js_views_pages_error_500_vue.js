@@ -244,7 +244,11 @@ var render = function () {
     _vm._v(" "),
     _c("footer", { staticClass: "footer footer-alt" }, [
       _vm._v(
-        "\n    " + _vm._s(new Date().getFullYear()) + " © Minton theme by\n    "
+        "\n    " +
+          _vm._s(new Date().getFullYear()) +
+          " © " +
+          _vm._s(_vm.$t("general.elshamel")) +
+          "\n    "
       ),
       _c("a", { attrs: { href: "" } }, [_vm._v("Themesbrand")]),
     ]),

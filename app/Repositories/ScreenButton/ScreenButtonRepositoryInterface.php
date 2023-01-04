@@ -16,4 +16,7 @@ interface ScreenButtonRepositoryInterface
     public function logs($id);
 
     public function delete($id);
+
+
+    public function getScreens();
 }

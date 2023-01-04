@@ -18,17 +18,15 @@ class ScreenDocumentTypeRepository implements ScreenDocumentTypeRepositoryInterf
     public function __construct(ScreenDocumentType $model)
     {
         $this->model = $model;
-
     }
 
     public function all($request)
     {
         $models = $this->model->where(function ($q) use ($request) {
-            $this->model->scopeFilter($q , $request);
+            $this->model->scopeFilter($q, $request);
         })->orderBy($request->order ? $request->order : 'updated_at', $request->sort ? $request->sort : 'DESC');;
 
         return ['data' => $models->paginate($request->per_page), 'paginate' => true];
-
     }
 
     public function find($id)
@@ -45,7 +43,7 @@ class ScreenDocumentTypeRepository implements ScreenDocumentTypeRepositoryInterf
             cacheForget("ScreenDocumentType");
         });
 
-        return $this->successResponse([],__('Done'));
+        return $this->successResponse([], __('Done'));
     }
 
     public function update($request, $id)
@@ -54,9 +52,7 @@ class ScreenDocumentTypeRepository implements ScreenDocumentTypeRepositoryInterf
             $data = $request;
             $this->model->where("id", $id)->update($data);
             $this->forget($id);
-
         });
-
     }
 
     public function delete($id)
@@ -65,29 +61,6 @@ class ScreenDocumentTypeRepository implements ScreenDocumentTypeRepositoryInterf
         $this->forget($id);
         $model->delete();
     }
-
-
-    public function setting($request)
-    {
-        DB::transaction(function () use ($request) {
-            $screenSetting = UserSettingScreen::where('user_id',$request['user_id'])->where('screen_id',$request['screen_id'])->first();
-            $request['data_json'] =json_encode($request['data_json']);
-            if (!$screenSetting) {
-                UserSettingScreen::create($request);
-            } else {
-                $screenSetting->update($request);
-            }
-        });
-        return $this->successResponse([],__('Done'));
-    }
-
-
-    public function getSetting($user_id, $screen_id)
-    {
-        return  UserSettingScreen::where('user_id',$user_id)->where('screen_id',$screen_id)->first();
-    }
-
-
 
     public function logs($id)
     {
@@ -104,6 +77,5 @@ class ScreenDocumentTypeRepository implements ScreenDocumentTypeRepositoryInterf
         foreach ($keys as $key) {
             cacheForget($key);
         }
-
     }
 }

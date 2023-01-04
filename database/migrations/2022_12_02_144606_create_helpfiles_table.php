@@ -15,9 +15,9 @@ class CreateHelpfilesTable extends Migration
     {
         Schema::create('helpfiles', function (Blueprint $table) {
             $table->id();
-            $table->string("name" , 100)->comment("Name Arabic");
-            $table->string("name_e" , 100)->comment("Name English");
-            $table->string("url" , 200)->comment("مسار الشرح");
+            $table->string("name", 100)->comment("Name Arabic");
+            $table->string("name_e", 100)->comment("Name English");
+            $table->string("url", 200)->comment("مسار الشرح");
             $table->softDeletes();
             $table->timestamps();
         });

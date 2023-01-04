@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Module;
 
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use App\Repositories\Module\ModuleInterface;
+use App\Http\Resources\Module\ModuleResource;
 use App\Http\Requests\Module\AllModuleRequest;
 use App\Http\Requests\Module\StoreModuleRequest;
 use App\Http\Requests\Module\UpdateModuleRequest;
-use App\Http\Resources\Module\ModuleResource;
-use App\Repositories\Module\ModuleInterface;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
+use App\Http\Requests\Module\AddCompanyToModuleRequest;
 
 class ModuleController extends Controller
 {
@@ -80,6 +81,7 @@ class ModuleController extends Controller
         if ($model->have_children) {
             return responseJson(400, __('message.parent have children'));
         }
+
         $this->modelInterface->delete($id);
 
         return responseJson(200, 'success');
@@ -111,7 +113,7 @@ class ModuleController extends Controller
         return responseJson(200, __('Done'));
     }
 
-    public function addModuleToCompany(\App\Http\Requests\Module\AddCompanyToModuleRequest$request)
+    public function addModuleToCompany(AddCompanyToModuleRequest $request)
     {
         $this->modelInterface->addModuleToCompany($request);
         return responseJson(200, 'success');

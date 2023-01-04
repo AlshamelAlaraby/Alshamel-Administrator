@@ -39,12 +39,14 @@ class Screen extends Model
         return $this->belongsToMany(DocumentType::class, 'screen_document_types');
     }
 
-    public function workFlows(){
-        return $this->hasMany (WorkflowTree::class);
+    public function workFlows()
+    {
+        return $this->hasMany(WorkflowTree::class);
     }
 
-    public function hasChildren(){
-        $has_Children = $this->workFlows ()->count () > 0 || $this->helpfiles ()->count () > 0 || $this->buttons ()->count () > 0 || $this->documentTypes ()->count () > 0;
+    public function hasChildren()
+    {
+        $has_Children = $this->workFlows()->count() > 0 || $this->helpfiles()->count() > 0 || $this->buttons()->count() > 0 || $this->documentTypes()->count() > 0;
         return $has_Children;
     }
 }

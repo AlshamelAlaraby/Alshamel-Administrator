@@ -57,94 +57,62 @@ class ScreenDocumentTypeController extends Controller
     public function show($id)
     {
 
-        try {
-            $model = cacheGet('ScreenDocumentType_' . $id);
 
+        $model = cacheGet('ScreenDocumentType_' . $id);
+
+        if (!$model) {
+            $model = $this->repository->find($id);
             if (!$model) {
-                $model = $this->repository->find($id);
-                if (!$model) {
-                    return responseJson(404, __('message.data not found'));
-                } else {
-                    cachePut('ScreenDocumentType_' . $id, $model);
-                }
+                return responseJson(404, __('message.data not found'));
+            } else {
+                cachePut('ScreenDocumentType_' . $id, $model);
             }
-            return responseJson(200, __('Done'), new ScreenDocumentTypeResource($model),);
-        } catch (Exception $exception) {
-            return  responseJson($exception->getCode(), $exception->getMessage());
         }
+        return responseJson(200, __('Done'), new ScreenDocumentTypeResource($model),);
     }
 
 
     public function store(CreateScreenDocumentTypeRequest $request)
     {
-        try {
-            $this->repository->create($request->validated());
-            return responseJson(200, __('Done'));
-        } catch (Exception $exception) {
-            return  responseJson($exception->getCode(), $exception->getMessage());
-        }
+
+        $this->repository->create($request->validated());
+        return responseJson(200, __('Done'));
     }
 
 
     public function update(EditScreenDocumentTypeRequest $request, $id)
     {
-        try {
-            $model = $this->repository->find($id);
-            if (!$model) {
-                return  responseJson(404, __('message.data not found'));
-            }
-            $model = $this->repository->update($request->validated(), $id);
 
-            return  responseJson(200, __('Done'));
-        } catch (Exception $exception) {
-            return  responseJson($exception->getCode(), $exception->getMessage());
+        $model = $this->repository->find($id);
+        if (!$model) {
+            return  responseJson(404, __('message.data not found'));
         }
+        $model = $this->repository->update($request->validated(), $id);
+
+        return  responseJson(200, __('Done'));
     }
 
 
     public function destroy($id)
     {
-        try {
-            $model = $this->repository->find($id);
-            if (!$model) {
-                return  responseJson(404, __('message.data not found'));
-            }
-            $this->repository->delete($id);
-            return  responseJson(200, __('Done'));
-        } catch (Exception $exception) {
-            return  responseJson($exception->getCode(), $exception->getMessage());
+
+        $model = $this->repository->find($id);
+        if (!$model) {
+            return  responseJson(404, __('message.data not found'));
         }
+        $this->repository->delete($id);
+        return  responseJson(200, __('Done'));
     }
 
-    public function bulkDelete(Request $request){
-        foreach ($request->ids as $id){
+    public function bulkDelete(Request $request)
+    {
+        foreach ($request->ids as $id) {
             $this->repository->delete($id);
         }
         return  responseJson(200, __('Done'));
     }
 
 
-    public function screenSetting(Request $request)
-    {
-        try {
-            return responseJson(200, __('Done'), $this->repository->setting($request->all()));
-        } catch (Exception $exception) {
-            return  responseJson($exception->getCode(), $exception->getMessage());
-        }
-    }
-
-    public function getScreenSetting($user_id, $screen_id)
-    {
-        try {
-            $screenSetting = $this->repository->getSetting($user_id, $screen_id);
-            if (!$screenSetting) {
-                return responseJson(404, __('message.data not found'));
-            }
-            return responseJson(200, __('Done'), new ScreenSettingResource($screenSetting));
-        } catch (Exception $exception) {
-            return  responseJson($exception->getCode(), $exception->getMessage());
-        }
-    }
 
     public function logs($id)
     {
@@ -156,6 +124,4 @@ class ScreenDocumentTypeController extends Controller
         $logs = $this->repository->logs($id);
         return responseJson(200, 'success', LogResource::collection($logs));
     }
-
-
 }
