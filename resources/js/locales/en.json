@@ -429,7 +429,7 @@
     },
   "general": {
     "elshamel":"Alshamel",
-        
+    "parent":"Parent",
     "cantSelectChildToBeParent":"Cant select this item because it's one of current item's children",
     "cantSelectSelfParent":"Item couldn't be parent to itself",
     "CantDeleteRelation":"You cannot delete an element that has a relationship with another element",
