@@ -71,12 +71,17 @@ class WorkflowTreeController extends ResponseController
         if (!$company) {
             return responseJson(404, __('message.data not found'));
         }
-        $wf = WorkflowTree::query()->where('is_active', 'active')->where('company_id', $company->id)->get();
+        $wf = WorkflowTree::query()
+        ->where('is_active', 'active')
+        ->with('child.child.child')
+        ->whereParentId(null)
+        ->where('company_id', $company->id)
+        ->get();
 
-        $company->work_flow_trees = WorkflowTreeResource1::collection($wf);
-        $company->screen_all = ScreenRelationResource::collection (Screen::query ()->get ());
-        $company->buttons = ButtonResource::collection (Button::query ()->get ());
-        $company->hot_fields = HotfieldResource::collection (HotField::query ()->get ());
+        $company->work_flow_trees = $wf;
+        // $company->screen_all = ScreenRelationResource::collection (Screen::query ()->get ());
+        // $company->buttons = ButtonResource::collection (Button::query ()->get ());
+        // $company->hot_fields = HotfieldResource::collection (HotField::query ()->get ());
 
         return responseJson(200, __(''), $company);
     }

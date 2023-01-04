@@ -29,6 +29,7 @@ class WorkflowTreeResource1 extends JsonResource
             'name'       => $this->name,
             'name_e'     => $this->name_e,
             "is_active"  => $this->is_active,
+            "child"  => $this->child,
             'parent'  => new WorkflowTreeResource($this->parent),
             'partner'    => new PartnerRelationResource($this->partner),
             'company' => new CompanyResource($this->company),
