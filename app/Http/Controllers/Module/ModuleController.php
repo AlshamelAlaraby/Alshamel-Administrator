@@ -50,7 +50,6 @@ class ModuleController extends Controller
     {
         return $this->modelInterface->getRootNodes();
     }
-
     public function getChildNodes($parentId)
     {
         return $this->modelInterface->getChildNodes($parentId);
