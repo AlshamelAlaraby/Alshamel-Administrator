@@ -106,6 +106,10 @@ class WorkflowTreeController extends ResponseController
         if (!$model) {
             return responseJson(404, __('message.data not found'));
         }
+        
+        if ($model->haveChildren) {
+            return responseJson(400, __('message.parent have children'));
+        }
         $this->repository->delete($id);
         return responseJson(200, __('Done'));
     }
