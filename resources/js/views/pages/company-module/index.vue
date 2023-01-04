@@ -508,9 +508,9 @@ export default {
       this.edit.module_id = companyModule.module.id;
       this.edit.allowed_users_no = companyModule.allowed_users_no;
       this.edit.custom_date_start = new Date(companyModule.start_date);
-      this.edit.custom_date_end = new Date(companyModule.end_date);
+      this.edit.custom_date_end = companyModule.end_date ? new Date(companyModule.end_date): null;
       this.edit.start_date = formatDateTime(companyModule.start_date);
-      this.edit.end_date = formatDateTime(companyModule.end_date);
+      this.edit.end_date =  companyModule.end_date ? formatDateTime(companyModule.end_date): null;
     },
     /**
      *  hidden Modal (edit)
@@ -1095,7 +1095,7 @@ export default {
                     </td>
                     <td v-if="setting.allowed_users_no">{{ data.allowed_users_no }}</td>
                     <td v-if="setting.start_date">{{ formatDate(data.start_date) }}</td>
-                    <td v-if="setting.end_date">{{ formatDate(data.end_date) }}</td>
+                    <td v-if="setting.end_date">{{ data.end_date ? formatDate(data.end_date) : null }}</td>
                     <td>
                       <div class="btn-group">
                         <button
