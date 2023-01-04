@@ -16,6 +16,7 @@ class Module extends Model
         'parent_id',
         'is_active',
     ];
+    protected $table = 'modules';
     protected $hidden = ['pivot'];
 
     protected $casts = [
@@ -23,32 +24,50 @@ class Module extends Model
     ];
 
     protected $appends = ["haveChildren"];
+    /**
+     * this method used to make filter of query
+     * @param Query  $query
+     * @param $request
+     * @return $query
+     */
+    public function scopeFilter($query, $request)
+    {
+        return $query->where(function ($q) use ($request) {
+            if ($request->search) {
+                $q->where('name', 'like', '%' . $request->search . '%');
+                $q->orWhere('name_e', 'like', '%' . $request->search . '%');
+            }
 
+            if ($request->name) {
+                $q->orWhere('name', 'like', '%' . $request->name . '%');
+            }
 
-    public function parent()
+            if ($request->name_e) {
+                $q->orWhere('name_e', 'like', '%' . $request->name_e . '%');
+            }
+
+            if ($request->parent_id) {
+                $q->orWhere('parent_id', $request->parent_id);
+            }
+        });
+    }
+    public function children()
     {
         return $this->hasMany(Module::class, 'parent_id', 'id');
     }
 
-    public function children()
+    public function parent()
     {
         return $this->belongsTo(Module::class, 'parent_id', 'id');
     }
 
     public function companies()
     {
-        return $this->belongsToMany(Company::class, 'company_module', 'module_id', 'company_id');
+        return $this->belongsToMany(Company::class, 'company_modules', 'module_id', 'company_id');
     }
-
-    public function workFlows()
-    {
-        return $this->hasMany(WorkflowTree::class);
-    }
-
 
     public function getHaveChildrenAttribute()
     {
-        $hasChildren = $this->workFlows()->count() > 0 || $this->companies()->count() > 0 || $this->children()->count() > 0;
-        return $hasChildren;
+        return static::where("parent_id", $this->id)->count() > 0;
     }
 }
