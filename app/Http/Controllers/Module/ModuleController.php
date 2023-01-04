@@ -80,7 +80,6 @@ class ModuleController extends Controller
         if ($model->haveChildren) {
             return responseJson(400, __('message.parent have children'));
         }
-
         $this->modelInterface->delete($id);
 
         return responseJson(200, 'success');
