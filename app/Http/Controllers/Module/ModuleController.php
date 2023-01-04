@@ -77,7 +77,7 @@ class ModuleController extends Controller
         if (!$model) {
             return responseJson(404, __('message.data not found'));
         }
-        if ($model->have_children) {
+        if ($model->haveChildren) {
             return responseJson(400, __('message.parent have children'));
         }
 
