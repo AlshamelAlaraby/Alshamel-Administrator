@@ -1480,7 +1480,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       setting: {
         name: true,
         name_e: true,
-        is_active: true
+        is_active: true,
+        parent_id: true
       },
       filterSetting: ["name", "name_e"],
       errors: {},
@@ -1634,8 +1635,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     /**
      *  delete module
      */
-    deleteModule: function deleteModule(id, index) {
+    deleteModule: function deleteModule(id) {
       var _this6 = this;
+      var tree = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
       if (Array.isArray(id)) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
           title: "".concat(this.$t("general.Areyousure")),
@@ -1699,6 +1701,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"]["delete"]("/modules/".concat(id)).then(function (res) {
               _this6.checkAll = [];
               _this6.getData();
+              if (tree) {
+                _this6.getRootNodes();
+              }
               sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
                 icon: "success",
                 title: "".concat(_this6.$t("general.Deleted")),
@@ -3470,7 +3475,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "ul[data-v-54f21bce],\n#myUL[data-v-54f21bce] {\n  list-style-type: none;\n}\n#myUL[data-v-54f21bce] {\n  margin: 0;\n  padding: 0;\n}\n#myUL span i[data-v-54f21bce] {\n  font-size: 20px;\n  position: relative;\n  top: 3px;\n  color: black;\n}\n#myUL span span[data-v-54f21bce]:hover,\n#myUL span i[data-v-54f21bce]:hover {\n  cursor: pointer;\n}\n.nested[data-v-54f21bce] {\n  display: block;\n}\n.active[data-v-54f21bce] {\n  color: #1abc9c;\n}\n.rtl #myUL .without-children[data-v-54f21bce] {\n  padding-right: 10px;\n}\n.rtl #myUL .nested[data-v-54f21bce] {\n  padding-right: 40px;\n}\n.ltr #myUL .without-children[data-v-54f21bce] {\n  padding-left: 10px;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "ul[data-v-54f21bce],\n#myUL[data-v-54f21bce] {\n  list-style-type: none;\n}\nul .delete-node i[data-v-54f21bce],\n#myUL .delete-node i[data-v-54f21bce] {\n  font-size: 18px;\n  margin: 0 5px;\n}\n#myUL[data-v-54f21bce] {\n  margin: 0;\n  padding: 0;\n}\n#myUL span i[data-v-54f21bce] {\n  font-size: 20px;\n  position: relative;\n  top: 3px;\n  color: black;\n}\n#myUL span span[data-v-54f21bce]:hover,\n#myUL span i[data-v-54f21bce]:hover {\n  cursor: pointer;\n}\n.nested[data-v-54f21bce] {\n  display: block;\n}\n.active[data-v-54f21bce] {\n  color: #1abc9c;\n}\n.rtl #myUL .without-children[data-v-54f21bce] {\n  padding-right: 10px;\n}\n.rtl #myUL .nested[data-v-54f21bce] {\n  padding-right: 40px;\n}\n.ltr #myUL .without-children[data-v-54f21bce] {\n  padding-left: 10px;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15547,6 +15552,27 @@ var render = function () {
                                 ),
                                 _vm._v(" "),
                                 _c(
+                                  "b-form-checkbox",
+                                  {
+                                    staticClass: "mb-1",
+                                    model: {
+                                      value: _vm.setting.parent_id,
+                                      callback: function ($$v) {
+                                        _vm.$set(_vm.setting, "parent_id", $$v)
+                                      },
+                                      expression: "setting.parent_id",
+                                    },
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                    " +
+                                        _vm._s(_vm.$t("general.parent")) +
+                                        "\n                  "
+                                    ),
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
                                   "div",
                                   { staticClass: "d-flex justify-content-end" },
                                   [
@@ -15865,8 +15891,30 @@ var render = function () {
                                                 ? node.name
                                                 : node.name_e
                                             ) +
-                                            "\n                        "
+                                            "\n                          "
                                         ),
+                                        !node.haveChildren
+                                          ? _c(
+                                              "span",
+                                              {
+                                                staticClass: "delete-node",
+                                                on: {
+                                                  click: function ($event) {
+                                                    return _vm.deleteModule(
+                                                      node.id,
+                                                      true
+                                                    )
+                                                  },
+                                                },
+                                              },
+                                              [
+                                                _c("i", {
+                                                  staticClass:
+                                                    "fa fa-times text-danger",
+                                                }),
+                                              ]
+                                            )
+                                          : _vm._e(),
                                       ]
                                     ),
                                   ]),
@@ -15938,6 +15986,32 @@ var render = function () {
                                                       ),
                                                     ]
                                                   ),
+                                                  _vm._v(" "),
+                                                  !childNode.haveChildren
+                                                    ? _c(
+                                                        "span",
+                                                        {
+                                                          staticClass:
+                                                            "delete-node",
+                                                          on: {
+                                                            click: function (
+                                                              $event
+                                                            ) {
+                                                              return _vm.deleteModule(
+                                                                childNode.id,
+                                                                true
+                                                              )
+                                                            },
+                                                          },
+                                                        },
+                                                        [
+                                                          _c("i", {
+                                                            staticClass:
+                                                              "fa fa-times text-danger",
+                                                          }),
+                                                        ]
+                                                      )
+                                                    : _vm._e(),
                                                 ]),
                                                 _vm._v(" "),
                                                 childNode.children &&
@@ -15961,7 +16035,31 @@ var render = function () {
                                                                       ? child.name
                                                                       : child.name_e
                                                                   ) +
-                                                                  "\n                            "
+                                                                  "\n                              "
+                                                              ),
+                                                              _c(
+                                                                "span",
+                                                                {
+                                                                  staticClass:
+                                                                    "delete-node",
+                                                                  on: {
+                                                                    click:
+                                                                      function (
+                                                                        $event
+                                                                      ) {
+                                                                        return _vm.deleteModule(
+                                                                          child.id,
+                                                                          true
+                                                                        )
+                                                                      },
+                                                                  },
+                                                                },
+                                                                [
+                                                                  _c("i", {
+                                                                    staticClass:
+                                                                      "fa fa-times text-danger",
+                                                                  }),
+                                                                ]
                                                               ),
                                                             ]
                                                           )
@@ -16598,6 +16696,49 @@ var render = function () {
                                 ])
                               : _vm._e(),
                             _vm._v(" "),
+                            _vm.setting.parent_id
+                              ? _c("th", [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "d-flex justify-content-center",
+                                    },
+                                    [
+                                      _c("span", [
+                                        _vm._v(
+                                          _vm._s(_vm.$t("general.parent"))
+                                        ),
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "arrow-sort" }, [
+                                        _c("i", {
+                                          staticClass: "fas fa-arrow-up",
+                                          on: {
+                                            click: function ($event) {
+                                              _vm.modules.sort(
+                                                _vm.sortString("name_e")
+                                              )
+                                            },
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("i", {
+                                          staticClass: "fas fa-arrow-down",
+                                          on: {
+                                            click: function ($event) {
+                                              _vm.modules.sort(
+                                                _vm.sortString("-name_e")
+                                              )
+                                            },
+                                          },
+                                        }),
+                                      ]),
+                                    ]
+                                  ),
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
                             _c("th", [
                               _vm._v(
                                 "\n                    " +
@@ -16761,6 +16902,26 @@ var render = function () {
                                           ),
                                         ])
                                       : _vm._e(),
+                                    _vm._v(" "),
+                                    _c(
+                                      "td",
+                                      [
+                                        data.parent
+                                          ? [
+                                              _vm._v(
+                                                "\n                      " +
+                                                  _vm._s(
+                                                    _vm.$i18n.locale == "ar"
+                                                      ? data.parent.name
+                                                      : data.parent.name_e
+                                                  ) +
+                                                  "\n                    "
+                                              ),
+                                            ]
+                                          : _vm._e(),
+                                      ],
+                                      2
+                                    ),
                                     _vm._v(" "),
                                     _c(
                                       "td",
@@ -17119,6 +17280,36 @@ var render = function () {
                                                                       ),
                                                                     ]
                                                                   ),
+                                                                  _vm._v(" "),
+                                                                  !node.haveChildren
+                                                                    ? _c(
+                                                                        "span",
+                                                                        {
+                                                                          staticClass:
+                                                                            "delete-node",
+                                                                          on: {
+                                                                            click:
+                                                                              function (
+                                                                                $event
+                                                                              ) {
+                                                                                return _vm.deleteModule(
+                                                                                  node.id,
+                                                                                  true
+                                                                                )
+                                                                              },
+                                                                          },
+                                                                        },
+                                                                        [
+                                                                          _c(
+                                                                            "i",
+                                                                            {
+                                                                              staticClass:
+                                                                                "fa fa-times text-danger",
+                                                                            }
+                                                                          ),
+                                                                        ]
+                                                                      )
+                                                                    : _vm._e(),
                                                                 ]),
                                                                 _vm._v(" "),
                                                                 node.children &&
@@ -17216,6 +17407,38 @@ var render = function () {
                                                                                       ),
                                                                                     ]
                                                                                   ),
+                                                                                  _vm._v(
+                                                                                    " "
+                                                                                  ),
+                                                                                  !childNode.haveChildren
+                                                                                    ? _c(
+                                                                                        "span",
+                                                                                        {
+                                                                                          staticClass:
+                                                                                            "delete-node",
+                                                                                          on: {
+                                                                                            click:
+                                                                                              function (
+                                                                                                $event
+                                                                                              ) {
+                                                                                                return _vm.deleteModule(
+                                                                                                  childNode.id,
+                                                                                                  true
+                                                                                                )
+                                                                                              },
+                                                                                          },
+                                                                                        },
+                                                                                        [
+                                                                                          _c(
+                                                                                            "i",
+                                                                                            {
+                                                                                              staticClass:
+                                                                                                "fa fa-times text-danger",
+                                                                                            }
+                                                                                          ),
+                                                                                        ]
+                                                                                      )
+                                                                                    : _vm._e(),
                                                                                 ]
                                                                               ),
                                                                               _vm._v(
@@ -17252,7 +17475,34 @@ var render = function () {
                                                                                                     ? child.name
                                                                                                     : child.name_e
                                                                                                 ) +
-                                                                                                "\n                                      "
+                                                                                                "\n                                        "
+                                                                                            ),
+                                                                                            _c(
+                                                                                              "span",
+                                                                                              {
+                                                                                                staticClass:
+                                                                                                  "delete-node",
+                                                                                                on: {
+                                                                                                  click:
+                                                                                                    function (
+                                                                                                      $event
+                                                                                                    ) {
+                                                                                                      return _vm.deleteModule(
+                                                                                                        child.id,
+                                                                                                        true
+                                                                                                      )
+                                                                                                    },
+                                                                                                },
+                                                                                              },
+                                                                                              [
+                                                                                                _c(
+                                                                                                  "i",
+                                                                                                  {
+                                                                                                    staticClass:
+                                                                                                      "fa fa-times text-danger",
+                                                                                                  }
+                                                                                                ),
+                                                                                              ]
                                                                                             ),
                                                                                           ]
                                                                                         )

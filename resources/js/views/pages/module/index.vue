@@ -80,6 +80,7 @@ export default {
         name: true,
         name_e: true,
         is_active: true,
+        parent_id: true,
       },
       filterSetting: ["name", "name_e"],
       errors: {},
@@ -242,7 +243,7 @@ export default {
     /**
      *  delete module
      */
-    deleteModule(id, index) {
+    deleteModule(id, tree = false) {
       if (Array.isArray(id)) {
         Swal.fire({
           title: `${this.$t("general.Areyousure")}`,
@@ -311,6 +312,9 @@ export default {
               .then((res) => {
                 this.checkAll = [];
                 this.getData();
+                if (tree) {
+                  this.getRootNodes();
+                }
                 Swal.fire({
                   icon: "success",
                   title: `${this.$t("general.Deleted")}`,
@@ -760,6 +764,9 @@ export default {
                     <b-form-checkbox v-model="setting.is_active" class="mb-1">
                       {{ $t("general.Status") }}
                     </b-form-checkbox>
+                    <b-form-checkbox v-model="setting.parent_id" class="mb-1">
+                      {{ $t("general.parent") }}
+                    </b-form-checkbox>
                     <div class="d-flex justify-content-end">
                       <a href="javascript:void(0)" class="btn btn-primary btn-sm">{{
                         $t("general.Apply")
@@ -879,6 +886,12 @@ export default {
                             }"
                           >
                             {{ $i18n.locale == "ar" ? node.name : node.name_e }}
+                            <span
+                              @click="deleteModule(node.id, true)"
+                              class="delete-node"
+                              v-if="!node.haveChildren"
+                              ><i class="fa fa-times text-danger"></i
+                            ></span>
                           </span>
                         </span>
                         <ul v-if="node.children && node.children.length" class="nested">
@@ -907,6 +920,12 @@ export default {
                                   $i18n.locale == "ar" ? childNode.name : childNode.name_e
                                 }}
                               </span>
+                              <span
+                                @click="deleteModule(childNode.id, true)"
+                                class="delete-node"
+                                v-if="!childNode.haveChildren"
+                                ><i class="fa fa-times text-danger"></i
+                              ></span>
                             </span>
                             <ul
                               v-if="childNode.children && childNode.children.length"
@@ -914,6 +933,11 @@ export default {
                             >
                               <li v-for="child in childNode.children" :key="child.id">
                                 {{ $i18n.locale == "ar" ? child.name : child.name_e }}
+                                <span
+                                  class="delete-node"
+                                  @click="deleteModule(child.id, true)"
+                                  ><i class="fa fa-times text-danger"></i
+                                ></span>
                               </li>
                             </ul>
                           </li>
@@ -1108,6 +1132,21 @@ export default {
                         </div>
                       </div>
                     </th>
+                    <th v-if="setting.parent_id">
+                      <div class="d-flex justify-content-center">
+                        <span>{{ $t("general.parent") }}</span>
+                        <div class="arrow-sort">
+                          <i
+                            class="fas fa-arrow-up"
+                            @click="modules.sort(sortString('name_e'))"
+                          ></i>
+                          <i
+                            class="fas fa-arrow-down"
+                            @click="modules.sort(sortString('-name_e'))"
+                          ></i>
+                        </div>
+                      </div>
+                    </th>
                     <th>
                       {{ $t("general.Action") }}
                     </th>
@@ -1152,6 +1191,11 @@ export default {
                             : `${$t("general.Inactive")}`
                         }}
                       </span>
+                    </td>
+                    <td>
+                      <template v-if="data.parent">
+                        {{ $i18n.locale == "ar" ? data.parent.name : data.parent.name_e }}
+                      </template>
                     </td>
                     <td>
                       <div class="btn-group">
@@ -1258,6 +1302,12 @@ export default {
                                     >
                                       {{ $i18n.locale == "ar" ? node.name : node.name_e }}
                                     </span>
+                                    <span
+                                      @click="deleteModule(node.id, true)"
+                                      class="delete-node"
+                                      v-if="!node.haveChildren"
+                                      ><i class="fa fa-times text-danger"></i
+                                    ></span>
                                   </span>
                                   <ul
                                     v-if="node.children && node.children.length"
@@ -1295,6 +1345,12 @@ export default {
                                               : childNode.name_e
                                           }}
                                         </span>
+                                        <span
+                                          @click="deleteModule(childNode.id, true)"
+                                          class="delete-node"
+                                          v-if="!childNode.haveChildren"
+                                          ><i class="fa fa-times text-danger"></i
+                                        ></span>
                                       </span>
                                       <ul
                                         v-if="
@@ -1311,6 +1367,11 @@ export default {
                                               ? child.name
                                               : child.name_e
                                           }}
+                                          <span
+                                            @click="deleteModule(child.id, true)"
+                                            class="delete-node"
+                                            ><i class="fa fa-times text-danger"></i
+                                          ></span>
                                         </li>
                                       </ul>
                                     </li>
@@ -1488,6 +1549,12 @@ export default {
 ul,
 #myUL {
   list-style-type: none;
+  .delete-node {
+    i {
+      font-size: 18px;
+      margin: 0 5px;
+    }
+  }
 }
 #myUL {
   margin: 0;

@@ -1877,9 +1877,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this12.edit.module_id = companyModule.module.id;
                 _this12.edit.allowed_users_no = companyModule.allowed_users_no;
                 _this12.edit.custom_date_start = new Date(companyModule.start_date);
-                _this12.edit.custom_date_end = new Date(companyModule.end_date);
+                _this12.edit.custom_date_end = companyModule.end_date ? new Date(companyModule.end_date) : null;
                 _this12.edit.start_date = (0,_helper_startDate__WEBPACK_IMPORTED_MODULE_8__.formatDateTime)(companyModule.start_date);
-                _this12.edit.end_date = (0,_helper_startDate__WEBPACK_IMPORTED_MODULE_8__.formatDateTime)(companyModule.end_date);
+                _this12.edit.end_date = companyModule.end_date ? (0,_helper_startDate__WEBPACK_IMPORTED_MODULE_8__.formatDateTime)(companyModule.end_date) : null;
               case 12:
               case "end":
                 return _context3.stop();
@@ -17117,7 +17117,11 @@ var render = function () {
                                         ? _c("td", [
                                             _vm._v(
                                               _vm._s(
-                                                _vm.formatDate(data.end_date)
+                                                data.end_date
+                                                  ? _vm.formatDate(
+                                                      data.end_date
+                                                    )
+                                                  : null
                                               )
                                             ),
                                           ])

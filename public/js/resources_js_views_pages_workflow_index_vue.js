@@ -1431,10 +1431,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         screen_id: true,
         id_sort: true,
         is_active: true,
-        id_integer: true
+        id_integer: true,
+        parent_id: true
       },
       idDelete: null,
-      filterSetting: ["name", "name_e", this.$i18n.locale == 'ar' ? 'company.name' : 'company.name_e', this.$i18n.locale == 'ar' ? 'module.name' : 'module.name_e', this.$i18n.locale == 'ar' ? 'screen.name' : 'screen.name_e']
+      filterSetting: ["name", "name_e", this.$i18n.locale == "ar" ? "company.name" : "company.name_e", this.$i18n.locale == "ar" ? "module.name" : "module.name_e", this.$i18n.locale == "ar" ? "screen.name" : "screen.name_e"]
     };
   },
   validations: {
@@ -1603,8 +1604,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     /**
      *  start delete workflow
      */
-    deleteCountry: function deleteCountry(id, index) {
+    deleteCountry: function deleteCountry(id) {
       var _this5 = this;
+      var tree = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
       if (Array.isArray(id)) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
           title: "".concat(this.$t("general.Areyousure")),
@@ -1668,6 +1670,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"]["delete"]("/workflow-trees/".concat(id)).then(function (res) {
               _this5.checkAll = [];
               _this5.getData();
+              if (tree) {
+                _this5.getRootNodes();
+              }
               sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
                 icon: "success",
                 title: "".concat(_this5.$t("general.Deleted")),
@@ -3797,7 +3802,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".myUl-workflow ul,\n.myUl-workflow #myUL {\n  list-style-type: none;\n}\n.myUl-workflow #myUL {\n  margin: 0;\n  padding: 0;\n}\n.myUl-workflow #myUL span i {\n  font-size: 20px;\n  position: relative;\n  top: 3px;\n  color: black;\n}\n.myUl-workflow #myUL span span:hover,\n.myUl-workflow #myUL span i:hover {\n  cursor: pointer;\n}\n.myUl-workflow .nested {\n  display: block;\n}\n.myUl-workflow .active {\n  color: #1abc9c;\n}\n.myUl-workflow.rtl #myUL .without-children {\n  padding-right: 10px;\n}\n.myUl-workflow.rtl #myUL .nested {\n  padding-right: 40px;\n}\n.myUl-workflow.ltr #myUL .without-children {\n  padding-left: 10px;\n}\n.modal-dialog .card {\n  margin: 0 !important;\n}\n.workflow.modal-body {\n  padding: 0 !important;\n}\n.modal-dialog .card-body {\n  padding: 1.5rem 1.5rem 0 1.5rem !important;\n}\n.nav-bordered {\n  border: unset !important;\n}\n.nav {\n  background-color: #dff0fe;\n}\n.tab-content {\n  padding: 70px 60px 40px;\n  min-height: 300px;\n  background-color: #f5f5f5;\n  position: relative;\n}\n.nav-tabs .nav-link {\n  border: 1px solid #b7b7b7 !important;\n  background-color: #d7e5f2;\n  border-bottom: 0 !important;\n  margin-bottom: 1px;\n}\n.nav-tabs .nav-link.active,\n.nav-tabs .nav-item.show .nav-link {\n  color: #000;\n  background-color: hsl(0deg, 0%, 96%);\n  border-bottom: 0 !important;\n}\n.img-thumbnail {\n  max-height: 400px !important;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".myUl-workflow ul,\n.myUl-workflow #myUL {\n  list-style-type: none;\n}\n.myUl-workflow #myUL {\n  margin: 0;\n  padding: 0;\n}\n.myUl-workflow #myUL .delete-node i {\n  font-size: 18px;\n  margin: 0 5px;\n}\n.myUl-workflow #myUL span i {\n  font-size: 20px;\n  position: relative;\n  top: 3px;\n  color: black;\n}\n.myUl-workflow #myUL span span:hover,\n.myUl-workflow #myUL span i:hover {\n  cursor: pointer;\n}\n.myUl-workflow .nested {\n  display: block;\n}\n.myUl-workflow .active {\n  color: #1abc9c;\n}\n.myUl-workflow.rtl #myUL .without-children {\n  padding-right: 10px;\n}\n.myUl-workflow.rtl #myUL .nested {\n  padding-right: 40px;\n}\n.myUl-workflow.ltr #myUL .without-children {\n  padding-left: 10px;\n}\n.modal-dialog .card {\n  margin: 0 !important;\n}\n.workflow.modal-body {\n  padding: 0 !important;\n}\n.modal-dialog .card-body {\n  padding: 1.5rem 1.5rem 0 1.5rem !important;\n}\n.nav-bordered {\n  border: unset !important;\n}\n.nav {\n  background-color: #dff0fe;\n}\n.tab-content {\n  padding: 70px 60px 40px;\n  min-height: 300px;\n  background-color: #f5f5f5;\n  position: relative;\n}\n.nav-tabs .nav-link {\n  border: 1px solid #b7b7b7 !important;\n  background-color: #d7e5f2;\n  border-bottom: 0 !important;\n  margin-bottom: 1px;\n}\n.nav-tabs .nav-link.active,\n.nav-tabs .nav-item.show .nav-link {\n  color: #000;\n  background-color: hsl(0deg, 0%, 96%);\n  border-bottom: 0 !important;\n}\n.img-thumbnail {\n  max-height: 400px !important;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15843,6 +15848,31 @@ var render = function () {
                                     {
                                       staticClass: "mb-1",
                                       model: {
+                                        value: _vm.setting.parent_id,
+                                        callback: function ($$v) {
+                                          _vm.$set(
+                                            _vm.setting,
+                                            "parent_id",
+                                            $$v
+                                          )
+                                        },
+                                        expression: "setting.parent_id",
+                                      },
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                      " +
+                                          _vm._s(_vm.$t("general.parent")) +
+                                          "\n                    "
+                                      ),
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "b-form-checkbox",
+                                    {
+                                      staticClass: "mb-1",
+                                      model: {
                                         value: _vm.setting.id_sort,
                                         callback: function ($$v) {
                                           _vm.$set(_vm.setting, "id_sort", $$v)
@@ -16268,6 +16298,32 @@ var render = function () {
                                                         ),
                                                       ]
                                                     ),
+                                                    _vm._v(" "),
+                                                    !node.haveChildren
+                                                      ? _c(
+                                                          "span",
+                                                          {
+                                                            staticClass:
+                                                              "delete-node",
+                                                            on: {
+                                                              click: function (
+                                                                $event
+                                                              ) {
+                                                                return _vm.deleteCountry(
+                                                                  node.id,
+                                                                  true
+                                                                )
+                                                              },
+                                                            },
+                                                          },
+                                                          [
+                                                            _c("i", {
+                                                              staticClass:
+                                                                "fa fa-times text-danger",
+                                                            }),
+                                                          ]
+                                                        )
+                                                      : _vm._e(),
                                                   ]),
                                                   _vm._v(" "),
                                                   node.children &&
@@ -16350,6 +16406,36 @@ var render = function () {
                                                                       ),
                                                                     ]
                                                                   ),
+                                                                  _vm._v(" "),
+                                                                  !childNode.haveChildren
+                                                                    ? _c(
+                                                                        "span",
+                                                                        {
+                                                                          staticClass:
+                                                                            "delete-node",
+                                                                          on: {
+                                                                            click:
+                                                                              function (
+                                                                                $event
+                                                                              ) {
+                                                                                return _vm.deleteCountry(
+                                                                                  childNode.id,
+                                                                                  true
+                                                                                )
+                                                                              },
+                                                                          },
+                                                                        },
+                                                                        [
+                                                                          _c(
+                                                                            "i",
+                                                                            {
+                                                                              staticClass:
+                                                                                "fa fa-times text-danger",
+                                                                            }
+                                                                          ),
+                                                                        ]
+                                                                      )
+                                                                    : _vm._e(),
                                                                 ]),
                                                                 _vm._v(" "),
                                                                 childNode.children &&
@@ -16383,7 +16469,34 @@ var render = function () {
                                                                                       ? child.name
                                                                                       : child.name_e
                                                                                   ) +
-                                                                                  "\n                                  "
+                                                                                  "\n                                    "
+                                                                              ),
+                                                                              _c(
+                                                                                "span",
+                                                                                {
+                                                                                  staticClass:
+                                                                                    "delete-node",
+                                                                                  on: {
+                                                                                    click:
+                                                                                      function (
+                                                                                        $event
+                                                                                      ) {
+                                                                                        return _vm.deleteCountry(
+                                                                                          child.id,
+                                                                                          true
+                                                                                        )
+                                                                                      },
+                                                                                  },
+                                                                                },
+                                                                                [
+                                                                                  _c(
+                                                                                    "i",
+                                                                                    {
+                                                                                      staticClass:
+                                                                                        "fa fa-times text-danger",
+                                                                                    }
+                                                                                  ),
+                                                                                ]
                                                                               ),
                                                                             ]
                                                                           )
@@ -18163,6 +18276,61 @@ var render = function () {
                                 ])
                               : _vm._e(),
                             _vm._v(" "),
+                            _vm.setting.parent_id
+                              ? _c("th", [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "d-flex justify-content-center",
+                                    },
+                                    [
+                                      _c("span", [
+                                        _vm._v(
+                                          _vm._s(_vm.$t("general.parent"))
+                                        ),
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "arrow-sort" }, [
+                                        _c("i", {
+                                          staticClass: "fas fa-arrow-up",
+                                          on: {
+                                            click: function ($event) {
+                                              _vm.workflows.sort(
+                                                _vm.sortString(
+                                                  _vm.sortString(
+                                                    (_vm.$i18n.locale =  true
+                                                      ? "name"
+                                                      : 0)
+                                                  )
+                                                )
+                                              )
+                                            },
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("i", {
+                                          staticClass: "fas fa-arrow-down",
+                                          on: {
+                                            click: function ($event) {
+                                              _vm.workflows.sort(
+                                                _vm.sortString(
+                                                  _vm.sortString(
+                                                    (_vm.$i18n.locale =  true
+                                                      ? "-name"
+                                                      : 0)
+                                                  )
+                                                )
+                                              )
+                                            },
+                                          },
+                                        }),
+                                      ]),
+                                    ]
+                                  ),
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
                             _vm.setting.id_sort
                               ? _c("th", [
                                   _c(
@@ -18465,6 +18633,31 @@ var render = function () {
                                                         _vm.$i18n.locale == "ar"
                                                           ? data.screen.name
                                                           : data.screen.name_e
+                                                      ) +
+                                                      "\n                    "
+                                                  ),
+                                                ]
+                                              )
+                                            : _vm._e(),
+                                        ])
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _vm.setting.parent_id
+                                      ? _c("td", [
+                                          data.parent
+                                            ? _c(
+                                                "h5",
+                                                {
+                                                  staticClass:
+                                                    "m-0 font-weight-normal",
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                      " +
+                                                      _vm._s(
+                                                        _vm.$i18n.locale == "ar"
+                                                          ? data.parent.name
+                                                          : data.parent.name_e
                                                       ) +
                                                       "\n                    "
                                                   ),
@@ -18938,6 +19131,38 @@ var render = function () {
                                                                                   ),
                                                                                 ]
                                                                               ),
+                                                                              _vm._v(
+                                                                                " "
+                                                                              ),
+                                                                              !node.haveChildren
+                                                                                ? _c(
+                                                                                    "span",
+                                                                                    {
+                                                                                      staticClass:
+                                                                                        "delete-node",
+                                                                                      on: {
+                                                                                        click:
+                                                                                          function (
+                                                                                            $event
+                                                                                          ) {
+                                                                                            return _vm.deleteCountry(
+                                                                                              node.id,
+                                                                                              true
+                                                                                            )
+                                                                                          },
+                                                                                      },
+                                                                                    },
+                                                                                    [
+                                                                                      _c(
+                                                                                        "i",
+                                                                                        {
+                                                                                          staticClass:
+                                                                                            "fa fa-times text-danger",
+                                                                                        }
+                                                                                      ),
+                                                                                    ]
+                                                                                  )
+                                                                                : _vm._e(),
                                                                             ]
                                                                           ),
                                                                           _vm._v(
@@ -19039,6 +19264,38 @@ var render = function () {
                                                                                                 ),
                                                                                               ]
                                                                                             ),
+                                                                                            _vm._v(
+                                                                                              " "
+                                                                                            ),
+                                                                                            !childNode.haveChildren
+                                                                                              ? _c(
+                                                                                                  "span",
+                                                                                                  {
+                                                                                                    staticClass:
+                                                                                                      "delete-node",
+                                                                                                    on: {
+                                                                                                      click:
+                                                                                                        function (
+                                                                                                          $event
+                                                                                                        ) {
+                                                                                                          return _vm.deleteCountry(
+                                                                                                            childNode.id,
+                                                                                                            true
+                                                                                                          )
+                                                                                                        },
+                                                                                                    },
+                                                                                                  },
+                                                                                                  [
+                                                                                                    _c(
+                                                                                                      "i",
+                                                                                                      {
+                                                                                                        staticClass:
+                                                                                                          "fa fa-times text-danger",
+                                                                                                      }
+                                                                                                    ),
+                                                                                                  ]
+                                                                                                )
+                                                                                              : _vm._e(),
                                                                                           ]
                                                                                         ),
                                                                                         _vm._v(
@@ -19075,7 +19332,34 @@ var render = function () {
                                                                                                               ? child.name
                                                                                                               : child.name_e
                                                                                                           ) +
-                                                                                                          "\n                                          "
+                                                                                                          "\n                                            "
+                                                                                                      ),
+                                                                                                      _c(
+                                                                                                        "span",
+                                                                                                        {
+                                                                                                          staticClass:
+                                                                                                            "delete-node",
+                                                                                                          on: {
+                                                                                                            click:
+                                                                                                              function (
+                                                                                                                $event
+                                                                                                              ) {
+                                                                                                                return _vm.deleteCountry(
+                                                                                                                  child.id,
+                                                                                                                  true
+                                                                                                                )
+                                                                                                              },
+                                                                                                          },
+                                                                                                        },
+                                                                                                        [
+                                                                                                          _c(
+                                                                                                            "i",
+                                                                                                            {
+                                                                                                              staticClass:
+                                                                                                                "fa fa-times text-danger",
+                                                                                                            }
+                                                                                                          ),
+                                                                                                        ]
                                                                                                       ),
                                                                                                     ]
                                                                                                   )
