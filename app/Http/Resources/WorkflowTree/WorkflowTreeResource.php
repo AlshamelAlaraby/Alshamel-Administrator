@@ -18,11 +18,12 @@ class WorkflowTreeResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'         =>$this->id,
+            'id'         => $this->id,
             'name'       => $this->name,
             'name_e'     => $this->name_e,
             "is_active"  => $this->is_active,
-            'parent_id'  => $this->parent_id ,//== null ?null :optional($this->child)->name,
+            "parent" => $this->parent,
+            'parent_id'  => $this->parent_id, //== null ?null :optional($this->child)->name,
             'partner'    => new PartnerRelationResource($this->partner),
             'company_id' => $this->company_id,
             'module_id'  => $this->module_id,

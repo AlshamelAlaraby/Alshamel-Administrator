@@ -43,7 +43,7 @@ export default {
       isLoader: false,
       Tooltip: "",
       mouseEnter: "",
-            current_id: null,
+      current_id: null,
 
       create: {
         name: "",
@@ -92,13 +92,15 @@ export default {
         id_sort: true,
         is_active: true,
         id_integer: true,
+        parent_id: true,
       },
       idDelete: null,
       filterSetting: [
-          "name", "name_e",
-          this.$i18n.locale  == 'ar'?'company.name':'company.name_e',
-          this.$i18n.locale  == 'ar'?'module.name':'module.name_e',
-          this.$i18n.locale  == 'ar'?'screen.name':'screen.name_e'
+        "name",
+        "name_e",
+        this.$i18n.locale == "ar" ? "company.name" : "company.name_e",
+        this.$i18n.locale == "ar" ? "module.name" : "module.name_e",
+        this.$i18n.locale == "ar" ? "screen.name" : "screen.name_e",
       ],
     };
   },
@@ -250,7 +252,7 @@ export default {
     /**
      *  start delete workflow
      */
-    deleteCountry(id, index) {
+    deleteCountry(id, tree = false) {
       if (Array.isArray(id)) {
         Swal.fire({
           title: `${this.$t("general.Areyousure")}`,
@@ -319,6 +321,9 @@ export default {
               .then((res) => {
                 this.checkAll = [];
                 this.getData();
+                if (tree) {
+                  this.getRootNodes();
+                }
                 Swal.fire({
                   icon: "success",
                   title: `${this.$t("general.Deleted")}`,
@@ -584,7 +589,7 @@ export default {
         this.$v.$reset();
       });
       this.errors = {};
-      this.current_id=id;
+      this.current_id = id;
     },
     /**
      *  hidden Modal (edit)
@@ -1007,21 +1012,24 @@ export default {
                     <b-form-checkbox v-model="filterSetting" value="name_e" class="mb-1">
                       {{ $t("general.Name_en") }}
                     </b-form-checkbox>
-                      <b-form-checkbox
-                          v-model="filterSetting"
-                          :value="$i18n.locale  == 'ar'?'company.name':'company.name_e'"
-                          class="mb-1"
-                      >{{ $t("company.company") }}</b-form-checkbox>
-                      <b-form-checkbox
-                          v-model="filterSetting"
-                          :value="$i18n.locale  == 'ar'?'module.name':'module.name_e'"
-                          class="mb-1"
-                      >{{ $t("module.module") }}</b-form-checkbox>
-                      <b-form-checkbox
-                          v-model="filterSetting"
-                          :value="$i18n.locale  == 'ar'?'screen.name':'screen.name_e'"
-                          class="mb-1"
-                      >{{ $t("module.Screen") }}</b-form-checkbox>
+                    <b-form-checkbox
+                      v-model="filterSetting"
+                      :value="$i18n.locale == 'ar' ? 'company.name' : 'company.name_e'"
+                      class="mb-1"
+                      >{{ $t("company.company") }}</b-form-checkbox
+                    >
+                    <b-form-checkbox
+                      v-model="filterSetting"
+                      :value="$i18n.locale == 'ar' ? 'module.name' : 'module.name_e'"
+                      class="mb-1"
+                      >{{ $t("module.module") }}</b-form-checkbox
+                    >
+                    <b-form-checkbox
+                      v-model="filterSetting"
+                      :value="$i18n.locale == 'ar' ? 'screen.name' : 'screen.name_e'"
+                      class="mb-1"
+                      >{{ $t("module.Screen") }}</b-form-checkbox
+                    >
                   </b-dropdown>
                   <!-- Basic dropdown -->
                 </div>
@@ -1131,6 +1139,9 @@ export default {
                       </b-form-checkbox>
                       <b-form-checkbox v-model="setting.screen_id" class="mb-1">
                         {{ $t("general.Screen") }}
+                      </b-form-checkbox>
+                      <b-form-checkbox v-model="setting.parent_id" class="mb-1">
+                        {{ $t("general.parent") }}
                       </b-form-checkbox>
                       <b-form-checkbox v-model="setting.id_sort" class="mb-1">
                         {{ $t("general.IdSort") }}
@@ -1274,6 +1285,12 @@ export default {
                                 >
                                   {{ $i18n.locale == "ar" ? node.name : node.name_e }}
                                 </span>
+                                <span
+                                  @click="deleteCountry(node.id, true)"
+                                  class="delete-node"
+                                  v-if="!node.haveChildren"
+                                  ><i class="fa fa-times text-danger"></i
+                                ></span>
                               </span>
                               <ul
                                 v-if="node.children && node.children.length"
@@ -1309,6 +1326,12 @@ export default {
                                           : childNode.name_e
                                       }}
                                     </span>
+                                    <span
+                                      @click="deleteCountry(childNode.id, true)"
+                                      class="delete-node"
+                                      v-if="!childNode.haveChildren"
+                                      ><i class="fa fa-times text-danger"></i
+                                    ></span>
                                   </span>
                                   <ul
                                     v-if="childNode.children && childNode.children.length"
@@ -1321,6 +1344,11 @@ export default {
                                       {{
                                         $i18n.locale == "ar" ? child.name : child.name_e
                                       }}
+                                      <span
+                                        @click="deleteCountry(child.id, true)"
+                                        class="delete-node"
+                                        ><i class="fa fa-times text-danger"></i
+                                      ></span>
                                     </li>
                                   </ul>
                                 </li>
@@ -1854,6 +1882,33 @@ export default {
                         </div>
                       </div>
                     </th>
+                    <th v-if="setting.parent_id">
+                      <div class="d-flex justify-content-center">
+                        <span>{{ $t("general.parent") }}</span>
+                        <div class="arrow-sort">
+                          <i
+                            class="fas fa-arrow-up"
+                            @click="
+                              workflows.sort(
+                                sortString(
+                                  sortString(($i18n.locale = 'ar' ? 'name' : 'name_e'))
+                                )
+                              )
+                            "
+                          ></i>
+                          <i
+                            class="fas fa-arrow-down"
+                            @click="
+                              workflows.sort(
+                                sortString(
+                                  sortString(($i18n.locale = 'ar' ? '-name' : '-name_e'))
+                                )
+                              )
+                            "
+                          ></i>
+                        </div>
+                      </div>
+                    </th>
                     <th v-if="setting.id_sort">
                       <div class="d-flex justify-content-center">
                         <span>{{ $t("general.IdSort") }}</span>
@@ -1937,6 +1992,11 @@ export default {
                     <td v-if="setting.screen_id">
                       <h5 v-if="data.screen" class="m-0 font-weight-normal">
                         {{ $i18n.locale == "ar" ? data.screen.name : data.screen.name_e }}
+                      </h5>
+                    </td>
+                    <td v-if="setting.parent_id">
+                      <h5 v-if="data.parent" class="m-0 font-weight-normal">
+                        {{ $i18n.locale == "ar" ? data.parent.name : data.parent.name_e }}
                       </h5>
                     </td>
                     <td v-if="setting.id_sort">
@@ -2058,7 +2118,7 @@ export default {
                                           "
                                         ></i>
                                         <span
-                                          @click="setUpdateParentId([],node)"
+                                          @click="setUpdateParentId([], node)"
                                           :class="{
                                             'without-children': !node.haveChildren,
                                             active: node.id == edit.parent_id,
@@ -2068,6 +2128,12 @@ export default {
                                             $i18n.locale == "ar" ? node.name : node.name_e
                                           }}
                                         </span>
+                                        <span
+                                          @click="deleteCountry(node.id, true)"
+                                          class="delete-node"
+                                          v-if="!node.haveChildren"
+                                          ><i class="fa fa-times text-danger"></i
+                                        ></span>
                                       </span>
                                       <ul
                                         v-if="node.children && node.children.length"
@@ -2093,7 +2159,9 @@ export default {
                                             >
                                             </i>
                                             <span
-                                              @click="setUpdateParentId([node.id],childNode)"
+                                              @click="
+                                                setUpdateParentId([node.id], childNode)
+                                              "
                                               :class="{
                                                 'without-children': !childNode.haveChildren,
                                                 active: childNode.id == edit.parent_id,
@@ -2105,6 +2173,12 @@ export default {
                                                   : childNode.name_e
                                               }}
                                             </span>
+                                            <span
+                                              @click="deleteCountry(childNode.id, true)"
+                                              class="delete-node"
+                                              v-if="!childNode.haveChildren"
+                                              ><i class="fa fa-times text-danger"></i
+                                            ></span>
                                           </span>
                                           <ul
                                             v-if="
@@ -2122,6 +2196,11 @@ export default {
                                                   ? child.name
                                                   : child.name_e
                                               }}
+                                              <span
+                                                @click="deleteCountry(child.id, true)"
+                                                class="delete-node"
+                                                ><i class="fa fa-times text-danger"></i
+                                              ></span>
                                             </li>
                                           </ul>
                                         </li>
@@ -2571,6 +2650,12 @@ export default {
     list-style-type: none;
   }
   #myUL {
+    .delete-node {
+      i {
+        font-size: 18px;
+        margin: 0 5px;
+      }
+    }
     margin: 0;
     padding: 0;
     span {

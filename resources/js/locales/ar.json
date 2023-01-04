@@ -434,6 +434,7 @@
         "cantSelectChildToBeParent":"لا يمكن اختيار هذا العنصر لانه من ابناء العنصر الحالي",
         "cantSelectSelfParent":"لايمكن ان يكون العنصر اب لنفسه",
         "elshamel":"الشامل",
+    "parent":"الاب",
         
     "CantDeleteRelation":"لا تستطيع حذف عنصر لديه علاقة مع عنصر اخر",
         "url": "رابط الموقع",
