@@ -28,7 +28,7 @@ class WorkflowTree extends Model implements \Spatie\MediaLibrary\HasMedia
      */
     public function child()
     {
-        return $this->belongsTo(WorkflowTree::class, 'parent_id', 'id');
+        return $this->hasMany(WorkflowTree::class, 'parent_id', 'id');
     }
 
     public function parent()
