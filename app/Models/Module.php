@@ -63,7 +63,7 @@ class Module extends Model
 
     public function companies()
     {
-        return $this->belongsToMany(Company::class, 'company_module', 'module_id', 'company_id');
+        return $this->belongsToMany(Company::class, 'company_modules', 'module_id', 'company_id');
     }
 
     public function getHaveChildrenAttribute()
