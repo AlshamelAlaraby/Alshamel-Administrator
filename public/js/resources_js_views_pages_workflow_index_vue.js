@@ -1565,19 +1565,32 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     getRootNodesAfter2ndCollapse: function getRootNodesAfter2ndCollapse(parentNode, secondParentNode, thirdParentNode, children) {
       var rootNodes = _toConsumableArray(this.rootNodes);
+      console.log("Here one !!!!!");
       rootNodes.forEach(function (_parentNode, parentIndex) {
+        console.log("Here tow !!!!!");
         if (_parentNode.id == parentNode.id) {
+          console.log("Here three !!!!!");
           if (_parentNode.children && _parentNode.children.length) {
+            console.log("Here four !!!!!");
             _parentNode.children.forEach(function (child, index) {
+              console.log("Here five !!!!!");
               if (child.id == secondParentNode.id) {
+                console.log("Here sex !!!!!");
                 child.children.forEach(function (_child, _index) {
+                  console.log("Here seven !!!!!");
                   if (thirdParentNode.id == _child.id) {
+                    console.log("Here 8 !!!!!");
                     if (thirdParentNode.collapsed) {
-                      rootNodes[index].children[parentIndex].children[_index].children = [];
-                      rootNodes[index].children[parentIndex].children[_index].collapsed = false;
+                      console.log("Here 9 !!!!!");
+                      rootNodes[parentIndex].children[index].children[_index].children = [];
+                      rootNodes[parentIndex].children[index].children[_index].collapsed = false;
+                      console.log("Here 10 !!!!!");
                     } else {
-                      rootNodes[index].children[parentIndex].children[_index].children = children;
-                      rootNodes[index].children[parentIndex].children[_index].collapsed = true;
+                      console.log("Here 11 !!!!!");
+                      rootNodes[parentIndex].children[index].children[_index].children = children;
+                      console.log("Here 12 !!!!!");
+                      rootNodes[parentIndex].children[index].children[_index].collapsed = true;
+                      console.log("Here 13 !!!!!");
                     }
                     return;
                   }
