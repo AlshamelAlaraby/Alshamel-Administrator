@@ -1340,15 +1340,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_8__);
 /* harmony import */ var _helper_startDate__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../helper/startDate */ "./resources/js/helper/startDate.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
@@ -1547,11 +1547,67 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     });
   },
   methods: {
+    getThirdLevelChildNodes: function getThirdLevelChildNodes(rootNode, parentNode, secondParentNode) {
+      var _this3 = this;
+      if (!secondParentNode.collapsed) {
+        _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/workflow-trees/child-nodes/".concat(secondParentNode.id)).then(function (res) {
+          _this3.rootNodes = _this3.getRootNodesAfter2ndCollapse(rootNode, parentNode, secondParentNode, res.data);
+        })["catch"](function (err) {
+          sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+            icon: "error",
+            title: "".concat(_this3.$t("general.Error")),
+            text: "".concat(_this3.$t("general.Thereisanerrorinthesystem"))
+          });
+        });
+      } else {
+        this.rootNodes = this.getRootNodesAfter2ndCollapse(rootNode, parentNode, secondParentNode);
+      }
+    },
+    getRootNodesAfter2ndCollapse: function getRootNodesAfter2ndCollapse(parentNode, secondParentNode, thirdParentNode, children) {
+      var rootNodes = _toConsumableArray(this.rootNodes);
+      console.log("Here one !!!!!");
+      rootNodes.forEach(function (_parentNode, parentIndex) {
+        console.log("Here tow !!!!!");
+        if (_parentNode.id == parentNode.id) {
+          console.log("Here three !!!!!");
+          if (_parentNode.children && _parentNode.children.length) {
+            console.log("Here four !!!!!");
+            _parentNode.children.forEach(function (child, index) {
+              console.log("Here five !!!!!");
+              if (child.id == secondParentNode.id) {
+                console.log("Here sex !!!!!");
+                child.children.forEach(function (_child, _index) {
+                  console.log("Here seven !!!!!");
+                  if (thirdParentNode.id == _child.id) {
+                    console.log("Here 8 !!!!!");
+                    if (thirdParentNode.collapsed) {
+                      console.log("Here 9 !!!!!");
+                      rootNodes[parentIndex].children[index].children[_index].children = [];
+                      rootNodes[parentIndex].children[index].children[_index].collapsed = false;
+                      console.log("Here 10 !!!!!");
+                    } else {
+                      console.log("Here 11 !!!!!");
+                      rootNodes[parentIndex].children[index].children[_index].children = children;
+                      console.log("Here 12 !!!!!");
+                      rootNodes[parentIndex].children[index].children[_index].collapsed = true;
+                      console.log("Here 13 !!!!!");
+                    }
+                    return;
+                  }
+                });
+              }
+            });
+            return;
+          }
+        }
+      });
+      return rootNodes;
+    },
     /**
      *  start get Data workflow && pagination
      */
     getData: function getData() {
-      var _this3 = this;
+      var _this4 = this;
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       this.isLoader = true;
       var filter = "";
@@ -1560,21 +1616,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
       _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/workflow-trees?page=".concat(page, "&per_page=").concat(this.per_page, "&search=").concat(this.search, "&").concat(filter)).then(function (res) {
         var l = res.data;
-        _this3.workflows = l.data;
-        _this3.workflowsPagination = l.pagination;
-        _this3.current_page = l.pagination.current_page;
+        _this4.workflows = l.data;
+        _this4.workflowsPagination = l.pagination;
+        _this4.current_page = l.pagination.current_page;
       })["catch"](function (err) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
           icon: "error",
-          title: "".concat(_this3.$t("general.Error")),
-          text: "".concat(_this3.$t("general.Thereisanerrorinthesystem"))
+          title: "".concat(_this4.$t("general.Error")),
+          text: "".concat(_this4.$t("general.Thereisanerrorinthesystem"))
         });
       })["finally"](function () {
-        _this3.isLoader = false;
+        _this4.isLoader = false;
       });
     },
     getDataCurrentPage: function getDataCurrentPage() {
-      var _this4 = this;
+      var _this5 = this;
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       if (this.current_page <= this.workflowsPagination.last_page && this.current_page != this.workflowsPagination.current_page && this.current_page) {
         this.isLoader = true;
@@ -1584,17 +1640,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
         _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/workflow-trees?page=".concat(this.current_page, "&per_page=").concat(this.per_page, "&search=").concat(this.search, "&").concat(filter)).then(function (res) {
           var l = res.data;
-          _this4.workflows = l.data;
-          _this4.workflowsPagination = l.pagination;
-          _this4.current_page = l.pagination.current_page;
+          _this5.workflows = l.data;
+          _this5.workflowsPagination = l.pagination;
+          _this5.current_page = l.pagination.current_page;
         })["catch"](function (err) {
           sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
             icon: "error",
-            title: "".concat(_this4.$t("general.Error")),
-            text: "".concat(_this4.$t("general.Thereisanerrorinthesystem"))
+            title: "".concat(_this5.$t("general.Error")),
+            text: "".concat(_this5.$t("general.Thereisanerrorinthesystem"))
           });
         })["finally"](function () {
-          _this4.isLoader = false;
+          _this5.isLoader = false;
         });
       }
     },
@@ -1605,7 +1661,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
      *  start delete workflow
      */
     deleteCountry: function deleteCountry(id) {
-      var _this5 = this;
+      var _this6 = this;
       var tree = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
       if (Array.isArray(id)) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
@@ -1620,16 +1676,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           buttonsStyling: false
         }).then(function (result) {
           if (result.value) {
-            _this5.isLoader = true;
+            _this6.isLoader = true;
             _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].post("/workflow-trees/bulk-delete", {
               ids: id
             }).then(function (res) {
-              _this5.checkAll = [];
-              _this5.getData();
+              _this6.checkAll = [];
+              _this6.getData();
               sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
                 icon: "success",
-                title: "".concat(_this5.$t("general.Deleted")),
-                text: "".concat(_this5.$t("general.Yourrowhasbeendeleted")),
+                title: "".concat(_this6.$t("general.Deleted")),
+                text: "".concat(_this6.$t("general.Yourrowhasbeendeleted")),
                 showConfirmButton: false,
                 timer: 1500
               });
@@ -1637,19 +1693,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               if (err.response.status == 400) {
                 sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
                   icon: "error",
-                  title: "".concat(_this5.$t("general.Error")),
-                  text: "".concat(_this5.$t("general.CantDeleteRelation"))
+                  title: "".concat(_this6.$t("general.Error")),
+                  text: "".concat(_this6.$t("general.CantDeleteRelation"))
                 });
-                _this5.getData();
+                _this6.getData();
               } else {
                 sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
                   icon: "error",
-                  title: "".concat(_this5.$t("general.Error")),
-                  text: "".concat(_this5.$t("general.Thereisanerrorinthesystem"))
+                  title: "".concat(_this6.$t("general.Error")),
+                  text: "".concat(_this6.$t("general.Thereisanerrorinthesystem"))
                 });
               }
             })["finally"](function () {
-              _this5.isLoader = false;
+              _this6.isLoader = false;
             });
           }
         });
@@ -1666,17 +1722,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           buttonsStyling: false
         }).then(function (result) {
           if (result.value) {
-            _this5.isLoader = true;
+            _this6.isLoader = true;
             _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"]["delete"]("/workflow-trees/".concat(id)).then(function (res) {
-              _this5.checkAll = [];
-              _this5.getData();
+              _this6.checkAll = [];
+              _this6.getData();
               if (tree) {
-                _this5.getRootNodes();
+                _this6.getRootNodes();
               }
               sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
                 icon: "success",
-                title: "".concat(_this5.$t("general.Deleted")),
-                text: "".concat(_this5.$t("general.Yourrowhasbeendeleted")),
+                title: "".concat(_this6.$t("general.Deleted")),
+                text: "".concat(_this6.$t("general.Yourrowhasbeendeleted")),
                 showConfirmButton: false,
                 timer: 1500
               });
@@ -1684,18 +1740,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               if (err.response.status == 400) {
                 sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
                   icon: "error",
-                  title: "".concat(_this5.$t("general.Error")),
-                  text: "".concat(_this5.$t("general.CantDeleteRelation"))
+                  title: "".concat(_this6.$t("general.Error")),
+                  text: "".concat(_this6.$t("general.CantDeleteRelation"))
                 });
               } else {
                 sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
                   icon: "error",
-                  title: "".concat(_this5.$t("general.Error")),
-                  text: "".concat(_this5.$t("general.Thereisanerrorinthesystem"))
+                  title: "".concat(_this6.$t("general.Error")),
+                  text: "".concat(_this6.$t("general.Thereisanerrorinthesystem"))
                 });
               }
             })["finally"](function () {
-              _this5.isLoader = false;
+              _this6.isLoader = false;
             });
           }
         });
@@ -1708,7 +1764,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
      *  reset Modal (create)
      */
     resetModalHidden: function resetModalHidden() {
-      var _this6 = this;
+      var _this7 = this;
       this.create = {
         name: "",
         name_e: "",
@@ -1722,7 +1778,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         media: null
       };
       this.$nextTick(function () {
-        _this6.$v.$reset();
+        _this7.$v.$reset();
       });
       this.images = [];
       this.workflow_id = null;
@@ -1737,28 +1793,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
      *  hidden Modal (create)
      */
     resetModal: function resetModal() {
-      var _this7 = this;
+      var _this8 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _this7.getRootNodes();
+                return _this8.getRootNodes();
               case 2:
                 _context.next = 4;
-                return _this7.getPartners();
+                return _this8.getPartners();
               case 4:
                 _context.next = 6;
-                return _this7.getCompanies();
+                return _this8.getCompanies();
               case 6:
                 _context.next = 8;
-                return _this7.getModules();
+                return _this8.getModules();
               case 8:
                 _context.next = 10;
-                return _this7.getScreens();
+                return _this8.getScreens();
               case 10:
-                _this7.create = {
+                _this8.create = {
                   name: "",
                   name_e: "",
                   partner_id: null,
@@ -1769,14 +1825,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   id_sort: null,
                   is_active: "active"
                 };
-                _this7.showPhoto = "./images/img-1.png";
-                _this7.$nextTick(function () {
-                  _this7.$v.$reset();
+                _this8.showPhoto = "./images/img-1.png";
+                _this8.$nextTick(function () {
+                  _this8.$v.$reset();
                 });
-                _this7.workflow_id = null;
-                _this7.media = {};
-                _this7.images = [];
-                _this7.errors = {};
+                _this8.workflow_id = null;
+                _this8.media = {};
+                _this8.images = [];
+                _this8.errors = {};
               case 17:
               case "end":
                 return _context.stop();
@@ -1789,7 +1845,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
      *  create workflow
      */
     resetForm: function resetForm() {
-      var _this8 = this;
+      var _this9 = this;
       this.create = {
         name: "",
         name_e: "",
@@ -1802,14 +1858,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         is_active: "active"
       };
       this.$nextTick(function () {
-        _this8.$v.$reset();
+        _this9.$v.$reset();
       });
       this.workflow_id = null;
       this.media = {};
       this.images = [];
     },
     AddSubmit: function AddSubmit() {
-      var _this9 = this;
+      var _this10 = this;
       if (!this.create.name) {
         this.create.name = this.create.name_e;
       }
@@ -1824,57 +1880,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.isLoader = true;
         this.errors = {};
         _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].post("/workflow-trees", this.create).then(function (res) {
-          _this9.workflow_id = res.data.data.id;
+          _this10.workflow_id = res.data.data.id;
           setTimeout(function () {
             sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
               icon: "success",
-              text: "".concat(_this9.$t("general.Addedsuccessfully")),
+              text: "".concat(_this10.$t("general.Addedsuccessfully")),
               showConfirmButton: false,
               timer: 1500
             });
           }, 200);
-          _this9.getRootNodes();
-          _this9.getData();
-        })["catch"](function (err) {
-          if (err.response.data) {
-            _this9.errors = err.response.data.errors;
-          } else {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-              icon: "error",
-              title: "".concat(_this9.$t("general.Error")),
-              text: "".concat(_this9.$t("general.Thereisanerrorinthesystem"))
-            });
-          }
-        })["finally"](function () {
-          _this9.isLoader = false;
-        });
-      }
-    },
-    /**
-     *  edit workflow
-     */
-    editSubmit: function editSubmit(id) {
-      var _this10 = this;
-      this.$v.edit.$touch();
-      this.images.forEach(function (e) {
-        _this10.edit.old_media.push(e.id);
-      });
-      if (this.$v.edit.$invalid) {
-        return;
-      } else {
-        this.isLoader = true;
-        this.errors = {};
-        _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].put("/workflow-trees/".concat(id), this.edit).then(function (res) {
-          _this10.$bvModal.hide("modal-edit-".concat(id));
+          _this10.getRootNodes();
           _this10.getData();
-          setTimeout(function () {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
-              icon: "success",
-              text: "".concat(_this10.$t("general.Editsuccessfully")),
-              showConfirmButton: false,
-              timer: 1500
-            });
-          }, 500);
         })["catch"](function (err) {
           if (err.response.data) {
             _this10.errors = err.response.data.errors;
@@ -1890,6 +1906,46 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
       }
     },
+    /**
+     *  edit workflow
+     */
+    editSubmit: function editSubmit(id) {
+      var _this11 = this;
+      this.$v.edit.$touch();
+      this.images.forEach(function (e) {
+        _this11.edit.old_media.push(e.id);
+      });
+      if (this.$v.edit.$invalid) {
+        return;
+      } else {
+        this.isLoader = true;
+        this.errors = {};
+        _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].put("/workflow-trees/".concat(id), this.edit).then(function (res) {
+          _this11.$bvModal.hide("modal-edit-".concat(id));
+          _this11.getData();
+          setTimeout(function () {
+            sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+              icon: "success",
+              text: "".concat(_this11.$t("general.Editsuccessfully")),
+              showConfirmButton: false,
+              timer: 1500
+            });
+          }, 500);
+        })["catch"](function (err) {
+          if (err.response.data) {
+            _this11.errors = err.response.data.errors;
+          } else {
+            sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+              icon: "error",
+              title: "".concat(_this11.$t("general.Error")),
+              text: "".concat(_this11.$t("general.Thereisanerrorinthesystem"))
+            });
+          }
+        })["finally"](function () {
+          _this11.isLoader = false;
+        });
+      }
+    },
     /*
      *  log workflow
      * */
@@ -1897,20 +1953,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return (0,_helper_startDate__WEBPACK_IMPORTED_MODULE_9__.formatDateOnly)(value);
     },
     log: function log(id) {
-      var _this11 = this;
+      var _this12 = this;
       if (this.mouseEnter != id) {
         this.Tooltip = "";
         this.mouseEnter = id;
         _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/workflow-trees/logs/".concat(id)).then(function (res) {
           var l = res.data.data;
           l.forEach(function (e) {
-            _this11.Tooltip += "Created By: ".concat(e.causer_type, "; Event: ").concat(e.event, "; Description: ").concat(e.description, " ;Created At: ").concat(_this11.formatDate(e.created_at), " \n");
+            _this12.Tooltip += "Created By: ".concat(e.causer_type, "; Event: ").concat(e.event, "; Description: ").concat(e.description, " ;Created At: ").concat(_this12.formatDate(e.created_at), " \n");
           });
         })["catch"](function (err) {
           sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
             icon: "error",
-            title: "".concat(_this11.$t("general.Error")),
-            text: "".concat(_this11.$t("general.Thereisanerrorinthesystem"))
+            title: "".concat(_this12.$t("general.Error")),
+            text: "".concat(_this12.$t("general.Thereisanerrorinthesystem"))
           });
         });
       } else {}
@@ -1919,7 +1975,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
      *   show Modal (edit)
      */
     resetModalEdit: function resetModalEdit(id) {
-      var _this12 = this;
+      var _this13 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
         var workflow;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
@@ -1927,44 +1983,44 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return _this12.getRootNodes();
+                return _this13.getRootNodes();
               case 2:
                 _context2.next = 4;
-                return _this12.getPartners();
+                return _this13.getPartners();
               case 4:
                 _context2.next = 6;
-                return _this12.getCompanies();
+                return _this13.getCompanies();
               case 6:
                 _context2.next = 8;
-                return _this12.getModules();
+                return _this13.getModules();
               case 8:
                 _context2.next = 10;
-                return _this12.getScreens();
+                return _this13.getScreens();
               case 10:
-                workflow = _this12.workflows.find(function (e) {
+                workflow = _this13.workflows.find(function (e) {
                   return id == e.id;
                 });
-                _this12.workflow_id = id;
-                _this12.edit.name = workflow.name;
-                _this12.edit.name_e = workflow.name_e;
-                _this12.edit.parent_id = workflow.parent_id;
-                _this12.edit.partner_id = workflow.partner_id;
-                _this12.edit.company_id = workflow.company_id;
-                _this12.edit.module_id = workflow.module_id;
-                _this12.edit.screen_id = workflow.screen_id;
-                _this12.edit.id_sort = workflow.id_sort;
-                _this12.edit.is_active = workflow.is_active;
-                _this12.images = workflow.media ? workflow.media : [];
-                if (_this12.images && _this12.images.length > 0) {
-                  _this12.showPhoto = _this12.images[_this12.images.length - 1].webp;
+                _this13.workflow_id = id;
+                _this13.edit.name = workflow.name;
+                _this13.edit.name_e = workflow.name_e;
+                _this13.edit.parent_id = workflow.parent_id;
+                _this13.edit.partner_id = workflow.partner_id;
+                _this13.edit.company_id = workflow.company_id;
+                _this13.edit.module_id = workflow.module_id;
+                _this13.edit.screen_id = workflow.screen_id;
+                _this13.edit.id_sort = workflow.id_sort;
+                _this13.edit.is_active = workflow.is_active;
+                _this13.images = workflow.media ? workflow.media : [];
+                if (_this13.images && _this13.images.length > 0) {
+                  _this13.showPhoto = _this13.images[_this13.images.length - 1].webp;
                 } else {
-                  _this12.showPhoto = "./images/img-1.png";
+                  _this13.showPhoto = "./images/img-1.png";
                 }
-                _this12.$nextTick(function () {
-                  _this12.$v.$reset();
+                _this13.$nextTick(function () {
+                  _this13.$v.$reset();
                 });
-                _this12.errors = {};
-                _this12.current_id = id;
+                _this13.errors = {};
+                _this13.current_id = id;
               case 26:
               case "end":
                 return _context2.stop();
@@ -2002,7 +2058,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
      *  get screens
      */
     getPartners: function getPartners() {
-      var _this13 = this;
+      var _this14 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) {
@@ -2010,12 +2066,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 _context3.next = 2;
                 return _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/partners").then(function (res) {
-                  _this13.partners = res.data.data;
+                  _this14.partners = res.data.data;
                 })["catch"](function (err) {
                   sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
                     icon: "error",
-                    title: "".concat(_this13.$t("general.Error")),
-                    text: "".concat(_this13.$t("general.Thereisanerrorinthesystem"))
+                    title: "".concat(_this14.$t("general.Error")),
+                    text: "".concat(_this14.$t("general.Thereisanerrorinthesystem"))
                   });
                 });
               case 2:
@@ -2027,7 +2083,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }))();
     },
     getCompanies: function getCompanies() {
-      var _this14 = this;
+      var _this15 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) {
@@ -2035,12 +2091,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 _context4.next = 2;
                 return _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/companies").then(function (res) {
-                  _this14.companies = res.data.data;
+                  _this15.companies = res.data.data;
                 })["catch"](function (err) {
                   sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
                     icon: "error",
-                    title: "".concat(_this14.$t("general.Error")),
-                    text: "".concat(_this14.$t("general.Thereisanerrorinthesystem"))
+                    title: "".concat(_this15.$t("general.Error")),
+                    text: "".concat(_this15.$t("general.Thereisanerrorinthesystem"))
                   });
                 });
               case 2:
@@ -2052,7 +2108,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }))();
     },
     getModules: function getModules() {
-      var _this15 = this;
+      var _this16 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
         return _regeneratorRuntime().wrap(function _callee5$(_context5) {
           while (1) {
@@ -2060,12 +2116,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 _context5.next = 2;
                 return _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/modules").then(function (res) {
-                  _this15.modules = res.data.data;
+                  _this16.modules = res.data.data;
                 })["catch"](function (err) {
                   sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
                     icon: "error",
-                    title: "".concat(_this15.$t("general.Error")),
-                    text: "".concat(_this15.$t("general.Thereisanerrorinthesystem"))
+                    title: "".concat(_this16.$t("general.Error")),
+                    text: "".concat(_this16.$t("general.Thereisanerrorinthesystem"))
                   });
                 });
               case 2:
@@ -2077,7 +2133,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }))();
     },
     getScreens: function getScreens() {
-      var _this16 = this;
+      var _this17 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
         return _regeneratorRuntime().wrap(function _callee6$(_context6) {
           while (1) {
@@ -2085,12 +2141,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 _context6.next = 2;
                 return _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/screens").then(function (res) {
-                  _this16.screens = res.data.data;
+                  _this17.screens = res.data.data;
                 })["catch"](function (err) {
                   sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
                     icon: "error",
-                    title: "".concat(_this16.$t("general.Error")),
-                    text: "".concat(_this16.$t("general.Thereisanerrorinthesystem"))
+                    title: "".concat(_this17.$t("general.Error")),
+                    text: "".concat(_this17.$t("general.Thereisanerrorinthesystem"))
                   });
                 });
               case 2:
@@ -2102,7 +2158,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }))();
     },
     getRootNodes: function getRootNodes() {
-      var _this17 = this;
+      var _this18 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
         return _regeneratorRuntime().wrap(function _callee7$(_context7) {
           while (1) {
@@ -2110,13 +2166,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 _context7.next = 2;
                 return _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/workflow-trees/root-nodes").then(function (res) {
-                  console.log(_this17.rootNodes);
-                  _this17.rootNodes = res.data;
+                  console.log(_this18.rootNodes);
+                  _this18.rootNodes = res.data;
                 })["catch"](function (err) {
                   sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
                     icon: "error",
-                    title: "".concat(_this17.$t("general.Error")),
-                    text: "".concat(_this17.$t("general.Thereisanerrorinthesystem"))
+                    title: "".concat(_this18.$t("general.Error")),
+                    text: "".concat(_this18.$t("general.Thereisanerrorinthesystem"))
                   });
                 });
               case 2:
@@ -2128,15 +2184,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }))();
     },
     getFirstLevelChildNodes: function getFirstLevelChildNodes(node) {
-      var _this18 = this;
+      var _this19 = this;
       if (!node.collapsed) {
         _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/workflow-trees/child-nodes/".concat(node.id)).then(function (res) {
-          _this18.rootNodes = _this18.getUpdatedRootNodes(node, res.data);
+          _this19.rootNodes = _this19.getUpdatedRootNodes(node, res.data);
         })["catch"](function (err) {
           sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
             icon: "error",
-            title: "".concat(_this18.$t("general.Error")),
-            text: "".concat(_this18.$t("general.Thereisanerrorinthesystem"))
+            title: "".concat(_this19.$t("general.Error")),
+            text: "".concat(_this19.$t("general.Thereisanerrorinthesystem"))
           });
         });
       } else {
@@ -2144,15 +2200,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     getSecondLevelChildNodes: function getSecondLevelChildNodes(rootNode, parentNode) {
-      var _this19 = this;
+      var _this20 = this;
       if (!parentNode.collapsed) {
         _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/workflow-trees/child-nodes/".concat(parentNode.id)).then(function (res) {
-          _this19.rootNodes = _this19.getRootNodesAfterCollapse(rootNode, parentNode, res.data);
+          _this20.rootNodes = _this20.getRootNodesAfterCollapse(rootNode, parentNode, res.data);
         })["catch"](function (err) {
           sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
             icon: "error",
-            title: "".concat(_this19.$t("general.Error")),
-            text: "".concat(_this19.$t("general.Thereisanerrorinthesystem"))
+            title: "".concat(_this20.$t("general.Error")),
+            text: "".concat(_this20.$t("general.Thereisanerrorinthesystem"))
           });
         });
       } else {
@@ -2265,7 +2321,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.addImage(file);
     },
     addImage: function addImage(file) {
-      var _this20 = this;
+      var _this21 = this;
       this.media = file; //upload
       if (file) {
         this.idDelete = null;
@@ -2279,42 +2335,42 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           formDate.append("media[0]", this.media);
           _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].post("/media", formDate).then(function (res) {
             var old_media = [];
-            _this20.images.forEach(function (e) {
+            _this21.images.forEach(function (e) {
               return old_media.push(e.id);
             });
             var new_media = [];
             res.data.data.forEach(function (e) {
               return new_media.push(e.id);
             });
-            _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].put("/workflow-trees/".concat(_this20.workflow_id), {
+            _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].put("/workflow-trees/".concat(_this21.workflow_id), {
               old_media: old_media,
               media: new_media
             }).then(function (res) {
               console.log(res);
-              _this20.images = res.data.data.media ? res.data.data.media : [];
-              if (_this20.images && _this20.images.length > 0) {
-                _this20.showPhoto = _this20.images[_this20.images.length - 1].webp;
+              _this21.images = res.data.data.media ? res.data.data.media : [];
+              if (_this21.images && _this21.images.length > 0) {
+                _this21.showPhoto = _this21.images[_this21.images.length - 1].webp;
               }
-              _this20.getData();
+              _this21.getData();
             })["catch"](function (err) {
               sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
                 icon: "error",
-                title: "".concat(_this20.$t("general.Error")),
-                text: "".concat(_this20.$t("general.Thereisanerrorinthesystem"))
+                title: "".concat(_this21.$t("general.Error")),
+                text: "".concat(_this21.$t("general.Thereisanerrorinthesystem"))
               });
             });
           })["catch"](function (err) {
             if (err.response.data) {
-              _this20.errors = err.response.data.errors;
+              _this21.errors = err.response.data.errors;
             } else {
               sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
                 icon: "error",
-                title: "".concat(_this20.$t("general.Error")),
-                text: "".concat(_this20.$t("general.Thereisanerrorinthesystem"))
+                title: "".concat(_this21.$t("general.Error")),
+                text: "".concat(_this21.$t("general.Thereisanerrorinthesystem"))
               });
             }
           })["finally"](function () {
-            _this20.isLoader = false;
+            _this21.isLoader = false;
           });
         } else {
           sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
@@ -2328,47 +2384,47 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             buttonsStyling: false
           }).then(function (result) {
             if (result.value) {
-              _this20.isLoader = true;
+              _this21.isLoader = true;
               var _formDate = new FormData();
-              _formDate.append("media[0]", _this20.media);
+              _formDate.append("media[0]", _this21.media);
               _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].post("/media", _formDate).then(function (res) {
                 var old_media = [];
-                _this20.images.forEach(function (e) {
+                _this21.images.forEach(function (e) {
                   return old_media.push(e.id);
                 });
-                old_media.splice(old_media.indexOf(_this20.idDelete), 1);
+                old_media.splice(old_media.indexOf(_this21.idDelete), 1);
                 var new_media = [];
                 res.data.data.forEach(function (e) {
                   return new_media.push(e.id);
                 });
-                _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].put("/workflow-trees/".concat(_this20.workflow_id), {
+                _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].put("/workflow-trees/".concat(_this21.workflow_id), {
                   old_media: old_media,
                   media: new_media
                 }).then(function (res) {
-                  _this20.images = res.data.data.media ? res.data.data.media : [];
-                  if (_this20.images && _this20.images.length > 0) {
-                    _this20.showPhoto = _this20.images[_this20.images.length - 1].webp;
+                  _this21.images = res.data.data.media ? res.data.data.media : [];
+                  if (_this21.images && _this21.images.length > 0) {
+                    _this21.showPhoto = _this21.images[_this21.images.length - 1].webp;
                   }
-                  _this20.getData();
+                  _this21.getData();
                 })["catch"](function (err) {
                   sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
                     icon: "error",
-                    title: "".concat(_this20.$t("general.Error")),
-                    text: "".concat(_this20.$t("general.Thereisanerrorinthesystem"))
+                    title: "".concat(_this21.$t("general.Error")),
+                    text: "".concat(_this21.$t("general.Thereisanerrorinthesystem"))
                   });
                 });
               })["catch"](function (err) {
                 if (err.response.data) {
-                  _this20.errors = err.response.data.errors;
+                  _this21.errors = err.response.data.errors;
                 } else {
                   sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
                     icon: "error",
-                    title: "".concat(_this20.$t("general.Error")),
-                    text: "".concat(_this20.$t("general.Thereisanerrorinthesystem"))
+                    title: "".concat(_this21.$t("general.Error")),
+                    text: "".concat(_this21.$t("general.Thereisanerrorinthesystem"))
                   });
                 }
               })["finally"](function () {
-                _this20.isLoader = false;
+                _this21.isLoader = false;
               });
             }
           });
@@ -2376,7 +2432,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     deleteImageCreate: function deleteImageCreate(id, index) {
-      var _this21 = this;
+      var _this22 = this;
       var old_media = [];
       this.images.forEach(function (e) {
         if (e.id != id) {
@@ -2386,18 +2442,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       _api_adminAxios__WEBPACK_IMPORTED_MODULE_2__["default"].put("/workflow-trees/".concat(this.workflow_id), {
         old_media: old_media
       }).then(function (res) {
-        _this21.workflows[index] = res.data.data;
-        _this21.images = res.data.data.media ? res.data.data.media : [];
-        if (_this21.images && _this21.images.length > 0) {
-          _this21.showPhoto = _this21.images[_this21.images.length - 1].webp;
+        _this22.workflows[index] = res.data.data;
+        _this22.images = res.data.data.media ? res.data.data.media : [];
+        if (_this22.images && _this22.images.length > 0) {
+          _this22.showPhoto = _this22.images[_this22.images.length - 1].webp;
         } else {
-          _this21.showPhoto = "./images/img-1.png";
+          _this22.showPhoto = "./images/img-1.png";
         }
       })["catch"](function (err) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
           icon: "error",
-          title: "".concat(_this21.$t("general.Error")),
-          text: "".concat(_this21.$t("general.Thereisanerrorinthesystem"))
+          title: "".concat(_this22.$t("general.Error")),
+          text: "".concat(_this22.$t("general.Thereisanerrorinthesystem"))
         });
       });
     }
@@ -16459,45 +16515,183 @@ var render = function () {
                                                                               key: child.id,
                                                                             },
                                                                             [
-                                                                              _vm._v(
-                                                                                "\n                                    " +
-                                                                                  _vm._s(
-                                                                                    _vm
-                                                                                      .$i18n
-                                                                                      .locale ==
-                                                                                      "ar"
-                                                                                      ? child.name
-                                                                                      : child.name_e
-                                                                                  ) +
-                                                                                  "\n                                    "
-                                                                              ),
                                                                               _c(
                                                                                 "span",
-                                                                                {
-                                                                                  staticClass:
-                                                                                    "delete-node",
-                                                                                  on: {
-                                                                                    click:
-                                                                                      function (
-                                                                                        $event
-                                                                                      ) {
-                                                                                        return _vm.deleteCountry(
-                                                                                          child.id,
-                                                                                          true
-                                                                                        )
-                                                                                      },
-                                                                                  },
-                                                                                },
                                                                                 [
-                                                                                  _c(
-                                                                                    "i",
-                                                                                    {
-                                                                                      staticClass:
-                                                                                        "fa fa-times text-danger",
-                                                                                    }
+                                                                                  child.haveChildren
+                                                                                    ? _c(
+                                                                                        "i",
+                                                                                        {
+                                                                                          class:
+                                                                                            child.collapsed
+                                                                                              ? "fa fa-caret-down"
+                                                                                              : _vm
+                                                                                                  .$i18n
+                                                                                                  .locale ==
+                                                                                                "ar"
+                                                                                              ? "fa fa-caret-left"
+                                                                                              : "fa fa-caret-right",
+                                                                                          on: {
+                                                                                            click:
+                                                                                              function (
+                                                                                                $event
+                                                                                              ) {
+                                                                                                return _vm.getThirdLevelChildNodes(
+                                                                                                  node,
+                                                                                                  childNode,
+                                                                                                  child
+                                                                                                )
+                                                                                              },
+                                                                                          },
+                                                                                        }
+                                                                                      )
+                                                                                    : _vm._e(),
+                                                                                  _vm._v(
+                                                                                    " "
                                                                                   ),
+                                                                                  _c(
+                                                                                    "span",
+                                                                                    {
+                                                                                      class:
+                                                                                        {
+                                                                                          "without-children":
+                                                                                            !child.haveChildren,
+                                                                                          active:
+                                                                                            child.id ==
+                                                                                            _vm
+                                                                                              .create
+                                                                                              .parent_id,
+                                                                                        },
+                                                                                      on: {
+                                                                                        click:
+                                                                                          function (
+                                                                                            $event
+                                                                                          ) {
+                                                                                            return _vm.setCreateParentId(
+                                                                                              child
+                                                                                            )
+                                                                                          },
+                                                                                      },
+                                                                                    },
+                                                                                    [
+                                                                                      _vm._v(
+                                                                                        "\n                                        " +
+                                                                                          _vm._s(
+                                                                                            _vm
+                                                                                              .$i18n
+                                                                                              .locale ==
+                                                                                              "ar"
+                                                                                              ? child.name
+                                                                                              : child.name_e
+                                                                                          ) +
+                                                                                          "\n                                      "
+                                                                                      ),
+                                                                                    ]
+                                                                                  ),
+                                                                                  _vm._v(
+                                                                                    " "
+                                                                                  ),
+                                                                                  !child.haveChildren
+                                                                                    ? _c(
+                                                                                        "span",
+                                                                                        {
+                                                                                          staticClass:
+                                                                                            "delete-node",
+                                                                                          on: {
+                                                                                            click:
+                                                                                              function (
+                                                                                                $event
+                                                                                              ) {
+                                                                                                return _vm.deleteCountry(
+                                                                                                  child.id,
+                                                                                                  true
+                                                                                                )
+                                                                                              },
+                                                                                          },
+                                                                                        },
+                                                                                        [
+                                                                                          _c(
+                                                                                            "i",
+                                                                                            {
+                                                                                              staticClass:
+                                                                                                "fa fa-times text-danger",
+                                                                                            }
+                                                                                          ),
+                                                                                        ]
+                                                                                      )
+                                                                                    : _vm._e(),
                                                                                 ]
                                                                               ),
+                                                                              _vm._v(
+                                                                                " "
+                                                                              ),
+                                                                              child.children &&
+                                                                              child
+                                                                                .children
+                                                                                .length
+                                                                                ? _c(
+                                                                                    "ul",
+                                                                                    {
+                                                                                      staticClass:
+                                                                                        "nested",
+                                                                                    },
+                                                                                    _vm._l(
+                                                                                      child.children,
+                                                                                      function (
+                                                                                        _child
+                                                                                      ) {
+                                                                                        return _c(
+                                                                                          "li",
+                                                                                          {
+                                                                                            key: _child.id,
+                                                                                          },
+                                                                                          [
+                                                                                            _vm._v(
+                                                                                              "\n                                        " +
+                                                                                                _vm._s(
+                                                                                                  _vm
+                                                                                                    .$i18n
+                                                                                                    .locale ==
+                                                                                                    "ar"
+                                                                                                    ? _child.name
+                                                                                                    : _child.name_e
+                                                                                                ) +
+                                                                                                "\n                                        "
+                                                                                            ),
+                                                                                            _c(
+                                                                                              "span",
+                                                                                              {
+                                                                                                staticClass:
+                                                                                                  "delete-node",
+                                                                                                on: {
+                                                                                                  click:
+                                                                                                    function (
+                                                                                                      $event
+                                                                                                    ) {
+                                                                                                      return _vm.deleteCountry(
+                                                                                                        _child.id,
+                                                                                                        true
+                                                                                                      )
+                                                                                                    },
+                                                                                                },
+                                                                                              },
+                                                                                              [
+                                                                                                _c(
+                                                                                                  "i",
+                                                                                                  {
+                                                                                                    staticClass:
+                                                                                                      "fa fa-times text-danger",
+                                                                                                  }
+                                                                                                ),
+                                                                                              ]
+                                                                                            ),
+                                                                                          ]
+                                                                                        )
+                                                                                      }
+                                                                                    ),
+                                                                                    0
+                                                                                  )
+                                                                                : _vm._e(),
                                                                             ]
                                                                           )
                                                                         }
@@ -19322,45 +19516,187 @@ var render = function () {
                                                                                                       key: child.id,
                                                                                                     },
                                                                                                     [
-                                                                                                      _vm._v(
-                                                                                                        "\n                                            " +
-                                                                                                          _vm._s(
-                                                                                                            _vm
-                                                                                                              .$i18n
-                                                                                                              .locale ==
-                                                                                                              "ar"
-                                                                                                              ? child.name
-                                                                                                              : child.name_e
-                                                                                                          ) +
-                                                                                                          "\n                                            "
-                                                                                                      ),
                                                                                                       _c(
                                                                                                         "span",
-                                                                                                        {
-                                                                                                          staticClass:
-                                                                                                            "delete-node",
-                                                                                                          on: {
-                                                                                                            click:
-                                                                                                              function (
-                                                                                                                $event
-                                                                                                              ) {
-                                                                                                                return _vm.deleteCountry(
-                                                                                                                  child.id,
-                                                                                                                  true
-                                                                                                                )
-                                                                                                              },
-                                                                                                          },
-                                                                                                        },
                                                                                                         [
-                                                                                                          _c(
-                                                                                                            "i",
-                                                                                                            {
-                                                                                                              staticClass:
-                                                                                                                "fa fa-times text-danger",
-                                                                                                            }
+                                                                                                          child.haveChildren
+                                                                                                            ? _c(
+                                                                                                                "i",
+                                                                                                                {
+                                                                                                                  class:
+                                                                                                                    child.collapsed
+                                                                                                                      ? "fa fa-caret-down"
+                                                                                                                      : _vm
+                                                                                                                          .$i18n
+                                                                                                                          .locale ==
+                                                                                                                        "ar"
+                                                                                                                      ? "fa fa-caret-left"
+                                                                                                                      : "fa fa-caret-right",
+                                                                                                                  on: {
+                                                                                                                    click:
+                                                                                                                      function (
+                                                                                                                        $event
+                                                                                                                      ) {
+                                                                                                                        return _vm.getThirdLevelChildNodes(
+                                                                                                                          node,
+                                                                                                                          childNode,
+                                                                                                                          child
+                                                                                                                        )
+                                                                                                                      },
+                                                                                                                  },
+                                                                                                                }
+                                                                                                              )
+                                                                                                            : _vm._e(),
+                                                                                                          _vm._v(
+                                                                                                            " "
                                                                                                           ),
+                                                                                                          _c(
+                                                                                                            "span",
+                                                                                                            {
+                                                                                                              class:
+                                                                                                                {
+                                                                                                                  "without-children":
+                                                                                                                    !child.haveChildren,
+                                                                                                                  active:
+                                                                                                                    child.id ==
+                                                                                                                    _vm
+                                                                                                                      .edit
+                                                                                                                      .parent_id,
+                                                                                                                },
+                                                                                                              on: {
+                                                                                                                click:
+                                                                                                                  function (
+                                                                                                                    $event
+                                                                                                                  ) {
+                                                                                                                    return _vm.setUpdateParentId(
+                                                                                                                      [
+                                                                                                                        node.id,
+                                                                                                                        childNode.id,
+                                                                                                                      ],
+                                                                                                                      child
+                                                                                                                    )
+                                                                                                                  },
+                                                                                                              },
+                                                                                                            },
+                                                                                                            [
+                                                                                                              _vm._v(
+                                                                                                                "\n                                                " +
+                                                                                                                  _vm._s(
+                                                                                                                    _vm
+                                                                                                                      .$i18n
+                                                                                                                      .locale ==
+                                                                                                                      "ar"
+                                                                                                                      ? child.name
+                                                                                                                      : child.name_e
+                                                                                                                  ) +
+                                                                                                                  "\n                                              "
+                                                                                                              ),
+                                                                                                            ]
+                                                                                                          ),
+                                                                                                          _vm._v(
+                                                                                                            " "
+                                                                                                          ),
+                                                                                                          !child.haveChildren
+                                                                                                            ? _c(
+                                                                                                                "span",
+                                                                                                                {
+                                                                                                                  staticClass:
+                                                                                                                    "delete-node",
+                                                                                                                  on: {
+                                                                                                                    click:
+                                                                                                                      function (
+                                                                                                                        $event
+                                                                                                                      ) {
+                                                                                                                        return _vm.deleteCountry(
+                                                                                                                          child.id,
+                                                                                                                          true
+                                                                                                                        )
+                                                                                                                      },
+                                                                                                                  },
+                                                                                                                },
+                                                                                                                [
+                                                                                                                  _c(
+                                                                                                                    "i",
+                                                                                                                    {
+                                                                                                                      staticClass:
+                                                                                                                        "fa fa-times text-danger",
+                                                                                                                    }
+                                                                                                                  ),
+                                                                                                                ]
+                                                                                                              )
+                                                                                                            : _vm._e(),
                                                                                                         ]
                                                                                                       ),
+                                                                                                      _vm._v(
+                                                                                                        " "
+                                                                                                      ),
+                                                                                                      child.children &&
+                                                                                                      child
+                                                                                                        .children
+                                                                                                        .length
+                                                                                                        ? _c(
+                                                                                                            "ul",
+                                                                                                            {
+                                                                                                              staticClass:
+                                                                                                                "nested",
+                                                                                                            },
+                                                                                                            _vm._l(
+                                                                                                              child.children,
+                                                                                                              function (
+                                                                                                                _child
+                                                                                                              ) {
+                                                                                                                return _c(
+                                                                                                                  "li",
+                                                                                                                  {
+                                                                                                                    key: _child.id,
+                                                                                                                  },
+                                                                                                                  [
+                                                                                                                    _vm._v(
+                                                                                                                      "\n                                                " +
+                                                                                                                        _vm._s(
+                                                                                                                          _vm
+                                                                                                                            .$i18n
+                                                                                                                            .locale ==
+                                                                                                                            "ar"
+                                                                                                                            ? _child.name
+                                                                                                                            : _child.name_e
+                                                                                                                        ) +
+                                                                                                                        "\n                                                "
+                                                                                                                    ),
+                                                                                                                    _c(
+                                                                                                                      "span",
+                                                                                                                      {
+                                                                                                                        staticClass:
+                                                                                                                          "delete-node",
+                                                                                                                        on: {
+                                                                                                                          click:
+                                                                                                                            function (
+                                                                                                                              $event
+                                                                                                                            ) {
+                                                                                                                              return _vm.deleteCountry(
+                                                                                                                                _child.id,
+                                                                                                                                true
+                                                                                                                              )
+                                                                                                                            },
+                                                                                                                        },
+                                                                                                                      },
+                                                                                                                      [
+                                                                                                                        _c(
+                                                                                                                          "i",
+                                                                                                                          {
+                                                                                                                            staticClass:
+                                                                                                                              "fa fa-times text-danger",
+                                                                                                                          }
+                                                                                                                        ),
+                                                                                                                      ]
+                                                                                                                    ),
+                                                                                                                  ]
+                                                                                                                )
+                                                                                                              }
+                                                                                                            ),
+                                                                                                            0
+                                                                                                          )
+                                                                                                        : _vm._e(),
                                                                                                     ]
                                                                                                   )
                                                                                                 }

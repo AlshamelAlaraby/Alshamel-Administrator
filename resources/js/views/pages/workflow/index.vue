@@ -180,6 +180,95 @@ export default {
     });
   },
   methods: {
+    getThirdLevelChildNodes(rootNode, parentNode, secondParentNode) {
+      if (!secondParentNode.collapsed) {
+        adminApi
+          .get(`/workflow-trees/child-nodes/${secondParentNode.id}`)
+          .then((res) => {
+            this.rootNodes = this.getRootNodesAfter2ndCollapse(
+              rootNode,
+              parentNode,
+              secondParentNode,
+              res.data
+            );
+          })
+          .catch((err) => {
+            Swal.fire({
+              icon: "error",
+              title: `${this.$t("general.Error")}`,
+              text: `${this.$t("general.Thereisanerrorinthesystem")}`,
+            });
+          });
+      } else {
+        this.rootNodes = this.getRootNodesAfter2ndCollapse(
+          rootNode,
+          parentNode,
+          secondParentNode
+        );
+      }
+    },
+    getRootNodesAfter2ndCollapse(
+      parentNode,
+      secondParentNode,
+      thirdParentNode,
+      children
+    ) {
+      let rootNodes = [...this.rootNodes];
+      console.log("Here one !!!!!");
+      rootNodes.forEach((_parentNode, parentIndex) => {
+      console.log("Here tow !!!!!");
+        if (_parentNode.id == parentNode.id) {
+      console.log("Here three !!!!!");
+          if (_parentNode.children && _parentNode.children.length) {
+      console.log("Here four !!!!!");
+            _parentNode.children.forEach((child, index) => {
+      console.log("Here five !!!!!");
+
+              if (child.id == secondParentNode.id) {
+      console.log("Here sex !!!!!");
+
+                child.children.forEach((_child, _index) => {
+      console.log("Here seven !!!!!");
+
+                  if (thirdParentNode.id == _child.id) {
+      console.log("Here 8 !!!!!");
+
+                    if (thirdParentNode.collapsed) {
+      console.log("Here 9 !!!!!");
+
+                      rootNodes[parentIndex].children[index].children[
+                        _index
+                      ].children = [];
+                      rootNodes[parentIndex].children[index].children[
+                        _index
+                      ].collapsed = false;
+      console.log("Here 10 !!!!!");
+
+                    } else {
+      console.log("Here 11 !!!!!");
+
+                      rootNodes[parentIndex].children[index].children[
+                        _index
+                      ].children = children;
+      console.log("Here 12 !!!!!");
+
+                      rootNodes[parentIndex].children[index].children[
+                        _index
+                      ].collapsed = true;
+      console.log("Here 13 !!!!!");
+
+                    }
+                    return;
+                  }
+                });
+              }
+            });
+            return;
+          }
+        }
+      });
+      return rootNodes;
+    },
     /**
      *  start get Data workflow && pagination
      */
@@ -1341,14 +1430,65 @@ export default {
                                       v-for="child in childNode.children"
                                       :key="child.id"
                                     >
-                                      {{
-                                        $i18n.locale == "ar" ? child.name : child.name_e
-                                      }}
-                                      <span
-                                        @click="deleteCountry(child.id, true)"
-                                        class="delete-node"
-                                        ><i class="fa fa-times text-danger"></i
-                                      ></span>
+                                      <span>
+                                        <i
+                                          @click="
+                                            getThirdLevelChildNodes(
+                                              node,
+                                              childNode,
+                                              child
+                                            )
+                                          "
+                                          v-if="child.haveChildren"
+                                          :class="
+                                            child.collapsed
+                                              ? 'fa fa-caret-down'
+                                              : $i18n.locale == 'ar'
+                                              ? 'fa fa-caret-left'
+                                              : 'fa fa-caret-right'
+                                          "
+                                        >
+                                        </i>
+                                        <span
+                                          @click="setCreateParentId(child)"
+                                          :class="{
+                                            'without-children': !child.haveChildren,
+                                            active: child.id == create.parent_id,
+                                          }"
+                                        >
+                                          {{
+                                            $i18n.locale == "ar"
+                                              ? child.name
+                                              : child.name_e
+                                          }}
+                                        </span>
+                                        <span
+                                          v-if="!child.haveChildren"
+                                          @click="deleteCountry(child.id, true)"
+                                          class="delete-node"
+                                          ><i class="fa fa-times text-danger"></i
+                                        ></span>
+                                      </span>
+                                      <ul
+                                        v-if="child.children && child.children.length"
+                                        class="nested"
+                                      >
+                                        <li
+                                          v-for="_child in child.children"
+                                          :key="_child.id"
+                                        >
+                                          {{
+                                            $i18n.locale == "ar"
+                                              ? _child.name
+                                              : _child.name_e
+                                          }}
+                                          <span
+                                            @click="deleteCountry(_child.id, true)"
+                                            class="delete-node"
+                                            ><i class="fa fa-times text-danger"></i
+                                          ></span>
+                                        </li>
+                                      </ul>
                                     </li>
                                   </ul>
                                 </li>
@@ -2118,7 +2258,7 @@ export default {
                                           "
                                         ></i>
                                         <span
-                                          @click="setUpdateParentId([], node)"
+                                          @click="setUpdateParentId([],node)"
                                           :class="{
                                             'without-children': !node.haveChildren,
                                             active: node.id == edit.parent_id,
@@ -2159,9 +2299,7 @@ export default {
                                             >
                                             </i>
                                             <span
-                                              @click="
-                                                setUpdateParentId([node.id], childNode)
-                                              "
+                                              @click="setUpdateParentId([node.id],childNode)"
                                               :class="{
                                                 'without-children': !childNode.haveChildren,
                                                 active: childNode.id == edit.parent_id,
@@ -2191,16 +2329,71 @@ export default {
                                               v-for="child in childNode.children"
                                               :key="child.id"
                                             >
-                                              {{
-                                                $i18n.locale == "ar"
-                                                  ? child.name
-                                                  : child.name_e
-                                              }}
-                                              <span
-                                                @click="deleteCountry(child.id, true)"
-                                                class="delete-node"
-                                                ><i class="fa fa-times text-danger"></i
-                                              ></span>
+                                              <span>
+                                                <i
+                                                  @click="
+                                                    getThirdLevelChildNodes(
+                                                      node,
+                                                      childNode,
+                                                      child
+                                                    )
+                                                  "
+                                                  v-if="child.haveChildren"
+                                                  :class="
+                                                    child.collapsed
+                                                      ? 'fa fa-caret-down'
+                                                      : $i18n.locale == 'ar'
+                                                      ? 'fa fa-caret-left'
+                                                      : 'fa fa-caret-right'
+                                                  "
+                                                >
+                                                </i>
+                                                <span
+                                                  @click="setUpdateParentId([node.id,childNode.id],child)"
+                                                  :class="{
+                                                    'without-children': !child.haveChildren,
+                                                    active: child.id == edit.parent_id,
+                                                  }"
+                                                >
+                                                  {{
+                                                    $i18n.locale == "ar"
+                                                      ? child.name
+                                                      : child.name_e
+                                                  }}
+                                                </span>
+                                                <span
+                                                  v-if="!child.haveChildren"
+                                                  @click="deleteCountry(child.id, true)"
+                                                  class="delete-node"
+                                                  ><i class="fa fa-times text-danger"></i
+                                                ></span>
+                                              </span>
+                                              <ul
+                                                v-if="
+                                                  child.children && child.children.length
+                                                "
+                                                class="nested"
+                                              >
+                                                <li
+                                                  v-for="_child in child.children"
+                                                  :key="_child.id"
+                                                >
+                                                  {{
+                                                    $i18n.locale == "ar"
+                                                      ? _child.name
+                                                      : _child.name_e
+                                                  }}
+                                                  <span
+                                                    @click="
+                                                      deleteCountry(_child.id, true)
+                                                    "
+                                                    class="delete-node"
+                                                    ><i
+                                                      class="fa fa-times text-danger"
+                                                    ></i
+                                                  ></span>
+                                                </li>
+                                              </ul>
                                             </li>
                                           </ul>
                                         </li>
