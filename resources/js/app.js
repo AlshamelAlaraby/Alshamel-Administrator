@@ -16,6 +16,7 @@ import store from './state/store';
 import VueApexCharts from 'vue-apexcharts';
 import VueStringFilter from 'vue-string-filter';
 import Lightbox from 'vue-easy-lightbox';
+import Print from 'vue-print-nb'
 
 Vue.config.productionTip = false;
 
@@ -42,6 +43,7 @@ Vue.component('simplebar', simplebar);
 Vue.use(VueStringFilter);
 Vue.use(VueTour);
 Vue.use(Lightbox);
+Vue.use(Print);
 
 Vue.use(VueGoogleMaps, {
     load: {
@@ -74,5 +76,9 @@ new Vue({
     router,
     store,
     i18n,
+    directives: {
+        print
+    },
     render: h => h(App)
 }).$mount('#app');
+

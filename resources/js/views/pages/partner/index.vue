@@ -39,7 +39,7 @@ export default {
       debounce: {},
       partnersPagination: {},
       partners: [],
-      enabled3: false,
+      enabled3: true,
       isLoader: false,
       Tooltip: "",
       mouseEnter: "",
@@ -80,6 +80,10 @@ export default {
       checkAll: [],
       is_disabled: false,
       current_page: 1,
+        printLoading: true,
+        printObj: {
+            id: "printMe",
+        }
     };
   },
   validations: {
@@ -547,6 +551,23 @@ export default {
       } else {
       }
     },
+
+      /**
+       *   Export Excel
+       */
+      ExportExcel(type, fn, dl) {
+          this.enabled3 = false;
+          setTimeout(()=>{
+              let elt = this.$refs.exportable_table;
+              let wb = XLSX.utils.table_to_book(elt, {sheet:"Sheet JS"});
+              if (dl){
+                  XLSX.write(wb, {bookType:type, bookSST:true, type: 'base64'});
+              }else {
+                  XLSX.writeFile(wb, fn || (('Partner' + '.'|| 'SheetJSTableExport.') + (type || 'xlsx')));
+              }
+              this.enabled3 = true;
+          },100);
+      }
   },
 };
 </script>
@@ -622,10 +643,10 @@ export default {
                   <i class="fas fa-plus"></i>
                 </b-button>
                 <div class="d-inline-flex">
-                  <button class="custom-btn-dowonload">
+                  <button @click="ExportExcel('xlsx')" class="custom-btn-dowonload">
                     <i class="fas fa-file-download"></i>
                   </button>
-                  <button class="custom-btn-dowonload">
+                  <button v-print="'#printMe'" class="custom-btn-dowonload">
                     <i class="fe-printer"></i>
                   </button>
                   <button
@@ -1049,10 +1070,10 @@ export default {
               <loader size="large" v-if="isLoader" />
               <!--       end loader       -->
 
-              <table class="table table-borderless table-centered m-0">
+              <table class="table table-borderless table-centered m-0" ref="exportable_table" id="printMe">
                 <thead>
                   <tr>
-                    <th scope="col" style="width: 0">
+                    <th class="do-not-print" scope="col" style="width: 0" v-if="enabled3">
                       <div class="form-check custom-control">
                         <input
                           class="form-check-input"
@@ -1125,8 +1146,8 @@ export default {
                     <th v-if="setting.is_active">
                       {{ $t("general.Status") }}
                     </th>
-                    <th>{{ $t("general.Action") }}</th>
-                    <th><i class="fas fa-ellipsis-v"></i></th>
+                    <th class="do-not-print" v-if="enabled3">{{ $t("general.Action") }}</th>
+                    <th class="do-not-print" v-if="enabled3"><i class="fas fa-ellipsis-v"></i></th>
                   </tr>
                 </thead>
                 <tbody v-if="partners.length > 0">
@@ -1137,7 +1158,7 @@ export default {
                     @click.capture="checkRow(data.id)"
                     @dblclick.prevent="$bvModal.show(`modal-edit-${data.id}`)"
                   >
-                    <td>
+                    <td class="do-not-print" v-if="enabled3">
                       <div class="form-check custom-control" style="min-height: 1.9em">
                         <input
                           style="width: 17px; height: 17px"
@@ -1170,7 +1191,7 @@ export default {
                         }}
                       </span>
                     </td>
-                    <td>
+                    <td class="do-not-print" v-if="enabled3">
                       <div class="btn-group">
                         <button
                           type="button"
@@ -1454,7 +1475,7 @@ export default {
                       </b-modal>
                       <!--  /edit   -->
                     </td>
-                    <td>
+                    <td class="do-not-print" v-if="enabled3">
                       <button
                         @mouseover="log(data.id)"
                         @mousemove="log(data.id)"
@@ -1485,6 +1506,17 @@ export default {
     </div>
   </Layout>
 </template>
+
+<style scoped>
+@media print {
+    .do-not-print{
+       display: none;
+    }
+    .arrow-sort{
+        display: none;
+    }
+}
+</style>
 
 
 
