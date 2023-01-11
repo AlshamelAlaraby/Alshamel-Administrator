@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         //  $this->call([AdminSeeder::class]);
         \App\Models\Admin::create([
             'name' => 'admin',
-            "email" => "mrehab9797@gmail.com",
+            "email" => "admin@admin.com",
             'password' => Hash::make(12345678),
         ]);
 
